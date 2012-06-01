@@ -33,8 +33,8 @@ to allow the mounts to specified in a hiera yaml file:
          cvmfs_quota_limit: 10000
       atlas-condb.example.ch:
          {}
-      atlas-nightlies.example.ch:
-         cvmfs_server_url: http://cvmfs-atlas-nightlies.example.ch/cvmfs/atlas-nightlies.example.ch
+      ams.example.ch:
+         cvmfs_server_url: http://ams.example.ch/cvmfs/ams.example.ch
  
 which will enable these three mount points with the specified options.
 
