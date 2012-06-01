@@ -23,8 +23,8 @@
 # Enable ams.example.org repository with just one upstream web 
 # cvmfs server and special timeout.
 #
-# cvmfs::mount{'ams.cern.ch': cvmfs_server_url => 'http://web.example.org/ams.example.org/',
-#                             cvmfs_timeout   =>  100}
+# cvmfs::mount{'ams.example.ch': cvmfs_server_url => 'http://web.example.org/ams.example.org/',
+#                                cvmfs_timeout   =>  100}
 #
 # === Authors
 #

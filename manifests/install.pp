@@ -28,7 +28,7 @@ class cvmfs::install (
    }
 
    $major = regsubst($::operatingsystemrelease,'^(\d+)\.\d+$','\1')
-   osrepos::ai121yumrepo{'cvmfs':
+   yumrepo{'cvmfs':
       descr       => "CVMFS yum repository for el${major}",
       baseurl     => "http://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/${major}/\$basearch",
       gpgcheck    => 1,
