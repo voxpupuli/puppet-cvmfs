@@ -1,0 +1,71 @@
+
+This cvmfs module is designed to install, enable and configure
+CvmFS clients.
+
+For general details on CvmFS see
+http://cernvm.cern.ch/portal/filesystem 
+
+To configured cvmfs enable the module
+
+   class {'cvmfs:'}
+
+and then enable individual repositories optionally with a particular
+configuration on each repository. e.g.
+
+   cvmfs::mount{'lhcb.example.org':}
+   cvmfs::mount{'atlas.example.org': cvmfs_quota    => 50 }
+   cvmfs::mount{'cms.example.org': 
+              cvmfs_quota      => 100,
+              cvmfs_server_url => 'http://web.example.org/cms.cern.ch' 
+   }
+                                   
+The global defaults for all repositories are maintained within
+params.pp. This file supports hiera as a data source so use hiera
+or change the values in params.pp. These global values 
+end up in /etc/cvmfs/cvmfs.local.
+
+In addition to creating mounts as above the
+create_resources('cvmfs::mount',{}) function is enabled
+to allow the mounts to specified in a hiera yaml file:
+
+   cvmfs::mount:
+      atlas.example.ch:
+         cvmfs_quota_limit: 10000
+      atlas-condb.example.ch:
+         {}
+      atlas-nightlies.example.ch:
+         cvmfs_server_url: http://cvmfs-atlas-nightlies.example.ch/cvmfs/atlas-nightlies.example.ch
+ 
+which will enable these three mount points with the specified options.
+
+Warning
+-------
+CvmFS supports 3 locations for configuration.
+* global defaults - /etc/cvmfs/default.*
+* domain settings - /etc/cvmfs/domain.d/*
+* repository settings - /etc/cvmfs/config.d/*
+
+This cvmfs module has no knowledge about the 'domain settings'.
+It is based on set defaults and and then add repositories
+possibly overriding the default values.
+
+As such this module deletes all files in /etc/cvmfs/domain.d/*
+since they are not managed by this puppet. Typically
+the domain.d files contains the values of 'CVMFS_PUBLIC_KEY'
+so this should be set at the global and/or per repository level.
+
+Todo
+----
+Write rspec tests.
+
+License
+-------
+Apache II License
+
+Contact
+-------
+Steve Traylen <steve.traylen@cern.ch>
+
+Support
+-------
+https://github.com/cvmfs/puppet-cvmfs
