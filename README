@@ -1,32 +1,32 @@
 
 This cvmfs module is designed to install, enable and configure
-CvmFS clients.
+CvmFS mounts.
 
 For general details on CvmFS see
 http://cernvm.cern.ch/portal/filesystem 
 
-To configured cvmfs enable the module
+To configure cvmfs enable the module
 
    class {'cvmfs:'}
 
-and then enable individual repositories optionally with a particular
+and then enable individual repositories, optionally with a particular
 configuration on each repository. e.g.
 
    cvmfs::mount{'lhcb.example.org':}
    cvmfs::mount{'atlas.example.org': cvmfs_quota    => 50 }
    cvmfs::mount{'cms.example.org': 
               cvmfs_quota      => 100,
-              cvmfs_server_url => 'http://web.example.org/cms.cern.ch' 
+              cvmfs_server_url => 'http://web.example.org/cms.example.ch' 
    }
                                    
 The global defaults for all repositories are maintained within
 params.pp. This file supports hiera as a data source so use hiera
 or change the values in params.pp. These global values 
-end up in /etc/cvmfs/cvmfs.local.
+then end up in /etc/cvmfs/cvmfs.local.
 
 In addition to creating mounts as above the
-create_resources('cvmfs::mount',{}) function is enabled
-to allow the mounts to specified in a hiera yaml file:
+create_resources('cvmfs::mount',{}) function is enabled also
+to allow the mounts to be specified in a hiera yaml file:
 
    cvmfs::mount:
       atlas.example.ch:
@@ -36,7 +36,7 @@ to allow the mounts to specified in a hiera yaml file:
       ams.example.ch:
          cvmfs_server_url: http://ams.example.ch/cvmfs/ams.example.ch
  
-which will enable these three mount points with the specified options.
+This will enable these three mount points with the specified options.
 
 Warning
 -------
@@ -46,21 +46,23 @@ CvmFS supports 3 locations for configuration.
 * repository settings - /etc/cvmfs/config.d/*
 
 This cvmfs module has no knowledge about the 'domain settings'.
-It is based on set defaults and and then add repositories
-possibly overriding the default values.
+It is based on setting defaults for all potential repositories and then 
+adding repositories possibly overriding the default values.
 
 As such this module deletes all files in /etc/cvmfs/domain.d/*
-since they are not managed by this puppet. Typically
-the domain.d files contains the values of 'CVMFS_PUBLIC_KEY'
-so this should be set at the global and/or per repository level.
+since "domain.d" is not managed by this puppet module. Typically
+the domain.d files have contained the values for 'CVMFS_PUBLIC_KEY'.
+CVMFS_PUBLIC_KEY should be set at the global and/or per repository level.
 
 Todo
 ----
 Write rspec tests.
+Support a cvmfs server installation.
 
 License
 -------
-Apache II License
+Apache II License for all files except automaster.aug which is copied from
+the http://augeas.net project. The automaster.aug file is LGPL v2+.
 
 Contact
 -------
