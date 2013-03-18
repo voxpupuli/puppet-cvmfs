@@ -41,6 +41,13 @@ class cvmfs::config (
      $cvmfs_max_ttl         = $cvmfs::params::cvmfs_max_ttl
 ) inherits cvmfs::params{
 
+    case $::cvmfsversion {
+       /^2\.0\.*/: { }
+       default: { info("This cvmfs module is only checked with cvmfs version 2.0.X currently.") }
+    }
+
+
+
    # Create a cache if one is defined, otherwise assume default is in the package.
    # Require the package so we know the user is in place.
    # We to change the selinux context of this new directory below.
@@ -60,10 +67,16 @@ class cvmfs::config (
    file{'/etc/cvmfs/domain.d':
        ensure => directory,
        purge  => true,
-       require => Package['cvmfs']
+       require => Package['cvmfs'],
+       owner => root,
+       group => root,
+       mode  => 0755,
    }
    file{'/etc/cvmfs/domain.d/README.PUPPET':
        ensure  => file,
+       owner => root,
+       group => root,
+       mode  => 0644,
        content => "This directory has been purged by puppet,\nthe puppet module does not support this directory.\n",
        require => File['/etc/cvmfs/domain.d']
    }
@@ -78,14 +91,15 @@ class cvmfs::config (
       content => "#Installed with puppet cvmfs::config\nuser_allow_other\n",
       owner   => 'root',
       group   => 'root',
-      notify  => Service['cvmfs']
+      mode    => 0644,
+      notify  => Class['cvmfs::service']
    }
    concat{'/etc/cvmfs/default.local':
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
       require => Class['cvmfs::install'],
-      notify  => Service['cvmfs']
+      notify  => Class['cvmfs::service']
    }
    concat::fragment{'cvmfs_default_local_header':
       target  => '/etc/cvmfs/default.local',

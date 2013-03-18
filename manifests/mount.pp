@@ -23,8 +23,8 @@
 # Enable ams.example.org repository with just one upstream web 
 # cvmfs server and special timeout.
 #
-# cvmfs::mount{'ams.example.ch': cvmfs_server_url => 'http://web.example.org/ams.example.org/',
-#                                cvmfs_timeout   =>  100}
+# cvmfs::mount{'ams.cern.ch': cvmfs_server_url => 'http://web.example.org/ams.example.org/',
+#                             cvmfs_timeout   =>  100}
 #
 # === Authors
 #
@@ -50,8 +50,9 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
       content => template("cvmfs/repo.local.erb"),
       owner   => 'root',
       group   => 'root',
+      mode    => 0644,
       require => Class['cvmfs::install'],
-      notify  => Service['cvmfs']
+      notify  => Class['cvmfs::service']
    }
    if ! defined(Concat::Fragment['cvmfs_default_local_repo_start']) {
       concat::fragment{'cvmfs_default_local_repo_start':

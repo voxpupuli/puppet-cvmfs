@@ -20,20 +20,33 @@
 class cvmfs::service (
    $config_automaster = $cvmfs::params::config_automaster
 ) inherits cvmfs::params {
-  service{'cvmfs':
-             ensure => running,
-             hasstatus => true,
-             hasrestart => true,
-             enable => true,
-             require => [Class['cvmfs::config'],Class['cvmfs::install']]
+
+  # CVMFS 2.0 had a SysV startup script to reload.
+  # CVMFS 2.1 at least uses cvmfs_config.
+
+  case $::cvmfsversion  {
+     /^2\.0\..*/: {
+        service{'cvmfs':
+                   ensure => running,
+                   hasstatus => true,
+                   hasrestart => true,
+                   enable => true,
+                   require => [Class['cvmfs::config'],Class['cvmfs::install']]
+        }
+     }
+     default: {
+        exec{"Reloading cvmfs":
+           command     => '/usr/bin/cvmfs_config reload',
+           refreshonly => true
+        }
+     }
   }
   service{'autofs':
-             ensure => running,
-             hasstatus => true,
+             ensure     => running,
+             hasstatus  => true,
              hasrestart => true,
-             enable => true,
-             require => [Class['cvmfs::config'],Class['cvmfs::install']]
+             enable     => true,
+             require    => [Class['cvmfs::config'],Class['cvmfs::install']]
   }
-
 }
 

@@ -7,10 +7,6 @@ class cvmfs::params {
     } elsif $::osfamily != 'RedHat' {
          fail('This cvmfs module has not been verified under osfamily other than RedHat')
     }
-    case $::cvmfsversion {
-       /^2\.0\.*/: { }
-       default: { fail("This cvmfs module is only checked with cvmfs version 2.0.X currently.") }
-    }
 
     # This cvmfs module will also configure autofs as well for use
     # by cvmfs. If you are managing autofs elsewhere set to false.
@@ -40,6 +36,8 @@ class cvmfs::params {
 
     # The version of cvmfs to install, shoudl be present, latest
     # or an exact version number of the package.
-    $cvmfs_version          = hiera('cvmfsversion','latest')
-
+    $cvmfs_version          = hiera('cvmfsversion','present')
+    $cvmfs_yum              = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs/EL/${operatingsystemmajorrelease}/${architecture}")
+    $cvmfs_yum_testing      = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${operatingsystemmajorrelease}/${architecture}")
+    $cvmfs_yum_testing_enabled = hiera('cvmfs_yum_testing_enabled','0')
 }

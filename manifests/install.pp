@@ -18,7 +18,10 @@
 # Copyright 2012 CERN
 #
 class cvmfs::install (
-    $cvmfs_version = $cvmfs::params::cvmfs_version
+    $cvmfs_version = $cvmfs::params::cvmfs_version,
+    $cvmfs_yum = $cvmfs::params::cvmfs_yum,
+    $cvmfs_yum_testing = $cvmfs::params::cvmfs_yum_testing,
+    $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
 ) inherits cvmfs::params {
 
    package{'cvmfs':
@@ -30,7 +33,7 @@ class cvmfs::install (
    $major = regsubst($::operatingsystemrelease,'^(\d+)\.\d+$','\1')
    yumrepo{'cvmfs':
       descr       => "CVMFS yum repository for el${major}",
-      baseurl     => "http://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/${major}/\$basearch",
+      baseurl     => "$cvmfs_yum",
       gpgcheck    => 1,
       gpgkey      => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
       enabled     => 1,
@@ -38,10 +41,21 @@ class cvmfs::install (
       priority    => 80,
       require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
    }
+   yumrepo{'cvmfs-testing':
+      descr       => "CVMFS yum testing repository for el${major}",
+      baseurl     => "$cvmfs_yum_testing",
+      gpgcheck    => 1,
+      gpgkey      => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
+      enabled     => $cvmfs_yum_testing_enabled,
+      includepkgs => 'cvmfs,cvmfs-keys',
+      priority    => 80,
+      require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
+   }
+
    # Copy out the gpg key once only ever.
    file{'/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM':
       ensure  => file,
-      source  => 'puppet:///cvmfs/RPM-GPG-KEY-CernVM',
+      source  => 'puppet:///modules/cvmfs/RPM-GPG-KEY-CernVM',
       replace => false,
       owner   => root,
       group   => root,
