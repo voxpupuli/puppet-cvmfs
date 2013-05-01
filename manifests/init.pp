@@ -1,11 +1,11 @@
 # == Class: cvmfs
 #
 # Manages cvmfs clients using the automounter.
-# Enable this class to give provide new type cvmfs::mount
+# Enable this class to provide new type cvmfs::mount
  
 # === Examples
 #
-#  Too mount two cvmfs volumes.
+#  To mount two cvmfs volumes:
 #
 #  class { cvmfs: }
 #  cvmfs::mount{'atlas.example.org': cvmfs_quota => 5000}
