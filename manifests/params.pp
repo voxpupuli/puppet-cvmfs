@@ -34,7 +34,7 @@ class cvmfs::params {
     $cvmfs_debuglog         = hiera('cvmfs_debuglog',undef)
     $cvmfs_max_ttl          = hiera('cvmfs_max_ttl',undef)
 
-    # The version of cvmfs to install, shoudl be present, latest
+    # The version of cvmfs to install, should be present and latest,
     # or an exact version number of the package.
     $cvmfs_version          = hiera('cvmfsversion','present')
     $cvmfs_yum              = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs/EL/${operatingsystemmajorrelease}/${architecture}")

@@ -50,7 +50,7 @@ class cvmfs::config (
 
    # Create a cache if one is defined, otherwise assume default is in the package.
    # Require the package so we know the user is in place.
-   # We to change the selinux context of this new directory below.
+   # We need to change the selinux context of this new directory below.
    if  $cvmfs_cache_base != "" {
      file{"$cvmfs_cache_base":
          ensure => directory,
@@ -108,7 +108,7 @@ class cvmfs::config (
    }
 
    if $config_automaster == 'true' {
-     # Use the automaster.aug lens from a to be released version of augeas
+     # Use the automaster.aug lens from a future version of augeas
      # This can be dropped once newer than 0.10.0 is everywhere I expect.
      # This may also go wrong if there is a point release of augeas.
      case $::augeasversion {
