@@ -33,11 +33,12 @@ class cvmfs::params {
     $cvmfs_tracefile        = hiera('cvmfs_tracefile',undef)
     $cvmfs_debuglog         = hiera('cvmfs_debuglog',undef)
     $cvmfs_max_ttl          = hiera('cvmfs_max_ttl',undef)
+    $cvmfs_hash             = hiera('cvmfs::mount',undef)
 
     # The version of cvmfs to install, should be present and latest,
     # or an exact version number of the package.
     $cvmfs_version          = hiera('cvmfsversion','present')
-    $cvmfs_yum              = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs/EL/${operatingsystemmajorrelease}/${architecture}")
-    $cvmfs_yum_testing      = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${operatingsystemmajorrelease}/${architecture}")
+    $cvmfs_yum              = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs/EL/${operatingsystemmajrelease}/${architecture}")
+    $cvmfs_yum_testing      = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${operatingsystemmajrelease}/${architecture}")
     $cvmfs_yum_testing_enabled = hiera('cvmfs_yum_testing_enabled','0')
 }
