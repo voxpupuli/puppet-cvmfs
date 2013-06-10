@@ -8,7 +8,7 @@
   "summary": "Manages CVMFS clients",
   "version": "0.0.2",
   "checksums": {
-    "Modulefile": "c11937005afbb97cc6e7394567b30a60",
+    "Modulefile": "56f697f3e20621bba82a631735de1c08",
     "README": "c18867b32a34d6451b519997263fbbee",
     "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
     "files/RPM-GPG-KEY-CernVM": "273c47d4073a034e969f50200ce0cc97",
@@ -28,7 +28,7 @@
   "dependencies": [
     {
       "name": "ripienaar/concat",
-      "version_requirement": "\u003e\u003d1.2.0"
+      "version_requirement": "\u003e\u003d0.2.0"
     }
   ]
 }
