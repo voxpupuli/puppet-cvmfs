@@ -30,7 +30,7 @@ class cvmfs::install (
       notify  => [Class['cvmfs::config'],Class['cvmfs::service']]
    }
 
-   $major = regsubst($::operatingsystemrelease,'^(\d+)\.\d+$','\1')
+   $major = $cvmfs::params::major_release
    yumrepo{'cvmfs':
       descr       => "CVMFS yum repository for el${major}",
       baseurl     => "$cvmfs_yum",
