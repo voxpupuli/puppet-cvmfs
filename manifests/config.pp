@@ -60,6 +60,17 @@ class cvmfs::config (
          seltype => 'var_t',
          require => Package['cvmfs']
      }
+     file{'/etc/cvmfs/cvmfscachebase.yaml':
+        ensure  => file,
+        mode    => "0644",
+        content => "---\n#Used by puppet\ncvmfs_cache_base: ${cvmfs_cache_base}\n"
+     }
+   } else {
+     file{'/etc/cvmfs/cvmfscachebase.yaml':
+        ensure  => file,
+        mode    => "0644",
+        content => "---\nUsed bu puppet\ncvmfs_cache_base: /var/lib/cvmfs\n"
+     }
    }
    # Clobber the /etc/cvmfs/domain.d directory.
    # This puppet module just does not support
