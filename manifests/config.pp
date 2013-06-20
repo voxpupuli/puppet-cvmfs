@@ -42,8 +42,8 @@ class cvmfs::config (
 ) inherits cvmfs::params{
 
     case $::cvmfsversion {
-       /^2\.0\.*/: { }
-       default: { info("This cvmfs module is only checked with cvmfs version 2.0.X currently.") }
+       /^2\.[01]\.*/: { }
+       deafault: { info("This cvmfs module is only checked with cvmfs version 2.0.X and 2.1.X currently.") }
     }
 
 
