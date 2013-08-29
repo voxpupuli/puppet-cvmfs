@@ -3,6 +3,7 @@
 	<name>hep-cvmfs</name>
 	<comment></comment>
 	<projects>
+		<project>puppet-concat</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
