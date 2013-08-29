@@ -1,34 +1,18 @@
 {
   "name": "traylenator-cvmfs",
+  "version": "0.0.2",
+  "summary": "Manages CVMFS clients",
   "author": "CERNOps",
   "description": "Manages CvmFS Clients",
-  "license": "Apache License, Version 2.0",
-  "project_page": "https://github.com/cvmfs/puppet-cvmfs",
-  "source": "https://github.com/cvmfs/puppet-cvmfs",
-  "summary": "Manages CVMFS clients",
-  "version": "0.0.2",
-  "checksums": {
-    "Modulefile": "56f697f3e20621bba82a631735de1c08",
-    "README": "c18867b32a34d6451b519997263fbbee",
-    "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
-    "files/RPM-GPG-KEY-CernVM": "273c47d4073a034e969f50200ce0cc97",
-    "lib/augeas/lenses/automaster.aug": "31d4e33969456b94882280d1d9a6c2d3",
-    "lib/facter/cvmfsversion.rb": "7fde29c313ff26c6ec7167b67a7a1758",
-    "manifests/config.pp": "2938ad461c4bf3614dcd2372309438ce",
-    "manifests/init.pp": "28102275314ea93f6e1db55f7c6672bf",
-    "manifests/install.pp": "1d1acb595effa7c136e74340d5e354bf",
-    "manifests/mount.pp": "533236ed52792d62f2661a3ff0a0b9b3",
-    "manifests/params.pp": "d83664aadf03137636b9113f23ca3637",
-    "manifests/service.pp": "891392d450172d5e07cd9cbb23b7543c",
-    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
-    "spec/spec_helper.rb": "a55d1e6483344f8ec6963fcb2c220372",
-    "templates/repo.local.erb": "4da85e850bd6904ffe45ae94f1a8bb6b",
-    "tests/init.pp": "e0daacf35463abdf7078dde177f4f95f"
-  },
   "dependencies": [
     {
-      "name": "ripienaar/concat",
-      "version_requirement": "\u003e\u003d0.2.0"
+      "name": "puppetlabs/concat",
+      "version_requirement": "\u003e\u003d1.0.0"
     }
-  ]
+  ],
+  "types": [],
+  "checksums": {},
+  "source": "https://github.com/cvmfs/puppet-cvmfs",
+  "project_page": "https://github.com/cvmfs/puppet-cvmfs",
+  "license": "Apache License, Version 2.0"
 }
