@@ -50,7 +50,6 @@ class cvmfs::install (
    package{'cvmfs':
       ensure  => $cvmfs_version,
       require => Yumrepo['cvmfs'],
-      notify  => [Class['cvmfs::config'],Class['cvmfs::service']]
    }
 
    $major = $cvmfs::params::major_release
