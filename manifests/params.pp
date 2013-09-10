@@ -23,7 +23,16 @@ class cvmfs::params {
     $cvmfs_quota_limit      = hiera('cvmfs_quota_limit',undef)
     $cvmfs_http_proxy       = hiera('cvmfs_http_proxy','http://squid.example.org:3128')
     $cvmfs_server_url       = hiera('cvmfs_server_url','http://web.example.org:80/opt/example')
-    $cvmfs_cache_base       = hiera('cvmfs_cache_base',undef)
+    case $::cvmfsversion {
+       /^2\.0\.*/: {
+          $default_cvmfs_cache_base  = '/var/cache/cvmfs2'
+       }
+       default: {
+          $default_cvmfs_cache_base  = '/var/lib/cvmfs'
+       }
+    }
+
+    $cvmfs_cache_base       = hiera('cvmfs_cache_base',$default_cvmfs_cache_base)
     $cvmfs_timeout          = hiera('cvmfs_timeout',undef)
     $cvmfs_timeout_direct   = hiera('cvmfs_timeout',undef)
     $cvmfs_nfiles           = hiera('cvmfs_nfiles',undef)

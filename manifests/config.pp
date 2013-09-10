@@ -25,20 +25,21 @@
 # Copyright 2012 CERN
 #
 class cvmfs::config (
-     $config_automaster     = $cvmfs::params::config_automaster,
-     $cvmfs_quota_limit     = $cvmfs::params::cvmfs_quota_limit,
-     $cvmfs_http_proxy      = $cvmfs::params::cvmfs_http_proxy,
-     $cvmfs_server_url      = $cvmfs::params::cvmfs_server_url,
-     $cvmfs_cache_base      = $cvmfs::params::cvmfs_cache_base,
-     $cvmfs_timeout         = $cvmfs::params::cvmfs_timeout,
-     $cvmfs_timeout_direct  = $cvmfs::params::cvmfs_timeout_direct,
-     $cvmfs_nfiles          = $cvmfs::params::cvmfs_nfiles,
-     $cvmfs_public_key      = $cvmfs::params::cvmfs_public_key,
-     $cvmfs_force_signing   = $cvmfs::params::cvmfs_force_signing,
-     $cvmfs_syslog_level    = $cvmfs::params::cvmfs_syslog_level,
-     $cvmfs_tracefile       = $cvmfs::params::cvmfs_tracefile,
-     $cvmfs_debuglog        = $cvmfs::params::cvmfs_debuglog,
-     $cvmfs_max_ttl         = $cvmfs::params::cvmfs_max_ttl
+     $config_automaster          = $cvmfs::params::config_automaster,
+     $cvmfs_quota_limit          = $cvmfs::params::cvmfs_quota_limit,
+     $cvmfs_http_proxy           = $cvmfs::params::cvmfs_http_proxy,
+     $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url,
+     $cvmfs_cache_base           = $cvmfs::params::cvmfs_cache_base,
+     $default_cvmfs_cache_base   = $cvmfs::params::default_cvmfs_cache_base,
+     $cvmfs_timeout              = $cvmfs::params::cvmfs_timeout,
+     $cvmfs_timeout_direct       = $cvmfs::params::cvmfs_timeout_direct,
+     $cvmfs_nfiles               = $cvmfs::params::cvmfs_nfiles,
+     $cvmfs_public_key           = $cvmfs::params::cvmfs_public_key,
+     $cvmfs_force_signing        = $cvmfs::params::cvmfs_force_signing,
+     $cvmfs_syslog_level         = $cvmfs::params::cvmfs_syslog_level,
+     $cvmfs_tracefile            = $cvmfs::params::cvmfs_tracefile,
+     $cvmfs_debuglog             = $cvmfs::params::cvmfs_debuglog,
+     $cvmfs_max_ttl              = $cvmfs::params::cvmfs_max_ttl
 ) inherits cvmfs::params{
 
     case $::cvmfsversion {
@@ -51,7 +52,7 @@ class cvmfs::config (
    # Create a cache if one is defined, otherwise assume default is in the package.
    # Require the package so we know the user is in place.
    # We need to change the selinux context of this new directory below.
-   if  $cvmfs_cache_base != "" {
+   if  $cvmfs_cache_base != $default_cvmfs_cache_base {
      file{"$cvmfs_cache_base":
          ensure => directory,
          owner  => cvmfs,
