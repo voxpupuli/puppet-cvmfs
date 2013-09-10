@@ -8,8 +8,8 @@
 # within the default.conf file.
 <% end -%>
 
-<% if @cvmfs_quota_limit and  @cvmfs_quota_limit != '' -%>
-CVMFS_QUOTA_LIMIT='<%= @cvmfs_quota_limit %>'
+<% if @my_cvmfs_quota_limit and  @my_cvmfs_quota_limit != '' -%>
+CVMFS_QUOTA_LIMIT='<%= @my_cvmfs_quota_limit %>'
 <% end -%>
 <% if @cvmfs_http_proxy and  @cvmfs_http_proxy != '' -%>
 CVMFS_HTTP_PROXY='<%= @cvmfs_http_proxy %>'

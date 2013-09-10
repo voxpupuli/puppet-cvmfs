@@ -27,6 +27,7 @@
 class cvmfs::config (
      $config_automaster          = $cvmfs::params::config_automaster,
      $cvmfs_quota_limit          = $cvmfs::params::cvmfs_quota_limit,
+     $cvmfs_quota_ratio          = $cvmfs::params::cvmfs_quota_ratio,
      $cvmfs_http_proxy           = $cvmfs::params::cvmfs_http_proxy,
      $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url,
      $cvmfs_cache_base           = $cvmfs::params::cvmfs_cache_base,
@@ -47,6 +48,12 @@ class cvmfs::config (
        deafault: { info("This cvmfs module is only checked with cvmfs version 2.0.X and 2.1.X currently.") }
     }
 
+
+
+    case $cvmfs_quota_limit {
+       'auto':  { $my_cvmfs_quota_limit = sprintf('%i',$cvmfs_quota_ratio *  $::cvmfspartsize) }
+       default: { $my_cvmfs_quota_limit = $cvmfs_quota_limit }
+    }
 
 
    # Clobber the /etc/cvmfs/domain.d directory.

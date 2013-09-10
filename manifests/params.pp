@@ -21,6 +21,13 @@ class cvmfs::params {
     # These values are all destined for /etc/cvmfs/default.local
     # and provide defaults for all cvmfs repositories.
     $cvmfs_quota_limit      = hiera('cvmfs_quota_limit',undef)
+
+    # If cvmfs_quota_limit is set to 'auto' then cvmfs_quota_ratio will be used
+    # to determine of the actual configured CVMFS_QUOTA_LIMIT 
+    # CVMFS_QUOTA_LIMIT = $cvmfs_quota_ratio * $::cvmfspartsize, the $::cvmfspartsize
+    # comes from a custom fact.
+    $cvmfs_quota_ratio  = hiera('cvmfs_quota_ratio','0.85')
+
     $cvmfs_http_proxy       = hiera('cvmfs_http_proxy','http://squid.example.org:3128')
     $cvmfs_server_url       = hiera('cvmfs_server_url','http://web.example.org:80/opt/example')
     case $::cvmfsversion {
