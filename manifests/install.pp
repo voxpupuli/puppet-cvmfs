@@ -22,8 +22,30 @@ class cvmfs::install (
     $cvmfs_yum = $cvmfs::params::cvmfs_yum,
     $cvmfs_yum_testing = $cvmfs::params::cvmfs_yum_testing,
     $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
-    $cvmfs_cache_base = $cvmfs::params::cvmfs_cache_base
+    $cvmfs_cache_base = $cvmfs::params::cvmfs_cache_base,
+    $default_cvmfs_cache_base = $default_cvmfs::params::cvmfs_cache_base,
 ) inherits cvmfs::params {
+
+   # Create the cache dir if one is defined, otherwise assume default is in the package.
+   # Require the package so we know the user is in place.
+   # We need to change the selinux context of this new directory below.
+   case $major_release {
+          5: { $cache_seltype = 'var_t' }
+    default: { $cache_seltype = 'var_lib_t'}
+   }
+
+   if  $cvmfs_cache_base != $default_cvmfs_cache_base {
+     file{"$cvmfs_cache_base":
+         ensure => directory,
+         owner  => cvmfs,
+         group  => cvmfs,
+         mode   => '0700',
+         seltype => $cache_seltype,
+         require => Package['cvmfs']
+     }
+   }
+
+
 
    package{'cvmfs':
       ensure  => $cvmfs_version,

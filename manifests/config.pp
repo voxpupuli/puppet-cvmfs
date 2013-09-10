@@ -49,19 +49,6 @@ class cvmfs::config (
 
 
 
-   # Create a cache if one is defined, otherwise assume default is in the package.
-   # Require the package so we know the user is in place.
-   # We need to change the selinux context of this new directory below.
-   if  $cvmfs_cache_base != $default_cvmfs_cache_base {
-     file{"$cvmfs_cache_base":
-         ensure => directory,
-         owner  => cvmfs,
-         group  => cvmfs,
-         mode   => '0700',
-         seltype => 'var_t',
-         require => Package['cvmfs']
-     }
-   }
    # Clobber the /etc/cvmfs/domain.d directory.
    # This puppet module just does not support
    # concept of this directory so it's safer to clean it.

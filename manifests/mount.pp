@@ -43,34 +43,42 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
                     $cvmfs_force_singing = undef,
                     $cvmfs_max_ttl = undef
 ) {
-   $repo = $name
 
-   file{"/etc/cvmfs/config.d/${repo}.local":
-      ensure  =>  file,
-      content => template("cvmfs/repo.local.erb"),
-      owner   => 'root',
-      group   => 'root',
-      mode    => 0644,
-      require => Class['cvmfs::install'],
-      notify  => Class['cvmfs::service']
+   # We only even attempt to configure cvmfs if the following
+   # two facts are available and that requires that cvmfs 
+   # has been installed first potentially on the first puppet
+   # run.
+   if $::cvmfsversion and $::cvmfspartsize {
+
+     $repo = $name
+
+     file{"/etc/cvmfs/config.d/${repo}.local":
+        ensure  =>  file,
+        content => template("cvmfs/repo.local.erb"),
+        owner   => 'root',
+        group   => 'root',
+        mode    => 0644,
+        require => Class['cvmfs::install'],
+        notify  => Class['cvmfs::service']
+     }
+     if ! defined(Concat::Fragment['cvmfs_default_local_repo_start']) {
+        concat::fragment{'cvmfs_default_local_repo_start':
+          target => '/etc/cvmfs/default.local',
+          order  => 5,
+          content => "CVMFS_REPOSITORIES='"
+        }
+     }
+     concat::fragment{"cvmfs_default_local_${repo}":
+        target  => '/etc/cvmfs/default.local',
+        order   => 6,
+        content => "${repo},"
+     }
+     if ! defined(Concat::Fragment['cvmfs_default_local_repo_end']) {
+        concat::fragment{'cvmfs_default_local_repo_end':
+          target => '/etc/cvmfs/default.local',
+          order  => 7,
+          content => "'\n\n"
+        }
+     }
    }
-   if ! defined(Concat::Fragment['cvmfs_default_local_repo_start']) {
-      concat::fragment{'cvmfs_default_local_repo_start':
-        target => '/etc/cvmfs/default.local',
-        order  => 5,
-        content => "CVMFS_REPOSITORIES='"
-      }
-   }
-   concat::fragment{"cvmfs_default_local_${repo}":
-      target  => '/etc/cvmfs/default.local',
-      order   => 6,
-      content => "${repo},"
-   }
-   if ! defined(Concat::Fragment['cvmfs_default_local_repo_end']) {
-      concat::fragment{'cvmfs_default_local_repo_end':
-        target => '/etc/cvmfs/default.local',
-        order  => 7,
-        content => "'\n\n"
-      }
-   }
-}
+ }

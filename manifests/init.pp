@@ -30,9 +30,19 @@ class cvmfs (
    Class['concat::setup'] -> Class['cvmfs']
 
    class{'cvmfs::install':}
-   class{'cvmfs::config':}
-   class{'cvmfs::service':}
 
-  # Finally allow the individual repositories to be loaded from hiera.
-  create_resources('cvmfs::mount', $cvmfs::params::cvmfs_hash)
+   # We only even attempt to configure cvmfs if the following
+   # two facts are available and that requires that cvmfs 
+   # has been installed first potentially on the first puppet
+   # run.
+   if $::cvmfsversion and $::cvmfspartsize {
+      class{'cvmfs::config':}
+      class{'cvmfs::service':}
+   } else {
+      notify{'cvmfs has not been configured, one more puppet run required.':
+         require => Class['cvmfs::install']
+      }
+   }
+   # Finally allow the individual repositories to be loaded from hiera.
+   create_resources('cvmfs::mount', $cvmfs::params::cvmfs_hash)
 }
