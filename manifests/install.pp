@@ -23,7 +23,7 @@ class cvmfs::install (
     $cvmfs_yum_testing = $cvmfs::params::cvmfs_yum_testing,
     $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
     $cvmfs_cache_base = $cvmfs::params::cvmfs_cache_base,
-    $default_cvmfs_cache_base = $default_cvmfs::params::cvmfs_cache_base,
+    $default_cvmfs_cache_base = $cvmfs::params::default_cvmfs_cache_base,
 ) inherits cvmfs::params {
 
    # Create the cache dir if one is defined, otherwise assume default is in the package.

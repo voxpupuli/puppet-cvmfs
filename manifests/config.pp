@@ -25,7 +25,7 @@
 # Copyright 2012 CERN
 #
 class cvmfs::config (
-     $major_release              = $cvmfs::parmas::major_release,
+     $major_release              = $cvmfs::params::major_release,
      $config_automaster          = $cvmfs::params::config_automaster,
      $cvmfs_quota_limit          = $cvmfs::params::cvmfs_quota_limit,
      $cvmfs_quota_ratio          = $cvmfs::params::cvmfs_quota_ratio,
