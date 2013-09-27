@@ -100,7 +100,7 @@ class cvmfs::config (
    concat::fragment{'cvmfs_default_local_header':
       target  => '/etc/cvmfs/default.local',
       order   => 0,
-      content => template("cvmfs/repo.local.erb")
+      content => template('cvmfs/repo.local.erb')
    }
 
    if $config_automaster == 'true' {
@@ -119,7 +119,7 @@ class cvmfs::config (
              'set 01/type program',
              'set 01/map  /etc/auto.cvmfs'
                   ],
-       onlyif    => "match *[map='/etc/auto.cvmfs'] size == 0",
+       onlyif    => 'match *[map=\'/etc/auto.cvmfs\'] size == 0',
        notify    => Service['autofs']
      }
   }

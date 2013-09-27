@@ -35,7 +35,7 @@ class cvmfs::service (
         }
      }
      default: {
-        exec{"Reloading cvmfs":
+        exec{'Reloading cvmfs':
            command     => '/usr/bin/cvmfs_config reload',
            refreshonly => true
         }

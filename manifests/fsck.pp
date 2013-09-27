@@ -3,7 +3,7 @@ class cvmfs::fsck (
    $cvmfs_cache_base = $cvmfs::params::cvmfs_cache_base
 ) inherits cvmfs::params {
 
-  cron{"cvmfs_fsck":
+  cron{'cvmfs_fsck':
      hour      => fqdn_rand(24),
      minute    => fqdn_rand(60),
      weekday   => fqdn_rand(7),
@@ -11,9 +11,9 @@ class cvmfs::fsck (
    }
    file{'/etc/logrotate.d/cvmfs_fsck':
      ensure => file,
-     mode   => "0644",
-     owner  => "root",
-     group  => "root",
+     mode   => '0644',
+     owner  => 'root',
+     group  => 'root',
      source => 'puppet:///modules/cvmfs/cvmfs_fsck.logrotate'
    }
 }

@@ -54,7 +54,7 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
 
      file{"/etc/cvmfs/config.d/${repo}.local":
         ensure  =>  file,
-        content => template("cvmfs/repo.local.erb"),
+        content => template('cvmfs/repo.local.erb'),
         owner   => 'root',
         group   => 'root',
         mode    => 0644,
@@ -65,7 +65,7 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
         concat::fragment{'cvmfs_default_local_repo_start':
           target => '/etc/cvmfs/default.local',
           order  => 5,
-          content => "CVMFS_REPOSITORIES='"
+          content => 'CVMFS_REPOSITORIES=\''
         }
      }
      concat::fragment{"cvmfs_default_local_${repo}":
