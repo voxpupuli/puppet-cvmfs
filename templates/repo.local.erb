@@ -49,6 +49,6 @@ CVMFS_MAX_TTL='<%= @cvmfs_max_ttl %>'
 <% end -%>
 <%if @cvmfs_env_variables -%>
 <% @cvmfs_env_variables.each_pair do |var, value| -%> 
-export  <%=var-%>=<%=value%> 
+export <%=var-%>=<%=value%> 
 <%end-%> 
 <%end-%> 
