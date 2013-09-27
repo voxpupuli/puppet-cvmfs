@@ -33,6 +33,14 @@
 # === Copyright
 #
 # Steve Traylen <steve.traylen@cern.ch>
+# == Parameters:
+#
+# $cvmfs_env_variables adds environment variables to the configuration
+# example:
+# $cvmfs_env_variables = {'CMS_LOCAL_SITE' => '<path to siteconf>'
+# will produce
+# export CMS_LOCAL_SITE=<path to siteconf> 
+# in the configuration
 #
 define cvmfs::mount($cvmfs_quota_limit = undef,
                     $cvmfs_server_url = undef,
@@ -41,7 +49,8 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
                     $cvmfs_nfiles = undef,
                     $cvmfs_public_key = undef,
                     $cvmfs_force_singing = undef,
-                    $cvmfs_max_ttl = undef
+                    $cvmfs_max_ttl = undef,
+                    $cvmfs_env_variables = undef,
 ) {
 
    # We only even attempt to configure cvmfs if the following
