@@ -47,4 +47,7 @@ CVMFS_DEBUGLOG='<%= @cvmfs_debuglog %>'
 <% if @cvmfs_max_ttl and @cvmfs_max_ttl != '' -%>
 CVMFS_MAX_TTL='<%= @cvmfs_max_ttl %>'
 <% end -%>
+<% cvmfs_env_variables.each_pair do |var, value| -%> 
+export  <%=var-%>=<%=value%> 
+<%end-%> 
 
