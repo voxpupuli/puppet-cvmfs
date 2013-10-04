@@ -54,7 +54,7 @@ class cvmfs::params {
     # The version of cvmfs to install, should be present and latest,
     # or an exact version number of the package.
     $major_release = regsubst($::operatingsystemrelease,'^(\d+)\.\d+$','\1')
-    $cvmfs_version          = hiera('cvmfsversion','present')
+    $cvmfs_version          = hiera('cvmfs_version','present')
     $cvmfs_yum              = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs/EL/${major_release}/${architecture}")
     $cvmfs_yum_testing      = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${major_release}/${architecture}")
     $cvmfs_yum_testing_enabled = hiera('cvmfs_yum_testing_enabled','0')
