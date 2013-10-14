@@ -12,9 +12,9 @@
 # Copyright 2012 CERN
 #
 class cvmfs::yum (
-    $cvmfs_yum = $cvmfs::params::cvmfs_yum,
-    $cvmfs_yum_testing = $cvmfs::params::cvmfs_yum_testing,
-    $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
+  $cvmfs_yum = $cvmfs::params::cvmfs_yum,
+  $cvmfs_yum_testing = $cvmfs::params::cvmfs_yum_testing,
+  $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
 ) inherits cvmfs::params {
 
    $major = $cvmfs::params::major_release
@@ -39,14 +39,14 @@ class cvmfs::yum (
       require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
    }
 
-   # Copy out the gpg key once only ever.
-   file{'/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM':
-      ensure  => file,
-      source  => 'puppet:///modules/cvmfs/RPM-GPG-KEY-CernVM',
-      replace => false,
-      owner   => root,
-      group   => root,
-      mode    => '0644'
-   }
+  # Copy out the gpg key once only ever.
+  file{'/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM':
+    ensure  => file,
+    source  => 'puppet:///modules/cvmfs/RPM-GPG-KEY-CernVM',
+    replace => false,
+    owner   => root,
+    group   => root,
+    mode    => '0644'
+  }
 }
 
