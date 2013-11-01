@@ -26,8 +26,7 @@ class cvmfs::yum (
     enabled     => 1,
     includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server',
     priority    => 80,
-    require     => [File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
-                    Yumrepo['cvmfs-testing']]
+    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
   }
   yumrepo{'cvmfs-testing':
     descr       => "CVMFS yum testing repository for el${major}",
