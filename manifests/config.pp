@@ -104,7 +104,7 @@ class cvmfs::config (
     # This may also go wrong if there is a point release of augeas.
     case $::augeasversion {
       '0.9.0','0.10.0': { $lenspath = '/var/lib/puppet/lib/augeas/lenses' }
-       default: { $lenspath = undef }
+      default: { $lenspath = undef }
     }
     augeas{'cvmfs_automaster':
       context   => '/files/etc/auto.master/',
@@ -112,11 +112,11 @@ class cvmfs::config (
       incl      => '/etc/auto.master',
       load_path => $lenspath,
       changes   => [
-            'set 01      /cvmfs',
-            'set 01/type program',
-            'set 01/map  /etc/auto.cvmfs'
-                 ],
-      onlyif    => "match *[map='/etc/auto.cvmfs'] size == 0",
+        'set 01      /cvmfs',
+        'set 01/type program',
+        'set 01/map  /etc/auto.cvmfs'
+      ],
+      onlyif    => 'match *[map="/etc/auto.cvmfs"] size == 0',
       notify    => Service['autofs']
     }
   }
