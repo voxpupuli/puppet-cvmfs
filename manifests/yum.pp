@@ -18,7 +18,7 @@ class cvmfs::yum (
 ) inherits cvmfs::params {
 
   $major = $cvmfs::params::major_release
-  osrepos::ai121yumrepo{'cvmfs':
+  yumrepo{'cvmfs':
     descr       => "CVMFS yum repository for el${major}",
     baseurl     => $cvmfs_yum,
     gpgcheck    => 1,
@@ -28,7 +28,7 @@ class cvmfs::yum (
     priority    => 80,
     require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
   }
-  osrepos::ai121yumrepo{'cvmfs-testing':
+  yumrepo{'cvmfs-testing':
     descr       => "CVMFS yum testing repository for el${major}",
     baseurl     => $cvmfs_yum_testing,
     gpgcheck    => 1,

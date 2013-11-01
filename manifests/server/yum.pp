@@ -7,7 +7,7 @@ class cvmfs::server::yum (
 
   class{'cvmfs::yum':}
 
-  osrepos::ai121yumrepo{'cvmfs-kernel':
+  yumrepo{'cvmfs-kernel':
     descr       => "CVMFS yum kernel repository for el${major_release}",
     baseurl     => $cvmfs_yum_kernel,
     gpgcheck    => 1,
