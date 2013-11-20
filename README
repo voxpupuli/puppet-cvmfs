@@ -1,6 +1,6 @@
 
 This cvmfs module is designed to install, enable and configure
-CvmFS clients.
+CvmFS clients and servers.
 
 For general details on CvmFS see
 http://cernvm.cern.ch/portal/filesystem 
@@ -14,10 +14,11 @@ These facts will only be available once cvmfs is installed and so configuration
 of cvmfs is skipped until cvmfs has been installed on the first puppet run.
 Two puppet runs are required to install and then configure cvmfs.
 
+Client Configuration
+--------------------
+To configure a cvmfs client enable the module
 
-To configured cvmfs enable the module
-
-   class {'cvmfs:'}
+   include (cvmfs)
 
 and then enable individual repositories optionally with a particular
 configuration on each repository. e.g.
@@ -64,9 +65,36 @@ since they are not managed by this puppet. Typically
 the domain.d files contains the values of 'CVMFS_PUBLIC_KEY'
 so this should be set at the global and/or per repository level.
 
-Todo
-----
-Write rspec tests.
+Fsck Module
+-----------
+An optional class 'cvmfs::fsck' can be included to enable a cron job to regualarly
+run fsck on cvmfs systems.
+
+    include ('cvmfs::fsck')
+
+Server Configuration
+--------------------
+A stratum zero can be configured with a simple.
+    class{'cvmfs::server':
+      repo => 'ilc.example.org',
+    }
+See the docs in cvmfs::server for explanation of parameters.
+
+Stratum One Configuration
+------------------------
+A stratum one can be configured for multiple repositories with
+a 
+    cvmfs::one{'mice.example.org':
+      origin => 'http://cvmfs01.example.org/cvmfs',
+      keys   => ['/etc/cvmfs/keys/example1.pub','/etc/cvmfs/keys/example1.pub']
+    }
+
+See cvmfs::one.pp for more details of parameters.
+
+ToDo
+---
+It's now possible to install multiple stratum zeros in the same
+node. This module does not support that and it should.
 
 License
 -------

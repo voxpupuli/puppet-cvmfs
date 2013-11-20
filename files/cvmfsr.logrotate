@@ -1,0 +1,9 @@
+# Installed with puppet
+
+/var/log/cvmfs/*.log {
+    weekly
+    compress
+    copytruncate
+    missingok
+}
+
