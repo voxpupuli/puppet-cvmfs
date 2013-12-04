@@ -5,7 +5,8 @@ class cvmfs::server::config (
   $nfsshare = undef,
   $nfsopts  = 'rw,noatime,hard,nfsvers=3',
   $user     = 'shared',
-  $uid      = 101
+  $uid      = 101,
+  $pubkey   = 'cern-it1.cern.ch.pub'
 ) {
 
   if $nfshost and $nfsshare {
@@ -77,6 +78,10 @@ class cvmfs::server::config (
     proto   => 'tcp',
     dport   => 80,
     action  => 'accept'
+  }
+  file{"/etc/cvmfs/keys/${repo}.pub":
+    ensure => link,
+    target => $pubkey
   }
 
 }
