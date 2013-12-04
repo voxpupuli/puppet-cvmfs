@@ -1,5 +1,5 @@
-name    'traylenator-cvmfs'
-version '0.0.2'
+name    'CERNOps-cvmfs'
+version '0.1.0'
 source 'https://github.com/cvmfs/puppet-cvmfs'
 author 'CERNOps'
 license 'Apache License, Version 2.0'

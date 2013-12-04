@@ -1,18 +1,45 @@
 {
-  "name": "traylenator-cvmfs",
-  "version": "0.0.2",
-  "summary": "Manages CVMFS clients",
-  "author": "CERNOps",
+  "types": [
+
+  ],
+  "project_page": "https://github.com/cvmfs/puppet-cvmfs",
+  "license": "Apache License, Version 2.0",
+  "source": "https://github.com/cvmfs/puppet-cvmfs",
+  "checksums": {
+    "lib/facter/cvmfspartsize.rb": "5b9a4079ab4d2eba4b3acf6678aca806",
+    "lib/augeas/lenses/automaster.aug": "31d4e33969456b94882280d1d9a6c2d3",
+    "Gemfile": "e07d680dcd49f233e785cdc806ba04fa",
+    "spec/spec_helper.rb": "3011a30b013ba2e44f7bf8615fdf2b8a",
+    "manifests/service.pp": "97386b2f30b0d377b3c579cbe907a6c2",
+    "manifests/server.pp": "54613bacaf6ef691ed12e669b5273be1",
+    "files/RPM-GPG-KEY-CernVM": "273c47d4073a034e969f50200ce0cc97",
+    "Rakefile": "ea715fe0328d4fb4bc6de3aae2d67b11",
+    "lib/facter/cvmfsversion.rb": "3d5a8c06f34c2f6309b016f3d19792b7",
+    "manifests/params.pp": "346ba6da81807cb6a26d1c5203c16283",
+    "manifests/mount.pp": "6374ebd443a5584364908333ee847f91",
+    "manifests/yum.pp": "c085769a72c2b7e45f059b1c8ef2f1ec",
+    "manifests/server/yum.pp": "723bed97865f7ba05737a6216879183d",
+    "manifests/install.pp": "053647d89391d8ef153a30bc416e8daa",
+    "manifests/init.pp": "303af0f5c0baf322db1b1a49f2558954",
+    "files/cvmfs_fsck.logrotate": "1466172da53da987c7633691fb6d8623",
+    "manifests/fsck.pp": "b3643200a501992cdb11ff0466c13d47",
+    "README": "34f2e40d76fc982ffe72bebd7c380f07",
+    "Modulefile": "e5f385d69825d6b92fcc982a133d1bd9",
+    "templates/repo.local.erb": "e9dfbf12854126fce327da46f7850a02",
+    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
+    "manifests/config.pp": "3e377f281c01d25c833583c6eb9c41ef",
+    "manifests/server/config.pp": "6c5ed4df85442278f436420d7d2e800d",
+    "manifests/server/install.pp": "1820e2721eba560f18c9b975dd82e8f2"
+  },
   "description": "Manages CvmFS Clients",
+  "version": "0.1.0",
+  "summary": "Manages CVMFS clients",
+  "name": "CERNOps-cvmfs",
+  "author": "CERNOps",
   "dependencies": [
     {
-      "name": "puppetlabs/concat",
-      "version_requirement": "\u003e\u003d1.0.0"
+      "version_requirement": ">=1.0.0",
+      "name": "puppetlabs-concat"
     }
-  ],
-  "types": [],
-  "checksums": {},
-  "source": "https://github.com/cvmfs/puppet-cvmfs",
-  "project_page": "https://github.com/cvmfs/puppet-cvmfs",
-  "license": "Apache License, Version 2.0"
+  ]
 }
