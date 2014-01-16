@@ -1,0 +1,5 @@
+2014-01-16  Steve Traylen  <steve.traylen@cern.ch>
+
+    * 0.2.1 release
+
+    * Puppet 3.4 compatability for ensure_resources.
