@@ -29,7 +29,7 @@ CVMFS_TIMEOUT_DIRECT='<%= @cvmfs_timeout_direct %>'
 <% if @cvmfs_nfiles and  @cvmfs_nfiles != '' -%>
 CVMFS_NFILES='<%= @cvmfs_nfiles %>'
 <% end -%>
-<% if @cvmfs_public_keys and @cvmfs_public_key != '' -%>
+<% if @cvmfs_public_key and @cvmfs_public_key != '' -%>
 CVMFS_PUBLIC_KEY='<%= @cvmfs_public_key %>'
 <% end -%>
 <% @cvmfs_force_signing and  if @cvmfs_force_signing != '' -%>
@@ -48,7 +48,7 @@ CVMFS_DEBUGLOG='<%= @cvmfs_debuglog %>'
 CVMFS_MAX_TTL='<%= @cvmfs_max_ttl %>'
 <% end -%>
 <%if @cvmfs_env_variables -%>
-<% @cvmfs_env_variables.each_pair do |var, value| -%> 
-export <%=var-%>=<%=value%> 
-<%end-%> 
-<%end-%> 
+<% @cvmfs_env_variables.each_pair do |var, value| -%>
+export <%=var-%>=<%=value%>
+<%end-%>
+<%end-%>
