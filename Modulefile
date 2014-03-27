@@ -1,5 +1,5 @@
 name    'CERNOps-cvmfs'
-version '0.2.1'
+version '0.2.2'
 source 'https://github.com/cvmfs/puppet-cvmfs'
 author 'CERNOps'
 license 'Apache License, Version 2.0'
