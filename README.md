@@ -56,21 +56,19 @@ to allow the mounts to specified in a hiera yaml file:
  
 which will enable these three mount points with the specified options.
 
-Warning
--------
 CvmFS supports 3 locations for configuration.
 * global defaults - /etc/cvmfs/default.*
 * domain settings - /etc/cvmfs/domain.d/*
 * repository settings - /etc/cvmfs/config.d/*
 
-This cvmfs module has no knowledge about the 'domain settings'.
-It is based on set defaults and and then add repositories
-possibly overriding the default values.
+A cvmfs domain file can be created with the cvmfs::domain type
 
-As such this module deletes all files in /etc/cvmfs/domain.d/*
-since they are not managed by this puppet. Typically
-the domain.d files contains the values of 'CVMFS_PUBLIC_KEY'
-so this should be set at the global and/or per repository level.
+    cvmfs::domain{'example.org':
+         cvmfs_server_url => 'http://host1.example.org/@repo@;http://host2.example2.org/@repo@',
+         cvmfs_public_key => '/etc/cvmfs/keys/key1.pub,/etc/cvmfs/keys/key2.pub'
+    }
+
+
 
 Fsck Module
 -----------

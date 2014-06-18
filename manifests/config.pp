@@ -29,6 +29,8 @@ class cvmfs::config inherits cvmfs {
   file{'/etc/cvmfs/domain.d':
     ensure  => directory,
     purge   => true,
+    recurse => true,
+    ignore  => '*.conf',
     require => Package['cvmfs'],
     owner   => root,
     group   => root,
@@ -39,7 +41,7 @@ class cvmfs::config inherits cvmfs {
     owner   => root,
     group   => root,
     mode    => '0644',
-    content => "This directory has been purged by puppet,\nthe puppet module does not support this directory.\n",
+    content => "This directory is managed by puppet but *.conf files are ignored from purging\n",
     require => File['/etc/cvmfs/domain.d']
   }
 
