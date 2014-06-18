@@ -1,3 +1,16 @@
+2014-06-18  Steve Traylen  <steve.traylen@cern.ch>
+    * 0.3.1 release.
+    * server - seperate yum configuration for server and client.
+    * server - force a public key file location to be specified.
+    * server - when disabling selinux on server specify an augeas scope
+    * server - Add 'nofiles' paramter to server class to allow no open files to 
+      be specified for the user running the cvmfs server.
+    * server - An exact kernel version is no longer specified.
+    * README file converted to markdown, now README.md.
+    * client - new defined type cvmfs::domain to create <domain>.local file in 
+      /etc/cvmfs/domain.d.
+    * client - cvmfs::init class is now paramatised so supports that in addition to hiera.
+
 2014-03-27  Steve Traylen  <steve.traylen@cern.ch
 
     * 0.2.2 release
