@@ -2,20 +2,6 @@
 #
 # Configures generic configuration for all cvmfs mounts.
 #
-# === Parameters
-#
-# [*config_automaster*]
-#   This module can configure autofs in addition to cvmfs but at
-#   some locations this may not be sensible. Set to 'false'  to
-#   stop this module configuring autofs.
-#
-# [*cvmfs_quota_limit*]
-#   For all parameters cvmfs_* this sets a value in
-#   /etc/cvmfs/default.local. e.g config_quota_limit
-#   set CVMFS_QUOTA_LIMIT in the default.local file.
-#   The same is true for cvmfs_* variables.
-#   See params.pp for defaults.
-#
 # === Authors
 #
 # Steve Traylen <steve.traylen@cern.ch>
@@ -24,25 +10,7 @@
 #
 # Copyright 2012 CERN
 #
-class cvmfs::config (
-  $major_release              = $cvmfs::params::major_release,
-  $config_automaster          = $cvmfs::params::config_automaster,
-  $cvmfs_quota_limit          = $cvmfs::params::cvmfs_quota_limit,
-  $cvmfs_quota_ratio          = $cvmfs::params::cvmfs_quota_ratio,
-  $cvmfs_http_proxy           = $cvmfs::params::cvmfs_http_proxy,
-  $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url,
-  $cvmfs_cache_base           = $cvmfs::params::cvmfs_cache_base,
-  $default_cvmfs_cache_base   = $cvmfs::params::default_cvmfs_cache_base,
-  $cvmfs_timeout              = $cvmfs::params::cvmfs_timeout,
-  $cvmfs_timeout_direct       = $cvmfs::params::cvmfs_timeout_direct,
-  $cvmfs_nfiles               = $cvmfs::params::cvmfs_nfiles,
-  $cvmfs_public_key           = $cvmfs::params::cvmfs_public_key,
-  $cvmfs_force_signing        = $cvmfs::params::cvmfs_force_signing,
-  $cvmfs_syslog_level         = $cvmfs::params::cvmfs_syslog_level,
-  $cvmfs_tracefile            = $cvmfs::params::cvmfs_tracefile,
-  $cvmfs_debuglog             = $cvmfs::params::cvmfs_debuglog,
-  $cvmfs_max_ttl              = $cvmfs::params::cvmfs_max_ttl
-) inherits cvmfs::params{
+class cvmfs::config inherits cvmfs {
 
   case $::cvmfsversion {
     /^2\.[01]\.*/: { }

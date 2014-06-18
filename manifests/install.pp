@@ -17,12 +17,7 @@
 #
 # Copyright 2012 CERN
 #
-class cvmfs::install (
-  $cvmfs_version = $cvmfs::params::cvmfs_version,
-  $cvmfs_cache_base = $cvmfs::params::cvmfs_cache_base,
-  $default_cvmfs_cache_base = $cvmfs::params::default_cvmfs_cache_base,
-  $major_release = $cvmfs::params::major_release
-) inherits cvmfs::params {
+class cvmfs::install inherits cvmfs {
 
   class{'cvmfs::yum':}
 
@@ -32,6 +27,15 @@ class cvmfs::install (
   case $major_release {
     5: { $cache_seltype = 'var_t' }
     default: { $cache_seltype = 'var_lib_t'}
+  }
+
+  case $::cvmfsversion {
+    /^2\.0\.*/: {
+      $default_cvmfs_cache_base  = '/var/cache/cvmfs2'
+    }
+    default: {
+      $default_cvmfs_cache_base  = '/var/lib/cvmfs'
+    }
   }
 
   if $cvmfs_cache_base != $default_cvmfs_cache_base {

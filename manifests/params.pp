@@ -14,10 +14,6 @@ class cvmfs::params {
   # This being the string 'true' and not boolean true is a hiera bug.
   $config_automaster      = hiera('cvmfs_config_automaster','true')
 
-  # Server configuration is not supported yet, just a place holder
-  # for when it is supported. These options currently do nothing.
-  $config_client          = true
-  $config_server          = false
 
   # These values are all destined for /etc/cvmfs/default.local
   # and provide defaults for all cvmfs repositories.

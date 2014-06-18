@@ -1,7 +1,5 @@
 # Enable this class to run a weekly cron job to fsck your cache.
-class cvmfs::fsck (
-  $cvmfs_cache_base = $cvmfs::params::cvmfs_cache_base
-) inherits cvmfs::params {
+class cvmfs::fsck inherits cvmfs {
 
   cron{'cvmfs_fsck':
     hour      => fqdn_rand(24),

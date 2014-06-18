@@ -18,7 +18,7 @@ Client Configuration
 --------------------
 To configure a cvmfs client enable the module
 
-   include (cvmfs)
+   class{cvmfs:}
 
 and then enable individual repositories optionally with a particular
 configuration on each repository. e.g.
@@ -34,6 +34,13 @@ The global defaults for all repositories are maintained within
 params.pp. This file supports hiera as a data source so use hiera
 or change the values in params.pp. These global values 
 end up in /etc/cvmfs/cvmfs.local.
+
+Or the cvmfs class is paramatized so e.g
+
+   class{'cvmfs':
+     cvmfs_quota      => 100
+     cvmfs_server_url => 'http://web.example.org/cvmfs/cmfs.example.org'
+   }
 
 In addition to creating mounts as above the
 create_resources('cvmfs::mount',{}) function is enabled

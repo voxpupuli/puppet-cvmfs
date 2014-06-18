@@ -4,11 +4,6 @@
 #
 # === Parameters
 #
-# [*config_automaster*]
-#   This module can configure autofs in addition to cvmfs but at
-#   some locations this may not be sensible. Set to 'false'  to
-#   stop this module configuring autofs.
-#
 # === Authors
 #
 # Steve Traylen <steve.traylen@cern.ch>
@@ -17,9 +12,7 @@
 #
 # Copyright 2012 CERN
 #
-class cvmfs::service (
-  $config_automaster = $cvmfs::params::config_automaster
-) inherits cvmfs::params {
+class cvmfs::service inherits cvmfs {
 
   # CVMFS 2.0 had a SysV startup script to reload.
   # CVMFS 2.1 at least uses cvmfs_config.
