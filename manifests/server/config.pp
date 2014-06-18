@@ -66,6 +66,8 @@ class cvmfs::server::config (
   #disable SELinux.
   augeas {'disable_selinux':
     context => '/files/etc/sysconfig/selinux',
+    incl    => '/etc/sysconfig/selinux',
+    lens    => 'Shellvars.lns',
     changes => 'set SELINUX disabled',
     before  => Exec['cvmfs_mkfs']
   } ~>
