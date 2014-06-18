@@ -57,7 +57,7 @@ class cvmfs::params {
   $cvmfs_yum_testing_enabled = hiera('cvmfs_yum_testing_enabled','0')
 
   # Only used is cvmfs::server is enabled.
-  $cvmfs_kernel_version     = hiera('cvmfs_kernel_version','2.6.32-358.18.1.el6.aufs21')
+  $cvmfs_kernel_version     = hiera('cvmfs_kernel_version','present')
   $cvmfs_yum_kernel         = hiera('cvmfs_yum_kernel',"http://cern.ch/cvmrepo/yum/cvmfs-kernel/EL/${major_release}/${::architecture}")
   $cvmfs_yum_kernel_enabled = hiera('cvmfs_yum_kernel_enabled','1')
 
