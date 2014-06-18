@@ -5,6 +5,7 @@ class cvmfs::server::config (
   $nfsshare = undef,
   $nfsopts  = 'rw,noatime,hard,nfsvers=3',
   $user     = 'shared',
+  $nofiles  = 65000,
   $uid      = 101,
   $pubkey   = 'cern-it1.cern.ch.pub'
 ) {
@@ -46,6 +47,10 @@ class cvmfs::server::config (
     home       => "/srv/cvmfs/${user}",
     require    => Group[$user]
   }
+
+  limits::entry{'shared-soft': type => 'soft', item => 'nofile', value => $nofiles,  domain => 'shared'}
+  limits::entry{'shared-hard': type => 'hard', item => 'nofile', value => $nofiles,  domain => 'shared'}
+
   exec{'cvmfs_mkfs':
     command => "/usr/bin/cvmfs_server mkfs -o ${user} ${repo}",
     creates => "/etc/cvmfs/repositories.d/${repo}",

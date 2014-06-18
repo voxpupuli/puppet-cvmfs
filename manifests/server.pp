@@ -28,7 +28,14 @@ class cvmfs::server ($repo     = $name,
   $nfshost  = undef,
   $nfsopts  = 'rw,noatime,hard,nfsvers=3',
   $user     = 'shared',
-  $uid      = 101)
+  $nofiles  = 65000,
+  $uid      = 101,
+  $cvmfs_yum_kernel         = $cvmfs::params::cvmfs_yum_kernel,
+  $cvmfs_yum_kernel_enabled = $cvmfs::params::cvmfs_yum_kernel_enabled,
+  $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
+  $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
+  $cvmfs_yum_testsing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
+)
 {
   class{'cvmfs::server::install':}
   class{'cvmfs::server::config':
@@ -37,6 +44,7 @@ class cvmfs::server ($repo     = $name,
     nfshost  => $nfshost,
     nfsopts  => $nfsopts,
     user     => $user,
+    nofiles  => $nofiles,
     uid      => $uid,
     require  => Class['cvmfs::server::install']
   }
