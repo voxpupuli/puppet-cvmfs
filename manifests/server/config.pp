@@ -10,6 +10,8 @@ class cvmfs::server::config (
   $pubkey   = 'cern-it1.cern.ch.pub'
 ) {
 
+  validate_string($pubkey)
+
   if $nfshost and $nfsshare {
     nfs::client::mount{'cvmfs_volume':
       ensure  => 'mounted',

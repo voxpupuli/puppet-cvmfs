@@ -103,7 +103,8 @@ A stratum zero can be configured with a simple.
 
 ```puppet
 class{'cvmfs::server':
- repo => 'ilc.example.org',
+ repo   => 'ilc.example.org',
+ pubkey => 'public.example.org'
 }
 ```
 

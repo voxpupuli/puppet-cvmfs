@@ -11,10 +11,14 @@
 # configuration is done.
 # [*nfsoptions*]
 # Nfs options can be set, there is a sensible default as below.
+# [*pubkey*]
+# The name of pubkey to be used. It is assume the pubkey is in the directory
+# '/etc/cvmfs/keys'
 #
 # === Examples
 #    class{'cvmfs::server':
-#      repo => 'ilc.example.org',
+#      repo   => 'ilc.example.org',
+#      pubkey => 'key.example.org'
 #    }
 # or
 #    class{'cvmfs::server':
@@ -22,8 +26,10 @@
 #      nfshost    => 'nfs-server.example.org',
 #      nfsshare   => '/volume/bute'
 #      nfsoptions => 'noatime',
+#      pubkey     => 'key.example.org'
 #
 class cvmfs::server ($repo     = $name,
+  $pubkey,
   $nfsshare = undef,
   $nfshost  = undef,
   $nfsopts  = 'rw,noatime,hard,nfsvers=3',
@@ -46,6 +52,7 @@ class cvmfs::server ($repo     = $name,
     user     => $user,
     nofiles  => $nofiles,
     uid      => $uid,
+    pubkey   => $pubkey,
     require  => Class['cvmfs::server::install']
   }
 }
