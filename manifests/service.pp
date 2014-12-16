@@ -34,12 +34,14 @@ class cvmfs::service inherits cvmfs {
       }
     }
   }
-  service{'autofs':
-    ensure     => running,
-    hasstatus  => true,
-    hasrestart => true,
-    enable     => true,
-    require    => [Class['cvmfs::config'],Class['cvmfs::install']]
+  if $config_automaster {
+    service{'autofs':
+      ensure     => running,
+      hasstatus  => true,
+      hasrestart => true,
+      enable     => true,
+      require    => [Class['cvmfs::config'],Class['cvmfs::install']]
+    }
   }
 }
 
