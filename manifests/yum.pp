@@ -22,7 +22,8 @@ class cvmfs::yum inherits cvmfs {
     enabled     => 1,
     includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server',
     priority    => 80,
-    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
+    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
+    proxy       => $cvmfs_yum_proxy
   }
   yumrepo{'cvmfs-testing':
     descr       => "CVMFS yum testing repository for el${major}",
@@ -32,7 +33,8 @@ class cvmfs::yum inherits cvmfs {
     enabled     => $cvmfs_yum_testing_enabled,
     includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server',
     priority    => 80,
-    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
+    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
+    proxy       => $cvmfs_yum_proxy
   }
 
   # Copy out the gpg key once only ever.
