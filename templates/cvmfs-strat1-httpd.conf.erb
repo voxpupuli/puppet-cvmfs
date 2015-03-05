@@ -1,8 +1,21 @@
 # Installed with puppet it will over
 # the cvmfs_config created one.
 
+WSGIPythonPath /usr/share/cvmfs-server/webapi
+
+Alias /cvmfs/<%= @repo %>/api /var/www/wsgi-scripts/cvmfs-api.wsgi/<%= @repo %>
+Alias /opt/<%= @repo.split('.').first %>/api /var/www/wsgi-scripts/cvmfs-api.wsgi/<%= @repo %>
+
 Alias /cvmfs/<%= @repo %> /srv/cvmfs/<%= @repo %>
 Alias /opt/<%= @repo.split('.').first %> /srv/cvmfs/<%= @repo %>
+
+<Directory /var/www/wsgi-scripts>
+    Options ExecCGI
+    SetHandler wsgi-script
+    Order allow,deny
+    Allow from all
+</Directory>
+
 <Directory "/srv/cvmfs/<%= @repo %>">
     Options -MultiViews
     AllowOverride All
