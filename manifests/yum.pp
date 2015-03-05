@@ -25,7 +25,7 @@ class cvmfs::yum (
     gpgcheck    => 1,
     gpgkey      => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
     enabled     => 1,
-    includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server',
+    includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server,cvmfs-config-default',
     priority    => 80,
     require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
     proxy       => $cvmfs_yum_proxy
@@ -36,7 +36,7 @@ class cvmfs::yum (
     gpgcheck    => 1,
     gpgkey      => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
     enabled     => $cvmfs_yum_testing_enabled,
-    includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server',
+    includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server,cvmfs-config-default',
     priority    => 80,
     require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
     proxy       => $cvmfs_yum_proxy
