@@ -1,5 +1,7 @@
 # puppet-cvmfs
 
+[![Build Status](https://travis-ci.org/cvmfs/puppet-cvmfs.svg?branch=master)](https://travis-ci.org/cvmfs/puppet-cvmfs)
+
 This cvmfs module is designed to install, enable and configure
 CvmFS clients and servers.
 
