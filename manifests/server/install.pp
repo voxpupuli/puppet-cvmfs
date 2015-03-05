@@ -8,8 +8,8 @@ class cvmfs::server::install (
   class{'cvmfs::server::yum':}
 
   package{['cvmfs-server','cvmfs']:
-    ensure   => $cvmfs_version,
-    require  => Yumrepo['cvmfs'],
+    ensure  => $cvmfs_version,
+    require => Yumrepo['cvmfs'],
   }
   package{'kernel':
     ensure  => $cvmfs_kernel_version,

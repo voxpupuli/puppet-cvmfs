@@ -6,8 +6,8 @@ class cvmfs::one::install (
   class{'cvmfs::server::yum':}
 
   package{'cvmfs-server':
-    ensure   => $cvmfs_version,
-    require  => Yumrepo['cvmfs'],
+    ensure  => $cvmfs_version,
+    require => Yumrepo['cvmfs'],
   }
   package{'httpd':
     ensure => present

@@ -12,7 +12,9 @@
 #
 # Copyright 2012 CERN
 #
-class cvmfs::service inherits cvmfs {
+class cvmfs::service (
+  $config_automaster = $cvmfs::config_automaster
+) inherits cvmfs {
 
   # CVMFS 2.0 had a SysV startup script to reload.
   # CVMFS 2.1 at least uses cvmfs_config.

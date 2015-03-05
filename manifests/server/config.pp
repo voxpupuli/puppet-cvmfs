@@ -84,9 +84,9 @@ class cvmfs::server::config (
     before  => Exec['cvmfs_mkfs']
   }
   firewall{'100 - allow access from 80':
-    proto   => 'tcp',
-    dport   => 80,
-    action  => 'accept'
+    proto  => 'tcp',
+    dport  => 80,
+    action => 'accept'
   }
   file{"/etc/cvmfs/keys/${repo}.pub":
     ensure => link,

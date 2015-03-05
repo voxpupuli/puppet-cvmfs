@@ -11,7 +11,12 @@
 #
 # Copyright 2012 CERN
 #
-class cvmfs::yum inherits cvmfs {
+class cvmfs::yum (
+  $cvmfs_yum_testing = $cvmfs::cvmfs_yum_testing,
+  $cvmfs_yum = $cvmfs::cvmfs_yum,
+  $cvmfs_yum_testing_enabled  = $cvmfs::cvmfs_yum_testing_enabled,
+  $cvmfs_yum_proxy = $cvmfs::cvmfs_yum_proxy
+)  inherits cvmfs {
 
   $major = $cvmfs::params::major_release
   yumrepo{'cvmfs':

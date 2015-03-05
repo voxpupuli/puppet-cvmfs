@@ -52,6 +52,9 @@
 # [*cvmfs_yum*]
 #   Yum repository URL for cvmfs.
 #
+# [*cvmfs_yum_proxy*]
+#   http proxy for cvmfs yum package repository
+#
 # [*cvmfs_yum_testing*]
 #   Yum repository URL for cmvfs testing repository.
 #
@@ -100,6 +103,7 @@ class cvmfs (
   $cvmfs_hash                 = $cvmfs::params::cvmfs_hash,
   $cvmfs_version              = $cvmfs::params::cvmfs_version,
   $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
+  $cvmfs_yum_proxy            = $cvmfs::params::cvmfs_proxy,
   $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
   $cvmfs_yum_testsing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
 ) inherits cvmfs::params {

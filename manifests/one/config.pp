@@ -3,9 +3,9 @@
 class cvmfs::one::config {
 
   firewall{'100 - allow access from 80':
-    proto   => 'tcp',
-    dport   => 80,
-    action  => 'accept'
+    proto  => 'tcp',
+    dport  => 80,
+    action => 'accept'
   }
 
   service{'httpd':

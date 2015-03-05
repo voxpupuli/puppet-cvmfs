@@ -17,7 +17,12 @@
 #
 # Copyright 2012 CERN
 #
-class cvmfs::install inherits cvmfs {
+class cvmfs::install (
+  $cvmfs_version = $cvmfs::cvmfs_version,
+  $major_release = $cvmfs::major_release,
+  $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
+
+) inherits cvmfs {
 
   class{'cvmfs::yum':}
 

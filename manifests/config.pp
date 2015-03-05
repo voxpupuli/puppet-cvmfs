@@ -10,7 +10,11 @@
 #
 # Copyright 2012 CERN
 #
-class cvmfs::config inherits cvmfs {
+class cvmfs::config (
+  $config_automaster  = $cvmfs::config_automaster,
+  $cvmfs_quota_limit  = $cvmfs::cvmfs_quota_limit,
+  $cvmfs_quota_ratio  = $cvmfs::cvmfs_quota_ratio
+) inherits cvmfs {
 
   case $::cvmfsversion {
     /^2\.[01]\.*/: { }
