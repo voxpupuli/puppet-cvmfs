@@ -1,7 +1,7 @@
 2015-03-06  Steve Traylen  <steve.traylen@cern.ch>
     * 0.3.3 release
     * do not control autofs service when asked not to.
-    * Install mod_wsgi and configure for geoip on stratum 0.
+    * Install mod_wsgi and configure for geoip on stratum 1.
     * Allow a http proxy for yum repos to be configured.
     * Migrate to puppetlabs lint tests.
 
