@@ -1,3 +1,10 @@
+2015-03-06  Steve Traylen  <steve.traylen@cern.ch>
+    * 0.3.3 release
+    * do not control autofs service when asked not to.
+    * Install mod_wsgi and configure for geoip on stratum 0.
+    * Allow a http proxy for yum repos to be configured.
+    * Migrate to puppetlabs lint tests.
+
 2014-06-18  Steve Traylen  <steve.traylen@cern.ch>
     * 0.3.2 release - workflow error on last release.
     * 0.3.1 release.

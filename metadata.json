@@ -1,53 +1,22 @@
 {
+  "summary": "Manages CVMFS clients and servers",
+  "name": "CERNOps-cvmfs",
+  "author": "CERNOps",
+  "project_page": "https://github.com/cvmfs/puppet-cvmfs",
+  "version": "0.3.3",
+  "source": "https://github.com/cvmfs/puppet-cvmfs",
+  "license": "Apache License, Version 2.0",
   "dependencies": [
     {
       "version_requirement": ">=1.0.0",
       "name": "puppetlabs-concat"
     }
   ],
-  "types": [
 
-  ],
-  "summary": "Manages CVMFS clients and servers",
-  "name": "CERNOps-cvmfs",
-  "author": "CERNOps",
-  "project_page": "https://github.com/cvmfs/puppet-cvmfs",
-  "description": "Manages CvmFS Clients and Servers",
-  "version": "0.3.2",
-  "checksums": {
-    "CHANGELOG": "cd41914bc274c50b290506980cd55788",
-    "templates/cvmfs-strat1-httpd.conf.erb": "a93255b09a32d2018c9226b9d9ebcd6d",
-    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
-    "manifests/server.pp": "c9f6e0e56578b7e1f79c88838cd5d28b",
-    "files/cvmfs_fsck.logrotate": "1466172da53da987c7633691fb6d8623",
-    "manifests/yum.pp": "3de59d6206ada5d12c1f9cbcbb189f7b",
-    "manifests/params.pp": "c0f3621c99cd9a0afcc31e478551cb78",
-    "manifests/init.pp": "27fa007d7d0de4d7708785bee723fd3f",
-    "templates/repo.local.erb": "0fa44ae828ec495596666955eef7abc4",
-    "manifests/service.pp": "6c35782bdf864e949e459ee5728fef4f",
-    "manifests/fsck.pp": "63aa01460500bb2355da1d3157947447",
-    "files/cvmfsr.logrotate": "ddf04004b84ddc1e09b01fd8b1bfe838",
-    "README.md": "be54536e8f76f71f3add45ad3afbd08c",
-    "Modulefile": "9d36374dfd1968804fcf5025ce570138",
-    "manifests/one.pp": "8c59463f26a06f4fb54d13d8baa87770",
-    "manifests/server/install.pp": "1820e2721eba560f18c9b975dd82e8f2",
-    "lib/facter/cvmfspartsize.rb": "5b9a4079ab4d2eba4b3acf6678aca806",
-    "spec/spec_helper.rb": "3011a30b013ba2e44f7bf8615fdf2b8a",
-    "manifests/domain.pp": "e99e704ec90e0469fe8d6f75d75cac7d",
-    "manifests/one/config.pp": "77adfb8103a2dc11befd47206ea1926d",
-    "manifests/server/yum.pp": "c9b9207c2866f39b605ea94e95e1e1c1",
-    "manifests/mount.pp": "6374ebd443a5584364908333ee847f91",
-    "files/RPM-GPG-KEY-CernVM": "273c47d4073a034e969f50200ce0cc97",
-    "manifests/server/config.pp": "70f1e032ec738b01d98696b494fcdc31",
-    "manifests/config.pp": "091f36500c6fc90d857b4eeea5ed8d26",
-    "lib/augeas/lenses/automaster.aug": "31d4e33969456b94882280d1d9a6c2d3",
-    "Gemfile": "e07d680dcd49f233e785cdc806ba04fa",
-    "manifests/install.pp": "90a7ee6b586b4bef9dee5e0ba0f3ea07",
-    "files/sync-cron.sh": "0084ff9ea6fb2c52a942db99d7b9bd1a",
-    "Rakefile": "ea715fe0328d4fb4bc6de3aae2d67b11",
-    "manifests/one/install.pp": "1e3f7d84ab8611c972e5af39c567f93f",
-    "lib/facter/cvmfsversion.rb": "3d5a8c06f34c2f6309b016f3d19792b7"
-  },
-  "source": "https://github.com/cvmfs/puppet-cvmfs",
-  "license": "Apache License, Version 2.0"
+  "operatingsystem_support": [
+    {
+      "operatingsystem":"RedHat",
+      "operatingsystemrelease":[ "5", "6", "7" ]
+    }
+  ]
 }
