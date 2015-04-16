@@ -108,8 +108,6 @@ class cvmfs (
   $cvmfs_yum_testsing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
 ) inherits cvmfs::params {
 
-  Class['concat::setup'] -> Class['cvmfs']
-
   class{'cvmfs::install':}
 
   # We only even attempt to configure cvmfs if the following
