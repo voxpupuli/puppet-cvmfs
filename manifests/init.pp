@@ -127,7 +127,7 @@ class cvmfs (
     }
   }
   # Finally allow the individual repositories to be loaded from hiera.
-  if $cvmfs_hash {
+  if is_hash($cvmfs_hash) {
     create_resources('cvmfs::mount', $cvmfs::params::cvmfs_hash)
   }
 }

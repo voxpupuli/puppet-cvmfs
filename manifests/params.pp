@@ -18,7 +18,7 @@ class cvmfs::params {
 
   # These values are all destined for /etc/cvmfs/default.local
   # and provide defaults for all cvmfs repositories.
-  $cvmfs_quota_limit      = hiera('cvmfs_quota_limit',undef)
+  $cvmfs_quota_limit      = hiera('cvmfs_quota_limit','1000')
 
   # If cvmfs_quota_limit is set to 'auto' then cvmfs_quota_ratio will be used
   # to determine of the actual configured CVMFS_QUOTA_LIMIT
@@ -38,16 +38,16 @@ class cvmfs::params {
   }
 
   $cvmfs_cache_base       = hiera('cvmfs_cache_base',$default_cvmfs_cache_base)
-  $cvmfs_timeout          = hiera('cvmfs_timeout',undef)
-  $cvmfs_timeout_direct   = hiera('cvmfs_timeout',undef)
-  $cvmfs_nfiles           = hiera('cvmfs_nfiles',undef)
-  $cvmfs_public_key       = hiera('cvmfs_public_key',undef)
+  $cvmfs_timeout          = hiera('cvmfs_timeout','')
+  $cvmfs_timeout_direct   = hiera('cvmfs_timeout','')
+  $cvmfs_nfiles           = hiera('cvmfs_nfiles','')
+  $cvmfs_public_key       = hiera('cvmfs_public_key','')
   $cvmfs_force_signing    = hiera('cvmfs_force_signing','yes')
-  $cvmfs_syslog_level     = hiera('cvmfs_syslog_level',undef)
-  $cvmfs_tracefile        = hiera('cvmfs_tracefile',undef)
-  $cvmfs_debuglog         = hiera('cvmfs_debuglog',undef)
-  $cvmfs_max_ttl          = hiera('cvmfs_max_ttl',undef)
-  $cvmfs_hash             = hiera('cvmfs::mount',undef)
+  $cvmfs_syslog_level     = hiera('cvmfs_syslog_level','')
+  $cvmfs_tracefile        = hiera('cvmfs_tracefile','')
+  $cvmfs_debuglog         = hiera('cvmfs_debuglog','')
+  $cvmfs_max_ttl          = hiera('cvmfs_max_ttl','')
+  $cvmfs_hash             = hiera('cvmfs::mount','')
 
   # The version of cvmfs to install, should be present and latest,
   # or an exact version number of the package.
