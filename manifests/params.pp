@@ -48,6 +48,7 @@ class cvmfs::params {
   $cvmfs_debuglog         = hiera('cvmfs_debuglog','')
   $cvmfs_max_ttl          = hiera('cvmfs_max_ttl','')
   $cvmfs_hash             = hiera('cvmfs::mount','')
+  $cvmfs_domain_hash      = undef
   $cvmfs_use_geoapi       = undef
 
   # The version of cvmfs to install, should be present and latest,

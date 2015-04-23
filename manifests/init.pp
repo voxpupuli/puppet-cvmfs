@@ -105,6 +105,7 @@ class cvmfs (
   $cvmfs_debuglog             = $cvmfs::params::cvmfs_debuglog,
   $cvmfs_max_ttl              = $cvmfs::params::cvmfs_max_ttl,
   $cvmfs_hash                 = $cvmfs::params::cvmfs_hash,
+  $cvmfs_domain_hash          = $cvmfs::params::cvmfs_domain_hash,
   $cvmfs_version              = $cvmfs::params::cvmfs_version,
   $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
   $cvmfs_yum_proxy            = $cvmfs::params::cvmfs_proxy,
@@ -129,6 +130,10 @@ class cvmfs (
   }
   # Finally allow the individual repositories to be loaded from hiera.
   if is_hash($cvmfs_hash) {
-    create_resources('cvmfs::mount', $cvmfs::params::cvmfs_hash)
+    create_resources('cvmfs::mount', $cvmfs_hash)
   }
+  if is_hash($cvmfs_domain_hash) {
+    create_resources('cvmfs::domain', $cvmfs_domain_hash)
+  }
+
 }
