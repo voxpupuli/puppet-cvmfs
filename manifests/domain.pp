@@ -52,6 +52,7 @@ define cvmfs::domain($cvmfs_quota_limit = undef,
   $cvmfs_force_singing = undef,
   $cvmfs_max_ttl = undef,
   $cvmfs_env_variables = undef,
+  $cvmfs_use_geoapi = undef
 ) {
 
   # We only even attempt to configure cvmfs if the following

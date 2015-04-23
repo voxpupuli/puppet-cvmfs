@@ -47,6 +47,9 @@ CVMFS_DEBUGLOG='<%= @cvmfs_debuglog %>'
 <% if @cvmfs_max_ttl and @cvmfs_max_ttl != '' -%>
 CVMFS_MAX_TTL='<%= @cvmfs_max_ttl %>'
 <% end -%>
+<% if @cvmfs_use_geoapi and @cvmfs_use_geoapi != '' -%>
+CVMFS_USE_GEOAPI='<%= @cvmfs_use_geoapi %>'
+<% end -%>
 <%if @cvmfs_env_variables -%>
 <% @cvmfs_env_variables.each_pair do |var, value| -%>
 export <%=var-%>=<%=value%>

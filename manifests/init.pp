@@ -110,6 +110,7 @@ class cvmfs (
   $cvmfs_yum_proxy            = $cvmfs::params::cvmfs_proxy,
   $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
   $cvmfs_yum_testsing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
+  $cvmfs_use_geoapi           = $cvmfs::params::cvmfs_geoapi
 ) inherits cvmfs::params {
 
   class{'cvmfs::install':}
