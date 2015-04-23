@@ -1,6 +1,7 @@
+[![Puppet Forge](http://img.shields.io/puppetforge/v/CERNOps/cvmfs.svg)](https://forge.puppetlabs.com/CERNOps/cvmfs)
+[![Build Status](https://travis-ci.org/cvmfs/puppet-cvmfs.svg?branch=master)](https://travis-ci.org/cvmfs/puppet-cvmfs)
 # puppet-cvmfs
 
-[![Build Status](https://travis-ci.org/cvmfs/puppet-cvmfs.svg?branch=master)](https://travis-ci.org/cvmfs/puppet-cvmfs)
 
 This cvmfs module is designed to install, enable and configure
 CvmFS clients and servers.
