@@ -8,6 +8,9 @@
 # [*config_automounter*]
 #   boolean defaults to true and configures the automounter for cvmfs.
 #
+# [*manage_autofs_service*]
+#   boolean defaults to true and manages the autofs service.
+#
 # [*cvmfs_quota_limit*]
 #   The cvmfs quota size in megabytes. See params.pp for default.
 #
@@ -88,6 +91,7 @@
 #
 class cvmfs (
   $config_automaster          = $cvmfs::params::config_automaster,
+  $manage_autofs_service      = $cvmfs::params::manage_autofs_service,
   $cvmfs_quota_limit          = $cvmfs::params::cvmfs_quota_limit,
   $cvmfs_quota_ratio          = $cvmfs::params::cvmfs_quota_ratio,
   $cvmfs_http_proxy           = $cvmfs::params::cvmfs_http_proxy,
