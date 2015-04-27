@@ -13,7 +13,6 @@
 # Copyright 2012 CERN
 #
 class cvmfs::service (
-  $config_automaster = $cvmfs::config_automaster,
   $manage_autofs_service = $cvmfs::manage_autofs_service
 ) inherits cvmfs {
 
@@ -38,14 +37,12 @@ class cvmfs::service (
     }
   }
   if $manage_autofs_service {
-    if $config_automaster {
-      service{'autofs':
-        ensure     => running,
-        hasstatus  => true,
-        hasrestart => true,
-        enable     => true,
-        require    => [Class['cvmfs::config'],Class['cvmfs::install']]
-      }
+    service{'autofs':
+      ensure     => running,
+      hasstatus  => true,
+      hasrestart => true,
+      enable     => true,
+      require    => [Class['cvmfs::config'],Class['cvmfs::install']]
     }
   }
 }
