@@ -13,7 +13,7 @@
 # Copyright 2012 CERN
 #
 class cvmfs::service (
-  $config_automaster = $cvmfs::config_automaster
+  $config_automaster = $cvmfs::config_automaster,
   $manage_autofs_service = $cvmfs::manage_autofs_service
 ) inherits cvmfs {
 
