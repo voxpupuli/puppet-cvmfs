@@ -45,6 +45,10 @@
 #
 # [*cvmfs_max_ttl*]
 #   Max ttl, see params.pp for default.
+#
+# [*cvmfs_known_repos*]
+#   Populate CVMFS_REPOSITORIES in default.local
+#
 # [*cvmfs_hash*]
 #   Rather than using cvmfs::mount defined type a hash of mounts can be sepecfied.
 #   cvmfs_hash => {'myrepo' => {'cvmfs_server_url' => 'http://web.example.org/cvmfs/ams.example.org/}
@@ -96,6 +100,7 @@ class cvmfs (
   $cvmfs_quota_ratio          = $cvmfs::params::cvmfs_quota_ratio,
   $cvmfs_http_proxy           = $cvmfs::params::cvmfs_http_proxy,
   $cvmfs_cache_base           = $cvmfs::params::cvmfs_cache_base,
+  $cvmfs_known_repos          = $cvmfs::params::cvmfs_known_repos,
   $cvmfs_timeout              = $cvmfs::params::cvmfs_timeout,
   $cvmfs_timeout_direct       = $cvmfs::params::cvmfs_timeout_direct,
   $cvmfs_nfiles               = $cvmfs::params::cvmfs_nfiles,
