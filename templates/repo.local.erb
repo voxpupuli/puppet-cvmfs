@@ -20,6 +20,12 @@ CVMFS_CACHE_BASE='<%= @cvmfs_cache_base %>'
 <% if @cvmfs_server_url and @cvmfs_server_url != '' -%>
 CVMFS_SERVER_URL='<%= @cvmfs_server_url %>'
 <% end -%>
+<%if @repo -%>
+<% else -%>
+<% if @cvmfs_known_repos and @cvmfs_known_repos != '' -%>
+CVMFS_REPOSITORIES='<%= @cvmfs_known_repos %>'
+<% end -%>
+<% end -%>
 <% if @cvmfs_timeout and  @cvmfs_timeout != '' -%>
 CVMFS_TIMEOUT='<%= @cvmfs_timeout %>'
 <% end -%>
