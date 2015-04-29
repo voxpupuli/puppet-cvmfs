@@ -32,7 +32,6 @@ deploy:
   user: CERNOps
   password:
     secure: MbhBiQ0qBOt1ZDu95+MU7rL7WUQlZ2EXwic1I3D5CTIpAXqrVwgfX7fe/J1QxcnA7delxT2Q5EKpZyfoUAyByprzghMdiHGm+/kwOvDiAFmcoZWe/oTseILEp0Y+t/RrY7dxssVx1MyXLgj4pDrzDB3kDaKGtxHwQT5AuPFN5Qs=
-    secure: ''
   on:
     tags: true
     all_branches: true
