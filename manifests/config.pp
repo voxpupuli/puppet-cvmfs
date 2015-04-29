@@ -72,7 +72,7 @@ class cvmfs::config (
     content => template('cvmfs/repo.local.erb')
   }
 
-  if $config_automaster == 'true' {
+  if $config_automaster or $config_automaster == 'true' {
     # Use the automaster.aug lens from a future version of augeas
     # This can be dropped once newer than 0.10.0 is everywhere I expect.
     # This may also go wrong if there is a point release of augeas.
