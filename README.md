@@ -23,11 +23,60 @@ Two puppet runs are required to install and then configure cvmfs.
 To configure a cvmfs client enable the module
 
 ```puppet
-class{cvmfs:}
+class{cvmfs:
+}
+```
+or 
+
+```puppet
+class{'cvmfs':
+  cvmfs_quota      => 100
+  cvmfs_server_url => 'http://web.example.org/cvmfs/cmfs.example.org'
+}
 ```
 
-and then enable individual repositories optionally with a particular
-configuration on each repository. e.g.
+### Parameters to Cvmfs Class
+* `config_automounter`  boolean defaults to true and configures the automounter for cvmfs.
+* `cvmfs_quota_limit` The cvmfs quota size in megabytes. See params.pp for default.
+* `cvmfs_quota_ratio` If set to ration, e.g '0.8' then 0.8 of the partition size
+   the cvmfs cache is on will be used. Setting this assumes
+   you have allocated a partition to cvmfs cache.
+* `cvmfs_http_proxy` List of squid servers, see params.pp for default.
+* `cvmfs_timeout` cvmfs timeout setting, see params.pp for default.
+* `cvmfs_timeout_direct` cvmfs timeout to direct connections, see params.pp for default.
+* `cvmfs_nfiles` Number of open files, system setting, see params.pp for default.
+* `cvmfs_force_signing` Boolean defaults to true, repositories must be signed.
+* `cvmfs_syslog_level`  Default is in params.pp
+* `cvmfs_tracefile`  Create a tracefile at this location.
+* `cvmfs_debuglog` Create a debug log file at this location.
+* `cvmfs_max_ttl` Max ttl, see params.pp for default.
+* `cvmfs_hash` Rather than using cvmfs::mount defined type a hash of mounts can be sepecfied.
+   cvmfs_hash {'myrepo' => {'cvmfs_server_url' => 'http://web.example.org/cvmfs/ams.example.org/}
+* `cvmfs_version` Version of cvmfs to install , default is present.
+* `cvmfs_yum`  Yum repository URL for cvmfs.
+* `cvmfs_yum_proxy` http proxy for cvmfs yum package repository
+* `cvmfs_yum_testing`  Yum repository URL for cmvfs testing repository.
+* `cvmfs_yum_testing_enabled`  Defaults to false, should the testing repository be enabled.
+* `cvmfs_env_variables`  $cvmfs_env_variables = {'CMS_LOCAL_SITE' => '<path to siteconf>'
+   will produce
+   `export CMS_LOCAL_SITE=<path to siteconf>`
+   in the default.local file.
+
+
+The global defaults for all repositories are maintained within
+params.pp.  These global values end up in /etc/cvmfs/cvmfs.local.
+
+puppet data bindings can be used to specify these values within hiera
+
+```YAML
+---
+cvmfs::cvmfs_quota: 100
+```
+
+
+## Cvmfs::Mount Type
+To mount individual repositories optionally with a particular
+configuration on each repository. e.g
 
 ```puppet
 cvmfs::mount{'lhcb.example.org':
@@ -39,31 +88,15 @@ cvmfs::mount{'cms.example.org':
   cvmfs_server_url => 'http://web.example.org/cms.cern.ch' 
 }
 ```                                 
-The global defaults for all repositories are maintained within
-params.pp. This file supports hiera as a data source so use hiera
-or change the values in params.pp. These global values 
-end up in /etc/cvmfs/cvmfs.local.
 
-Or the cvmfs::init class is paramatized so specifying values 
-as parameters is also possible.
+###  Cvmfs::Mount Type Parameters
+* `namevar`  The namevar is the repository name, e.g atlas.example.ch
+* TBC
 
-```puppet
-class{'cvmfs':
-  cvmfs_quota      => 100
-  cvmfs_server_url => 'http://web.example.org/cvmfs/cmfs.example.org'
-}
-```
-
-puppet data bindings can be used to specify these values within hiera
-
-```YAML
----
-cvmfs::cvmfs_quota: 100
-```
 
 In addition to creating mounts as above the
-create_resources('cvmfs::mount',{}) function is enabled
-to allow the mounts to specified in a hiera yaml file:
+`create_resources('cvmfs::mount',{})` function is called with
+in init allow the mounts to be specified in a hiera yaml file:
 
 ```YAML
 ---
@@ -78,12 +111,7 @@ cvmfs::mount:
 
 which will enable these three mount points with the specified options.
 
-CvmFS supports 3 locations for configuration.
-
-* global defaults - /etc/cvmfs/default.local
-* domain settings - /etc/cvmfs/domain.d/
-* repository settings - /etc/cvmfs/config.d/
-
+## Cvmfs::Domain Type
 A cvmfs domain file can be created with the cvmfs::domain type
 
 ```puppet
@@ -92,6 +120,10 @@ cvmfs::domain{'example.org':
      cvmfs_public_key => '/etc/cvmfs/keys/key1.pub,/etc/cvmfs/keys/key2.pub'
 }
 ```
+
+###  Cvmfs::Domain Type Parameters
+* `namevar`  The namevar is the domain name, e.g example.ch
+* TBC
 
 
 ## Fsck Module
@@ -105,7 +137,7 @@ include ('cvmfs::fsck')
 ## Stratum 0 Configuration
 There are currently two options to configure a stratum 0. 
 The class method only supports one stratum one and will
-at some point be deprecated. 
+at some point be deprecated.  
 
 ### Stratum 0 Configuration as a Class
 ```puppet
@@ -120,7 +152,7 @@ See the docs in cvmfs::server for explanation of parameters.
 ### Stratum 0 Configuration as a Defined Type
 A new method where each stratum 0 can be configured as an instance. 
 The advantage here is that multiple stratum zeros can be configured per 
-server. The previous class method will deprecated at some future point.
+server. The previous class method will be deprecated at some future point.
 
 ```puppet
 cvmfs::zero{'files.example.org':
