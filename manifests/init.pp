@@ -64,6 +64,11 @@
 # [*cvmfs_yum_testing_enabled*]
 #    Defaults to false, should the testing repository be enabled.
 #
+# [*cvmfs_env_variables*]
+#    $cvmfs_env_variables = {'CMS_LOCAL_SITE' => '<path to siteconf>'
+#    will produce
+#    export CMS_LOCAL_SITE=<path to siteconf>
+#    in the default.local file.
 # === Examples
 #
 #  To mount two cvmfs volumes after setting up some defaults.
@@ -104,6 +109,7 @@ class cvmfs (
   $cvmfs_tracefile            = $cvmfs::params::cvmfs_tracefile,
   $cvmfs_debuglog             = $cvmfs::params::cvmfs_debuglog,
   $cvmfs_max_ttl              = $cvmfs::params::cvmfs_max_ttl,
+  $cvmfs_env_variables        = $cvmfs::params::cvmfs_env_variables,
   $cvmfs_hash                 = $cvmfs::params::cvmfs_hash,
   $cvmfs_domain_hash          = $cvmfs::params::cvmfs_domain_hash,
   $cvmfs_version              = $cvmfs::params::cvmfs_version,
