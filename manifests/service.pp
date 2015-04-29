@@ -13,7 +13,7 @@
 # Copyright 2012 CERN
 #
 class cvmfs::service (
-  $config_automaster = $cvmfs::config_automaster
+  $manage_autofs_service = $cvmfs::manage_autofs_service
 ) inherits cvmfs {
 
   # CVMFS 2.0 had a SysV startup script to reload.
@@ -36,7 +36,7 @@ class cvmfs::service (
       }
     }
   }
-  if $config_automaster {
+  if $manage_autofs_service {
     service{'autofs':
       ensure     => running,
       hasstatus  => true,
