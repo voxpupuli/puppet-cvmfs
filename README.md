@@ -92,6 +92,9 @@ cvmfs::mount{'cms.example.org':
 
 ###  Cvmfs::Mount Type Parameters
 * `namevar`  The namevar is the repository name, e.g atlas.example.ch
+* `cvmfs_repo_list` A boolean defaults to `true`. Should this repository be 
+   included in the list of repositories listed as `CVMFS_REPOSITORIES`
+   with `/etc/cvmfs/default.local`.
 * TBC
 
 

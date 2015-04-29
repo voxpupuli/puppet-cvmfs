@@ -8,7 +8,8 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   $cvmfs_force_singing = undef,
   $cvmfs_max_ttl = undef,
   $cvmfs_env_variables = undef,
-  $cvmfs_use_geoapi = undef
+  $cvmfs_use_geoapi = undef,
+  $cvmfs_repo_list = true
 ) {
 
   # We only even attempt to configure cvmfs if the following
@@ -35,10 +36,12 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
         content => 'CVMFS_REPOSITORIES=\''
       }
     }
-    concat::fragment{"cvmfs_default_local_${repo}":
-      target  => '/etc/cvmfs/default.local',
-      order   => 6,
-      content => "${repo},"
+    if $cvmfs_repo_list {
+      concat::fragment{"cvmfs_default_local_${repo}":
+        target  => '/etc/cvmfs/default.local',
+        order   => 6,
+        content => "${repo},"
+      }
     }
     if ! defined(Concat::Fragment['cvmfs_default_local_repo_end']) {
       concat::fragment{'cvmfs_default_local_repo_end':
