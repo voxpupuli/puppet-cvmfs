@@ -1,3 +1,7 @@
+##2015-04-29 - Release 0.4.1
+###Bugfixes
+- Fix github to puppetforge publishing.
+
 ##2015-04-29 - Release 0.4.0
 
 ###Features
