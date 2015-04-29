@@ -37,6 +37,7 @@ class{'cvmfs':
 
 ### Parameters to Cvmfs Class
 * `config_automounter`  boolean defaults to true and configures the automounter for cvmfs.
+* `manage_autofs_service` boolean defaults to true, should the autofs service be maintained.
 * `cvmfs_quota_limit` The cvmfs quota size in megabytes. See params.pp for default.
 * `cvmfs_quota_ratio` If set to ration, e.g '0.8' then 0.8 of the partition size
    the cvmfs cache is on will be used. Setting this assumes
