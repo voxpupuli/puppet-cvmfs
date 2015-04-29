@@ -1,4 +1,5 @@
-script: "bundle exec rake validate && bundle exec rake lint && bundle exec rake spec SPEC_OPTS='--format documentation'"
+script: bundle exec rake validate && bundle exec rake lint && bundle exec rake spec
+  SPEC_OPTS='--format documentation'
 matrix:
   fast_finish: true
   include:
@@ -24,6 +25,17 @@ matrix:
     env: PUPPET_GEM_VERSION="~> 3.0" FUTURE_PARSER="yes"
   - rvm: 2.1.5
     env: PUPPET_GEM_VERSION="~> 4.0"
-
 notifications:
   email: false
+deploy:
+  provider: puppetforge
+  user: CERNOps
+  password:
+    secure: MbhBiQ0qBOt1ZDu95+MU7rL7WUQlZ2EXwic1I3D5CTIpAXqrVwgfX7fe/J1QxcnA7delxT2Q5EKpZyfoUAyByprzghMdiHGm+/kwOvDiAFmcoZWe/oTseILEp0Y+t/RrY7dxssVx1MyXLgj4pDrzDB3kDaKGtxHwQT5AuPFN5Qs=
+    secure: ''
+  on:
+    tags: true
+    all_branches: true
+    rvm: 1.9.3
+    
+
