@@ -1,3 +1,7 @@
+##2015-04-30 - Release 0.4.4
+###Bugfixes
+- Correct erwbgy-limits version dependency.
+
 ##2015-04-30 - Release 0.4.3
 ###Bugfixes
 - Fix github to puppetforge publishing.
