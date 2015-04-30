@@ -36,3 +36,6 @@ deploy:
     tags: true
     all_branches: true
     rvm: 1.9.3
+    condition: $FUTURE_PARSER = yes
+
+
