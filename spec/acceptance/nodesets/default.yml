@@ -1,0 +1,11 @@
+HOSTS:
+  centos-64-x64:
+    roles:
+      - client
+      - default
+    platform: el-6-x86_64
+    box : puppetlabs/centos-6.6-64-nocm
+    #box_url : https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.6-64-nocm
+    hypervisor : vagrant_libvirt
+CONFIG:
+  type: foss
