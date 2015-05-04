@@ -22,8 +22,13 @@ class cvmfs (
   $cvmfs_yum_proxy            = $cvmfs::params::cvmfs_proxy,
   $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
   $cvmfs_yum_testsing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
-  $cvmfs_use_geoapi           = $cvmfs::params::cvmfs_geoapi
+  $cvmfs_use_geoapi           = $cvmfs::params::cvmfs_geoapi,
+  $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url
 ) inherits cvmfs::params {
+
+  if $cvmfs_server_url != ''  {
+    warning('The $cvmfs_server_url to cvmfs is deprecated, please set this value per mount or per domain.')
+  }
 
   class{'cvmfs::install':}
 

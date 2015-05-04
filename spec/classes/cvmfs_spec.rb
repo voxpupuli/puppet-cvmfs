@@ -40,9 +40,10 @@ describe 'cvmfs' do
         let(:params) {{:config_automaster  => false}}
         it { should_not contain_augeas('cvmfs_automaster') }
       end
-
+      context 'with cvmfs_server_url set to something, to be deprecated' do
+        let(:params) {{:cvmfs_server_url => 'http://example.org/cvmfs/files.repo.org'}}
+        it { should compile.with_all_deps }
+      end
     end
-
   end
-
 end
