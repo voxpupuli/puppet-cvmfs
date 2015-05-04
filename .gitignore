@@ -1,3 +1,6 @@
 spec/fixtures
 Gemfile.lock
 pkg/
+log/
+.vagrant
+package.box
