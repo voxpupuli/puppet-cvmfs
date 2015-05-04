@@ -18,7 +18,7 @@ class cvmfs::config (
 
   case $::cvmfsversion {
     /^2\.[01]\.*/: { }
-      default: { info('This cvmfs module is only checked with cvmfs version 2.0.X and 2.1.X currently.')
+      default: { warning('This cvmfs module is only checked with cvmfs version 2.0.X and 2.1.X currently.')
     }
   }
 

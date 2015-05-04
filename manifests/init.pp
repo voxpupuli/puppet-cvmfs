@@ -38,6 +38,7 @@ class cvmfs (
     notify{'cvmfs has not been configured, one more puppet run required.':
       require => Class['cvmfs::install']
     }
+    warning('cvmfs has not been configured, one more puppet run required.')
   }
   # Finally allow the individual repositories to be loaded from hiera.
   if is_hash($cvmfs_hash) {
