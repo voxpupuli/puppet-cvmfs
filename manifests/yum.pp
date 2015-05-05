@@ -14,6 +14,8 @@
 class cvmfs::yum (
   $cvmfs_yum_testing = $cvmfs::cvmfs_yum_testing,
   $cvmfs_yum = $cvmfs::cvmfs_yum,
+  $cvmfs_yum_config = $cvmfs::cvmfs_yum_config,
+  $cvmfs_yum_config_enabled = $cvmfs::cvmfs_yum_config_enabled,
   $cvmfs_yum_testing_enabled  = $cvmfs::cvmfs_yum_testing_enabled,
   $cvmfs_yum_proxy = $cvmfs::cvmfs_yum_proxy
 )  inherits cvmfs {
@@ -41,8 +43,18 @@ class cvmfs::yum (
     require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
     proxy       => $cvmfs_yum_proxy
   }
+  yumrepo{'cvmfs-config':
+    descr       => "CVMFS config yum repository for el${major}",
+    baseurl     => $cvmfs_yum_config,
+    gpgcheck    => 1,
+    gpgkey      => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
+    enabled     => $cvmfs_yum_config_enabled,
+    priority    => 80,
+    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
+    proxy       => $cvmfs_yum_proxy
+  }
 
-  # Copy out the gpg key once only ever.
+  #  Copy out the gpg key once only ever.
   file{'/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM':
     ensure  => file,
     source  => 'puppet:///modules/cvmfs/RPM-GPG-KEY-CernVM',

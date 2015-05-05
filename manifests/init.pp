@@ -19,6 +19,8 @@ class cvmfs (
   $cvmfs_domain_hash          = $cvmfs::params::cvmfs_domain_hash,
   $cvmfs_version              = $cvmfs::params::cvmfs_version,
   $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
+  $cvmfs_yum_config           = $cvmfs::params::cvmfs_yum_config,
+  $cvmfs_yum_config_enabled   = $cvmfs::params::cvmfs_yum_config_enabled,
   $cvmfs_yum_proxy            = $cvmfs::params::cvmfs_proxy,
   $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
   $cvmfs_yum_testsing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,

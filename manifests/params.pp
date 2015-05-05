@@ -56,9 +56,15 @@ class cvmfs::params {
   # or an exact version number of the package.
   $major_release = regsubst($::operatingsystemrelease,'^(\d+)\.\d+$','\1')
   $cvmfs_version          = hiera('cvmfsversion','present')
+
   $cvmfs_yum              = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs/EL/${major_release}/${::architecture}")
+
+  $cvmfs_yum_config = "http://cern.ch/cvmrepo/yum/cvmfs-config/EL/${major_release}/${::architecture}"
+  $cvmfs_yum_config_enabled = '0'
+
   $cvmfs_yum_testing      = hiera('cvmfs_yum_testing',"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${major_release}/${::architecture}")
   $cvmfs_yum_testing_enabled = hiera('cvmfs_yum_testing_enabled','0')
+
   $cvmfs_yum_proxy        = hiera('cvmfs_yum_proxy','_none_')
 
   # Only used is cvmfs::server is enabled.
