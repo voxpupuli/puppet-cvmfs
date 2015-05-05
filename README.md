@@ -20,18 +20,28 @@ of cvmfs is skipped until cvmfs has been installed on the first puppet run.
 Two puppet runs are required to install and then configure cvmfs.
 
 ## Client Configuration
-To configure a cvmfs client enable the module
+To configure a cvmfs client to mount cvmfs repository or a domain
+a domain of cvmfs repositories use the following.
 
 ```puppet
-class{cvmfs:
+class{"cvmfs":
+  cvmfs_http_proxy  => 'http://ca-proxy.example.org:3128',
+  cvmfs_quota_limit => 100
+}
+cvmfs::mount{'files.example.org:
+  cvmfs_server_url  => 'http://web.example.org/cvmfs/files.example.org',
 }
 ```
 or 
 
 ```puppet
-class{'cvmfs':
-  cvmfs_quota      => 100
-  cvmfs_server_url => 'http://web.example.org/cvmfs/cmfs.example.org'
+class{"cvmfs":
+  cvmfs_http_proxy  => 'http://ca-proxy.example.org:3128',
+  cvmfs_quota_limit => 100,
+}
+
+cvmfs::domain{'example.net'
+  cvmfs_server_url   => 'http://web.example.org/cvmfs/@fqrn@'
 }
 ```
 
@@ -64,14 +74,13 @@ class{'cvmfs':
    in the default.local file.
 
 
-The global defaults for all repositories are maintained within
-params.pp.  These global values end up in /etc/cvmfs/cvmfs.local.
-
-puppet data bindings can be used to specify these values within hiera
+Puppet databindings allows all the above settings to be set via hiera. In
+this case it is not nescesary to include `class{'cvmfs':}`.
 
 ```YAML
 ---
-cvmfs::cvmfs_quota: 100
+cvmfs::cvmfs_quota_limit: 100
+cvmfs::cvmfs_nfiles: 20000
 ```
 
 
@@ -82,10 +91,11 @@ configuration on each repository. e.g
 ```puppet
 cvmfs::mount{'lhcb.example.org':
 }
-cvmfs::mount{'atlas.example.org': cvmfs_quota    => 50 
+cvmfs::mount{'atlas.example.org': 
+  cvmfs_timeout => 50 
 }
 cvmfs::mount{'cms.example.org': 
-  cvmfs_quota      => 100,
+  cvmfs_timeout    => 100,
   cvmfs_server_url => 'http://web.example.org/cms.cern.ch' 
 }
 ```                                 
@@ -99,8 +109,8 @@ cvmfs::mount{'cms.example.org':
 
 
 In addition to creating mounts as above the
-`create_resources('cvmfs::mount',{})` function is called with
-in init allow the mounts to be specified in a hiera yaml file:
+`create_resources('cvmfs::mount',{})` function is called
+allowing the mounts to be specified in a hiera yaml file:
 
 ```YAML
 ---

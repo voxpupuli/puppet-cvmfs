@@ -27,7 +27,7 @@ class cvmfs::params {
   $cvmfs_quota_ratio  = hiera('cvmfs_quota_ratio','0.85')
 
   $cvmfs_http_proxy       = hiera('cvmfs_http_proxy','http://squid.example.org:3128')
-  $cvmfs_server_url       = hiera('cvmfs_server_url','http://web.example.org:80/opt/example')
+  $cvmfs_server_url       = hiera('cvmfs_server_url','')
   case $::cvmfsversion {
     /^2\.0\.*/: {
       $default_cvmfs_cache_base  = '/var/cache/cvmfs2'

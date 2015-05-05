@@ -12,6 +12,7 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   $cvmfs_repo_list = true
 ) {
 
+  include cvmfs
   # We only even attempt to configure cvmfs if the following
   # two facts are available and that requires that cvmfs
   # has been installed first potentially on the first puppet
