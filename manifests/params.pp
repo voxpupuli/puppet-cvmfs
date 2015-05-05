@@ -57,6 +57,9 @@ class cvmfs::params {
   $major_release = regsubst($::operatingsystemrelease,'^(\d+)\.\d+$','\1')
   $cvmfs_version          = hiera('cvmfsversion','present')
 
+  $cvmfs_yum_gpgcheck = '1'
+  $cvmfs_yum_gpgkey   = 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'
+
   $cvmfs_yum              = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs/EL/${major_release}/${::architecture}")
 
   $cvmfs_yum_config = "http://cern.ch/cvmrepo/yum/cvmfs-config/EL/${major_release}/${::architecture}"
