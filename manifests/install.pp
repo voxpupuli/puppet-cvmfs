@@ -19,7 +19,6 @@
 #
 class cvmfs::install (
   $cvmfs_version = $cvmfs::cvmfs_version,
-  $major_release = $cvmfs::major_release,
   $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
 
 ) inherits cvmfs {
@@ -29,7 +28,7 @@ class cvmfs::install (
   # Create the cache dir if one is defined, otherwise assume default is in the package.
   # Require the package so we know the user is in place.
   # We need to change the selinux context of this new directory below.
-  case $major_release {
+  case $::operatingsystemmajrelease {
     5: { $cache_seltype = 'var_t' }
     default: { $cache_seltype = 'var_lib_t'}
   }
@@ -58,7 +57,6 @@ class cvmfs::install (
     require => Yumrepo['cvmfs'],
   }
 
-  $major = $cvmfs::params::major_release
 
   # Create a file for the cvmfs
   file{'/etc/cvmfs/cvmfsfacts.yaml':

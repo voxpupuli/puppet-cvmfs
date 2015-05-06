@@ -54,25 +54,24 @@ class cvmfs::params {
 
   # The version of cvmfs to install, should be present and latest,
   # or an exact version number of the package.
-  $major_release = regsubst($::operatingsystemrelease,'^(\d+)\.\d+$','\1')
   $cvmfs_version          = hiera('cvmfsversion','present')
 
   $cvmfs_yum_gpgcheck = '1'
   $cvmfs_yum_gpgkey   = 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'
 
-  $cvmfs_yum              = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs/EL/${major_release}/${::architecture}")
+  $cvmfs_yum              = hiera('cvmfs_yum',"http://cern.ch/cvmrepo/yum/cvmfs/EL/${::operatingsystemmajrelease}/${::architecture}")
 
-  $cvmfs_yum_config = "http://cern.ch/cvmrepo/yum/cvmfs-config/EL/${major_release}/${::architecture}"
+  $cvmfs_yum_config = "http://cern.ch/cvmrepo/yum/cvmfs-config/EL/${::operatingsystemmajrelease}/${::architecture}"
   $cvmfs_yum_config_enabled = '0'
 
-  $cvmfs_yum_testing      = hiera('cvmfs_yum_testing',"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${major_release}/${::architecture}")
+  $cvmfs_yum_testing      = hiera('cvmfs_yum_testing',"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${::operatingsystemmajrelease}/${::architecture}")
   $cvmfs_yum_testing_enabled = hiera('cvmfs_yum_testing_enabled','0')
 
   $cvmfs_yum_proxy        = hiera('cvmfs_yum_proxy','_none_')
 
   # Only used is cvmfs::server is enabled.
   $cvmfs_kernel_version     = hiera('cvmfs_kernel_version','present')
-  $cvmfs_yum_kernel         = hiera('cvmfs_yum_kernel',"http://cern.ch/cvmrepo/yum/cvmfs-kernel/EL/${major_release}/${::architecture}")
+  $cvmfs_yum_kernel         = hiera('cvmfs_yum_kernel',"http://cern.ch/cvmrepo/yum/cvmfs-kernel/EL/${::operatingsystemmajrelease}/${::architecture}")
   $cvmfs_yum_kernel_enabled = hiera('cvmfs_yum_kernel_enabled','1')
 
 }

@@ -22,9 +22,8 @@ class cvmfs::yum (
   $cvmfs_yum_gpgkey = $cvmfs::cvmfs_yum_gpgkey
 )  inherits cvmfs {
 
-  $major = $cvmfs::params::major_release
   yumrepo{'cvmfs':
-    descr       => "CVMFS yum repository for el${major}",
+    descr       => "CVMFS yum repository for el${::operatingsystemmajrelease}",
     baseurl     => $cvmfs_yum,
     gpgcheck    => $cvmfs_yum_gpgcheck,
     gpgkey      => $cvmfs_yum_gpgkey,
@@ -35,7 +34,7 @@ class cvmfs::yum (
     proxy       => $cvmfs_yum_proxy
   }
   yumrepo{'cvmfs-testing':
-    descr       => "CVMFS yum testing repository for el${major}",
+    descr       => "CVMFS yum testing repository for el${::operatingsystemmajrelease}",
     baseurl     => $cvmfs_yum_testing,
     gpgcheck    => $cvmfs_yum_gpgcheck,
     gpgkey      => $cvmfs_yum_gpgkey,
@@ -46,7 +45,7 @@ class cvmfs::yum (
     proxy       => $cvmfs_yum_proxy
   }
   yumrepo{'cvmfs-config':
-    descr       => "CVMFS config yum repository for el${major}",
+    descr       => "CVMFS config yum repository for el${::operatingsystemmajrelease}",
     baseurl     => $cvmfs_yum_config,
     gpgcheck    => $cvmfs_yum_gpgcheck,
     gpgkey      => $cvmfs_yum_gpgkey,
