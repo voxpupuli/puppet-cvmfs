@@ -1,3 +1,39 @@
+##2015-05-06 - Release 0.5.0
+##Deprecations
+- All the hiera variables explicity called from params.pp
+  file are now deprecated. These variables include.
+  `cvmfs_config_automaster`, `cvmfs_quota_limit`, 
+  `cvmfs_quota_limit`, `cvmfs_quota_ratio`, `cvmfs_http_proxy`,
+  `cvmfs_server_url`, `cvmfs_cache_base`, `cvmfs_timeout`,
+  `cvmfs_nfiles`, `cvmfs_public_key`, `cvmfs_force_signing`,
+  `cvmfs_syslog_level`, `cvmfs_tracefile`, `cvmfs_debuglog`
+  `cvmfs_max_ttl`, `cvmfs::mount`, `cvmfsversion`, 
+  `cvmfs_yum`, `cvmfs_yum_testing`, `cvmfs_yum_proxy`
+  `cvmfs_kernel_version`, `cvmfs_yum_kernel`, `cvmfs_yum_kernel_enabled`
+  Instead use the hiera binding that maps to one of the paramters
+  of the `cvmfs` class, e.g `cvmfs_quota_limit` becomes `cvmfs::cvmfs_quota_limit`
+  A future version of this module will print a warning if these
+  variables are still being used.
+
+
+##Features
+- Beaker acceptence tests now added for client. Configures
+  a client and mounts the cms.cern.ch and atlas.cern.ch
+  repositories. 
+- The fact ::operatingsystemmajrelease is used everywhere now
+  to determine major OS version.
+- Unit tests for yumrepos.
+- The GPG key location for packages in the cvmfs yum repositories
+  can now be specified. 
+- The GPG check of packages can be disabled in the yum repository 
+  configuration.
+- The new cvmfs-config repository is now configured but is disabled
+  by default.
+
+
+##Bugfixes
+- The examples in the README now work.
+
 ##2015-04-30 - Release 0.4.4
 ###Bugfixes
 - Correct erwbgy-limits version dependency.
