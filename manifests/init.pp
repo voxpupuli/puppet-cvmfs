@@ -19,9 +19,13 @@ class cvmfs (
   $cvmfs_domain_hash          = $cvmfs::params::cvmfs_domain_hash,
   $cvmfs_version              = $cvmfs::params::cvmfs_version,
   $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
+  $cvmfs_yum_config           = $cvmfs::params::cvmfs_yum_config,
+  $cvmfs_yum_config_enabled   = $cvmfs::params::cvmfs_yum_config_enabled,
   $cvmfs_yum_proxy            = $cvmfs::params::cvmfs_proxy,
   $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
   $cvmfs_yum_testsing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
+  $cvmfs_yum_gpgcheck         = $cvmfs::params::cvmfs_yum_gpgcheck,
+  $cvmfs_yum_gpgkey           = $cvmfs::params::cvmfs_yum_gpgkey,
   $cvmfs_use_geoapi           = $cvmfs::params::cvmfs_geoapi,
   $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url
 ) inherits cvmfs::params {
