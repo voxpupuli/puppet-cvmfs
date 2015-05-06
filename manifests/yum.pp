@@ -45,14 +45,14 @@ class cvmfs::yum (
     proxy       => $cvmfs_yum_proxy
   }
   yumrepo{'cvmfs-config':
-    descr       => "CVMFS config yum repository for el${::operatingsystemmajrelease}",
-    baseurl     => $cvmfs_yum_config,
-    gpgcheck    => $cvmfs_yum_gpgcheck,
-    gpgkey      => $cvmfs_yum_gpgkey,
-    enabled     => $cvmfs_yum_config_enabled,
-    priority    => 80,
-    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
-    proxy       => $cvmfs_yum_proxy
+    descr    => "CVMFS config yum repository for el${::operatingsystemmajrelease}",
+    baseurl  => $cvmfs_yum_config,
+    gpgcheck => $cvmfs_yum_gpgcheck,
+    gpgkey   => $cvmfs_yum_gpgkey,
+    enabled  => $cvmfs_yum_config_enabled,
+    priority => 80,
+    require  => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
+    proxy    => $cvmfs_yum_proxy
   }
 
   #  Copy out the gpg key once only ever.
