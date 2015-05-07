@@ -53,6 +53,7 @@ cvmfs::domain{'example.net'
    the cvmfs cache is on will be used. Setting this assumes
    you have allocated a partition to cvmfs cache.
 * `cvmfs_http_proxy` List of squid servers, see params.pp for default.
+* `cvmfs_cache_base` Location of the CVMFS cache base, see params.pp for default.
 * `cvmfs_timeout` cvmfs timeout setting, see params.pp for default.
 * `cvmfs_timeout_direct` cvmfs timeout to direct connections, see params.pp for default.
 * `cvmfs_nfiles` Number of open files, system setting, see params.pp for default.
@@ -61,13 +62,20 @@ cvmfs::domain{'example.net'
 * `cvmfs_tracefile`  Create a tracefile at this location.
 * `cvmfs_debuglog` Create a debug log file at this location.
 * `cvmfs_max_ttl` Max ttl, see params.pp for default.
-* `cvmfs_hash` Rather than using cvmfs::mount defined type a hash of mounts can be sepecfied.
-   cvmfs_hash {'myrepo' => {'cvmfs_server_url' => 'http://web.example.org/cvmfs/ams.example.org/}
 * `cvmfs_version` Version of cvmfs to install , default is present.
 * `cvmfs_yum`  Yum repository URL for cvmfs.
 * `cvmfs_yum_proxy` http proxy for cvmfs yum package repository
+* `cvmfs_yum_config`  Yum repository URL for cvmfs site configs.
+* `cvmfs_yum_config_enabled`  Defaults to false, set to true to enable.
 * `cvmfs_yum_testing`  Yum repository URL for cmvfs testing repository.
 * `cvmfs_yum_testing_enabled`  Defaults to false, should the testing repository be enabled.
+* `cvmfs_yum_testsing_enabled` **TO DOC**
+* `cvmfs_yum_gpgcheck`  Defaults to true, set to false to disable GPG checking (Do Not Do This)
+* `cvmfs_yum_gpgkey`  Set a custom GPG key for yum repos, you must deploy it yourself.
+* `cvmfs_use_geoapi`  **TO DOC**
+
+* `cvmfs_hash` Rather than using cvmfs::mount defined type a hash of mounts can be sepecfied.
+   cvmfs_hash {'myrepo' => {'cvmfs_server_url' => 'http://web.example.org/cvmfs/ams.example.org/}
 * `cvmfs_env_variables`  $cvmfs_env_variables = {'CMS_LOCAL_SITE' => '<path to siteconf>'
    will produce
    `export CMS_LOCAL_SITE=<path to siteconf>`
