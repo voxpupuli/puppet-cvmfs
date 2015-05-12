@@ -303,6 +303,8 @@ vagrant box repackage virtualbox libvirt 0
 vagrant box add puppetlabs/centos-6.6-64-nocm ./package.box
 bundle install
 BEAKER_debug=yes bundle exec rspec spec/acceptance
+# or with docker
+BEAKER_debug=yes BEAKER_setfile=spec/acceptance/nodesets/docker.yml bundle exec rspec spec/acceptance
 ```
 
 

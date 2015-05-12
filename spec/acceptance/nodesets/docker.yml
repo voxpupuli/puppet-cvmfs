@@ -1,0 +1,13 @@
+HOSTS:
+  centos-64-x64:
+    roles:
+      - client
+      - default
+    platform: el-6-x86_64
+    image : centos:centos6
+    docker_image_commands:
+     - yum install -y tar
+    docker_cmd: '["/sbin/init"]'
+    hypervisor : docker
+CONFIG:
+  type: foss
