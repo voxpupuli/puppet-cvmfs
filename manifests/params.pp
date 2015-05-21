@@ -12,7 +12,7 @@ class cvmfs::params {
   # This cvmfs module will also configure autofs as well for use
   # by cvmfs. If you are managing autofs elsewhere set to false.
   # This being the string 'true' and not boolean true is a hiera bug.
-  $config_automaster      = hiera('cvmfs_config_automaster','true')
+  $config_automaster      = hiera('cvmfs_config_automaster',true)
   $manage_autofs_service  = $config_automaster
 
 
