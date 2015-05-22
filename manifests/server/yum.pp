@@ -5,7 +5,7 @@ class cvmfs::server::yum (
   $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
   $cvmfs_yum_testing         = $cvmfs::params::cvmfs_yum_testing,
   $cvmfs_yum                 = $cvmfs::params::cvmfs_yum
-) inherits cvmfs::server {
+) {
 
   yumrepo{'cvmfs':
     descr       => "CVMFS yum repository for el${::operatingsystemmajrelease}",
