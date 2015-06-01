@@ -54,6 +54,7 @@ cvmfs::domain{'example.net'
    you have allocated a partition to cvmfs cache.
 * `cvmfs_http_proxy` List of squid servers, see params.pp for default.
 * `cvmfs_cache_base` Location of the CVMFS cache base, see params.pp for default.
+* `cvmfs_mount_rw` Mount option to mount read-only or read/write, 'yes|no', see params.pp for default.
 * `cvmfs_follow_redirects` Sets CVMFS_FOLLOW_REDIRECTS to its value, by default unset.
 * `cvmfs_timeout` cvmfs timeout setting, see params.pp for default.
 * `cvmfs_timeout_direct` cvmfs timeout to direct connections, see params.pp for default.

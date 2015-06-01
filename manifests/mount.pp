@@ -10,8 +10,8 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   $cvmfs_env_variables = undef,
   $cvmfs_use_geoapi = undef,
   $cvmfs_repo_list = true,
+  $cmvfs_mount_rw = 'no',
   $cvmfs_follow_redirects = undef
-
 ) {
 
   include cvmfs
