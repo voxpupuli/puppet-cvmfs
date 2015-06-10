@@ -1,3 +1,8 @@
+##2015-06-10 - Release 0.6.0
+##Features
+- Garbage collection parameters for stratum 0.
+- CVMFS_IGNORE_XDIR_HARDLINKS can be set on stratum 0.
+
 ##2015-05-06 - Release 0.5.0
 ##Deprecations
 - All the hiera variables explicity called from params.pp
