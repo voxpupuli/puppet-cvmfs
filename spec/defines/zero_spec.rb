@@ -36,7 +36,39 @@ describe 'cvmfs::zero' do
     it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/client.conf').with({
         'content' => /CVMFS_CACHE_BASE=\/var\/spool\/cvmfs\/files.example.org\/cache/})
     }
-    it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf') }
+    it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_AUTO_TAG=true$/) }
+    it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_GARBAGE_COLLECTION=false$/) }
+    it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_AUTO_GC=false$/) }
+    it { should_not contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_AUTO_GC_TIMESPAN/) }
+    describe 'with auto_tag false' do
+      let(:params) {{ :user => 'steve',
+                      :uid  => '123',
+                      :auto_tag => false}}
+      it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_AUTO_TAG=false$/) }
+    end
+
+
+    describe 'with garbage_collection true' do
+      let(:params) {{ :user => 'steve',
+                      :uid  => '123',
+                      :garbage_collection => true}}
+      it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_GARBAGE_COLLECTION=true$/) }
+    end
+    describe 'with auto_gc true' do
+      let(:params) {{ :user => 'steve',
+                      :uid  => '123',
+                      :auto_gc => true}}
+      it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_AUTO_GC=true$/) }
+      it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_AUTO_GC_TIMESPAN='3 days ago'$/) }
+      describe 'with auto_gc_timestan set to 5 days ago' do
+        let(:params) {{ :user => 'steve',
+                        :uid  => '123',
+                        :auto_gc => true,
+                        :auto_gc_timespan => '5 days ago'}}
+         it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_AUTO_GC_TIMESPAN='5 days ago'$/) } 
+      end
+    end
+
     it { should contain_user('steve').with(
        {'uid' => '123',
         'gid' => '123'

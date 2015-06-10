@@ -10,7 +10,11 @@ define cvmfs::zero(
   $repo_store = '/srv/cvmfs',
   $spool_store = '/var/spool/cvmfs',
   $home = "${repo_store}/${repo}/${user}",
-  $claim_ownership = false
+  $claim_ownership = false,
+  $auto_tag = true,
+  $garbage_collection = false,
+  $auto_gc = false,
+  $auto_gc_timespan = '3 days ago'
 ) {
   include cvmfs::params
   include cvmfs::zero::install

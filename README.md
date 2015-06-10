@@ -198,6 +198,10 @@ cvmfs::zero{'files.example.org':
 * `spool_store` location of files internal to a cvmfs server.
 * `uid` The uid of the `user`
 * `user` The user name that will manage the repository and own the files on the server.
+* `auto_tag` Boolean to set `CVMFS_AUTO_TAG`, defaults to false.
+* `garbage_collection` to set `CVMFS_GARBAGE_COLLECTION` defaults to false.
+* `auto_gc` to set `CVMFS_AUTO_GC` defaults to false.
+* `auto_gc_timespan` to set `CVMFS_AUTO_GC_TIMESPAN` defaults to `3 days ago`.
 
 #### Stratum 0 Examples
 A common case is to mount a device or nfs storage volume to use as the repo

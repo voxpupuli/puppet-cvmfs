@@ -14,7 +14,21 @@ CVMFS_MAX_CHUNK_SIZE=16777216
 CVMFS_CATALOG_ENTRY_WARN_THRESHOLD=500000
 CVMFS_UNION_FS_TYPE=aufs
 CVMFS_HASH_ALGORITHM=sha1
+<% if @auto_tag -%>
 CVMFS_AUTO_TAG=true
+<% else -%>
+CVMFS_AUTO_TAG=false
+<% end -%>
+<% if @garbage_collection -%>
+CVMFS_GARBAGE_COLLECTION=true
+<% else -%>
 CVMFS_GARBAGE_COLLECTION=false
+<% end -%>
+<% if @auto_gc -%>
+CVMFS_AUTO_GC=true
+CVMFS_AUTO_GC_TIMESPAN='<%= @auto_gc_timespan %>'
+<% else -%>
+CVMFS_AUTO_GC=false
+<% end -%>
 CVMFS_AUTO_REPAIR_MOUNTPOINT=true
 
