@@ -31,4 +31,7 @@ CVMFS_AUTO_GC_TIMESPAN='<%= @auto_gc_timespan %>'
 CVMFS_AUTO_GC=false
 <% end -%>
 CVMFS_AUTO_REPAIR_MOUNTPOINT=true
+<% if @ignore_xdir_hardlinks -%>
+CVMFS_IGNORE_XDIR_HARDLINKS=true
+<% end -%>
 

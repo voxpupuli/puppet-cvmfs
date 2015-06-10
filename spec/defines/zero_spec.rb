@@ -40,6 +40,7 @@ describe 'cvmfs::zero' do
     it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_GARBAGE_COLLECTION=false$/) }
     it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_AUTO_GC=false$/) }
     it { should_not contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_AUTO_GC_TIMESPAN/) }
+    it { should_not contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_IGNORE_XDIR_HARDLINKS=/) }
     describe 'with auto_tag false' do
       let(:params) {{ :user => 'steve',
                       :uid  => '123',
@@ -68,6 +69,14 @@ describe 'cvmfs::zero' do
          it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_AUTO_GC_TIMESPAN='5 days ago'$/) } 
       end
     end
+
+    describe 'with ignore_xdir_hardlinks true' do
+      let(:params) {{ :user => 'steve',
+                      :uid  => '123',
+                      :ignore_xdir_hardlinks => true}}
+      it { should contain_file('/etc/cvmfs/repositories.d/files.example.org/server.conf').with_content(/^CVMFS_IGNORE_XDIR_HARDLINKS=true$/) }
+    end
+
 
     it { should contain_user('steve').with(
        {'uid' => '123',

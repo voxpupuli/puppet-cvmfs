@@ -14,7 +14,8 @@ define cvmfs::zero(
   $auto_tag = true,
   $garbage_collection = false,
   $auto_gc = false,
-  $auto_gc_timespan = '3 days ago'
+  $auto_gc_timespan = '3 days ago',
+  $ignore_xdir_hardlinks = false
 ) {
   include cvmfs::params
   include cvmfs::zero::install

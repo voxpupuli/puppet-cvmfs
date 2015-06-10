@@ -202,6 +202,7 @@ cvmfs::zero{'files.example.org':
 * `garbage_collection` to set `CVMFS_GARBAGE_COLLECTION` defaults to false.
 * `auto_gc` to set `CVMFS_AUTO_GC` defaults to false.
 * `auto_gc_timespan` to set `CVMFS_AUTO_GC_TIMESPAN` defaults to `3 days ago`.
+* `ignore_xdir_hardlinks` boolean to set to `CVMFS_IGNORE_XDIR_HARDLINKS` defaults to false.
 
 #### Stratum 0 Examples
 A common case is to mount a device or nfs storage volume to use as the repo
