@@ -95,6 +95,17 @@ describe 'cvmfs' do
         let(:params) {{:cvmfs_server_url => 'http://example.org/cvmfs/files.repo.org'}}
         it { should compile.with_all_deps }
       end
+      context 'with cvmfs_mount_rw not set' do
+        it { should contain_concat__fragment('cvmfs_default_local_header').
+             without_content(/^CVMFS_MOUNT_RW/)
+        }
+      end
+      context 'with cvmfs_mount_rw set to true' do
+        let(:params) {{:cvmfs_mount_rw => 'yes'}}
+        it { should contain_concat__fragment('cvmfs_default_local_header').
+             with_content(/^CVMFS_MOUNT_RW=yes$/)
+        }
+      end
     end
   end
 end

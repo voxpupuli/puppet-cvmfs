@@ -47,7 +47,7 @@ class cvmfs::params {
   $cvmfs_tracefile        = hiera('cvmfs_tracefile','')
   $cvmfs_debuglog         = hiera('cvmfs_debuglog','')
   $cvmfs_max_ttl          = hiera('cvmfs_max_ttl','')
-  $cvmfs_mount_rw         = 'no'
+  $cvmfs_mount_rw         = undef
   $cvmfs_hash             = hiera('cvmfs::mount','')
   $cvmfs_domain_hash      = undef
   $cvmfs_use_geoapi       = undef
