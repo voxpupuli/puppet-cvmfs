@@ -153,7 +153,9 @@ An optional class 'cvmfs::fsck' can be included to enable a cron job to regualar
 run fsck on cvmfs systems.
 
 ```puppet
-include ('cvmfs::fsck')
+class{'cvmfs::fsck':
+   options => '-p'
+}
 ```
 
 ## Stratum 0 Configuration
