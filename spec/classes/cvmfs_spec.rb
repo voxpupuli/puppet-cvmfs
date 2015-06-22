@@ -2,7 +2,8 @@ require 'spec_helper'
 describe 'cvmfs' do
 
   context 'with defaults for all parameters' do
-    let(:facts) {{ :osfamily => 'RedHat', 
+    let(:facts) {{ :concat_basedir => '/tmp',
+                   :osfamily => 'RedHat', 
                    :uptime_days => 1,
                    :operatingsystemrelease => '7.1.1503',
                    :operatingsystemmajrelease => '7',
@@ -15,7 +16,8 @@ describe 'cvmfs' do
     it { should contain_package('cvmfs').with_ensure('present')}
 
     context 'with cvmfsversion and cvmfspartsize facts set' do
-      let(:facts) {{:osfamily => 'RedHat',
+      let(:facts) {{:concat_basedir => '/tmp',
+                    :osfamily => 'RedHat',
                     :uptime_days => 1,
                     :operatingsystemrelease => '7.1.1503',
                     :operatingsystemmajrelease => '7',

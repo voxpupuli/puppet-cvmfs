@@ -9,7 +9,8 @@ describe 'cvmfs::zero' do
     let(:params) {{ :user => 'steve',
                     :uid  => '123'}}
 
-    let(:facts) {{ :osfamily => 'RedHat',
+    let(:facts) {{ :concat_basedir => '/tmp',
+                   :osfamily => 'RedHat',
                    :uptime_days => 1,
                    :operatingsystemrelease => '7.1.1503',
                    :kernelrelease => '3.10.0-229.1.2.el7.x86_64' }}
