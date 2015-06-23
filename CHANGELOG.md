@@ -2,6 +2,7 @@
 ##Features
 - New option defaults cvmfs::fsck::options allows
   an option, e.g. -p to parsed to cvmfs_fsck cron.
+
 ##Bugfixes
 - Reintroduce $::concat_basedir in tests since
   puppetlabs-concat was reverted to version 1.
