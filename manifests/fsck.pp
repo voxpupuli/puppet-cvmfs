@@ -5,9 +5,9 @@ class cvmfs::fsck (
 ) inherits cvmfs {
 
   cron{'cvmfs_fsck':
-    hour    => fqdn_rand(24),
-    minute  => fqdn_rand(60),
-    weekday => fqdn_rand(7),
+    hour    => fqdn_rand(24,'cvmfs'),
+    minute  => fqdn_rand(60,'cvmfs'),
+    weekday => fqdn_rand(7,'cvmfs'),
     command => "( date ; /bin/nice /usr/bin/cvmfs_fsck ${options} ${cvmfs_cache_base}/shared )  >> /var/log/cvmfs_fsck.log 2>&1"
   }
   file{'/etc/logrotate.d/cvmfs_fsck':
