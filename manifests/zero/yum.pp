@@ -47,7 +47,7 @@ class cvmfs::zero::yum (
     gpgcheck    => 1,
     gpgkey      => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
     enabled     => $cvmfs_yum_kernel_enabled,
-    includepkgs => 'kernel,aufs2-util,kernel-*',
+    includepkgs => 'kernel,aufs2-util,kernel-*,kmod-zfs-*,kmod-spl-*',
     priority    => 5,
     require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
   }
