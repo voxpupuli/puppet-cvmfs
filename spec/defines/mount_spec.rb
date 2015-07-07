@@ -13,7 +13,7 @@ describe 'cvmfs::mount' do
                   :cvmfsversion => '2.1.20', :cvmfspartsize => '20000'}}
     it { should compile.with_all_deps }
 
-    it { should contain_file('/etc/cvmfs/config.d/files.example.org.local') }
+    it { should contain_file('/etc/cvmfs/config.d/files.example.org.local').with_content("# cvmfs files.example.org.local file installed with puppet.\n# this files overrides and extends the values contained\n# within the files.example.org.conf file.\n\n") }
     context 'with cvmfs_use_geoapi set' do
       let(:params) {{:cvmfs_use_geoapi => 'yes' }}
       it { should contain_file('/etc/cvmfs/config.d/files.example.org.local').with({
