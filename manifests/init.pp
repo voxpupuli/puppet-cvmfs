@@ -27,7 +27,8 @@ class cvmfs (
   $cvmfs_yum_gpgcheck         = $cvmfs::params::cvmfs_yum_gpgcheck,
   $cvmfs_yum_gpgkey           = $cvmfs::params::cvmfs_yum_gpgkey,
   $cvmfs_use_geoapi           = $cvmfs::params::cvmfs_geoapi,
-  $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url
+  $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url,
+  $cvmfs_follow_redirects     = $cvmfs::params::cvmfs_follow_redirects
 ) inherits cvmfs::params {
 
   if $cvmfs_server_url != ''  {

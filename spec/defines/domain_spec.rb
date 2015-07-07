@@ -20,6 +20,11 @@ describe 'cvmfs::domain' do
       it { should contain_file('/etc/cvmfs/domain.d/example.org.local').with({
        'content' => /^CVMFS_USE_GEOAPI='yes'$/})}
     end
+    context 'with cvmfs_follow_redirects set to yes' do
+      let(:params) {{:cvmfs_follow_redirects => 'yes' }}
+      it { should contain_file('/etc/cvmfs/domain.d/example.org.local').with({
+         'content' => /^CVMFS_FOLLOW_REDIRECTS='yes'$/})}
+    end
   end
 end
 
