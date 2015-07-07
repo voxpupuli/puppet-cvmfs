@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+# script to run cvmfs_fsck as a cron.
+# installed with puppet.
+#
+#
+# Number of seconds after uptime to exit cron job.
+IGNORE=0
+while getopts "i:" opt; do
+   case $opt in
+    i)
+     IGNORE=$OPTARG
+     ;;
+   esac
+done
+
+UPTIME=$(/usr/bin/awk -F'[ .]' '{print $1}' /proc/uptime)
+
+# Only run if up for more than one day. If you want sooner enable the
+# on reboot cron job.
+if [ $UPTIME -gt $IGNORE ] && [ -d <%= @cvmfs_cache_base %>/shared  ] ; then
+   /bin/nice /usr/bin/cvmfs_fsck <%= @options %> <%= @cvmfs_cache_base %>/shared 
+fi
+

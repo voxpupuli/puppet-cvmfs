@@ -154,9 +154,14 @@ run fsck on cvmfs systems.
 
 ```puppet
 class{'cvmfs::fsck':
-   options => '-p'
+   options => '-p',
+   onreboot => true
 }
 ```
+
+### Fsck Options
+* `options` Will pass parameters to the `cvmfs_fsck` command, by default none will be passed.
+* `onreboot` If set to true a @reboot job will be set to run `cvmfs_fsck` at boot time. Default is false.
 
 ## Stratum 0 Configuration
 There are currently two options to configure a stratum 0. 
