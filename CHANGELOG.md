@@ -1,3 +1,11 @@
+##2015-07-07 - Release 0.8.0
+
+##Features
+- Tests now check default configuration do not change.
+- CVMFS_FOLLOW_REDIRECTS can now be set globally, per repo or per domain.
+- New onreboot paramter to fsck module runs an fsck on reboot. Default false.
+- zfs kernel module built for aufs kernel may now be installed on stratum0s.
+
 ##2015-06-22 - Release 0.7.0
 ##Features
 - New option defaults cvmfs::fsck::options allows
