@@ -6,6 +6,7 @@ class cvmfs (
   $cvmfs_quota_ratio          = $cvmfs::params::cvmfs_quota_ratio,
   $cvmfs_http_proxy           = $cvmfs::params::cvmfs_http_proxy,
   $cvmfs_cache_base           = $cvmfs::params::cvmfs_cache_base,
+  $cvmfs_mount_rw             = $cvmfs::params::cvmfs_mount_rw,
   $cvmfs_timeout              = $cvmfs::params::cvmfs_timeout,
   $cvmfs_timeout_direct       = $cvmfs::params::cvmfs_timeout_direct,
   $cvmfs_nfiles               = $cvmfs::params::cvmfs_nfiles,

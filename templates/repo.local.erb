@@ -50,6 +50,9 @@ CVMFS_MAX_TTL='<%= @cvmfs_max_ttl %>'
 <% if @cvmfs_use_geoapi and @cvmfs_use_geoapi != '' -%>
 CVMFS_USE_GEOAPI='<%= @cvmfs_use_geoapi %>'
 <% end -%>
+<% if @cvmfs_mount_rw and @cmvfs_use_rw != '' -%>
+CVMFS_MOUNT_RW=<%= @cvmfs_mount_rw %>
+<% end -%>
 <% if @cvmfs_follow_redirects -%>
 CVMFS_FOLLOW_REDIRECTS='<%= @cvmfs_follow_redirects %>'
 <% end -%>
