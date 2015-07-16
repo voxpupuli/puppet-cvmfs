@@ -40,7 +40,7 @@ class cvmfs::server ($repo     = $name,
   $cvmfs_yum_kernel_enabled = $cvmfs::params::cvmfs_yum_kernel_enabled,
   $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
   $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
-  $cvmfs_yum_testsing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
+  $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
 )
 {
   class{'cvmfs::server::install':}
