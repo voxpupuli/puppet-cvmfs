@@ -1,3 +1,9 @@
+##2015-08-04 - Release 0.9.0
+
+##Features
+- A tmpwatch -f 30d now runs as weekly cron withing
+  cvmfs::fsck to purge quarentined files.
+
 ##2015-07-07 - Release 0.8.0
 
 ##Features
