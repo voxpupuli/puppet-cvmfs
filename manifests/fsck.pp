@@ -14,6 +14,12 @@ class cvmfs::fsck (
   }
   # -i <value> flag to script says cron job will exit early if uptime is less than this value.
 
+  cron{'clean_quarentine':
+    hour    => fqdn_rand(24,'cvmfs_purge'),
+    minute  => fqdn_rand(60,'cvmfs_purge'),
+    weekday => fqdn_rand(7,'cvmfs_purge'),
+    command => "/usr/sbin/tmpwatch -umc -f 30d ${cvmfs_cache_base}/quarantaine"
+  }
 
   cron{'cvmfs_fsck':
     hour    => fqdn_rand(24,'cvmfs'),

@@ -163,6 +163,8 @@ class{'cvmfs::fsck':
 }
 ```
 
+In addition a cron will be created to purge quarentine corrupted files after 30 days.
+
 ### Fsck Options
 * `options` Will pass parameters to the `cvmfs_fsck` command, by default none will be passed.
 * `onreboot` If set to true a @reboot job will be set to run `cvmfs_fsck` at boot time. Default is false.
