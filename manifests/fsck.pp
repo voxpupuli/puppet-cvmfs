@@ -18,7 +18,7 @@ class cvmfs::fsck (
     hour    => fqdn_rand(24,'cvmfs_purge'),
     minute  => fqdn_rand(60,'cvmfs_purge'),
     weekday => fqdn_rand(7,'cvmfs_purge'),
-    command => "/usr/sbin/tmpwatch -umc -f 30d ${cvmfs_cache_base}/quarantaine"
+    command => "/usr/sbin/tmpwatch -umc -f 30d ${cvmfs_cache_base}/shared/quarantaine"
   }
 
   cron{'cvmfs_fsck':
