@@ -3,6 +3,6 @@
 class cvmfs::zero::service {
   service{'httpd':
     ensure => running,
-    enable => true
+    enable => true,
   }
 }

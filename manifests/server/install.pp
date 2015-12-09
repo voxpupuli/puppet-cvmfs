@@ -5,7 +5,7 @@ class cvmfs::server::install (
   $cvmfs_aufs2_version  = $cvmfs::params::cvmfs_aufs2_version
 ) inherits cvmfs::params {
 
-  class{'cvmfs::server::yum':}
+  class{'::cvmfs::server::yum':}
 
   package{['cvmfs-server','cvmfs']:
     ensure  => $cvmfs_version,
@@ -16,10 +16,10 @@ class cvmfs::server::install (
     require => Yumrepo['cvmfs-kernel'],
   }
   package{'aufs2-util':
-    ensure => $cvmfs_aufs2_version
+    ensure => $cvmfs_aufs2_version,
   }
   package{'httpd':
-    ensure => present
+    ensure => present,
   }
 }
 

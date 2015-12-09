@@ -12,7 +12,7 @@ define cvmfs::domain($cvmfs_quota_limit = undef,
   $cvmfs_follow_redirects = undef
 ) {
 
-  include cvmfs
+  include ::cvmfs
   # We only even attempt to configure cvmfs if the following
   # two facts are available and that requires that cvmfs
   # has been installed first potentially on the first puppet
@@ -31,7 +31,7 @@ define cvmfs::domain($cvmfs_quota_limit = undef,
       group   => 'root',
       mode    => '0644',
       require => Class['cvmfs::install'],
-      notify  => Class['cvmfs::service']
+      notify  => Class['cvmfs::service'],
     }
   }
 }

@@ -16,7 +16,7 @@ class cvmfs::zero::yum (
     enabled     => 1,
     includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server,cvmfs-config*',
     priority    => 80,
-    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
+    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
   }
   yumrepo{'cvmfs-testing':
     descr       => "CVMFS yum testing repository for el${::operatingsystemmajrelease}",
@@ -26,7 +26,7 @@ class cvmfs::zero::yum (
     enabled     => $cvmfs_yum_testing_enabled,
     includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server,cvmfs-config*',
     priority    => 80,
-    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
+    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
   }
 
   # Copy out the gpg key once only ever.
@@ -36,7 +36,7 @@ class cvmfs::zero::yum (
     replace => false,
     owner   => root,
     group   => root,
-    mode    => '0644'
+    mode    => '0644',
   }
 
 
@@ -49,7 +49,7 @@ class cvmfs::zero::yum (
     enabled     => $cvmfs_yum_kernel_enabled,
     includepkgs => 'kernel,aufs2-util,kernel-*,kmod-zfs-*,kmod-spl-*',
     priority    => 5,
-    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM']
+    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
   }
 }
 

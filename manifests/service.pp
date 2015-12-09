@@ -26,13 +26,13 @@ class cvmfs::service (
         hasstatus  => true,
         hasrestart => true,
         enable     => true,
-        require    => [Class['cvmfs::config'],Class['cvmfs::install']]
+        require    => [Class['cvmfs::config'],Class['cvmfs::install']],
       }
     }
     default: {
       exec{'Reloading cvmfs':
         command     => '/usr/bin/cvmfs_config reload',
-        refreshonly => true
+        refreshonly => true,
       }
     }
   }
@@ -42,7 +42,7 @@ class cvmfs::service (
       hasstatus  => true,
       hasrestart => true,
       enable     => true,
-      require    => [Class['cvmfs::config'],Class['cvmfs::install']]
+      require    => [Class['cvmfs::config'],Class['cvmfs::install']],
     }
   }
 }

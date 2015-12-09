@@ -3,13 +3,13 @@
 class cvmfs::zero::install (
   $cvmfs_version        = $cvmfs::params::cvmfs_version,
   $cvmfs_kernel_version = $cvmfs::params::cvmfs_kernel_version,
-  $cvmfs_aufs2_version  = $cvmfs::params::cvmfs_aufs2_version
+  $cvmfs_aufs2_version  = $cvmfs::params::cvmfs_aufs2_version,
 ) {
-  include cvmfs::zero::yum
+  include ::cvmfs::zero::yum
 
   package{['cvmfs-server','cvmfs']:
     ensure  => $cvmfs_version,
-    require => Yumrepo['cvmfs']
+    require => Yumrepo['cvmfs'],
   }
   # We grab latest kernel unless we have an aufs one running
   # already.
@@ -20,13 +20,13 @@ class cvmfs::zero::install (
 
   package{'kernel':
     ensure  => $cvmfs_kernel_version,
-    require => Yumrepo['cvmfs-kernel']
+    require => Yumrepo['cvmfs-kernel'],
   }
   package{'aufs2-util':
     ensure  => $cvmfs_aufs2_version,
-    require => Yumrepo['cvmfs-kernel']
+    require => Yumrepo['cvmfs-kernel'],
   }
   package{'httpd':
-    ensure => present
+    ensure => present,
   }
 }

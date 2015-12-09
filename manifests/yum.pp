@@ -19,7 +19,7 @@ class cvmfs::yum (
   $cvmfs_yum_testing_enabled  = $cvmfs::cvmfs_yum_testing_enabled,
   $cvmfs_yum_proxy = $cvmfs::cvmfs_yum_proxy,
   $cvmfs_yum_gpgcheck = $cvmfs::cvmfs_yum_gpgcheck,
-  $cvmfs_yum_gpgkey = $cvmfs::cvmfs_yum_gpgkey
+  $cvmfs_yum_gpgkey = $cvmfs::cvmfs_yum_gpgkey,
 )  inherits cvmfs {
 
   yumrepo{'cvmfs':
@@ -31,7 +31,7 @@ class cvmfs::yum (
     includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server,cvmfs-config-default',
     priority    => 80,
     require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
-    proxy       => $cvmfs_yum_proxy
+    proxy       => $cvmfs_yum_proxy,
   }
   yumrepo{'cvmfs-testing':
     descr       => "CVMFS yum testing repository for el${::operatingsystemmajrelease}",
@@ -42,7 +42,7 @@ class cvmfs::yum (
     includepkgs => 'cvmfs,cvmfs-keys,cvmfs-server,cvmfs-config-default',
     priority    => 80,
     require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
-    proxy       => $cvmfs_yum_proxy
+    proxy       => $cvmfs_yum_proxy,
   }
   yumrepo{'cvmfs-config':
     descr    => "CVMFS config yum repository for el${::operatingsystemmajrelease}",
@@ -52,7 +52,7 @@ class cvmfs::yum (
     enabled  => $cvmfs_yum_config_enabled,
     priority => 80,
     require  => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
-    proxy    => $cvmfs_yum_proxy
+    proxy    => $cvmfs_yum_proxy,
   }
 
   #  Copy out the gpg key once only ever.
@@ -62,7 +62,7 @@ class cvmfs::yum (
     replace => false,
     owner   => root,
     group   => root,
-    mode    => '0644'
+    mode    => '0644',
   }
 }
 
