@@ -306,23 +306,14 @@ bundle exec rake lint
 bundle exec rake spec
 ```
 
-The acceptance tests by default use vagrant
-and vargrant-libvirtd so ensure they are working
-or provide beaker configuration for your own
-hypervisor.
+The acceptance tests by default use docker
+ensure that is working or provide beaker configuration
+for your own hypervisor.
 
-This example mutates the virtualbox images from
-puppetlabs into ones suitable for libvirt.
 
 ```bash
-vagrant plugin install vagrant-mutate
-vagrant mutate https://vagrantcloud.com/puppetlabs/boxes/centos-6.6-64-nocm/versions/1.0.1/providers/virtualbox.box libvirt
-vagrant box repackage virtualbox libvirt 0
-vagrant box add puppetlabs/centos-6.6-64-nocm ./package.box
 bundle install
-BEAKER_debug=yes bundle exec rspec spec/acceptance
-# or with docker
-BEAKER_debug=yes BEAKER_setfile=spec/acceptance/nodesets/docker.yml bundle exec rspec spec/acceptance
+BEAKER_debug=yes BEAKER_set=centos-7-x86_64-docker bundle exec rspec spec/acceptance
 ```
 
 
