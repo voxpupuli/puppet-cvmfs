@@ -46,7 +46,7 @@ class cvmfs::config (
     group   => root,
     mode    => '0644',
     content => "This directory is managed by puppet but *.conf files are ignored from purging\n",
-    require => File['/etc/cvmfs/domain.d']
+    require => File['/etc/cvmfs/domain.d'],
   }
 
   # Clobber the /etc/fuse.conf, hopefully no
@@ -57,19 +57,19 @@ class cvmfs::config (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    notify  => Class['cvmfs::service']
+    notify  => Class['cvmfs::service'],
   }
   concat{'/etc/cvmfs/default.local':
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
     require => Class['cvmfs::install'],
-    notify  => Class['cvmfs::service']
+    notify  => Class['cvmfs::service'],
   }
   concat::fragment{'cvmfs_default_local_header':
     target  => '/etc/cvmfs/default.local',
     order   => 0,
-    content => template('cvmfs/repo.local.erb')
+    content => template('cvmfs/repo.local.erb'),
   }
 
   if str2bool($config_automaster) {
@@ -88,10 +88,10 @@ class cvmfs::config (
       changes   => [
         'set 01      /cvmfs',
         'set 01/type program',
-        'set 01/map  /etc/auto.cvmfs'
+        'set 01/map  /etc/auto.cvmfs',
       ],
       onlyif    => 'match *[map="/etc/auto.cvmfs"] size == 0',
-      notify    => Service['autofs']
+      notify    => Service['autofs'],
     }
   }
 }

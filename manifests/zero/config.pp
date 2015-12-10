@@ -21,29 +21,29 @@ class cvmfs::zero::config {
   firewall{'100 - allow access from 80':
     proto  => 'tcp',
     dport  => 80,
-    action => 'accept'
+    action => 'accept',
   }
 
   file{'/etc/cvmfs/repositories.d':
     ensure  => directory,
     purge   => true,
     recurse => true,
-    require => Package['cvmfs-server']
+    require => Package['cvmfs-server'],
   }
   file{'/etc/httpd/conf.d':
     ensure  => directory,
     purge   => true,
     recurse => true,
     require => Package['httpd'],
-    notify  => Service['httpd']
+    notify  => Service['httpd'],
   }
   file{'/etc/puppet-cvmfs-scripts':
     ensure  => directory,
     purge   => true,
-    recurse => true
+    recurse => true,
   }
   file{'/etc/puppet-cvmfs-scripts/README':
     ensure  => file,
-    content => "A few puppet generate scripts to aid operation.\n"
+    content => "A few puppet generate scripts to aid operation.\n",
   }
 }

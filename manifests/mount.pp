@@ -14,12 +14,12 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   $cvmfs_follow_redirects = undef
 ) {
 
-  include cvmfs
+  include ::cvmfs
   # We only even attempt to configure cvmfs if the following
   # two facts are available and that requires that cvmfs
   # has been installed first potentially on the first puppet
   # run.
-  if $::cvmfsversion and $::cvmfspartsize {
+  if getvar(::cvmfsversion) and getvar(::cvmfspartsize) {
 
     $repo = $name
 
@@ -30,27 +30,27 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
       group   => 'root',
       mode    => '0644',
       require => Class['cvmfs::install'],
-      notify  => Class['cvmfs::service']
+      notify  => Class['cvmfs::service'],
     }
     if ! defined(Concat::Fragment['cvmfs_default_local_repo_start']) {
       concat::fragment{'cvmfs_default_local_repo_start':
         target  => '/etc/cvmfs/default.local',
         order   => 5,
-        content => 'CVMFS_REPOSITORIES=\''
+        content => 'CVMFS_REPOSITORIES=\'',
       }
     }
     if $cvmfs_repo_list {
       concat::fragment{"cvmfs_default_local_${repo}":
         target  => '/etc/cvmfs/default.local',
         order   => 6,
-        content => "${repo},"
+        content => "${repo},",
       }
     }
     if ! defined(Concat::Fragment['cvmfs_default_local_repo_end']) {
       concat::fragment{'cvmfs_default_local_repo_end':
         target  => '/etc/cvmfs/default.local',
         order   => 7,
-        content => "'\n\n"
+        content => "'\n\n",
       }
     }
   }

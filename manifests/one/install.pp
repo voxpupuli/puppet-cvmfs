@@ -3,13 +3,13 @@
 class cvmfs::one::install (
   $cvmfs_version = $::cvmfs::params::cvmfs_version
 ) {
-  class{'cvmfs::server::yum':}
+  class{'::cvmfs::server::yum':}
 
   package{'cvmfs-server':
     ensure  => $cvmfs_version,
     require => Yumrepo['cvmfs'],
   }
   package{['httpd','mod_wsgi']:
-    ensure => present
+    ensure => present,
   }
 }

@@ -43,8 +43,8 @@ class cvmfs::server ($repo     = $name,
   $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
 )
 {
-  class{'cvmfs::server::install':}
-  class{'cvmfs::server::config':
+  class{'::cvmfs::server::install':}
+  class{'::cvmfs::server::config':
     repo     => $repo,
     nfsshare => $nfsshare,
     nfshost  => $nfshost,
@@ -53,7 +53,7 @@ class cvmfs::server ($repo     = $name,
     nofiles  => $nofiles,
     uid      => $uid,
     pubkey   => $pubkey,
-    require  => Class['cvmfs::server::install']
+    require  => Class['cvmfs::server::install'],
   }
 }
 

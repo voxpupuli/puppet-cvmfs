@@ -2,10 +2,10 @@
 define cvmfs::zero(
   $user,
   $uid,
+  $group,
+  $gid,
   $repo = $title,
   $clientuser = $user,
-  $group = $user,
-  $gid = $uid,
   $nofiles = 65000,
   $repo_store = '/srv/cvmfs',
   $spool_store = '/var/spool/cvmfs',
@@ -17,13 +17,13 @@ define cvmfs::zero(
   $auto_gc_timespan = '3 days ago',
   $ignore_xdir_hardlinks = false
 ) {
-  include cvmfs::params
-  include cvmfs::zero::install
-  include cvmfs::zero::config
-  include cvmfs::zero::service
+  include ::cvmfs::params
+  include ::cvmfs::zero::install
+  include ::cvmfs::zero::config
+  include ::cvmfs::zero::service
 
   group{$group:
-    gid => $gid
+    gid => $gid,
   }
   user{$user:
     uid        => $uid,
@@ -32,27 +32,37 @@ define cvmfs::zero(
     managehome => true,
     home       => $home,
   }
-  limits::entry{"${user}-soft": type => 'soft', item => 'nofile', value => $nofiles,  domain => $user}
-  limits::entry{"${user}-hard": type => 'hard', item => 'nofile', value => $nofiles,  domain => $user}
+  ::limits::entry{"${user}-soft":
+    type   => 'soft',
+    item   => 'nofile',
+    value  => $nofiles,
+    domain => $user,
+  }
+  limits::entry{"${user}-hard":
+    type   => 'hard',
+    item   => 'nofile',
+    value  => $nofiles,
+    domain => $user,
+  }
 
   file{"/etc/cvmfs/repositories.d/${repo}":
     ensure  => directory,
-    require => Package['cvmfs-server']
+    require => Package['cvmfs-server'],
   }
   file{"/etc/cvmfs/repositories.d/${repo}/client.conf":
     ensure  => file,
-    content => template('cvmfs/client.conf.erb')
+    content => template('cvmfs/client.conf.erb'),
   }
   file{"/etc/cvmfs/repositories.d/${repo}/server.conf":
     ensure  => file,
-    content => template('cvmfs/server.conf.erb')
+    content => template('cvmfs/server.conf.erb'),
   }
 
   # Public repostory
   file{["${repo_store}/${repo}","${repo_store}/${repo}/data","${repo_store}/${repo}/data/txn"]:
     ensure => directory,
     owner  => $user,
-    group  => $group
+    group  => $group,
   }
   file{"${repo_store}/${repo}/.cvmfs_master_replica":
     ensure => file,
@@ -320,14 +330,14 @@ define cvmfs::zero(
       ensure  => directory,
       owner   => $user,
       group   => $group,
-      require => File["${repo_store}/${repo}"]
+      require => File["${repo_store}/${repo}"],
     }
   }
   file{"/cvmfs/${repo}":
     ensure  => directory,
     owner   => $user,
     group   => $group,
-    require => Package['cvmfs']
+    require => Package['cvmfs'],
   }
 
   # Spool area
@@ -335,26 +345,26 @@ define cvmfs::zero(
     ensure  => directory,
     owner   => $user,
     group   => $group,
-    require => Package['cvmfs-server']
+    require => Package['cvmfs-server'],
   }
   file{["${spool_store}/${repo}/cache","${spool_store}/${repo}/rdonly","${spool_store}/${repo}/scratch","${spool_store}/${repo}/tmp"]:
     ensure => directory,
     owner  => $user,
-    group  => $group
+    group  => $group,
   }
 
   file{"/etc/httpd/conf.d/${repo}.conf":
     ensure  => file,
     content => template('cvmfs/zero-httpd.conf.erb'),
     require => Package['httpd'],
-    notify  => Service['httpd']
+    notify  => Service['httpd'],
   }
   mount{"${spool_store}/${repo}/rdonly":
     ensure  => present,
     device  => "cvmfs2#${repo}",
     fstype  => 'fuse',
     options => "allow_other,config=/etc/cvmfs/repositories.d/${repo}/client.conf:${spool_store}/${repo}/client.local,cvmfs_suid",
-    require => File["${spool_store}/${repo}/rdonly"]
+    require => File["${spool_store}/${repo}/rdonly"],
   }
   if $::kernelrelease =~ /^.*aufs.*/ {
     mount{"/cvmfs/${repo}":
@@ -362,19 +372,19 @@ define cvmfs::zero(
       device  => "aufs_${repo}",
       fstype  => 'aufs',
       options => "br=${spool_store}/${repo}/scratch=rw:${spool_store}/${repo}/rdonly=rr,udba=none,ro",
-      require => [Package['cvmfs'],Mount["${spool_store}/${repo}/rdonly"],File["/cvmfs/${repo}"]]
+      require => [Package['cvmfs'],Mount["${spool_store}/${repo}/rdonly"],File["/cvmfs/${repo}"]],
     }
   }
   # Bootstrap first repository.
   file{"/etc/puppet-cvmfs-scripts/${repo}-create_repo.sh":
     ensure  => file,
     mode    => '0755',
-    content => template('cvmfs/create_script.sh.erb')
+    content => template('cvmfs/create_script.sh.erb'),
   }
   # Scrip to generate keys.
   file{"/etc/puppet-cvmfs-scripts/${repo}-genkeys.sh":
     ensure  => file,
     mode    => '0755',
-    content => template('cvmfs/genkeys.sh.erb')
+    content => template('cvmfs/genkeys.sh.erb'),
   }
 }

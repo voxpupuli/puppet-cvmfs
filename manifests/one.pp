@@ -24,8 +24,8 @@ define cvmfs::one (
   $origin = 'http://stratum0.example.org/cvmfs',
   $keys = ['/etc/cvmfs/keys/cern.ch.pub','/etc/cvmfs/keys/cern-it1.cern.ch.pub','/etc/cvmfs/keys/cern-it2.cern.ch.pub']
 ) {
-  include 'cvmfs::one::install'
-  include 'cvmfs::one::config'
+  include '::cvmfs::one::install'
+  include '::cvmfs::one::config'
 
   $joinedkeys = join($keys,':')
   exec{"replicate_${name}":
@@ -40,6 +40,6 @@ define cvmfs::one (
     group   => root,
     content => template('cvmfs/cvmfs-strat1-httpd.conf.erb'),
     require => Package['httpd'],
-    notify  => Service['httpd']
+    notify  => Service['httpd'],
   }
 }

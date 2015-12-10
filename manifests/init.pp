@@ -22,32 +22,32 @@ class cvmfs (
   $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
   $cvmfs_yum_config           = $cvmfs::params::cvmfs_yum_config,
   $cvmfs_yum_config_enabled   = $cvmfs::params::cvmfs_yum_config_enabled,
-  $cvmfs_yum_proxy            = $cvmfs::params::cvmfs_proxy,
+  $cvmfs_yum_proxy            = $cvmfs::params::cvmfs_yum_proxy,
   $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
   $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
   $cvmfs_yum_gpgcheck         = $cvmfs::params::cvmfs_yum_gpgcheck,
   $cvmfs_yum_gpgkey           = $cvmfs::params::cvmfs_yum_gpgkey,
-  $cvmfs_use_geoapi           = $cvmfs::params::cvmfs_geoapi,
+  $cvmfs_use_geoapi           = $cvmfs::params::cvmfs_use_geoapi,
   $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url,
-  $cvmfs_follow_redirects     = $cvmfs::params::cvmfs_follow_redirects
+  $cvmfs_follow_redirects     = $cvmfs::params::cvmfs_follow_redirects,
 ) inherits cvmfs::params {
 
   if $cvmfs_server_url != ''  {
     warning('The $cvmfs_server_url to cvmfs is deprecated, please set this value per mount or per domain.')
   }
 
-  class{'cvmfs::install':}
+  class{'::cvmfs::install':}
 
   # We only even attempt to configure cvmfs if the following
   # two facts are available and that requires that cvmfs
   # has been installed first potentially on the first puppet
   # run.
-  if $::cvmfsversion and $::cvmfspartsize {
-    class{'cvmfs::config':}
-    class{'cvmfs::service':}
+  if getvar(::cvmfsversion) and getvar(::cvmfspartsize) {
+    class{'::cvmfs::config':}
+    class{'::cvmfs::service':}
   } else {
     notify{'cvmfs has not been configured, one more puppet run required.':
-      require => Class['cvmfs::install']
+      require => Class['cvmfs::install'],
     }
     warning('cvmfs has not been configured, one more puppet run required.')
   }
