@@ -17,7 +17,7 @@ define cvmfs::domain($cvmfs_quota_limit = undef,
   # two facts are available and that requires that cvmfs
   # has been installed first potentially on the first puppet
   # run.
-  if $::cvmfsversion and $::cvmfspartsize {
+  if getvar(::cvmfsversion) and getvar(::cvmfspartsize) {
 
     # In this case the repo is really a domain
     # but it's the same configuration file format

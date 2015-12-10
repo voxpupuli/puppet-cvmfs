@@ -33,7 +33,7 @@ class cvmfs::install (
     default: { $cache_seltype = 'var_lib_t'}
   }
 
-  case $::cvmfsversion {
+  case getvar(::cvmfsversion) {
     /^2\.0\.*/: {
       $default_cvmfs_cache_base  = '/var/cache/cvmfs2'
     }
