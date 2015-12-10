@@ -2,10 +2,10 @@
 define cvmfs::zero(
   $user,
   $uid,
+  $group,
+  $gid,
   $repo = $title,
   $clientuser = $user,
-  $group = $user,
-  $gid = $uid,
   $nofiles = 65000,
   $repo_store = '/srv/cvmfs',
   $spool_store = '/var/spool/cvmfs',
