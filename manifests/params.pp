@@ -71,7 +71,7 @@ class cvmfs::params {
 
   $cvmfs_yum_proxy        = hiera('cvmfs_yum_proxy','_none_')
 
-  $cvmfs_yum_manage_repo  = hiera('cvmfs_yum_manage_repo',true)
+  $cvmfs_yum_manage_repo  = true
 
   # Only used is cvmfs::server is enabled.
   $cvmfs_kernel_version     = hiera('cvmfs_kernel_version','present')
