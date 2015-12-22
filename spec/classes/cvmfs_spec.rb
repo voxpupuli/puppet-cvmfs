@@ -74,6 +74,22 @@ describe 'cvmfs' do
         it { should contain_yumrepo('cvmfs-config').with_gpgkey('http://example.org/key.gpg') }
       end
 
+      context 'with cvmfs_yum_manage_repo set to true' do
+        let(:params) {{:cvmfs_yum_manage_repo => true}}
+        it { should contain_class('cvmfs::yum') }
+        it { should contain_yumrepo('cvmfs') }
+        it { should contain_yumrepo('cvmfs-testing') }
+        it { should contain_yumrepo('cvmfs-config') }
+      end
+
+      context 'with cvmfs_yum_manage_repo set to false' do
+        let(:params) {{:cvmfs_yum_manage_repo => false}}
+        it { should_not contain_class('cvmfs::yum') }
+        it { should_not contain_yumrepo('cvmfs') }
+        it { should_not contain_yumrepo('cvmfs-testing') }
+        it { should_not contain_yumrepo('cvmfs-config') }
+      end
+
       context 'with manage_autofs_service true' do
         let(:params) {{:manage_autofs_service => true}}
         it { should contain_service('autofs') }
