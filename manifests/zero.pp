@@ -15,7 +15,8 @@ define cvmfs::zero(
   $garbage_collection = false,
   $auto_gc = false,
   $auto_gc_timespan = '3 days ago',
-  $ignore_xdir_hardlinks = false
+  $ignore_xdir_hardlinks = false,
+  $creator_version = '2.1.19',
 ) {
   include ::cvmfs::params
   include ::cvmfs::zero::install
