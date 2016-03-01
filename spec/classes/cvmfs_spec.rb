@@ -5,6 +5,7 @@ describe 'cvmfs' do
     let(:facts) {{ :concat_basedir => '/tmp',
                    :osfamily => 'RedHat', 
                    :uptime_days => 1,
+                   :operatingsystem => 'CentOS',
                    :operatingsystemrelease => '7.1.1503',
                    :operatingsystemmajrelease => '7',
                    :architecture => 'x86_64',
