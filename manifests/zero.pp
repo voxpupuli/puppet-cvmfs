@@ -363,7 +363,7 @@ define cvmfs::zero(
     ensure  => present,
     device  => "cvmfs2#${repo}",
     fstype  => 'fuse',
-    options => "allow_other,config=/etc/cvmfs/repositories.d/${repo}/client.conf:${spool_store}/${repo}/client.local,cvmfs_suid",
+    options => "allow_other,config=/etc/cvmfs/repositories.d/${repo}/client.conf:${spool_store}/${repo}/client.local,cvmfs_suid,noauto",
     require => File["${spool_store}/${repo}/rdonly"],
   }
   if $::kernelrelease =~ /^.*aufs.*/ {
@@ -371,7 +371,7 @@ define cvmfs::zero(
       ensure  => present,
       device  => "aufs_${repo}",
       fstype  => 'aufs',
-      options => "br=${spool_store}/${repo}/scratch=rw:${spool_store}/${repo}/rdonly=rr,udba=none,ro",
+      options => "br=${spool_store}/${repo}/scratch=rw:${spool_store}/${repo}/rdonly=rr,udba=none,ro,noauto",
       require => [Package['cvmfs'],Mount["${spool_store}/${repo}/rdonly"],File["/cvmfs/${repo}"]],
     }
   }
