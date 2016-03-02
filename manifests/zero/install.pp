@@ -26,7 +26,5 @@ class cvmfs::zero::install (
     ensure  => $cvmfs_aufs2_version,
     require => Yumrepo['cvmfs-kernel'],
   }
-  package{'httpd':
-    ensure => present,
-  }
+  ensure_packages('httpd', { ensure => present, } )
 }

@@ -18,9 +18,7 @@ class cvmfs::server::install (
   package{'aufs2-util':
     ensure => $cvmfs_aufs2_version,
   }
-  package{'httpd':
-    ensure => present,
-  }
+  ensure_packages('httpd', { ensure => present, })
 }
 
 

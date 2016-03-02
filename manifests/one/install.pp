@@ -9,7 +9,7 @@ class cvmfs::one::install (
     ensure  => $cvmfs_version,
     require => Yumrepo['cvmfs'],
   }
-  package{['httpd','mod_wsgi']:
-    ensure => present,
-  }
+
+  # Don't conflict if already declared
+  ensure_packages(['httpd','mod_wsgi'], { ensure => present,})
 }
