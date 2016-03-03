@@ -74,6 +74,7 @@ cvmfs::domain{'example.net'
 * `cvmfs_yum_testsing_enabled` **TO DOC**
 * `cvmfs_yum_gpgcheck`  Defaults to true, set to false to disable GPG checking (Do Not Do This)
 * `cvmfs_yum_gpgkey`  Set a custom GPG key for yum repos, you must deploy it yourself.
+* `cvmfs_yum_manage_repo` Defaults to true, set to false to disable yum repositories management.
 * `cvmfs_use_geoapi`  **TO DOC**
 
 * `cvmfs_hash` Rather than using cvmfs::mount defined type a hash of mounts can be sepecfied.

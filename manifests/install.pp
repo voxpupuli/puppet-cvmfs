@@ -20,10 +20,13 @@
 class cvmfs::install (
   $cvmfs_version = $cvmfs::cvmfs_version,
   $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
+  $cvmfs_yum_manage_repo = $cvmfs::cvmfs_yum_manage_repo,
 
 ) inherits cvmfs {
 
-  class{'::cvmfs::yum':}
+  if $cvmfs_yum_manage_repo {
+    class{'::cvmfs::yum':}
+  }
 
   # Create the cache dir if one is defined, otherwise assume default is in the package.
   # Require the package so we know the user is in place.

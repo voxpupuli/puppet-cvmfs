@@ -30,6 +30,7 @@ class cvmfs (
   $cvmfs_use_geoapi           = $cvmfs::params::cvmfs_use_geoapi,
   $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url,
   $cvmfs_follow_redirects     = $cvmfs::params::cvmfs_follow_redirects,
+  $cvmfs_yum_manage_repo      = $cvmfs::params::cvmfs_yum_manage_repo,
 ) inherits cvmfs::params {
 
   if $cvmfs_server_url != ''  {
