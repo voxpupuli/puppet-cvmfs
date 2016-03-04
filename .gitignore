@@ -4,3 +4,4 @@ pkg/
 log/
 .vagrant
 package.box
+bundle/
