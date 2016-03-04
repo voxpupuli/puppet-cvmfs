@@ -1,3 +1,20 @@
+##2016-03-04 - Release 1.0.0
+
+##Features
+- New parameter `cvmfs::cvmfs_yum_manage_repo` defaults to true
+  allows all yum managment to be disabled. Baptiste Grenier
+- Package installations now wrapped in ensure_package to
+  ease duplicate declarations
+  Pat Riehecky
+- Stratum 0 only, new parameter `cvmfs::zero::creator_version` defaults
+  to `2.1.19`.
+- Stratum 0 only, new json mime types to support cvmfs 2.2.
+- Stratum 0 only, rdonly directory no longer mounted at boot time.
+- Stratum 0 only, backwards incompatible change, the gid and group
+  name now *MUST* be specified.
+- Fixes for puppet 4 support.
+
+
 ##2015-08-04 - Release 0.9.0
 
 ##Features
