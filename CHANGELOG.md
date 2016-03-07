@@ -1,4 +1,4 @@
-##2016-03-04 - Release 1.0.1
+##2016-03-07 - Release 1.0.2
 
 ##Bugs
 - Puppetforge publish problem
