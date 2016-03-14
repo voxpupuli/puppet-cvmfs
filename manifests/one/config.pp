@@ -24,7 +24,7 @@ class cvmfs::one::config {
 
   cron{'cvmfs_sync':
     user    => cvmfsr,
-    minute  => [0,30],
+    minute  => '*/15',
     command => '/usr/local/sbin/sync-cron.sh',
     require => File['/usr/local/sbin/sync-cron.sh'],
   }
