@@ -1,3 +1,7 @@
+##2016-03-07 - Release 1.0.3
+##Features
+- Stratum 1 cron jobs more frequent.
+
 ##2016-03-07 - Release 1.0.2
 
 ##Bugs
