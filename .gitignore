@@ -6,3 +6,4 @@ log/
 package.box
 bundle/
 .bundle/
+.rvm/
