@@ -13,7 +13,12 @@ describe 'cvmfs::zero' do
 
     let(:facts) {{ :concat_basedir => '/tmp',
                    :osfamily => 'RedHat',
+                   :operatingsystem => 'CentOS',
+                   :operatingsystemmajrelease => '7',
                    :uptime_days => 1,
+                   :architecture => 'x86_64',
+                   :augeasversion => '1.4.0',
+                   :cvmfsversion => '2.1.20',
                    :operatingsystemrelease => '7.1.1503',
                    :kernelrelease => '3.10.0-229.1.2.el7.x86_64' }}
 

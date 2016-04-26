@@ -8,7 +8,12 @@ describe 'cvmfs::domain' do
     let(:facts) {{:concat_basedir => '/tmp',
                    :osfamily => 'RedHat',
                    :uptime_days => 1,
+                   :operatingsystem => 'CentOS',
+                   :operatingsystemmajrelease => '7',
+                    :architecture => 'x86_64',
                     :operatingsystemrelease => '7.1.1503',
+                    :cvmfsversion => '2.1.20',
+                    :augeasversion => '1.4.0',
                     :kernelrelease => '3.10.0-229.1.2.el7.x86_64',
                     :cvmfsversion => '2.1.20', :cvmfspartsize => '20000'}}
 

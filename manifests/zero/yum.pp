@@ -3,7 +3,6 @@ class cvmfs::zero::yum (
   $cvmfs_yum_kernel           = $cvmfs::params::cvmfs_yum_kernel,
   $cvmfs_yum_kernel_enabled   = $cvmfs::params::cvmfs_yum_kernel_enabled,
   $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
-  $cvmfs_yum_enabled          = $cvmfs::params::cvmfs_yum_enabled,
   $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
   $cvmfs_yum_testing_enabled  = $cvmfs::params::cvmfs_yum_testing_enabled,
 ) {
