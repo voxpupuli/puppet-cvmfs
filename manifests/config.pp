@@ -73,13 +73,6 @@ class cvmfs::config (
   }
 
   if str2bool($config_automaster) {
-    # Use the automaster.aug lens from a future version of augeas
-    # This can be dropped once newer than 0.10.0 is everywhere I expect.
-    # This may also go wrong if there is a point release of augeas.
-    case $::augeasversion {
-      '0.9.0','0.10.0': { $lenspath = '/var/lib/puppet/lib/augeas/lenses' }
-      default: { $lenspath = undef }
-    }
     augeas{'cvmfs_automaster':
       context   => '/files/etc/auto.master/',
       lens      => 'Automaster.lns',
