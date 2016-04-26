@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 group :test do
+  gem 'listen', '3.0.6', :require => false if RUBY_VERSION < '2.2.0'
   gem 'rake'
   gem 'puppet', ENV['PUPPET_VERSION'] || '~> 3.8.0'
   gem 'rspec-puppet'
