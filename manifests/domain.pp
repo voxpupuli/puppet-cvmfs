@@ -13,26 +13,20 @@ define cvmfs::domain($cvmfs_quota_limit = undef,
 ) {
 
   include ::cvmfs
-  # We only even attempt to configure cvmfs if the following
-  # two facts are available and that requires that cvmfs
-  # has been installed first potentially on the first puppet
-  # run.
-  if getvar(::cvmfspartsize) {
 
-    # In this case the repo is really a domain
-    # but it's the same configuration file format
-    # so we resuse the template.
-    $repo = $name
+  # In this case the repo is really a domain
+  # but it's the same configuration file format
+  # so we resuse the template.
+  $repo = $name
 
-    file{"/etc/cvmfs/domain.d/${repo}.local":
-      ensure  =>  file,
-      content => template('cvmfs/repo.local.erb'),
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-      require => Class['cvmfs::install'],
-      notify  => Class['cvmfs::service'],
-    }
+  file{"/etc/cvmfs/domain.d/${repo}.local":
+    ensure  =>  file,
+    content => template('cvmfs/repo.local.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => Class['cvmfs::install'],
+    notify  => Class['cvmfs::service'],
   }
 }
 
