@@ -16,12 +16,6 @@ class cvmfs::config (
   $cvmfs_quota_ratio  = $cvmfs::cvmfs_quota_ratio
 ) inherits cvmfs {
 
-  case $::cvmfsversion {
-    /^2\.[01]\.*/: { }
-      default: { warning('This cvmfs module is only checked with cvmfs version 2.0.X and 2.1.X currently.')
-    }
-  }
-
   case $cvmfs_quota_limit {
     'auto':  { $my_cvmfs_quota_limit = sprintf('%i',$cvmfs_quota_ratio *  $::cvmfspartsize) }
     default: { $my_cvmfs_quota_limit = $cvmfs_quota_limit }

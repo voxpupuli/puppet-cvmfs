@@ -1,8 +1,7 @@
 #Class: cvmfs::params
 class cvmfs::params {
 
-  # For now just check os and cvmfsversion and exit if it untested.
-  # in time we can different parameters for each of these conditions.
+  # For now just check os and exit if it untested.
   if $::osfamily == 'RedHat' and $::operatingsystem == 'Fedora' {
     fail('This cvmfs module has not been verified under fedora.')
   } elsif $::osfamily != 'RedHat' {
@@ -24,18 +23,11 @@ class cvmfs::params {
   # to determine of the actual configured CVMFS_QUOTA_LIMIT
   # CVMFS_QUOTA_LIMIT = $cvmfs_quota_ratio * $::cvmfspartsize, the $::cvmfspartsize
   # comes from a custom fact.
-  $cvmfs_quota_ratio  = hiera('cvmfs_quota_ratio','0.85')
+  $cvmfs_quota_ratio      = hiera('cvmfs_quota_ratio','0.85')
 
   $cvmfs_http_proxy       = hiera('cvmfs_http_proxy','http://squid.example.org:3128')
   $cvmfs_server_url       = hiera('cvmfs_server_url','')
-  case getvar(::cvmfsversion) {
-    /^2\.0\.*/: {
-      $default_cvmfs_cache_base  = '/var/cache/cvmfs2'
-    }
-    default: {
-      $default_cvmfs_cache_base  = '/var/lib/cvmfs'
-    }
-  }
+  $default_cvmfs_cache_base  = '/var/lib/cvmfs'
 
   $cvmfs_cache_base       = hiera('cvmfs_cache_base',$default_cvmfs_cache_base)
   $cvmfs_timeout          = hiera('cvmfs_timeout','')
@@ -54,10 +46,10 @@ class cvmfs::params {
   $cvmfs_env_variables    = undef
   $cvmfs_follow_redirects = undef
 
-  # The version of cvmfs to install, should be present and latest,
+  #The version of cvmfs to install, should be present and latest,
   # or an exact version number of the package.
   $cvmfs_version          = hiera('cvmfsversion','present')
-
+  
   $cvmfs_yum_gpgcheck = '1'
   $cvmfs_yum_gpgkey   = 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'
 

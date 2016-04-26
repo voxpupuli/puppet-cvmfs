@@ -43,7 +43,7 @@ class cvmfs (
   # two facts are available and that requires that cvmfs
   # has been installed first potentially on the first puppet
   # run.
-  if getvar(::cvmfsversion) and getvar(::cvmfspartsize) {
+  if getvar(::cvmfspartsize) {
     class{'::cvmfs::config':}
     class{'::cvmfs::service':}
   } else {
