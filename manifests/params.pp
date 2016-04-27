@@ -69,7 +69,7 @@ class cvmfs::params {
   $cvmfs_yum_testing      = hiera('cvmfs_yum_testing',"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${::operatingsystemmajrelease}/${::architecture}")
   $cvmfs_yum_testing_enabled = hiera('cvmfs_yum_testing_enabled','0')
 
-  $cvmfs_yum_proxy        = hiera('cvmfs_yum_proxy','_none_')
+  $cvmfs_yum_proxy        = undef
 
   $cvmfs_yum_manage_repo  = true
 
