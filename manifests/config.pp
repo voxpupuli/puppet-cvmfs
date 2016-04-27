@@ -68,16 +68,16 @@ class cvmfs::config (
 
   if str2bool($config_automaster) {
     augeas{'cvmfs_automaster':
-      context   => '/files/etc/auto.master/',
-      lens      => 'Automaster.lns',
-      incl      => '/etc/auto.master',
-      changes   => [
+      context => '/files/etc/auto.master/',
+      lens    => 'Automaster.lns',
+      incl    => '/etc/auto.master',
+      changes => [
         'set 01      /cvmfs',
         'set 01/type program',
         'set 01/map  /etc/auto.cvmfs',
       ],
-      onlyif    => 'match *[map="/etc/auto.cvmfs"] size == 0',
-      notify    => Service['autofs'],
+      onlyif  => 'match *[map="/etc/auto.cvmfs"] size == 0',
+      notify  => Service['autofs'],
     }
   }
 }
