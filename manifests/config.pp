@@ -71,7 +71,6 @@ class cvmfs::config (
       context   => '/files/etc/auto.master/',
       lens      => 'Automaster.lns',
       incl      => '/etc/auto.master',
-      load_path => $lenspath,
       changes   => [
         'set 01      /cvmfs',
         'set 01/type program',
