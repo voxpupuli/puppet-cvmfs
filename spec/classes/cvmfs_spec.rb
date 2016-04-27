@@ -12,8 +12,8 @@ describe 'cvmfs' do
                    :kernelrelease => '3.10.0-229.1.2.el7.x86_64' }}
 
     it { should contain_class('cvmfs::install') }
-    it { should_not contain_class('cvmfs::config') }
-    it { should_not contain_class('cvmfs::service') }
+    it { should contain_class('cvmfs::config') }
+    it { should contain_class('cvmfs::service') }
     it { should contain_package('cvmfs').with_ensure('present')}
 
     context 'with defaults and cvmfspartsize fact set' do
