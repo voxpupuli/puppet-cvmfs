@@ -40,12 +40,6 @@ class cvmfs (
 
   class{'::cvmfs::install':}
 
-  # If cvmfspartsize fact exists use it, otherwise use a sensible default. 
-  if getvar(::cvmfspartsize) {
-    $cvmfs_partsize = $::cvmfspartsize
-  } else {
-    $cvmfs_partsize = $default_cvmfs_partsize
-  }
   class{'::cvmfs::config':}
   class{'::cvmfs::service':}
   # Finally allow the individual repositories to be loaded from hiera.

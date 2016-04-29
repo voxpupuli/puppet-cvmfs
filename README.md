@@ -10,14 +10,9 @@ For general details on CvmFS see
 http://cernvm.cern.ch/portal/filesystem 
 
 ## Custom Facts
-The module include two customfacts
+The module include one customfacts
 
-* cvmfsversion returns the version of cvmfs installed as supplied by '/usr/bin/cvmfs2 --version'
 * cvmfspartsize returns the size in megabytes of partition that contains the CVMFS_CACHE_BASE.
-
-These facts will only be available once cvmfs is installed and so configuration
-of cvmfs is skipped until cvmfs has been installed on the first puppet run.
-Two puppet runs are required to install and then configure cvmfs.
 
 ## Client Configuration
 To configure a cvmfs client to mount cvmfs repository or a domain

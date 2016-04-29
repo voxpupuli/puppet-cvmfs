@@ -18,6 +18,25 @@ describe 'cvmfs' do
     it { should contain_class('cvmfs::service') }
     it { should contain_package('cvmfs').with_ensure('present')}
 
+    context 'with defaults and cvmfspartsize fact unset' do
+      let(:facts) {{:concat_basedir => '/tmp',
+                    :osfamily => 'RedHat',
+                    :architecture => 'x86_64',
+                    :uptime_days => 1,
+                    :augeasversion => '1.4.0',
+                    :operatingsystem => 'CentOS',
+                    :operatingsystemrelease => '7.1.1503',
+                    :operatingsystemmajrelease => '7',
+                    :kernelrelease => '3.10.0-229.1.2.el7.x86_64',
+                    :architecture => 'x86_64' }}
+      it { should contain_class('cvmfs::config') }
+      it { should contain_concat__fragment('cvmfs_default_local_header').with_content(/^CVMFS_QUOTA_LIMIT='1000'$/) }
+      context 'with cvmfs_quota_ratio set' do
+         let(:params) {{:cvmfs_quota_limit => 'auto',
+                        :cvmfs_quota_ratio => '0.75'}}       
+         it { should contain_concat__fragment('cvmfs_default_local_header').with_content(/^CVMFS_QUOTA_LIMIT='7500'$/) }
+      end
+    end
     context 'with defaults and cvmfspartsize fact set' do
       let(:facts) {{:concat_basedir => '/tmp',
                     :osfamily => 'RedHat',
@@ -29,7 +48,7 @@ describe 'cvmfs' do
                     :operatingsystemmajrelease => '7',
                     :kernelrelease => '3.10.0-229.1.2.el7.x86_64',
                     :architecture => 'x86_64',
-                    :cvmfspartsize => '20000'}}
+                    :cvmfspartsize => '10000000'}}
       it { should contain_class('cvmfs::config') }
       it { should contain_class('cvmfs::service') }
       it { should contain_service('autofs') }
@@ -63,6 +82,12 @@ describe 'cvmfs' do
       context 'with cvmfs_yum_config set to http://example.org/yum' do
         let(:params) {{:cvmfs_yum_config => 'http://example.org/yum'}}
         it { should contain_yumrepo('cvmfs-config').with_baseurl('http://example.org/yum') }
+      end
+
+      context 'with cvmfs_quota_ratio set' do
+         let(:params) {{:cvmfs_quota_limit => 'auto',
+                        :cvmfs_quota_ratio => '0.5'}}       
+         it { should contain_concat__fragment('cvmfs_default_local_header').with_content(/^CVMFS_QUOTA_LIMIT='5000000'$/) }
       end
 
       context 'with cvmfs_yum_gpgcheck set to 0' do

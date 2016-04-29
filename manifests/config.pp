@@ -13,11 +13,20 @@
 class cvmfs::config (
   $config_automaster  = $cvmfs::config_automaster,
   $cvmfs_quota_limit  = $cvmfs::cvmfs_quota_limit,
-  $cvmfs_quota_ratio  = $cvmfs::cvmfs_quota_ratio
+  $cvmfs_quota_ratio  = $cvmfs::cvmfs_quota_ratio,
+  $default_cvmfs_partsize = $cvmfs::default_cvmfs_partsize,
 ) inherits cvmfs {
 
+  # If cvmfspartsize fact exists use it, otherwise use a sensible default. 
+  if getvar(::cvmfspartsize) {
+    $_cvmfs_partsize = $::cvmfspartsize
+  } else {
+    $_cvmfs_partsize = $default_cvmfs_partsize
+  }
+
+
   case $cvmfs_quota_limit {
-    'auto':  { $my_cvmfs_quota_limit = sprintf('%i',$cvmfs_quota_ratio *  $::cvmfspartsize) }
+    'auto':  { $my_cvmfs_quota_limit = sprintf('%i',$cvmfs_quota_ratio *  $_cvmfs_partsize) }
     default: { $my_cvmfs_quota_limit = $cvmfs_quota_limit }
   }
 

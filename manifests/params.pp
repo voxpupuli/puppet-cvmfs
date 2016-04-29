@@ -23,7 +23,7 @@ class cvmfs::params {
   # to determine of the actual configured CVMFS_QUOTA_LIMIT
   # CVMFS_QUOTA_LIMIT = $cvmfs_quota_ratio * $::cvmfspartsize, the $::cvmfspartsize
   # comes from a custom fact, if $::cvmfspartsize doesn't exist use a sensible default value.
-  $default_cvmfs_partsize = '20000'
+  $default_cvmfs_partsize = '10000'
   $cvmfs_quota_ratio      = hiera('cvmfs_quota_ratio','0.85')
 
   $cvmfs_http_proxy       = hiera('cvmfs_http_proxy','http://squid.example.org:3128')
