@@ -50,7 +50,7 @@ class cvmfs::params {
   #The version of cvmfs to install, should be present and latest,
   # or an exact version number of the package.
   $cvmfs_version          = hiera('cvmfsversion','present')
-  
+
   $cvmfs_yum_gpgcheck = '1'
   $cvmfs_yum_gpgkey   = 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'
 
