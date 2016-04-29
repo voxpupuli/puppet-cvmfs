@@ -16,12 +16,6 @@ class cvmfs::config (
   $cvmfs_quota_ratio  = $cvmfs::cvmfs_quota_ratio
 ) inherits cvmfs {
 
-  case $::cvmfsversion {
-    /^2\.[01]\.*/: { }
-      default: { warning('This cvmfs module is only checked with cvmfs version 2.0.X and 2.1.X currently.')
-    }
-  }
-
   case $cvmfs_quota_limit {
     'auto':  { $my_cvmfs_quota_limit = sprintf('%i',$cvmfs_quota_ratio *  $::cvmfspartsize) }
     default: { $my_cvmfs_quota_limit = $cvmfs_quota_limit }
@@ -73,25 +67,17 @@ class cvmfs::config (
   }
 
   if str2bool($config_automaster) {
-    # Use the automaster.aug lens from a future version of augeas
-    # This can be dropped once newer than 0.10.0 is everywhere I expect.
-    # This may also go wrong if there is a point release of augeas.
-    case $::augeasversion {
-      '0.9.0','0.10.0': { $lenspath = '/var/lib/puppet/lib/augeas/lenses' }
-      default: { $lenspath = undef }
-    }
     augeas{'cvmfs_automaster':
-      context   => '/files/etc/auto.master/',
-      lens      => 'Automaster.lns',
-      incl      => '/etc/auto.master',
-      load_path => $lenspath,
-      changes   => [
+      context => '/files/etc/auto.master/',
+      lens    => 'Automaster.lns',
+      incl    => '/etc/auto.master',
+      changes => [
         'set 01      /cvmfs',
         'set 01/type program',
         'set 01/map  /etc/auto.cvmfs',
       ],
-      onlyif    => 'match *[map="/etc/auto.cvmfs"] size == 0',
-      notify    => Service['autofs'],
+      onlyif  => 'match *[map="/etc/auto.cvmfs"] size == 0',
+      notify  => Service['autofs'],
     }
   }
 }

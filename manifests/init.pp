@@ -2,6 +2,7 @@
 class cvmfs (
   $config_automaster          = $cvmfs::params::config_automaster,
   $manage_autofs_service      = $cvmfs::params::manage_autofs_service,
+  $default_cvmfs_partsize     = $cvmfs::params::default_cvmfs_partsize,
   $cvmfs_quota_limit          = $cvmfs::params::cvmfs_quota_limit,
   $cvmfs_quota_ratio          = $cvmfs::params::cvmfs_quota_ratio,
   $cvmfs_http_proxy           = $cvmfs::params::cvmfs_http_proxy,
@@ -39,19 +40,14 @@ class cvmfs (
 
   class{'::cvmfs::install':}
 
-  # We only even attempt to configure cvmfs if the following
-  # two facts are available and that requires that cvmfs
-  # has been installed first potentially on the first puppet
-  # run.
-  if getvar(::cvmfsversion) and getvar(::cvmfspartsize) {
-    class{'::cvmfs::config':}
-    class{'::cvmfs::service':}
+  # If cvmfspartsize fact exists use it, otherwise use a sensible default. 
+  if getvar(::cvmfspartsize) {
+    $cvmfs_partsize = $::cvmfspartsize
   } else {
-    notify{'cvmfs has not been configured, one more puppet run required.':
-      require => Class['cvmfs::install'],
-    }
-    warning('cvmfs has not been configured, one more puppet run required.')
+    $cvmfs_partsize = $default_cvmfs_partsize
   }
+  class{'::cvmfs::config':}
+  class{'::cvmfs::service':}
   # Finally allow the individual repositories to be loaded from hiera.
   if is_hash($cvmfs_hash) {
     create_resources('cvmfs::mount', $cvmfs_hash)

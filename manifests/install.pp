@@ -36,14 +36,8 @@ class cvmfs::install (
     default: { $cache_seltype = 'var_lib_t'}
   }
 
-  case getvar(::cvmfsversion) {
-    /^2\.0\.*/: {
-      $default_cvmfs_cache_base  = '/var/cache/cvmfs2'
-    }
-    default: {
-      $default_cvmfs_cache_base  = '/var/lib/cvmfs'
-    }
-  }
+  # Compare the default value with the one from hiera if declared
+  $default_cvmfs_cache_base  = '/var/lib/cvmfs'
 
   if $cvmfs_cache_base != $default_cvmfs_cache_base {
     file{$cvmfs_cache_base:

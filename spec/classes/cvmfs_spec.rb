@@ -14,11 +14,11 @@ describe 'cvmfs' do
                    :kernelrelease => '3.10.0-229.1.2.el7.x86_64' }}
 
     it { should contain_class('cvmfs::install') }
-    it { should_not contain_class('cvmfs::config') }
-    it { should_not contain_class('cvmfs::service') }
+    it { should contain_class('cvmfs::config') }
+    it { should contain_class('cvmfs::service') }
     it { should contain_package('cvmfs').with_ensure('present')}
 
-    context 'with cvmfsversion and cvmfspartsize facts set' do
+    context 'with defaults and cvmfspartsize fact set' do
       let(:facts) {{:concat_basedir => '/tmp',
                     :osfamily => 'RedHat',
                     :architecture => 'x86_64',
@@ -29,7 +29,7 @@ describe 'cvmfs' do
                     :operatingsystemmajrelease => '7',
                     :kernelrelease => '3.10.0-229.1.2.el7.x86_64',
                     :architecture => 'x86_64',
-                    :cvmfsversion => '2.1.20', :cvmfspartsize => '20000'}}
+                    :cvmfspartsize => '20000'}}
       it { should contain_class('cvmfs::config') }
       it { should contain_class('cvmfs::service') }
       it { should contain_service('autofs') }
@@ -102,16 +102,6 @@ describe 'cvmfs' do
       context 'with manage_autofs_service false' do
         let(:params) {{:manage_autofs_service => false}}
         it { should_not contain_service('autofs') }
-      end
-
-      it { should contain_augeas('cvmfs_automaster') }
-      context 'with config_automaster true' do
-        let(:params) {{:config_automaster  => true}}
-        it { should contain_augeas('cvmfs_automaster') }
-      end
-      context 'with config_automaster false' do
-        let(:params) {{:config_automaster  => false}}
-        it { should_not contain_augeas('cvmfs_automaster') }
       end
       context 'with cvmfs_server_url set to something, to be deprecated' do
         let(:params) {{:cvmfs_server_url => 'http://example.org/cvmfs/files.repo.org'}}
