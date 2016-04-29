@@ -1,15 +1,22 @@
+##2016-04-29 - Release 2.0.0
+
+- Remove all support for cvmfs 2.0.
+- Only one rather than two puppet runs are now
+  requied.
+- Drop bundled augeas automaster lens. 
+- Stratum 1 apache file update for cvmfs 2.2.
+
+
 ##2016-03-07 - Release 1.0.3
-##Features
+
 - Stratum 1 cron jobs more frequent.
 
 ##2016-03-07 - Release 1.0.2
 
-##Bugs
 - Puppetforge publish problem
 
 ##2016-03-04 - Release 1.0.0
 
-##Features
 - New parameter `cvmfs::cvmfs_yum_manage_repo` defaults to true
   allows all yum managment to be disabled. Baptiste Grenier
 - Package installations now wrapped in ensure_package to
@@ -26,7 +33,6 @@
 
 ##2015-08-04 - Release 0.9.0
 
-##Features
 - A tmpwatch -f 30d now runs as weekly cron withing
   cvmfs::fsck to purge quarentined files.
 
