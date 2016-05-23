@@ -4,8 +4,8 @@ class cvmfs::params {
   # For now just check os and exit if it untested.
   if $::osfamily == 'RedHat' and $::operatingsystem == 'Fedora' {
     fail('This cvmfs module has not been verified under fedora.')
-  } elsif $::osfamily != 'RedHat' {
-    fail('This cvmfs module has not been verified under osfamily other than RedHat')
+  } elsif $::osfamily != 'RedHat' and $::osfamily != 'Debian' {
+    fail('This cvmfs module has not been verified under your OS.')
   }
 
   # This cvmfs module will also configure autofs as well for use

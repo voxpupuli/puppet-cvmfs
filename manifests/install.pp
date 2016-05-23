@@ -25,7 +25,12 @@ class cvmfs::install (
 ) inherits cvmfs {
 
   if $cvmfs_yum_manage_repo {
-    class{'::cvmfs::yum':}
+    if $::osfamily == 'RedHat' {
+      class{'::cvmfs::yum':}
+    }
+    else {
+      fail('cvmfs_yum_manage_repo can only be set true for the RedHat OS family')
+    }
   }
 
   # Create the cache dir if one is defined, otherwise assume default is in the package.
@@ -49,11 +54,16 @@ class cvmfs::install (
       require => Package['cvmfs'],
     }
   }
+  if $::osfamily == 'RedHat' {
+	$cvmfs_requirements = Yumrepo['cvmfs']
+  }
+  else {
+	$cvmfs_requirements = []
+  }
   package{'cvmfs':
     ensure  => $cvmfs_version,
-    require => Yumrepo['cvmfs'],
+    require => $cvmfs_requirements,
   }
-
 
   # Create a file for the cvmfs
   file{'/etc/cvmfs/cvmfsfacts.yaml':
