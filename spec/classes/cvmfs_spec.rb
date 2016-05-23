@@ -143,6 +143,13 @@ describe 'cvmfs' do
              with_content(/^CVMFS_MOUNT_RW=yes$/)
         }
       end
+      context 'with cvmfs::hash set' do
+        let(:params) {{:cvmfs_hash => { 'one.example.org' => { 'cvmfs_server_url' => 'http://one.example.org/'},
+                                  'two.example.org' => { 'cvmfs_env_variables' => { 'LOCAL_SITE' => 'jump' }}}}
+                     }
+        it { should contain_file('/etc/cvmfs/config.d/one.example.org.local').with_content(%r{^CVMFS_SERVER_URL='http://one.example.org/'$}) }
+        it { should contain_file('/etc/cvmfs/config.d/two.example.org.local').with_content(/^export LOCAL_SITE=jump/) }
+      end                                        
     end
   end
 end
