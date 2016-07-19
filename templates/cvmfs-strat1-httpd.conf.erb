@@ -9,8 +9,13 @@ Alias /opt/<%= @repo.split('.').first %>/api /var/www/wsgi-scripts/cvmfs-api.wsg
 <Directory /var/www/wsgi-scripts>
     Options ExecCGI
     SetHandler wsgi-script
+<% if @::operatingsystemmajrelease < 7 %>
     Order allow,deny
     Allow from all
+<% else %>
+    Require all granted
+<% end %>
+
 </Directory>
 
 KeepAlive On
@@ -21,8 +26,12 @@ Alias /opt/<%= @repo.split('.').first %> /srv/cvmfs/<%= @repo %>
 <Directory "/srv/cvmfs/<%= @repo %>">
     Options -MultiViews
     AllowOverride Limit
+<% if @::operatingsystemmajrelease < 7 %>
     Order allow,deny
     Allow from all
+<% else %>
+    Require all granted
+<% end %>
 
     EnableMMAP Off
     EnableSendFile Off
