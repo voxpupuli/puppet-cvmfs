@@ -122,10 +122,12 @@ describe 'cvmfs' do
 
       context 'with manage_autofs_service true' do
         let(:params) {{:manage_autofs_service => true}}
+        it { is_expected.to compile.with_all_deps }
         it { should contain_service('autofs') }
       end
       context 'with manage_autofs_service false' do
         let(:params) {{:manage_autofs_service => false}}
+        it { is_expected.to compile.with_all_deps }
         it { should_not contain_service('autofs') }
       end
       context 'with cvmfs_server_url set to something, to be deprecated' do
