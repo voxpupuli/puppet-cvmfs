@@ -9,7 +9,8 @@ define cvmfs::domain($cvmfs_quota_limit = undef,
   $cvmfs_max_ttl = undef,
   $cvmfs_env_variables = undef,
   $cvmfs_use_geoapi = undef,
-  $cvmfs_follow_redirects = undef
+  $cvmfs_follow_redirects = undef,
+  $mount_method = $cvmfs::mount_method,
 ) {
 
   include ::cvmfs
@@ -27,6 +28,9 @@ define cvmfs::domain($cvmfs_quota_limit = undef,
     mode    => '0644',
     require => Class['cvmfs::install'],
     notify  => Class['cvmfs::service'],
+  }
+  if $mount_method == 'mount' {
+    fail("Mounting a domain with the mount method is not possible")
   }
 }
 
