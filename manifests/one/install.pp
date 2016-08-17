@@ -2,7 +2,7 @@
 # included once from the cvmfs::one defined type.
 class cvmfs::one::install (
   $cvmfs_version = $::cvmfs::params::cvmfs_version
-) {
+) inherits cvmfs::params {
   class{'::cvmfs::server::yum':}
 
   package{'cvmfs-server':
