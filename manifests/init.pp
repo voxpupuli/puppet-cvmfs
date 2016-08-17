@@ -45,7 +45,7 @@ class cvmfs (
     warning('The $cvmfs_server_url to cvmfs is deprecated, please set this value per mount or per domain.')
   }
 
-  validate_re($mount_method,'^autofs$','^mount$','^none$')
+  validate_re($mount_method,['^autofs$','^mount$','^none$'],'$mount_method must be one of autofs (default), mount or none')
 
   if $config_mount and $config_automaster {
     fail('$config_mount and $config_automaster can not both be true')
