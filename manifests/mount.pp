@@ -12,7 +12,7 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   $cvmfs_repo_list = true,
   $cmvfs_mount_rw = undef,
   $cvmfs_follow_redirects = undef,
-  $mount_options = '_netdev',
+  $mount_options = 'defaults,_netdev',
   $mount_method = $cvmfs::mount_method,
 ) {
 
