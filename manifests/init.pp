@@ -38,7 +38,7 @@ class cvmfs (
 
   # Deprecations
   if $config_automaster == false {
-    fail('config_automaster set to false is deprecated, please set cvmfs::mount_method explicitly instead.')
+    fail('config_automaster set to false is deprecated, please set cvmfs::mount_method explicitly to autofs(the default), mount or none instead.')
   }
 
   if $cvmfs_server_url != ''  {
