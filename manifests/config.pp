@@ -11,7 +11,7 @@
 # Copyright 2012 CERN
 #
 class cvmfs::config (
-  $config_automaster      = $cvmfs::config_automaster,
+  $mount_method           = $cvmfs::mount_method,
   $manage_autofs_service  = $cvmfs::manage_autofs_service,
   $cvmfs_quota_limit      = $cvmfs::cvmfs_quota_limit,
   $cvmfs_quota_ratio      = $cvmfs::cvmfs_quota_ratio,
@@ -76,7 +76,7 @@ class cvmfs::config (
     content => template('cvmfs/repo.local.erb'),
   }
 
-  if str2bool($config_automaster) {
+  if $mount_method == 'autofs' {
     $_notifyservice = $manage_autofs_service ? {
       true    => Service['autofs'],
       false   => undef,
