@@ -11,11 +11,7 @@ class cvmfs::params {
   # Specify a mount method, be default it is autofs
   # Permitted to be 'autofs' or 'mount' or 'none currently.
   $mount_method = 'autofs'
-
-
-  # If the mount option is being used (i.e not autofs) these are the mount options
-  $mount_options = '_netdev'
-
+  
   # Now deprecated 
   $config_automaster      = hiera('cvmfs_config_automaster',true)
 

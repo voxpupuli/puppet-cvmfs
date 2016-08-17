@@ -1,7 +1,6 @@
 # == Class: cvmfs
 class cvmfs (
   $mount_method               = $cvmfs::params::mount_method,
-  $mount_options              = $cvmfs::params::mount_options,
   $config_automaster          = $cvmfs::params::config_automaster,
   $manage_autofs_service      = $cvmfs::params::manage_autofs_service,
   $default_cvmfs_partsize     = $cvmfs::params::default_cvmfs_partsize,
