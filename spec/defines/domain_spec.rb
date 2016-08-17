@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe 'cvmfs::domain' do
+  let(:pre_condition) do
+    'include cvmfs'
+  end
 
   let(:title) {'example.org'}
   

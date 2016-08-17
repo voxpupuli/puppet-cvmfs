@@ -13,7 +13,8 @@
 # Copyright 2012 CERN
 #
 class cvmfs::service (
-  $manage_autofs_service = $cvmfs::manage_autofs_service
+  $mount_method          = $cvmfs::mount_method,
+  $manage_autofs_service = $cvmfs::manage_autofs_service,
 ) inherits cvmfs {
 
   # CVMFS 2.1 at least uses cvmfs_config.
@@ -22,7 +23,7 @@ class cvmfs::service (
     command     => '/usr/bin/cvmfs_config reload',
     refreshonly => true,
   }
-  if $manage_autofs_service {
+  if $manage_autofs_service and $mount_method == 'autofs' {
     service{'autofs':
       ensure     => running,
       hasstatus  => true,

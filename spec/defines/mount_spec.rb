@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe 'cvmfs::mount' do
-
+  let(:pre_condition) do
+    'include cvmfs'
+  end
   let(:title) {'files.example.org'}
   
   context 'with defaults and cvmfspartsize fact set' do

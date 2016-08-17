@@ -11,7 +11,9 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   $cvmfs_use_geoapi = undef,
   $cvmfs_repo_list = true,
   $cmvfs_mount_rw = undef,
-  $cvmfs_follow_redirects = undef
+  $cvmfs_follow_redirects = undef,
+  $mount_options = 'defaults,_netdev,nodev',
+  $mount_method = $cvmfs::mount_method,
 ) {
 
   include ::cvmfs
@@ -46,6 +48,22 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
       target  => '/etc/cvmfs/default.local',
       order   => 7,
       content => "'\n\n",
+    }
+  }
+  if $mount_method == 'mount' {
+    file{"/cvmfs/${repo}":
+      ensure  => directory,
+      owner   => 'cvmfs',
+      group   => 'cvmfs',
+      require => Package['cvmfs'],
+    }
+    mount{"/cvmfs/${repo}":
+      ensure  => mounted,
+      device  => $repo,
+      fstype  => 'cvmfs',
+      options => $mount_options,
+      atboot  => true,
+      require => [File["/cvmfs/${repo}"],File["/etc/cvmfs/config.d/${repo}.local"],File['/etc/cvmfs/default.local'],File['/etc/fuse.conf']],
     }
   }
 }
