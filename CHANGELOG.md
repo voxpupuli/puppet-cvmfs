@@ -1,3 +1,6 @@
+##2016-08-18 - Release 3.0.1
+- Bug fix fact for ruby 1.8
+
 ##2016-08-18 - Release 3.0.0
 
 - DEPRCATION: Variable `cvmfs::config_automounter` is now deprecated.
