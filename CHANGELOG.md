@@ -1,3 +1,17 @@
+##2016-08-18 - Release 3.0.0
+
+- DEPRCATION: Variable `cvmfs::config_automounter` is now deprecated.
+  If it is set to the non default `false` compilation will fail.
+- New variable `cvmfs::mount_method` is a string defaulting
+  to `autofs` and provides the current default behaviour to use
+  automounter configuration. It can also be set to `mount`
+  in which will use the puppet mount type which currently
+  mounts and adds an `/etc/fstab` entry.
+  It can also be set to `none` in which case no mount
+  configuration will be applied.
+- Fixes #56 tmpwatch is now installed if fsck crons are
+  enabled.
+
 ##2016-04-29 - Release 2.0.0
 
 - Remove all support for cvmfs 2.0.
