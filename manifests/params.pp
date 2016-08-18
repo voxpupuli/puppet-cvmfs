@@ -8,11 +8,22 @@ class cvmfs::params {
     fail('This cvmfs module has not been verified under osfamily other than RedHat')
   }
 
-  # This cvmfs module will also configure autofs as well for use
-  # by cvmfs. If you are managing autofs elsewhere set to false.
-  # This being the string 'true' and not boolean true is a hiera bug.
+  # Specify a mount method, be default it is autofs
+  # Permitted to be 'autofs' or 'mount' or 'none currently.
+  $mount_method = 'autofs'
+
+  # Now deprecated 
   $config_automaster      = hiera('cvmfs_config_automaster',true)
+
+  # Manage the autofs service itself.
   $manage_autofs_service  = $config_automaster
+
+  # Use the puppet mount type to mount repositories
+  $config_mount = false
+
+  # Cvmfs_repo_list, should a CVMFS_REPOSITORIES entry be created
+  # in default.local file
+  $cvmfs_repo_list = true
 
 
   # These values are all destined for /etc/cvmfs/default.local

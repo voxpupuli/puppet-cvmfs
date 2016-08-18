@@ -15,8 +15,8 @@ The module include one customfacts
 * cvmfspartsize returns the size in megabytes of partition that contains the CVMFS_CACHE_BASE.
 
 ## Client Configuration
-To configure a cvmfs client to mount cvmfs repository or a domain
-a domain of cvmfs repositories use the following.
+To configure a cvmfs client to mount cvmfs repository with
+the default autofs.
 
 ```puppet
 class{"cvmfs":
@@ -27,7 +27,8 @@ cvmfs::mount{'files.example.org:
   cvmfs_server_url  => 'http://web.example.org/cvmfs/files.example.org',
 }
 ```
-or 
+To configure a cvmfs client to mount a domain of repositories
+with autofs.
 
 ```puppet
 class{"cvmfs":
@@ -40,8 +41,33 @@ cvmfs::domain{'example.net'
 }
 ```
 
+To use puppet's mount type rather that autofs
+a typical configuration might be the following. This 
+examples configures a cvmfs domain, a configuration
+repository and finally a particular repository for
+mount.
+
+```puppet
+class{'::cvmfs':
+  mount_method => 'mount',
+}
+cvmfs::domain{'example.org':
+  cvmfs_server_url   => 'http://web.example.org/cvmfs/@fqrn@'
+}
+cvmfs::mount{'cvmfs-config.example.org':
+  require => Cvmfs::Domain['example.org'],
+}
+cvmfs::mount{'myrepo.example.org':
+  require => Cvmfs::Domain['example.org'],
+}
+```
+
 ### Parameters to Cvmfs Class
-* `config_automounter`  boolean defaults to true and configures the automounter for cvmfs.
+* `config_automounter`  now deprecated, setting this will cause a msg and fail.
+* `mount_method` A string , can be set to *autofs*, *mount* or *none*. The default
+   *autofs* will configure cvmfs to be mounted with autofs. The *mount* option will
+   use puppets mount type, currently adding a line to /etc/fstab. The *none* option
+   skips all mounting.
 * `manage_autofs_service` boolean defaults to true, should the autofs service be maintained.
 * `cvmfs_quota_limit` The cvmfs quota size in megabytes. See params.pp for default.
 * `cvmfs_quota_ratio` If set to ration, e.g '0.8' then 0.8 of the partition size

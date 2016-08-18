@@ -1,5 +1,6 @@
 # == Class: cvmfs
 class cvmfs (
+  $mount_method               = $cvmfs::params::mount_method,
   $config_automaster          = $cvmfs::params::config_automaster,
   $manage_autofs_service      = $cvmfs::params::manage_autofs_service,
   $default_cvmfs_partsize     = $cvmfs::params::default_cvmfs_partsize,
@@ -32,11 +33,19 @@ class cvmfs (
   $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url,
   $cvmfs_follow_redirects     = $cvmfs::params::cvmfs_follow_redirects,
   $cvmfs_yum_manage_repo      = $cvmfs::params::cvmfs_yum_manage_repo,
+  $cvmfs_repo_list            = $cvmfs::params::cvmfs_repo_list,
 ) inherits cvmfs::params {
+
+  # Deprecations
+  if $config_automaster == false {
+    fail('config_automaster set to false is deprecated, please set cvmfs::mount_method explicitly to autofs(the default), mount or none instead.')
+  }
 
   if $cvmfs_server_url != ''  {
     warning('The $cvmfs_server_url to cvmfs is deprecated, please set this value per mount or per domain.')
   }
+
+  validate_re($mount_method,['^autofs$','^mount$','^none$'],'$mount_method must be one of autofs (default), mount or none')
 
   class{'::cvmfs::install':}
 

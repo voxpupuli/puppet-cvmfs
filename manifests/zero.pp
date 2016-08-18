@@ -9,7 +9,7 @@ define cvmfs::zero(
   $nofiles = 65000,
   $repo_store = '/srv/cvmfs',
   $spool_store = '/var/spool/cvmfs',
-  $home = "${repo_store}/${repo}/${user}",
+  $home = "/srv/cvmfs/${title}/${user}",
   $claim_ownership = false,
   $auto_tag = true,
   $garbage_collection = false,

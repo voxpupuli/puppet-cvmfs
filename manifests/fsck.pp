@@ -26,7 +26,7 @@ class cvmfs::fsck (
     minute  => fqdn_rand(60,'cvmfs'),
     weekday => fqdn_rand(7,'cvmfs'),
     command => '/usr/local/sbin/cvmfs_fsck_cron.sh -i 86400  2>&1 | /bin/awk \'{ print strftime("\%Y-\%m-\%d \%H:\%M:\%S"), $0; }\'  >> /var/log/cvmfs_fsck.log',
-    require => File['/usr/local/sbin/cvmfs_fsck_cron.sh'],
+    require => [File['/usr/local/sbin/cvmfs_fsck_cron.sh'],Package['tmpwatch']],
   }
   if $onreboot {
     cron{'cvmfs_fsck_on_reboot':
@@ -42,5 +42,6 @@ class cvmfs::fsck (
     group  => 'root',
     source => 'puppet:///modules/cvmfs/cvmfs_fsck.logrotate',
   }
+  ensure_packages(['tmpwatch'])
 }
 

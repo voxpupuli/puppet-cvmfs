@@ -11,9 +11,11 @@
 # Copyright 2012 CERN
 #
 class cvmfs::config (
-  $config_automaster  = $cvmfs::config_automaster,
-  $cvmfs_quota_limit  = $cvmfs::cvmfs_quota_limit,
-  $cvmfs_quota_ratio  = $cvmfs::cvmfs_quota_ratio,
+  $mount_method           = $cvmfs::mount_method,
+  $manage_autofs_service  = $cvmfs::manage_autofs_service,
+  $cvmfs_quota_limit      = $cvmfs::cvmfs_quota_limit,
+  $cvmfs_quota_ratio      = $cvmfs::cvmfs_quota_ratio,
+  $cvmfs_repo_list        = $cvmfs::cvmfs_repo_list,
   $default_cvmfs_partsize = $cvmfs::default_cvmfs_partsize,
 ) inherits cvmfs {
 
@@ -74,8 +76,25 @@ class cvmfs::config (
     order   => 0,
     content => template('cvmfs/repo.local.erb'),
   }
+  if $cvmfs_repo_list {
+    concat::fragment{'cvmfs_default_local_repo_end':
+      target  => '/etc/cvmfs/default.local',
+      order   => 7,
+      content => "'\n\n",
+    }
+    concat::fragment{'cvmfs_default_local_repo_start':
+      target  => '/etc/cvmfs/default.local',
+      order   => 5,
+      content => 'CVMFS_REPOSITORIES=\'',
+    }
+  }
 
-  if str2bool($config_automaster) {
+  if $mount_method == 'autofs' {
+    $_notifyservice = $manage_autofs_service ? {
+      true    => Service['autofs'],
+      false   => undef,
+      default => undef,
+    }
     augeas{'cvmfs_automaster':
       context => '/files/etc/auto.master/',
       lens    => 'Automaster.lns',
@@ -86,7 +105,7 @@ class cvmfs::config (
         'set 01/map  /etc/auto.cvmfs',
       ],
       onlyif  => 'match *[map="/etc/auto.cvmfs"] size == 0',
-      notify  => Service['autofs'],
+      notify  => $_notifyservice,
     }
   }
 }
