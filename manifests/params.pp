@@ -21,6 +21,10 @@ class cvmfs::params {
   # Use the puppet mount type to mount repositories
   $config_mount = false
 
+  # Cvmfs_repo_list, should a CVMFS_REPOSITORIES entry be created
+  # in default.local file
+  $cvmfs_repo_list = true
+
 
   # These values are all destined for /etc/cvmfs/default.local
   # and provide defaults for all cvmfs repositories.

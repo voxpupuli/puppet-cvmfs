@@ -33,6 +33,7 @@ class cvmfs (
   $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url,
   $cvmfs_follow_redirects     = $cvmfs::params::cvmfs_follow_redirects,
   $cvmfs_yum_manage_repo      = $cvmfs::params::cvmfs_yum_manage_repo,
+  $cvmfs_repo_list            = $cvmfs::params::cvmfs_repo_list,
 ) inherits cvmfs::params {
 
   # Deprecations

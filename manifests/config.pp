@@ -15,6 +15,7 @@ class cvmfs::config (
   $manage_autofs_service  = $cvmfs::manage_autofs_service,
   $cvmfs_quota_limit      = $cvmfs::cvmfs_quota_limit,
   $cvmfs_quota_ratio      = $cvmfs::cvmfs_quota_ratio,
+  $cvmfs_repo_list        = $cvmfs::cvmfs_repo_list,
   $default_cvmfs_partsize = $cvmfs::default_cvmfs_partsize,
 ) inherits cvmfs {
 
@@ -74,6 +75,18 @@ class cvmfs::config (
     target  => '/etc/cvmfs/default.local',
     order   => 0,
     content => template('cvmfs/repo.local.erb'),
+  }
+  if $cvmfs_repo_list {
+    concat::fragment{'cvmfs_default_local_repo_end':
+      target  => '/etc/cvmfs/default.local',
+      order   => 7,
+      content => "'\n\n",
+    }
+    concat::fragment{'cvmfs_default_local_repo_start':
+      target  => '/etc/cvmfs/default.local',
+      order   => 5,
+      content => 'CVMFS_REPOSITORIES=\'',
+    }
   }
 
   if $mount_method == 'autofs' {
