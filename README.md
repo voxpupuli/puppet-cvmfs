@@ -15,8 +15,8 @@ The module include one customfacts
 * cvmfspartsize returns the size in megabytes of partition that contains the CVMFS_CACHE_BASE.
 
 ## Client Configuration
-To configure a cvmfs client to mount cvmfs repository or a domain
-a domain of cvmfs repositories use the following.
+To configure a cvmfs client to mount cvmfs repository with
+the default autofs.
 
 ```puppet
 class{"cvmfs":
@@ -27,7 +27,8 @@ cvmfs::mount{'files.example.org:
   cvmfs_server_url  => 'http://web.example.org/cvmfs/files.example.org',
 }
 ```
-or 
+To configure a cvmfs client to mount a domain of repositories
+with autofs.
 
 ```puppet
 class{"cvmfs":
@@ -37,6 +38,27 @@ class{"cvmfs":
 
 cvmfs::domain{'example.net'
   cvmfs_server_url   => 'http://web.example.org/cvmfs/@fqrn@'
+}
+```
+
+To use puppet's mount type rather that autofs
+a typical configuration might be the following. This 
+examples configures a cvmfs domain, a configuration
+repository and finally a particular repository for
+mount.
+
+```puppet
+class{'::cvmfs':
+  mount_method => 'mount',
+}
+cvmfs::domain{'example.org':
+  cvmfs_server_url   => 'http://web.example.org/cvmfs/@fqrn@'
+}
+cvmfs::mount{'cvmfs-config.example.org':
+  require => Cvmfs::Domain['example.org'],
+}
+cvmfs::mount{'myrepo.example.org':
+  require => Cvmfs::Domain['example.org'],
 }
 ```
 
