@@ -68,6 +68,7 @@ cvmfs::mount{'myrepo.example.org':
    *autofs* will configure cvmfs to be mounted with autofs. The *mount* option will
    use puppets mount type, currently adding a line to /etc/fstab. The *none* option
    skips all mounting.
+   Note that migrating between for instance *autofs* and then *mount* is not supported.
 * `manage_autofs_service` boolean defaults to true, should the autofs service be maintained.
 * `cvmfs_quota_limit` The cvmfs quota size in megabytes. See params.pp for default.
 * `cvmfs_quota_ratio` If set to ration, e.g '0.8' then 0.8 of the partition size
