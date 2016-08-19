@@ -139,6 +139,8 @@ cvmfs::mount{'cms.example.org':
    included in the list of repositories listed as `CVMFS_REPOSITORIES`
    with `/etc/cvmfs/default.local`.
 * `cvmfs_follow_redirects` Sets CVMFS_FOLLOW_REDIRECTS to its value, by default unset.
+* `mount_options` If the *mount_method* is *mount* then this specifies the mount
+   options. By default: `nodev,_netdev,defaults`.
 * TBC
 
 
