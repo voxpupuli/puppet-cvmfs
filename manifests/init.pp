@@ -47,10 +47,12 @@ class cvmfs (
 
   validate_re($mount_method,['^autofs$','^mount$','^none$'],'$mount_method must be one of autofs (default), mount or none')
 
-  class{'::cvmfs::install':}
+  anchor{'cvmfs::begin':} ->
+  class{'::cvmfs::install':} ->
+  class{'::cvmfs::config':} ~>
+  class{'::cvmfs::service':} ->
+  anchor{'cvmfs::end':}
 
-  class{'::cvmfs::config':}
-  class{'::cvmfs::service':}
   # Finally allow the individual repositories to be loaded from hiera.
   if is_hash($cvmfs_hash) {
     create_resources('cvmfs::mount', $cvmfs_hash)

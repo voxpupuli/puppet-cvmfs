@@ -24,13 +24,12 @@ class cvmfs::service (
     refreshonly => true,
   }
   if $manage_autofs_service and $mount_method == 'autofs' {
-    service{'autofs':
-      ensure     => running,
-      hasstatus  => true,
-      hasrestart => true,
-      enable     => true,
-      require    => [Class['cvmfs::config'],Class['cvmfs::install']],
-    }
+    ensure_resource('service','autofs',
+      { ensure     => true,
+        enable     => true,
+        hasrestart => true,
+      }
+    )
   }
 }
 

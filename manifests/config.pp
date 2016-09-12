@@ -56,14 +56,15 @@ class cvmfs::config (
 
   # Clobber the /etc/fuse.conf, hopefully no
   # one else wants it.
-  file{'/etc/fuse.conf':
-    ensure  => present,
-    content => "#Installed with puppet cvmfs::config\nuser_allow_other\n",
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    notify  => Class['cvmfs::service'],
-  }
+  ensure_resource('file','/etc/fuse.conf',
+    {
+      ensure  => present,
+      content => "#Installed with puppet\nuser_allow_other\n",
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
+  )
   concat{'/etc/cvmfs/default.local':
     owner   => 'root',
     group   => 'root',
