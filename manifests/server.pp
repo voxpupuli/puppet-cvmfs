@@ -28,8 +28,9 @@
 #      nfsoptions => 'noatime',
 #      pubkey     => 'key.example.org'
 #
-class cvmfs::server ($repo     = $name,
+class cvmfs::server (
   $pubkey,
+  $repo     = $name,
   $nfsshare = undef,
   $nfshost  = undef,
   $nfsopts  = 'rw,noatime,hard,nfsvers=3',
