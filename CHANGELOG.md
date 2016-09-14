@@ -1,3 +1,7 @@
+##2016-09-14 - Release 3.1.0
+- Wrap autofs service with ensure_resource to make co-existing
+  easier.
+
 ##2016-08-18 - Release 3.0.1
 - Bug fix fact for ruby 1.8
 
