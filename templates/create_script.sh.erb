@@ -20,6 +20,7 @@ sudo -H -u <%= @user %> sh -c "cvmfs_swissknife sign \
     -c /etc/cvmfs/keys/<%= @repo %>.crt \
     -k /etc/cvmfs/keys/<%= @repo %>.key \
     -n <%= @repo %> \
+    -u http://localhost/cvmfs/<%= @repo %> \
     -m <%= @spool_store %>/<%= @repo %>/tmp/new_manifest \
     -t <%= @spool_store %>/<%= @repo %>/tmp \
     -r local,<%= @repo_store %>/<%= @repo %>/data/txn,<%= @repo_store %>/<%= @repo %>"
