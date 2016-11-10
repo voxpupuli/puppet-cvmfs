@@ -331,7 +331,7 @@ define cvmfs::zero(
       ensure  => directory,
       owner   => $user,
       group   => $group,
-      require => File["${repo_store}/${repo}"],
+      require => File["${repo_store}/${repo}/data"],
     }
   }
   file{"/cvmfs/${repo}":
