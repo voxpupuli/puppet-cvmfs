@@ -8,6 +8,8 @@
 sudo -H -u <%= @user %> sh -c "cvmfs_swissknife create \
          -t <%= @spool_store %>/<%= @repo %>/tmp \
          -r  local,<%= @repo_store %>/<%= @repo %>/data/txn,<%= @repo_store %>/<%= @repo %> \
+         -n <%= @repo %> \
+         -R <%= @spool_store %>/<%= @repo %>/reflog.chksum \
          -a sha1 \
 <% if @garbage_collection -%>
          -z \
