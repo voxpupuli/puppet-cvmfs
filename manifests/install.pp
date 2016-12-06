@@ -49,9 +49,15 @@ class cvmfs::install (
       require => Package['cvmfs'],
     }
   }
+
+  $_pkgrequire = $cvmfs_yum_manage_repo ? {
+    true  => Yumrepo['cvmfs'],
+    false => undef,
+  }
+
   package{'cvmfs':
     ensure  => $cvmfs_version,
-    require => Yumrepo['cvmfs'],
+    require => $_pkgrequire,
   }
 
 

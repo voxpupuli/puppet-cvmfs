@@ -45,6 +45,7 @@ class cvmfs (
     warning('The $cvmfs_server_url to cvmfs is deprecated, please set this value per mount or per domain.')
   }
 
+  validate_bool($cvmfs_yum_manage_repo)
   validate_re($mount_method,['^autofs$','^mount$','^none$'],'$mount_method must be one of autofs (default), mount or none')
 
   anchor{'cvmfs::begin':} ->

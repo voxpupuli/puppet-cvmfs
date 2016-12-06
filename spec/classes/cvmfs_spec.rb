@@ -17,6 +17,7 @@ describe 'cvmfs' do
     it { should contain_class('cvmfs::config') }
     it { should contain_class('cvmfs::service') }
     it { should contain_package('cvmfs').with_ensure('present') }
+    it { should contain_package('cvmfs').with_require('Yumrepo[cvmfs]') }
 
     context 'with defaults and cvmfspartsize fact unset' do
       let(:facts) do
@@ -126,6 +127,8 @@ describe 'cvmfs' do
 
       context 'with cvmfs_yum_manage_repo set to false' do
         let(:params) { { cvmfs_yum_manage_repo: false } }
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to  have_yumrepo_resource_count(0) }
         it { should_not contain_class('cvmfs::yum') }
         it { should_not contain_yumrepo('cvmfs') }
         it { should_not contain_yumrepo('cvmfs-testing') }
