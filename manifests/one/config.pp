@@ -1,6 +1,8 @@
 # Class: cvmfs::one::config
 # Included once from the cvmfs::one defined type.
-class cvmfs::one::config {
+class cvmfs::one::config (
+  $cvmfs_sync_minute = $::cvmfs::params::cvmfs_sync_minute,
+) inherits cvmfs::params {
 
   firewall{'100 - allow access from 80':
     proto  => 'tcp',
@@ -24,7 +26,7 @@ class cvmfs::one::config {
 
   cron{'cvmfs_sync':
     user    => cvmfsr,
-    minute  => '*/15',
+    minute  => $cvmfs_sync_minute,
     command => '/usr/local/sbin/sync-cron.sh',
     require => File['/usr/local/sbin/sync-cron.sh'],
   }
