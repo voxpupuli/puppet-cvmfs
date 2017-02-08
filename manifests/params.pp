@@ -83,4 +83,6 @@ class cvmfs::params {
   $cvmfs_yum_kernel         = hiera('cvmfs_yum_kernel',"http://cern.ch/cvmrepo/yum/cvmfs-kernel/EL/${::operatingsystemmajrelease}/${::architecture}")
   $cvmfs_yum_kernel_enabled = hiera('cvmfs_yum_kernel_enabled','1')
 
+  $cvmfs_sync_minute        = hiera('cvmfs_sync_minute','*/15')
+
 }

@@ -16,7 +16,7 @@ define cvmfs::zero(
   $auto_gc = false,
   $auto_gc_timespan = '3 days ago',
   $ignore_xdir_hardlinks = false,
-  $creator_version = '2.1.19',
+  $creator_version = '2.3.0-1',
 ) {
   include ::cvmfs::params
   include ::cvmfs::zero::install
@@ -331,7 +331,7 @@ define cvmfs::zero(
       ensure  => directory,
       owner   => $user,
       group   => $group,
-      require => File["${repo_store}/${repo}"],
+      require => File["${repo_store}/${repo}/data"],
     }
   }
   file{"/cvmfs/${repo}":
@@ -348,7 +348,7 @@ define cvmfs::zero(
     group   => $group,
     require => Package['cvmfs-server'],
   }
-  file{["${spool_store}/${repo}/cache","${spool_store}/${repo}/rdonly","${spool_store}/${repo}/scratch","${spool_store}/${repo}/tmp"]:
+  file{["${spool_store}/${repo}/cache","${spool_store}/${repo}/rdonly","${spool_store}/${repo}/scratch","${spool_store}/${repo}/tmp","${spool_store}/${repo}/scratch/current","${spool_store}/${repo}/scratch/wastebin"]:
     ensure => directory,
     owner  => $user,
     group  => $group,
@@ -372,7 +372,7 @@ define cvmfs::zero(
       ensure  => present,
       device  => "aufs_${repo}",
       fstype  => 'aufs',
-      options => "br=${spool_store}/${repo}/scratch=rw:${spool_store}/${repo}/rdonly=rr,udba=none,ro,noauto",
+      options => "br=${spool_store}/${repo}/scratch/current=rw:${spool_store}/${repo}/rdonly=rr,udba=none,ro,noauto",
       require => [Package['cvmfs'],Mount["${spool_store}/${repo}/rdonly"],File["/cvmfs/${repo}"]],
     }
   }
