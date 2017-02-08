@@ -1,3 +1,6 @@
+##2017-02-08 - Release 3.2.0
+- Updates for cvmfs_server version 2.3
+
 ##2016-09-14 - Release 3.1.0
 - Wrap autofs service with ensure_resource to make co-existing
   easier.
