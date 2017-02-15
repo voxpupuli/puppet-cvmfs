@@ -1,3 +1,8 @@
+##2017-02-15 - Release 4.0.0
+- cvmfs::server is now deprecated and will be removed 
+  at next release. README.md contains details
+  for migating to cvmfs::zero defined type.
+
 ##2017-02-08 - Release 3.2.0
 - Updates for cvmfs_server version 2.3
 
