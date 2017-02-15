@@ -44,6 +44,8 @@ class cvmfs::server (
   $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
 )
 {
+
+  notify{'cvmfs::server class is now deprecated, migrate to type cvmfs::zero now':}
   class{'::cvmfs::server::install':}
   class{'::cvmfs::server::config':
     repo     => $repo,
