@@ -162,6 +162,19 @@ describe 'cvmfs' do
             with_content(%r{^CVMFS_MOUNT_RW=yes$})
         end
       end
+      context 'with cvmfs_memcache_size not set' do
+        it do
+          should contain_concat__fragment('cvmfs_default_local_header').
+            without_content(%r{^CVMFS_MEMCACHE_SIZE})
+        end
+      end
+      context 'with cvmfs_memcache set to a value' do
+        let(:params) { { cvmfs_memcache_size: 2000 } }
+        it do
+          should contain_concat__fragment('cvmfs_default_local_header').
+            with_content(%r{^CVMFS_MEMCACHE_SIZE=2000$})
+        end
+      end
       context 'with cvmfs::hash set' do
         let(:params) do
           { cvmfs_hash: { 'one.example.org' => { 'cvmfs_server_url' => 'http://one.example.org/' },
