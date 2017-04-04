@@ -9,8 +9,8 @@ class cvmfs::zero::config {
     incl    => '/etc/sysconfig/selinux',
     lens    => 'Shellvars.lns',
     changes => 'set SELINUX disabled',
-  } ~>
-  exec {'/bin/echo 0 > /selinux/enforce': #apply the change immediately
+  }
+  ~> exec {'/bin/echo 0 > /selinux/enforce': #apply the change immediately
     refreshonly => true,
   }
   # Disable requiretty in sudoers since puppet runs mkfs with out a tty.
