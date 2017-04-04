@@ -1,3 +1,7 @@
+##2017-04-04 - Release 4.1.0
+- New parameter `cvmfs_memcache_size` to main class and 
+  to mount type.
+
 ##2017-02-15 - Release 4.0.0
 - cvmfs::server is now deprecated and will be removed 
   at next release. README.md contains details
