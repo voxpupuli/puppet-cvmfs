@@ -81,8 +81,8 @@ class cvmfs::server::config (
     lens    => 'Shellvars.lns',
     changes => 'set SELINUX disabled',
     before  => Exec['cvmfs_mkfs'],
-  } ~>
-  exec {'/bin/echo 0 > /selinux/enforce': #apply the change immediately
+  }
+  ~> exec {'/bin/echo 0 > /selinux/enforce': #apply the change immediately
     refreshonly => true,
     before      => Exec['cvmfs_mkfs'],
   }
