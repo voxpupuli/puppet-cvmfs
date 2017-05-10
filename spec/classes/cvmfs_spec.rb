@@ -175,6 +175,19 @@ describe 'cvmfs' do
             with_content(%r{^CVMFS_MEMCACHE_SIZE=2000$})
         end
       end
+      context 'with cvmfs_claim_ownership not set' do
+        it do
+          should contain_concat__fragment('cvmfs_default_local_header').
+            without_content(%r{^CVMFS_CLAIM_OWNERSHIP})
+        end
+      end
+      context 'with cvmfs_claim_ownership set to a value' do
+        let(:params) { { cvmfs_claim_ownership: 'yes' } }
+        it do
+          should contain_concat__fragment('cvmfs_default_local_header').
+            with_content(%r{^CVMFS_CLAIM_OWNERSHIP='yes'$})
+        end
+      end
       context 'with cvmfs::hash set' do
         let(:params) do
           { cvmfs_hash: { 'one.example.org' => { 'cvmfs_server_url' => 'http://one.example.org/' },

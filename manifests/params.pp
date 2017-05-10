@@ -58,6 +58,7 @@ class cvmfs::params {
   $cvmfs_use_geoapi       = undef
   $cvmfs_env_variables    = undef
   $cvmfs_follow_redirects = undef
+  $cvmfs_claim_ownership  = undef
 
   #The version of cvmfs to install, should be present and latest,
   # or an exact version number of the package.

@@ -20,6 +20,9 @@ CVMFS_HTTP_PROXY='<%= @cvmfs_http_proxy %>'
 <% if @cvmfs_cache_base and  @cvmfs_cache_base != '' -%>
 CVMFS_CACHE_BASE='<%= @cvmfs_cache_base %>'
 <% end -%>
+<% if @cvmfs_claim_ownership and  @cvmfs_claim_ownership != '' -%>
+CVMFS_CLAIM_OWNERSHIP='<%= @cvmfs_claim_ownership %>'
+<% end -%>
 <% if @cvmfs_server_url and @cvmfs_server_url != '' -%>
 CVMFS_SERVER_URL='<%= @cvmfs_server_url %>'
 <% end -%>

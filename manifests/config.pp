@@ -17,6 +17,7 @@ class cvmfs::config (
   $cvmfs_quota_ratio      = $cvmfs::cvmfs_quota_ratio,
   $cvmfs_repo_list        = $cvmfs::cvmfs_repo_list,
   $cvmfs_memcache_size    = $cvmfs::cvmfs_memcache_size,
+  $cvmfs_claim_ownership  = $cvmfs::cvmfs_claim_ownership,
   $default_cvmfs_partsize = $cvmfs::default_cvmfs_partsize,
 ) inherits cvmfs {
 
