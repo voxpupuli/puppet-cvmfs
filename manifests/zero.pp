@@ -17,6 +17,7 @@ define cvmfs::zero(
   $auto_gc_timespan = '3 days ago',
   $ignore_xdir_hardlinks = false,
   $creator_version = '2.3.0-1',
+  $mime_expire = 120,
 ) {
   include ::cvmfs::params
   include ::cvmfs::zero::install
