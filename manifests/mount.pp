@@ -51,7 +51,7 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
       fstype  => 'cvmfs',
       options => $mount_options,
       atboot  => true,
-      require => [File["/cvmfs/${repo}"],File["/etc/cvmfs/config.d/${repo}.local"],File['/etc/cvmfs/default.local'],File['/etc/fuse.conf']],
+      require => [File["/cvmfs/${repo}"],File["/etc/cvmfs/config.d/${repo}.local"],Concat['/etc/cvmfs/default.local'],File['/etc/fuse.conf']],
     }
   }
 }
