@@ -1,3 +1,12 @@
+##2017-05-18 - Release 4.2.0
+- New paramter `mime_expire` to `cvmfs::zero` to specify 
+  expirey headers for cvmfs files in apache. Defaults 
+  to `120`. Unit is seconds.
+- New optional parameter `cvmfs_claim_ownership` to main class
+  and to mount type.
+- Bugfixes for latest concat modules.
+
+
 ##2017-04-04 - Release 4.1.0
 - New parameter `cvmfs_memcache_size` to main class and 
   to mount type.
