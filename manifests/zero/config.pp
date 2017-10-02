@@ -2,17 +2,6 @@
 #included from instances of cvmfs::zero defined type.
 class cvmfs::zero::config {
 
-  #Switch off selinux for now.
-  #disable SELinux.
-  augeas {'disable_selinux':
-    context => '/files/etc/sysconfig/selinux',
-    incl    => '/etc/sysconfig/selinux',
-    lens    => 'Shellvars.lns',
-    changes => 'set SELINUX disabled',
-  }
-  ~> exec {'/bin/echo 0 > /selinux/enforce': #apply the change immediately
-    refreshonly => true,
-  }
   # Disable requiretty in sudoers since puppet runs mkfs with out a tty.
   augeas{'disable_requiretty':
     context => '/files/etc/sudoers',
