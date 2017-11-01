@@ -12,7 +12,7 @@ class cvmfs::params {
   # Permitted to be 'autofs' or 'mount' or 'none currently.
   $mount_method = 'autofs'
 
-  # Now deprecated 
+  # Now deprecated
   $config_automaster      = hiera('cvmfs_config_automaster',true)
 
   # Manage the autofs service itself.
@@ -76,6 +76,7 @@ class cvmfs::params {
   $cvmfs_yum_testing_enabled = hiera('cvmfs_yum_testing_enabled','0')
 
   $cvmfs_yum_proxy        = undef
+  $cvmfs_yum_priorities   = hiera('cvmfs_yum_priorities')
 
   $cvmfs_yum_manage_repo  = true
 
