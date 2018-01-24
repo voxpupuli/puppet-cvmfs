@@ -1,4 +1,23 @@
-##2017-05-18 - Release 4.2.0
+## 2018-01-24 - Release 5.0.0
+- Deprecates the following explicit hiera variables:
+
+  `cvmfs_quota_limit`, `cvmfs_quota_ratio`, `cvmfs_http_proxy`, `cvmfs_server_url`, `cvmfs_cache_base`,
+  `cvmfs_timeout`, `cvmfs_timeout_direct`, `cvmfs_nfiles`, `cvmfs_public_key`, `cvmfs_force_signing`,
+  `cvmfs_syslog_level`, `cvmfs_tracefile`, `cvmfs_debuglog`, `cvmfs_max_ttl`, `cvmfs::mount`,
+  `cvmfs_yum`, `cvmfs_yum_testing`, `cvmfs_yum_testing_enabled`, `cvmfs_kernel_version`, `cvmfs_yum_kernel`,
+  `cvmfs_yum_kernel_enabled`, `cvmfs_sync_minute`.
+
+  In almost every case the existing conventional class parameter can be used instead. 
+  e.g `cvmfs_quota_limit` becomes `cvmfs::cvmfs_quota_limit`. The class parameter
+  can be specified via hiera if so wished.
+  These parameters have been available, documented and advised for sometime.
+
+  Any use of the above explicit hiera lookups will work for now but a `notify` will be issued offering
+  advice on what action to take.
+
+  The next version `puppet-cvmfs` will completely drop thier support as well as support for puppet3.
+
+## 2017-05-18 - Release 4.2.0
 - New paramter `mime_expire` to `cvmfs::zero` to specify 
   expirey headers for cvmfs files in apache. Defaults 
   to `120`. Unit is seconds.
@@ -7,26 +26,26 @@
 - Bugfixes for latest concat modules.
 
 
-##2017-04-04 - Release 4.1.0
+## 2017-04-04 - Release 4.1.0
 - New parameter `cvmfs_memcache_size` to main class and 
   to mount type.
 
-##2017-02-15 - Release 4.0.0
+## 2017-02-15 - Release 4.0.0
 - cvmfs::server is now deprecated and will be removed 
   at next release. README.md contains details
   for migating to cvmfs::zero defined type.
 
-##2017-02-08 - Release 3.2.0
+## 2017-02-08 - Release 3.2.0
 - Updates for cvmfs_server version 2.3
 
-##2016-09-14 - Release 3.1.0
+## 2016-09-14 - Release 3.1.0
 - Wrap autofs service with ensure_resource to make co-existing
   easier.
 
-##2016-08-18 - Release 3.0.1
+## 2016-08-18 - Release 3.0.1
 - Bug fix fact for ruby 1.8
 
-##2016-08-18 - Release 3.0.0
+## 2016-08-18 - Release 3.0.0
 
 - DEPRCATION: Variable `cvmfs::config_automounter` is now deprecated.
   If it is set to the non default `false` compilation will fail.
@@ -40,7 +59,7 @@
 - Fixes #56 tmpwatch is now installed if fsck crons are
   enabled.
 
-##2016-04-29 - Release 2.0.0
+## 2016-04-29 - Release 2.0.0
 
 - Remove all support for cvmfs 2.0.
 - Only one rather than two puppet runs are now
@@ -49,15 +68,15 @@
 - Stratum 1 apache file update for cvmfs 2.2.
 
 
-##2016-03-07 - Release 1.0.3
+## 2016-03-07 - Release 1.0.3
 
 - Stratum 1 cron jobs more frequent.
 
-##2016-03-07 - Release 1.0.2
+## 2016-03-07 - Release 1.0.2
 
 - Puppetforge publish problem
 
-##2016-03-04 - Release 1.0.0
+## 2016-03-04 - Release 1.0.0
 
 - New parameter `cvmfs::cvmfs_yum_manage_repo` defaults to true
   allows all yum managment to be disabled. Baptiste Grenier
@@ -73,35 +92,35 @@
 - Fixes for puppet 4 support.
 
 
-##2015-08-04 - Release 0.9.0
+## 2015-08-04 - Release 0.9.0
 
 - A tmpwatch -f 30d now runs as weekly cron withing
   cvmfs::fsck to purge quarentined files.
 
-##2015-07-07 - Release 0.8.0
+## 2015-07-07 - Release 0.8.0
 
-##Features
+## Features
 - Tests now check default configuration do not change.
 - CVMFS_FOLLOW_REDIRECTS can now be set globally, per repo or per domain.
 - New onreboot paramter to fsck module runs an fsck on reboot. Default false.
 - zfs kernel module built for aufs kernel may now be installed on stratum0s.
 
-##2015-06-22 - Release 0.7.0
-##Features
+## 2015-06-22 - Release 0.7.0
+## Features
 - New option defaults cvmfs::fsck::options allows
   an option, e.g. -p to parsed to cvmfs_fsck cron.
 
-##Bugfixes
+## Bugfixes
 - Reintroduce $::concat_basedir in tests since
   puppetlabs-concat was reverted to version 1.
 
-##2015-06-10 - Release 0.6.0
-##Features
+## 2015-06-10 - Release 0.6.0
+## Features
 - Garbage collection parameters for stratum 0.
 - CVMFS_IGNORE_XDIR_HARDLINKS can be set on stratum 0.
 
 ##2015-05-06 - Release 0.5.0
-##Deprecations
+## Deprecations
 - All the hiera variables explicity called from params.pp
   file are now deprecated. These variables include.
   `cvmfs_config_automaster`, `cvmfs_quota_limit`, 
@@ -118,7 +137,7 @@
   variables are still being used.
 
 
-##Features
+## Features
 - Beaker acceptence tests now added for client. Configures
   a client and mounts the cms.cern.ch and atlas.cern.ch
   repositories. 
@@ -133,28 +152,28 @@
   by default.
 
 
-##Bugfixes
+## Bugfixes
 - The examples in the README now work.
 
-##2015-04-30 - Release 0.4.4
-###Bugfixes
+## 2015-04-30 - Release 0.4.4
+### Bugfixes
 - Correct erwbgy-limits version dependency.
 
 ##2015-04-30 - Release 0.4.3
-###Bugfixes
+### Bugfixes
 - Fix github to puppetforge publishing.
 
-##2015-04-30 - Release 0.4.2
-###Bugfixes
+## 2015-04-30 - Release 0.4.2
+### Bugfixes
 - Fix github to puppetforge publishing.
 
-##2015-04-29 - Release 0.4.1
-###Bugfixes
+## 2015-04-29 - Release 0.4.1
+### Bugfixes
 - Fix github to puppetforge publishing.
 
-##2015-04-29 - Release 0.4.0
+## 2015-04-29 - Release 0.4.0
 
-###Features
+### Features
 - New paramter `cvmfs_repo_list` allows entries of CVMFS_REPOSITORIES to be fine
   tuned per cvmfs::mount. https://github.com/cvmfs/puppet-cvmfs/pull/22
 - New paramter `manage_autofs_service` controls if autofs service should
@@ -175,25 +194,25 @@
   cvmfs::zero, cvmfs::mount and cvmfs::domain.
 
 
-###Bugfixes
+### Bugfixes
 - cvmfs-config* packages can now be installed on cvmfs servers.
 - All references to deprecated concat::setup removed - @berghaus.
 - Vague use of undef was failing under furture parser or puppet
   4.0
 
-##2015-03-06 - Release 0.3.3
+## 2015-03-06 - Release 0.3.3
 
-###Features
+### Features
 - do not control autofs service when asked not to.
 - Install mod_wsgi and configure for geoip on stratum 1.
 - Allow a http proxy for yum repos to be configured.
 - Migrate to puppetlabs lint tests.
 
-###Bugfixes
+### Bugfixes
 
-##2014-06-18 - Release 0.3.2
+## 2014-06-18 - Release 0.3.2
 
-###Features
+### Features
 - server - seperate yum configuration for server and client.
 - server - Add `nofiles` paramter to server class to allow no open files to 
   be specified for the user running the cvmfs server.
@@ -203,20 +222,20 @@
   /etc/cvmfs/domain.d.
 - client - cvmfs::init class is now paramatised so supports that in addition to hiera.
 
-###Bugfixes
+### Bugfixes
 - server - force a public key file location to be specified.
 - server - when disabling selinux on server specify an augeas scope
 
-##2014-03-27 - Release 0.2.2
+## 2014-03-27 - Release 0.2.2
 
-###Features
+### Features
 
-###Bugfixes
+### Bugfixes
 - bugfix for cvmfs_public_key variable.
 
-##2014-01-16 - Release 0.2.1
+## 2014-01-16 - Release 0.2.1
 
-###Features
+### Features
 
-###Bugfixes
+### Bugfixes
 -  Puppet 3.4 compatability for ensure_resources.
