@@ -1,12 +1,5 @@
 class cvmfs::params {
 
-  # For now just check os and exit if it untested.
-  if $::osfamily == 'RedHat' and $::operatingsystem == 'Fedora' {
-    fail('This cvmfs module has not been verified under fedora.')
-  } elsif $::osfamily != 'RedHat' {
-    fail('This cvmfs module has not been verified under osfamily other than RedHat')
-  }
-
   # Specify a mount method, be default it is autofs
   # Permitted to be 'autofs' or 'mount' or 'none currently.
   $mount_method = 'autofs'
