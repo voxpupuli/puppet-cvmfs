@@ -73,19 +73,6 @@ class cvmfs::server::config (
     enable  => true,
     require => Package['httpd'],
   }
-  #Switch off selinux for now.
-  #disable SELinux.
-  augeas {'disable_selinux':
-    context => '/files/etc/sysconfig/selinux',
-    incl    => '/etc/sysconfig/selinux',
-    lens    => 'Shellvars.lns',
-    changes => 'set SELINUX disabled',
-    before  => Exec['cvmfs_mkfs'],
-  }
-  ~> exec {'/bin/echo 0 > /selinux/enforce': #apply the change immediately
-    refreshonly => true,
-    before      => Exec['cvmfs_mkfs'],
-  }
   # Disable requiretty in sudoers since puppet runs mkfs with out a tty.
   augeas{'disable_requiretty':
     context => '/files/etc/sudoers',
