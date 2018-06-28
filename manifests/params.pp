@@ -103,14 +103,6 @@ class cvmfs::params {
     $cvmfs_public_key = ''
   }
 
-  $_cvmfs_force_signing          = hiera('cvmfs_force_signing',false)
-  if $_cvmfs_force_signing {
-    notify{'Setting cvmfs_force_signing as a hiera variable is deprecated, use cvmfs::cvmfs_force_signing now':}
-    $cvmfs_force_signing = $_cvmfs_force_signing
-  } else {
-    $cvmfs_force_signing = 'yes'
-  }
-
   $_cvmfs_syslog_level          = hiera('cvmfs_syslog_level',false)
   if $_cvmfs_syslog_level {
     notify{'Setting cvmfs_syslog_level as a hiera variable is deprecated, use cvmfs::cvmfs_syslog_level now':}
