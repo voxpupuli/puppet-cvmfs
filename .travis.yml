@@ -16,15 +16,15 @@ matrix:
   fast_finish: true
   include:
   - rvm: 2.1
-    env: PUPPET_VERSION="~> 3.0" STRICT_VARIABLES="yes" CHECK=test
-  - rvm: 2.1
     env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
   - rvm: 2.2
     env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
   - rvm: 2.3.1
-    env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=build
-  - rvm: 2.3.1
     env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
+  - rvm: 2.5.1
+    env: PUPPET_VERSION="~> 5.0" STRICT_VARIABLES="yes" CHECK=test
+  - rvm: 2.5.1
+    env: PUPPET_VERSION="~> 5.0" STRICT_VARIABLES="yes" CHECK=build DEPLOY_TO_FORGE=yes
 notifications:
   email: false
 deploy:
@@ -37,6 +37,6 @@ deploy:
     # all_branches is required to use tags
     all_branches: true
     # Only publish if our main Ruby target builds
-    rvm: 2.3.1
+    condition: "$DEPLOY_TO_FORGE = yes"
 
 
