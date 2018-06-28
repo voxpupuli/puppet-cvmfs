@@ -1,3 +1,6 @@
+## 2018-06-28 - Release 5.2.0
+- New stratum one configuration `mime_expire` defaulting 61 seconds.
+
 ## 2018-06-28 - Release 5.1.0
 - `cvmfs_force_singing` parameter removed. Not used by cvmfs for years.
 - The selinux context for the cache is now correctly set to `cvmfs_cache_t`

@@ -317,7 +317,8 @@ a
 ```puppet
 cvmfs::one{'mice.example.org':
   origin => 'http://cvmfs01.example.org/cvmfs',
-  keys   => ['/etc/cvmfs/keys/example1.pub','/etc/cvmfs/keys/example1.pub']
+  keys   => ['/etc/cvmfs/keys/example1.pub','/etc/cvmfs/keys/example1.pub'],
+  mime_expire => 61,
 }
 ```
 
