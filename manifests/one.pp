@@ -22,7 +22,8 @@
 define cvmfs::one (
   $repo = $name,
   $origin = 'http://stratum0.example.org/cvmfs',
-  $keys = ['/etc/cvmfs/keys/cern.ch.pub','/etc/cvmfs/keys/cern-it1.cern.ch.pub','/etc/cvmfs/keys/cern-it2.cern.ch.pub']
+  $keys = ['/etc/cvmfs/keys/cern.ch.pub','/etc/cvmfs/keys/cern-it1.cern.ch.pub','/etc/cvmfs/keys/cern-it2.cern.ch.pub'],
+  $mime_expire = 61,
 ) {
   include '::cvmfs::one::install'
   include '::cvmfs::one::config'

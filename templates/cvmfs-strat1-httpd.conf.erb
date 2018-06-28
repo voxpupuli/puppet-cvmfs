@@ -45,6 +45,6 @@ Alias /opt/<%= @repo.split('.').first %> /srv/cvmfs/<%= @repo %>
 
     ExpiresActive On
     ExpiresDefault "access plus 3 days"
-    ExpiresByType application/x-cvmfs "access plus 30 seconds"
-    ExpiresByType application/json    "access plus 30 seconds"
+    ExpiresByType application/x-cvmfs "access plus <%= @mime_expire %> seconds"
+    ExpiresByType application/json    "access plus <%= @mime_expire %> seconds"
 </Directory>
