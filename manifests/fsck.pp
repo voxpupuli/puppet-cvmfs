@@ -26,11 +26,11 @@ class cvmfs::fsck (
     default  => 'tmpwatch',
   }
 
-  cron{'clean_quarentine':
+  cron{'clean_quarantaine':
     hour    => fqdn_rand(24,'cvmfs_purge'),
     minute  => fqdn_rand(60,'cvmfs_purge'),
     weekday => fqdn_rand(7,'cvmfs_purge'),
-    command => "${tmpcleaning_cmd} ${cvmfs_cache_base}/shared/quarantaine",
+    command => "/usr/bin/test -d ${cvmfs_cache_base}/shared/quarantaine && ${tmpcleaning_cmd} ${cvmfs_cache_base}/shared/quarantaine",
   }
 
   cron{'cvmfs_fsck':
