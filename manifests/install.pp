@@ -33,7 +33,7 @@ class cvmfs::install (
   # We need to change the selinux context of this new directory below.
   case $::operatingsystemmajrelease {
     5: { $cache_seltype = 'var_t' }
-    default: { $cache_seltype = 'var_lib_t'}
+    default: { $cache_seltype = 'cvmfs_cache_t'}
   }
 
   # Compare the default value with the one from hiera if declared
