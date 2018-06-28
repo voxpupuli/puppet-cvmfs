@@ -83,7 +83,6 @@ cvmfs::mount{'myrepo.example.org':
 * `cvmfs_timeout` cvmfs timeout setting, see params.pp for default.
 * `cvmfs_timeout_direct` cvmfs timeout to direct connections, see params.pp for default.
 * `cvmfs_nfiles` Number of open files, system setting, see params.pp for default.
-* `cvmfs_force_signing` Boolean defaults to true, repositories must be signed.
 * `cvmfs_syslog_level`  Default is in params.pp
 * `cvmfs_tracefile`  Create a tracefile at this location.
 * `cvmfs_debuglog` Create a debug log file at this location.

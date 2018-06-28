@@ -38,9 +38,6 @@ CVMFS_NFILES='<%= @cvmfs_nfiles %>'
 <% if @cvmfs_public_key and @cvmfs_public_key != '' -%>
 CVMFS_PUBLIC_KEY='<%= @cvmfs_public_key %>'
 <% end -%>
-<% @cvmfs_force_signing and  if @cvmfs_force_signing != '' -%>
-CVMFS_FORCE_SIGNING='<%= @cvmfs_force_signing %>'
-<% end -%>
 <% if @cvmfs_syslog_level and  @cvmfs_syslog_level != '' -%>
 CVMFS_SYSLOG_LEVEL='<%= @cvmfs_syslog_level %>'
 <% end -%>

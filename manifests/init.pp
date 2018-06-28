@@ -13,7 +13,6 @@ class cvmfs (
   $cvmfs_timeout              = $cvmfs::params::cvmfs_timeout,
   $cvmfs_timeout_direct       = $cvmfs::params::cvmfs_timeout_direct,
   $cvmfs_nfiles               = $cvmfs::params::cvmfs_nfiles,
-  $cvmfs_force_signing        = $cvmfs::params::cvmfs_force_signing,
   $cvmfs_syslog_level         = $cvmfs::params::cvmfs_syslog_level,
   $cvmfs_tracefile            = $cvmfs::params::cvmfs_tracefile,
   $cvmfs_debuglog             = $cvmfs::params::cvmfs_debuglog,
