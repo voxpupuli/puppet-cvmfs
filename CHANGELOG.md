@@ -1,3 +1,11 @@
+## 2018-06-28 - Release 5.1.0
+- `cvmfs_force_singing` parameter removed. Not used by cvmfs for years.
+- The selinux context for the cache is now correctly set to `cvmfs_cache_t`
+- The tmpclean of quarantine directory only runs if quarantine directory exists.
+- Fix paths to awk, nice.
+- Support debian based distributions for the first time.
+
+
 ## 2018-01-24 - Release 5.0.0
 - Deprecates the following explicit hiera variables:
 
