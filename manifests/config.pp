@@ -11,14 +11,16 @@
 # Copyright 2012 CERN
 #
 class cvmfs::config (
-  $mount_method           = $cvmfs::mount_method,
-  $manage_autofs_service  = $cvmfs::manage_autofs_service,
-  $cvmfs_quota_limit      = $cvmfs::cvmfs_quota_limit,
-  $cvmfs_quota_ratio      = $cvmfs::cvmfs_quota_ratio,
-  $cvmfs_repo_list        = $cvmfs::cvmfs_repo_list,
-  $cvmfs_memcache_size    = $cvmfs::cvmfs_memcache_size,
-  $cvmfs_claim_ownership  = $cvmfs::cvmfs_claim_ownership,
-  $default_cvmfs_partsize = $cvmfs::default_cvmfs_partsize,
+  $mount_method                        = $cvmfs::mount_method,
+  $manage_autofs_service               = $cvmfs::manage_autofs_service,
+  $cvmfs_quota_limit                   = $cvmfs::cvmfs_quota_limit,
+  $cvmfs_quota_ratio                   = $cvmfs::cvmfs_quota_ratio,
+  $cvmfs_repo_list                     = $cvmfs::cvmfs_repo_list,
+  $cvmfs_memcache_size                 = $cvmfs::cvmfs_memcache_size,
+  $cvmfs_claim_ownership               = $cvmfs::cvmfs_claim_ownership,
+  $default_cvmfs_partsize              = $cvmfs::default_cvmfs_partsize,
+  Optional[Integer] $cvmfs_dns_max_ttl = $cvmfs::cvmfs_dns_max_ttl,
+  Optional[Integer] $cvmfs_dns_min_ttl = $cvmfs::cvmfs_dns_min_ttl,
 ) inherits cvmfs {
 
   # If cvmfspartsize fact exists use it, otherwise use a sensible default.

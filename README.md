@@ -76,6 +76,8 @@ cvmfs::mount{'myrepo.example.org':
    you have allocated a partition to cvmfs cache.
 * `cvmfs_http_proxy` List of squid servers, see params.pp for default.
 * `cvmfs_cache_base` Location of the CVMFS cache base, see params.pp for default.
+* `cvmfs_dns_min_ttl` Minimum ttl of DNS lookups.
+* `cvmfs_dns_max_ttl` Maximum ttl of DNS lookups.
   `cvmfs_claim_ownership` Whether the client claims ownership of files or not, see params.pp for default.
 * `cvmfs_memcache_size` Size of the CernVM-FS meta-data memory cache in Megabyte.
 * `cvmfs_mount_rw` Mount option to mount read-only or read/write, 'yes|no', see params.pp for default.

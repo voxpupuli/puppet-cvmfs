@@ -193,6 +193,41 @@ describe 'cvmfs' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.not_to contain_service('autofs') }
       end
+
+      context 'with cvmfs_dns_min_ttl not set' do
+        it do
+          is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+            without_content(%r{^CVMFS_DNS_MIN_TTL})
+        end
+      end
+      context 'with cvmfs_dns_min_ttl set to 20' do
+        let(:params) do
+          { cvmfs_dns_min_ttl: 20,
+            cvmfs_http_proxy: :undef }
+        end
+
+        it do
+          is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+            with_content(%r{^CVMFS_DNS_MIN_TTL='20'$})
+        end
+      end
+      context 'with cvmfs_dns_max_ttl not set' do
+        it do
+          is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+            without_content(%r{^CVMFS_DNS_MAX_TTL})
+        end
+      end
+      context 'with cvmfs_dns_max_ttl set to 200' do
+        let(:params) do
+          { cvmfs_dns_max_ttl: 200,
+            cvmfs_http_proxy: :undef }
+        end
+
+        it do
+          is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+            with_content(%r{^CVMFS_DNS_MAX_TTL='200'$})
+        end
+      end
       context 'with cvmfs_mount_rw not set' do
         it do
           is_expected.to contain_concat__fragment('cvmfs_default_local_header').
