@@ -8,6 +8,12 @@
 # within the default.conf file.
 <% end -%>
 
+<% if @cvmfs_dns_max_ttl -%>
+CVMFS_DNS_MAX_TTL='<%= @cvmfs_dns_max_ttl %>'
+<% end -%>
+<% if @cvmfs_dns_min_ttl -%>
+CVMFS_DNS_MIN_TTL='<%= @cvmfs_dns_min_ttl %>'
+<% end -%>
 <% if @my_cvmfs_quota_limit and  @my_cvmfs_quota_limit != '' -%>
 CVMFS_QUOTA_LIMIT='<%= @my_cvmfs_quota_limit %>'
 <% end -%>

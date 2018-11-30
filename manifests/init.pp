@@ -34,6 +34,8 @@ class cvmfs (
   Optional[Enum['yes','no']] $cvmfs_follow_redirects             = undef,
   Boolean $cvmfs_yum_manage_repo                                 = true,
   Boolean $cvmfs_repo_list                                       = true,
+  Optional[Integer] $cvmfs_dns_min_ttl                           = undef,
+  Optional[Integer] $cvmfs_dns_max_ttl                           = undef,
 ) {
 
 
