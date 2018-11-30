@@ -1,49 +1,40 @@
 # == Class: cvmfs
 class cvmfs (
-  $mount_method               = $cvmfs::params::mount_method,
-  $manage_autofs_service      = $cvmfs::params::manage_autofs_service,
-  $default_cvmfs_partsize     = $cvmfs::params::default_cvmfs_partsize,
-  $cvmfs_quota_limit          = $cvmfs::params::cvmfs_quota_limit,
-  $cvmfs_quota_ratio          = $cvmfs::params::cvmfs_quota_ratio,
-  $cvmfs_http_proxy           = $cvmfs::params::cvmfs_http_proxy,
-  $cvmfs_cache_base           = $cvmfs::params::cvmfs_cache_base,
-  $cvmfs_claim_ownership      = $cvmfs::params::cvmfs_claim_ownership,
-  $cvmfs_mount_rw             = $cvmfs::params::cvmfs_mount_rw,
-  $cvmfs_memcache_size        = $cvmfs::params::cvmfs_memcache_size,
-  $cvmfs_timeout              = $cvmfs::params::cvmfs_timeout,
-  $cvmfs_timeout_direct       = $cvmfs::params::cvmfs_timeout_direct,
-  $cvmfs_nfiles               = $cvmfs::params::cvmfs_nfiles,
-  $cvmfs_syslog_level         = $cvmfs::params::cvmfs_syslog_level,
-  $cvmfs_tracefile            = $cvmfs::params::cvmfs_tracefile,
-  $cvmfs_debuglog             = $cvmfs::params::cvmfs_debuglog,
-  $cvmfs_max_ttl              = $cvmfs::params::cvmfs_max_ttl,
-  $cvmfs_env_variables        = $cvmfs::params::cvmfs_env_variables,
-  $cvmfs_hash                 = $cvmfs::params::cvmfs_hash,
-  $cvmfs_domain_hash          = $cvmfs::params::cvmfs_domain_hash,
-  $cvmfs_version              = $cvmfs::params::cvmfs_version,
-  $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
-  $cvmfs_yum_config           = $cvmfs::params::cvmfs_yum_config,
-  $cvmfs_yum_config_enabled   = $cvmfs::params::cvmfs_yum_config_enabled,
-  $cvmfs_yum_proxy            = $cvmfs::params::cvmfs_yum_proxy,
-  $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
-  $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
-  $cvmfs_yum_gpgcheck         = $cvmfs::params::cvmfs_yum_gpgcheck,
-  $cvmfs_yum_gpgkey           = $cvmfs::params::cvmfs_yum_gpgkey,
-  $cvmfs_use_geoapi           = $cvmfs::params::cvmfs_use_geoapi,
-  $cvmfs_server_url           = $cvmfs::params::cvmfs_server_url,
-  $cvmfs_follow_redirects     = $cvmfs::params::cvmfs_follow_redirects,
-  $cvmfs_yum_manage_repo      = $cvmfs::params::cvmfs_yum_manage_repo,
-  $cvmfs_repo_list            = $cvmfs::params::cvmfs_repo_list,
-) inherits cvmfs::params {
+  Variant[Undef,String] $cvmfs_http_proxy,
+  Enum['autofs','mount','none'] $mount_method                    = 'autofs',
+  Boolean $manage_autofs_service                                 = true,
+  Integer $default_cvmfs_partsize                                = 10000,
+  Variant[Enum['auto'],Integer] $cvmfs_quota_limit               = 1000,
+  Float   $cvmfs_quota_ratio                                     = 0.85,
+  Stdlib::Absolutepath $cvmfs_cache_base                         = '/var/lib/cvmfs',
+  Optional[Enum['yes','no']] $cvmfs_claim_ownership              = undef,
+  Optional[Enum['yes','no']] $cvmfs_mount_rw                     = undef,
+  Optional[Integer] $cvmfs_memcache_size                         = undef,
+  Optional[Integer] $cvmfs_timeout                               = undef,
+  Optional[Integer] $cvmfs_timeout_direct                        = undef,
+  Optional[Integer] $cvmfs_nfiles                                = undef,
+  Optional[Integer[1,2]] $cvmfs_syslog_level                     = undef,
+  Optional[Stdlib::Absolutepath] $cvmfs_tracefile                = undef,
+  Optional[Stdlib::Absolutepath] $cvmfs_debuglog                 = undef,
+  Optional[Integer] $cvmfs_max_ttl                               = undef,
+  Hash    $cvmfs_env_variables                                   = {},
+  Hash $cvmfs_hash                                               = {},
+  Hash $cvmfs_domain_hash                                        = {},
+  String[1] $cvmfs_version                                       = 'present',
+  Stdlib::Httpurl $cvmfs_yum                                     = "http://cern.ch/cvmrepo/yum/cvmfs/EL/${::operatingsystemmajrelease}/${::architecture}",
+  Stdlib::Httpurl $cvmfs_yum_config                              = "http://cern.ch/cvmrepo/yum/cvmfs-config/EL/${::operatingsystemmajrelease}/${::architecture}",
+  Integer[0,1] $cvmfs_yum_config_enabled                            = 0,
+  Optional[Stdlib::Httpurl] $cvmfs_yum_proxy                     = undef,
+  Stdlib::Httpurl $cvmfs_yum_testing                             = "http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${::operatingsystemmajrelease}/${::architecture}",
+  Integer[0,1] $cvmfs_yum_testing_enabled                           = 0,
+  Integer[0,1] $cvmfs_yum_gpgcheck                                  = 1,
+  Variant[Stdlib::Filesource,Stdlib::Httpurl] $cvmfs_yum_gpgkey  = 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
+  Optional[Enum['yes','no']] $cvmfs_use_geoapi                   = undef,
+  Optional[Enum['yes','no']] $cvmfs_follow_redirects             = undef,
+  Boolean $cvmfs_yum_manage_repo                                 = true,
+  Boolean $cvmfs_repo_list                                       = true,
+) {
 
-  # Deprecations
-
-  if $cvmfs_server_url {
-    warning('The $cvmfs_server_url to cvmfs is deprecated, please set this value per mount or per domain.')
-  }
-
-  validate_bool($cvmfs_yum_manage_repo)
-  validate_re($mount_method,['^autofs$','^mount$','^none$'],'$mount_method must be one of autofs (default), mount or none')
 
   anchor{'cvmfs::begin':}
   -> class{'::cvmfs::install':}
@@ -52,11 +43,7 @@ class cvmfs (
   -> anchor{'cvmfs::end':}
 
   # Finally allow the individual repositories to be loaded from hiera.
-  if is_hash($cvmfs_hash) {
-    create_resources('cvmfs::mount', $cvmfs_hash)
-  }
-  if is_hash($cvmfs_domain_hash) {
-    create_resources('cvmfs::domain', $cvmfs_domain_hash)
-  }
+  create_resources('cvmfs::mount', $cvmfs_hash)
+  create_resources('cvmfs::domain', $cvmfs_domain_hash)
 
 }

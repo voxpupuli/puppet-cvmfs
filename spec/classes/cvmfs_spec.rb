@@ -1,6 +1,11 @@
 require 'spec_helper'
 describe 'cvmfs' do
-  context 'with defaults for all parameters' do
+  context 'with cmvfs_proxy_unset for all parameters' do
+    let(:params) do
+      { cvmfs_http_proxy: :undef
+      }
+    end
+
     let(:facts) do
       { concat_basedir: '/tmp',
         osfamily: 'RedHat',
@@ -36,7 +41,8 @@ describe 'cvmfs' do
       context 'with cvmfs_quota_ratio set' do
         let(:params) do
           { cvmfs_quota_limit: 'auto',
-            cvmfs_quota_ratio: '0.75' }
+            cvmfs_http_proxy: :undef,
+            cvmfs_quota_ratio: 0.75 }
         end
         it { should contain_concat__fragment('cvmfs_default_local_header').with_content(%r{^CVMFS_QUOTA_LIMIT='7500'$}) }
       end
@@ -64,7 +70,7 @@ describe 'cvmfs' do
         should contain_yumrepo('cvmfs').with(
           'enabled' => '1',
           'baseurl' => 'http://cern.ch/cvmrepo/yum/cvmfs/EL/7/x86_64',
-          'gpgcheck' => '1',
+          'gpgcheck' => 1,
           'gpgkey'   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'
 )
       end
@@ -72,7 +78,7 @@ describe 'cvmfs' do
         should contain_yumrepo('cvmfs-testing').with(
           'enabled' => '0',
           'baseurl' => 'http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/7/x86_64',
-          'gpgcheck' => '1',
+          'gpgcheck' => 1,
           'gpgkey'   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'
 )
       end
@@ -80,45 +86,56 @@ describe 'cvmfs' do
         should contain_yumrepo('cvmfs-config').with(
           'enabled' => '0',
           'baseurl' => 'http://cern.ch/cvmrepo/yum/cvmfs-config/EL/7/x86_64',
-          'gpgcheck' => '1',
+          'gpgcheck' => 1,
           'gpgkey'   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'
 )
       end
 
       context 'with cvmfs_yum_config_enabled set to 1' do
-        let(:params) { { cvmfs_yum_config_enabled: '1' } }
-        it { should contain_yumrepo('cvmfs-config').with_enabled('1') }
+        let(:params) { { cvmfs_yum_config_enabled: 1,
+                         cvmfs_http_proxy: :undef
+        } }
+        it { should contain_yumrepo('cvmfs-config').with_enabled(1) }
       end
 
       context 'with cvmfs_yum_config set to http://example.org/yum' do
-        let(:params) { { cvmfs_yum_config: 'http://example.org/yum' } }
+        let(:params) { { cvmfs_yum_config: 'http://example.org/yum',
+                         cvmfs_http_proxy: :undef,
+        } }
         it { should contain_yumrepo('cvmfs-config').with_baseurl('http://example.org/yum') }
       end
 
       context 'with cvmfs_quota_ratio set' do
         let(:params) do
           { cvmfs_quota_limit: 'auto',
-            cvmfs_quota_ratio: '0.5' }
+            cvmfs_http_proxy: :undef,
+            cvmfs_quota_ratio: 0.5 }
         end
         it { should contain_concat__fragment('cvmfs_default_local_header').with_content(%r{^CVMFS_QUOTA_LIMIT='5000000'$}) }
       end
 
       context 'with cvmfs_yum_gpgcheck set to 0' do
-        let(:params) { { cvmfs_yum_gpgcheck: '0' } }
-        it { should contain_yumrepo('cvmfs').with_gpgcheck('0') }
-        it { should contain_yumrepo('cvmfs-testing').with_gpgcheck('0') }
-        it { should contain_yumrepo('cvmfs-config').with_gpgcheck('0') }
+        let(:params) { { cvmfs_yum_gpgcheck: 0,
+                         cvmfs_http_proxy: :undef,
+        } }
+        it { should contain_yumrepo('cvmfs').with_gpgcheck(0) }
+        it { should contain_yumrepo('cvmfs-testing').with_gpgcheck(0) }
+        it { should contain_yumrepo('cvmfs-config').with_gpgcheck(0) }
       end
 
       context 'with cvmfs_yum_gpgkey set to http://example.org/key.gpg' do
-        let(:params) { { cvmfs_yum_gpgkey: 'http://example.org/key.gpg' } }
+        let(:params) { { cvmfs_yum_gpgkey: 'http://example.org/key.gpg',
+                         cvmfs_http_proxy: :undef,
+        } }
         it { should contain_yumrepo('cvmfs').with_gpgkey('http://example.org/key.gpg') }
         it { should contain_yumrepo('cvmfs-testing').with_gpgkey('http://example.org/key.gpg') }
         it { should contain_yumrepo('cvmfs-config').with_gpgkey('http://example.org/key.gpg') }
       end
 
       context 'with cvmfs_yum_manage_repo set to true' do
-        let(:params) { { cvmfs_yum_manage_repo: true } }
+        let(:params) { { cvmfs_yum_manage_repo: true,
+                         cvmfs_http_proxy: :undef,
+        } }
         it { should contain_class('cvmfs::yum') }
         it { should contain_yumrepo('cvmfs') }
         it { should contain_yumrepo('cvmfs-testing') }
@@ -126,7 +143,9 @@ describe 'cvmfs' do
       end
 
       context 'with cvmfs_yum_manage_repo set to false' do
-        let(:params) { { cvmfs_yum_manage_repo: false } }
+        let(:params) { { cvmfs_yum_manage_repo: false,
+                         cvmfs_http_proxy: :undef,
+        } }
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to  have_yumrepo_resource_count(0) }
         it { should_not contain_class('cvmfs::yum') }
@@ -136,18 +155,18 @@ describe 'cvmfs' do
       end
 
       context 'with manage_autofs_service true' do
-        let(:params) { { manage_autofs_service: true } }
+        let(:params) { { manage_autofs_service: true,
+                         cvmfs_http_proxy: :undef,
+        } }
         it { is_expected.to compile.with_all_deps }
         it { should contain_service('autofs') }
       end
       context 'with manage_autofs_service false' do
-        let(:params) { { manage_autofs_service: false } }
+        let(:params) { { manage_autofs_service: false,
+                         cvmfs_http_proxy: :undef,
+        } }
         it { is_expected.to compile.with_all_deps }
         it { should_not contain_service('autofs') }
-      end
-      context 'with cvmfs_server_url set to something, to be deprecated' do
-        let(:params) { { cvmfs_server_url: 'http://example.org/cvmfs/files.repo.org' } }
-        it { should compile.with_all_deps }
       end
       context 'with cvmfs_mount_rw not set' do
         it do
@@ -156,7 +175,9 @@ describe 'cvmfs' do
         end
       end
       context 'with cvmfs_mount_rw set to true' do
-        let(:params) { { cvmfs_mount_rw: 'yes' } }
+        let(:params) { { cvmfs_mount_rw: 'yes',
+                         cvmfs_http_proxy: :undef,
+        } }
         it do
           should contain_concat__fragment('cvmfs_default_local_header').
             with_content(%r{^CVMFS_MOUNT_RW=yes$})
@@ -169,7 +190,9 @@ describe 'cvmfs' do
         end
       end
       context 'with cvmfs_memcache set to a value' do
-        let(:params) { { cvmfs_memcache_size: 2000 } }
+        let(:params) { { cvmfs_memcache_size: 2000,
+                         cvmfs_http_proxy: :undef,
+        } }
         it do
           should contain_concat__fragment('cvmfs_default_local_header').
             with_content(%r{^CVMFS_MEMCACHE_SIZE=2000$})
@@ -182,7 +205,9 @@ describe 'cvmfs' do
         end
       end
       context 'with cvmfs_claim_ownership set to a value' do
-        let(:params) { { cvmfs_claim_ownership: 'yes' } }
+        let(:params) { { cvmfs_claim_ownership: 'yes',
+                         cvmfs_http_proxy: :undef,
+        } }
         it do
           should contain_concat__fragment('cvmfs_default_local_header').
             with_content(%r{^CVMFS_CLAIM_OWNERSHIP='yes'$})
@@ -191,7 +216,9 @@ describe 'cvmfs' do
       context 'with cvmfs::hash set' do
         let(:params) do
           { cvmfs_hash: { 'one.example.org' => { 'cvmfs_server_url' => 'http://one.example.org/' },
-                          'two.example.org' => { 'cvmfs_env_variables' => { 'LOCAL_SITE' => 'jump' } } } }
+                          'two.example.org' => { 'cvmfs_env_variables' => { 'LOCAL_SITE' => 'jump' } } },
+            cvmfs_http_proxy: :undef,
+          }
         end
         it { should contain_file('/etc/cvmfs/config.d/one.example.org.local').with_content(%r{^CVMFS_SERVER_URL='http://one.example.org/'$}) }
         it { should contain_file('/etc/cvmfs/config.d/two.example.org.local').with_content(%r{^export LOCAL_SITE=jump}) }

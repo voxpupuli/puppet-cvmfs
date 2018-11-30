@@ -1,9 +1,9 @@
 # Class - cvmfs::server::install
 class cvmfs::server::install (
-  $cvmfs_version        = $cvmfs::params::cvmfs_version,
-  $cvmfs_kernel_version = $cvmfs::params::cvmfs_kernel_version,
-  $cvmfs_aufs2_version  = $cvmfs::params::cvmfs_aufs2_version
-) inherits cvmfs::params {
+  String $cvmfs_version        = 'present',
+  String $cvmfs_kernel_version = 'present',
+  String $cvmfs_aufs2_version  = 'present',
+) {
 
   class{'::cvmfs::server::yum':}
 
