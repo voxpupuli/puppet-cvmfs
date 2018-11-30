@@ -89,6 +89,7 @@ cvmfs::mount{'myrepo.example.org':
 * `cvmfs_max_ttl` Max ttl, see params.pp for default.
 * `cvmfs_version` Version of cvmfs to install , default is present.
 * `cvmfs_yum`  Yum repository URL for cvmfs.
+* `cvmfs_yum_priority` Yum priority of repositories, defaults to 80.
 * `cvmfs_yum_proxy` http proxy for cvmfs yum package repository
 * `cvmfs_yum_config`  Yum repository URL for cvmfs site configs.
 * `cvmfs_yum_config_enabled`  Defaults to false, set to true to enable.

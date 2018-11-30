@@ -23,6 +23,7 @@ class cvmfs (
   String[1] $cvmfs_version                                       = 'present',
   Stdlib::Httpurl $cvmfs_yum                                     = "http://cern.ch/cvmrepo/yum/cvmfs/EL/${::operatingsystemmajrelease}/${::architecture}",
   Stdlib::Httpurl $cvmfs_yum_config                              = "http://cern.ch/cvmrepo/yum/cvmfs-config/EL/${::operatingsystemmajrelease}/${::architecture}",
+  Integer $cvmfs_yum_priority                                    = 80,
   Integer[0,1] $cvmfs_yum_config_enabled                            = 0,
   Optional[Stdlib::Httpurl] $cvmfs_yum_proxy                     = undef,
   Stdlib::Httpurl $cvmfs_yum_testing                             = "http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${::operatingsystemmajrelease}/${::architecture}",

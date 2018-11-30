@@ -73,7 +73,9 @@ describe 'cvmfs' do
           'enabled' => '1',
           'baseurl' => 'http://cern.ch/cvmrepo/yum/cvmfs/EL/7/x86_64',
           'gpgcheck' => 1,
-          'gpgkey'   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'
+          'gpgkey'   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
+          'priority' => 80
+
         )
       end
       it do
@@ -121,15 +123,19 @@ describe 'cvmfs' do
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').with_content(%r{^CVMFS_QUOTA_LIMIT='5000000'$}) }
       end
 
-      context 'with cvmfs_yum_gpgcheck set to 0' do
+      context 'with cvmfs_yum_gpgcheck set to 0 and yum_priority 100' do
         let(:params) do
           { cvmfs_yum_gpgcheck: 0,
+            cvmfs_yum_priority: 100,
             cvmfs_http_proxy: :undef }
         end
 
         it { is_expected.to contain_yumrepo('cvmfs').with_gpgcheck(0) }
+        it { is_expected.to contain_yumrepo('cvmfs').with_priority(100) }
         it { is_expected.to contain_yumrepo('cvmfs-testing').with_gpgcheck(0) }
+        it { is_expected.to contain_yumrepo('cvmfs-testing').with_priority(100) }
         it { is_expected.to contain_yumrepo('cvmfs-config').with_gpgcheck(0) }
+        it { is_expected.to contain_yumrepo('cvmfs-config').with_priority(100) }
       end
 
       context 'with cvmfs_yum_gpgkey set to http://example.org/key.gpg' do
