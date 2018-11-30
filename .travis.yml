@@ -1,42 +1,85 @@
 ---
 sudo: false
+dist: trusty
 language: ruby
 cache: bundler
-bundler_args: --without system_tests development
 before_install:
-  - bundle -v
-  - rm Gemfile.lock || true
-  - gem update --system
-  - gem update bundler
-  - gem --version
-  - bundle -v
+  - rm -f Gemfile.lock
 script:
   - 'bundle exec rake $CHECK'
 matrix:
   fast_finish: true
   include:
-  - rvm: 2.1
-    env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
-  - rvm: 2.2
-    env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
-  - rvm: 2.3.1
-    env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
+  - rvm: 2.1.9
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 4.0" CHECK=test PARALLEL_TEST_PROCESSORS=12
+  - rvm: 2.4.4
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 5.0" CHECK=test
   - rvm: 2.5.1
-    env: PUPPET_VERSION="~> 5.0" STRICT_VARIABLES="yes" CHECK=test
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 6.0" CHECK=test_with_coveralls
   - rvm: 2.5.1
-    env: PUPPET_VERSION="~> 5.0" STRICT_VARIABLES="yes" CHECK=build DEPLOY_TO_FORGE=yes
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 6.0" CHECK=rubocop
+  - rvm: 2.4.4
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 5.0" CHECK=build DEPLOY_TO_FORGE=yes
+  - rvm: 2.5.1
+    bundler_args: --without development release
+    dist: trusty
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_debug=true BEAKER_setfile=centos6-64{hypervisor=docker} CHECK=beaker
+    services: docker
+    sudo: required
+  - rvm: 2.5.1
+    bundler_args: --without development release
+    dist: trusty
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_debug=true BEAKER_setfile=centos6-64{hypervisor=docker} CHECK=beaker
+    services: docker
+    sudo: required
+  - rvm: 2.5.1
+    bundler_args: --without development release
+    dist: trusty
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet6-nightly BEAKER_debug=true BEAKER_setfile=centos6-64{hypervisor=docker} CHECK=beaker
+    services: docker
+    sudo: required
+  - rvm: 2.5.1
+    bundler_args: --without development release
+    dist: trusty
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_debug=true BEAKER_setfile=centos7-64{hypervisor=docker} CHECK=beaker
+    services: docker
+    sudo: required
+  - rvm: 2.5.1
+    bundler_args: --without development release
+    dist: trusty
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_debug=true BEAKER_setfile=centos7-64{hypervisor=docker} CHECK=beaker
+    services: docker
+    sudo: required
+  - rvm: 2.5.1
+    bundler_args: --without development release
+    dist: trusty
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet6-nightly BEAKER_debug=true BEAKER_setfile=centos7-64{hypervisor=docker} CHECK=beaker
+    services: docker
+    sudo: required
+branches:
+  only:
+  - master
+  - /^v\d/
 notifications:
   email: false
+  irc:
+    on_success: always
+    on_failure: always
+    channels:
+      - "chat.freenode.org#voxpupuli-notifications"
 deploy:
   provider: puppetforge
-  user: CERNOps
+  user: puppet
   password:
-    secure: "Wov2HagpIdyxUW8FcL9W9yQzE8se01sTA3mbKfwUaqpTYm8XllfdrmNTpEbe1V+675SUBFR546jeXAA2YrLdOXbfXNAwL1ITHg1thnd+6fGz1i0KX77mMp5Mu0V0DnN1nyQAH3q9KLPblbYlP5ETYHsw9ImkiPQCtURxSLVb/co="
+    secure: "p67QoIuj9j2DtGt39bZt/YSj+ggMA/fJHmH5DB30QMnvFw79k4SSNnoycwTnuLvNZIbqzUkJCU7TtXiJC0rFiJTgPWM9+uik4jB7sZWZ4ynoMOyT96PZwCePozhnqmMen/4dDRRKHGVT9GQbw/37EolWODrNswRe9JBhjMRlHZs="
   on:
     tags: true
     # all_branches is required to use tags
     all_branches: true
-    # Only publish if our main Ruby target builds
+    # Only publish the build marked with "DEPLOY_TO_FORGE"
     condition: "$DEPLOY_TO_FORGE = yes"
-
-
