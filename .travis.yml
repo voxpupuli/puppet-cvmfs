@@ -65,18 +65,11 @@ branches:
   only:
   - master
   - /^v\d/
-notifications:
-  email: false
-  irc:
-    on_success: always
-    on_failure: always
-    channels:
-      - "chat.freenode.org#voxpupuli-notifications"
 deploy:
   provider: puppetforge
-  user: puppet
+  user: CERNOps
   password:
-    secure: "p67QoIuj9j2DtGt39bZt/YSj+ggMA/fJHmH5DB30QMnvFw79k4SSNnoycwTnuLvNZIbqzUkJCU7TtXiJC0rFiJTgPWM9+uik4jB7sZWZ4ynoMOyT96PZwCePozhnqmMen/4dDRRKHGVT9GQbw/37EolWODrNswRe9JBhjMRlHZs="
+    secure: "Wov2HagpIdyxUW8FcL9W9yQzE8se01sTA3mbKfwUaqpTYm8XllfdrmNTpEbe1V+675SUBFR546jeXAA2YrLdOXbfXNAwL1ITHg1thnd+6fGz1i0KX77mMp5Mu0V0DnN1nyQAH3q9KLPblbYlP5ETYHsw9ImkiPQCtURxSLVb/co="
   on:
     tags: true
     # all_branches is required to use tags
