@@ -6,7 +6,7 @@
 
 require 'yaml'
 Facter.add(:cvmfspartsize) do
-  confine :kernel => 'Linux'
+  confine kernel: 'Linux'
   setcode do
     if File.exist?('/etc/cvmfs/cvmfsfacts.yaml')
       directory = YAML.load(File.open('/etc/cvmfs/cvmfsfacts.yaml'))['cvmfs_cache_base']

@@ -30,20 +30,19 @@
 #
 class cvmfs::server (
   $pubkey,
-  $repo     = $name,
-  $nfsshare = undef,
-  $nfshost  = undef,
-  $nfsopts  = 'rw,noatime,hard,nfsvers=3',
-  $user     = 'shared',
-  $nofiles  = 65000,
-  $uid      = 101,
-  $cvmfs_yum_kernel         = $cvmfs::params::cvmfs_yum_kernel,
-  $cvmfs_yum_kernel_enabled = $cvmfs::params::cvmfs_yum_kernel_enabled,
-  $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
-  $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
-  $cvmfs_yum_testing_enabled = $cvmfs::params::cvmfs_yum_testing_enabled,
-)
-{
+  $repo                                   = $name,
+  $nfsshare                               = undef,
+  $nfshost                                = undef,
+  $nfsopts                                = 'rw,noatime,hard,nfsvers=3',
+  $user                                   = 'shared',
+  $nofiles                                = 65000,
+  $uid                                    = 101,
+  $cvmfs_yum_kernel                       = "http://cern.ch/cvmrepo/yum/cvmfs-kernel/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+  Integer[0,1] $cvmfs_yum_kernel_enabled  = 0,
+  $cvmfs_yum                              = "http://cern.ch/cvmrepo/yum/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+  $cvmfs_yum_testing                      = "http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+  Integer[0,1] $cvmfs_yum_testing_enabled = 0,
+) {
 
   notify{'cvmfs::server class is now deprecated, migrate to type cvmfs::zero now':}
   class{'::cvmfs::server::install':}

@@ -1,10 +1,10 @@
 # Class cvmfs::server::yum
 class cvmfs::zero::yum (
-  $cvmfs_yum_kernel           = $cvmfs::params::cvmfs_yum_kernel,
-  $cvmfs_yum_kernel_enabled   = $cvmfs::params::cvmfs_yum_kernel_enabled,
-  $cvmfs_yum                  = $cvmfs::params::cvmfs_yum,
-  $cvmfs_yum_testing          = $cvmfs::params::cvmfs_yum_testing,
-  $cvmfs_yum_testing_enabled  = $cvmfs::params::cvmfs_yum_testing_enabled,
+  Stdlib::Httpurl $cvmfs_yum_kernel       = "http://cern.ch/cvmrepo/yum/cvmfs-kernel/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+  Integer[0,1] $cvmfs_yum_kernel_enabled  = 1,
+  Stdlib::Httpurl $cvmfs_yum              = "http://cern.ch/cvmrepo/yum/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+  Stdlib::Httpurl $cvmfs_yum_testing      = "http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+  Integer[0,1] $cvmfs_yum_testing_enabled = 1,
 ) {
 
   yumrepo{'cvmfs':

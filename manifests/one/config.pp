@@ -1,8 +1,8 @@
 # Class: cvmfs::one::config
 # Included once from the cvmfs::one defined type.
 class cvmfs::one::config (
-  $cvmfs_sync_minute = $::cvmfs::params::cvmfs_sync_minute,
-) inherits cvmfs::params {
+  $cvmfs_sync_minute = '*/15',
+) {
 
   firewall{'100 - allow access from 80':
     proto  => 'tcp',
