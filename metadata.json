@@ -3,7 +3,7 @@
   "name": "CERNOps-cvmfs",
   "author": "CERNOps",
   "project_page": "https://github.com/cvmfs/puppet-cvmfs",
-  "version": "6.0.1",
+  "version": "6.0.2-rc0",
   "source": "https://github.com/cvmfs/puppet-cvmfs",
   "license": "Apache-2.0",
   "dependencies": [
