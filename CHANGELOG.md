@@ -1,3 +1,16 @@
+## 2018-12-03 - Release 6.0.0
+- New parameters `cvmfs_dns_min_ttl` and `cvmfs_dns_max_ttl`.
+  Unit is in seconds, support added in `cvmfs-2.5.2`
+- New parameter `cvmfs_yum_priority` to set yum repo priority.
+  The default is the existing value so no change.
+- Fixtures for Puppet6 support.
+- All the deprecated explicit hiera calls that were issuing
+  notify calls for the last year have been completely removed.
+- Puppet 4 types have now been added and much stronger
+  type checking of input is now done. e.g while a 
+  `cvmfs_quota_limit` of `'1234'` or `1234` used to be permitted only
+  the latter is now permitted.
+
 ## 2018-06-28 - Release 5.2.0
 - New stratum one configuration `mime_expire` defaulting 61 seconds.
 
