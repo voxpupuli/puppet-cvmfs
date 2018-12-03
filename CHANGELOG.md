@@ -1,3 +1,6 @@
+## 2018-12-03 - Release 6.0.1
+- Rely on $PATH to find `nice` command in fsck cron.
+
 ## 2018-12-03 - Release 6.0.0
 - New parameters `cvmfs_dns_min_ttl` and `cvmfs_dns_max_ttl`.
   Unit is in seconds, support added in `cvmfs-2.5.2`
