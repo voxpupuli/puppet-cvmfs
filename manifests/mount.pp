@@ -16,6 +16,11 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   $cvmfs_follow_redirects = undef,
   $mount_options = 'defaults,_netdev,nodev',
   $mount_method = $cvmfs::mount_method,
+  Optional[String] $cvmfs_external_fallback_proxy = undef,
+  Optional[String] $cvmfs_external_http_proxy = undef,
+  Optional[Integer] $cvmfs_external_timeout = undef,
+  Optional[Integer] $cvmfs_external_timeout_direct = undef,
+  Optional[String] $cvmfs_external_url = undef,
 ) {
 
   include ::cvmfs

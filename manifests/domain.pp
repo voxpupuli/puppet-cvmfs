@@ -10,6 +10,11 @@ define cvmfs::domain($cvmfs_quota_limit = undef,
   $cvmfs_env_variables = undef,
   $cvmfs_use_geoapi = undef,
   $cvmfs_follow_redirects = undef,
+  Optional[String] $cvmfs_external_fallback_proxy = undef,
+  Optional[String] $cvmfs_external_http_proxy = undef,
+  Optional[Integer] $cvmfs_external_timeout = undef,
+  Optional[Integer] $cvmfs_external_timeout_direct = undef,
+  Optional[String] $cvmfs_external_url = undef,
 ) {
 
   include ::cvmfs
