@@ -1,3 +1,6 @@
+## 2019-01-28 - Release 6.1.0
+- Support EXTERNAL repository parameters
+
 ## 2018-12-03 - Release 6.0.1
 - Rely on $PATH to find `nice` command in fsck cron.
 
