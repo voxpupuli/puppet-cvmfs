@@ -65,6 +65,21 @@ CVMFS_MOUNT_RW=<%= @cvmfs_mount_rw %>
 <% if @cvmfs_follow_redirects -%>
 CVMFS_FOLLOW_REDIRECTS='<%= @cvmfs_follow_redirects %>'
 <% end -%>
+<% if @cvmfs_external_fallback_proxy -%>
+CVMFS_EXTERNAL_FALLBACK_PROXY  = <%= @cvmfs_external_fallback_proxy %>
+<% end -%>
+<% if @cvmfs_external_http_proxy -%>
+CVMFS_EXTERNAL_HTTP_PROXY  = <%= @cvmfs_external_http_proxy %>
+<% end -%>
+<% if @cvmfs_external_timeout -%>
+CVMFS_EXTERNAL_TIMEOUT  = <%= @cvmfs_external_timeout %>
+<% end -%>
+<% if @cvmfs_external_timeout_direct -%>
+CVMFS_EXTERNAL_TIMEOUT_DIRECT  = <%= @cvmfs_external_timeout_direct %>
+<% end -%>
+<% if @cvmfs_external_url -%>
+CVMFS_EXTERNAL_URL  = <%= @cvmfs_external_url %>
+<% end -%>
 <%if @cvmfs_env_variables -%>
 <% @cvmfs_env_variables.each_pair do |var, value| -%>
 export <%=var-%>=<%=value%>
