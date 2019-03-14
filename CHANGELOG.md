@@ -1,3 +1,6 @@
+## 2019-03-14 - Release 6.2.0
+- Support cvmfs_http_proxy on a mount
+
 ## 2019-01-28 - Release 6.1.0
 - Support EXTERNAL repository parameters
 
