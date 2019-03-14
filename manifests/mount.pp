@@ -1,6 +1,7 @@
 # == Define: cvmfs::mount
 define cvmfs::mount($cvmfs_quota_limit = undef,
   $cvmfs_server_url = undef,
+  $cvmfs_http_proxy = undef,
   $cvmfs_timeout = undef,
   $cvmfs_timeout_direct = undef,
   $cvmfs_nfiles = undef,
