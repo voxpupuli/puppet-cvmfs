@@ -30,6 +30,7 @@ class cvmfs (
   Integer[0,1] $cvmfs_yum_testing_enabled                           = 0,
   Integer[0,1] $cvmfs_yum_gpgcheck                                  = 1,
   Variant[Stdlib::Filesource,Stdlib::Httpurl] $cvmfs_yum_gpgkey  = 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
+  Variant[Enum['absent'], Array[String]] $cvmfs_yum_includepkgs  = ['cvmfs','cvmfs-keys','cvmfs-server','cvmfs-config-default'],
   Optional[Enum['yes','no']] $cvmfs_use_geoapi                   = undef,
   Optional[Enum['yes','no']] $cvmfs_follow_redirects             = undef,
   Boolean $cvmfs_yum_manage_repo                                 = true,
