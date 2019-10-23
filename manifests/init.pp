@@ -37,6 +37,8 @@ class cvmfs (
   Boolean $cvmfs_repo_list                                       = true,
   Optional[Integer] $cvmfs_dns_min_ttl                           = undef,
   Optional[Integer] $cvmfs_dns_max_ttl                           = undef,
+  Optional[String] $cvmfs_alien_cache                            = undef,
+  Optional[String] $cvmfs_shared_cache                           = undef
 ) {
 
 

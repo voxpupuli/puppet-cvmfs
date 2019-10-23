@@ -84,4 +84,10 @@ CVMFS_EXTERNAL_URL='<%= @cvmfs_external_url %>'
 <% @cvmfs_env_variables.each_pair do |var, value| -%>
 export <%=var-%>=<%=value%>
 <%end-%>
+<% if @cvmfs_alien_cache -%>
+CVMFS_ALIEN_CACHE='<%= @cvmfs_alien_cache %>'
+<% end -%>
+<% if @cvmfs_shared_cache -%>
+CVMFS_SHARED_CACHE='<%= @cvmfs_shared_cache %>'
+<% end -%>
 <%end-%>
