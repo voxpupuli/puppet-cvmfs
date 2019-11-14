@@ -155,7 +155,7 @@ allowing the mounts to be specified in a hiera yaml file:
 
 ```YAML
 ---
-cvmfs::mount:
+cvmfs::cvmfs_hash:
   atlas.example.ch:
     cvmfs_quota_limit: 10000
   atlas-condb.example.ch:
