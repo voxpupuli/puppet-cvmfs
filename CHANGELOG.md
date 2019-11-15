@@ -1,3 +1,8 @@
+## XXXX-XX-XX - Release X.X.X
+- New optional parameters `cvmfs_shared_cache` and `cvmfs_alien_cache` to
+  specify if using alien cache shared between one or more machines
+  Defaults to `undef`
+
 ## 2019-03-14 - Release 6.2.0
 - Support cvmfs_http_proxy on a mount
 
