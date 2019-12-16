@@ -78,6 +78,36 @@ describe 'cvmfs' do
             )
           end
 
+          context 'with mount method setto autofs' do
+            let(:params) do
+              { mount_method: 'autofs',
+                cvmfs_http_proxy: :undef
+              }
+            end
+            it { is_expected.to compile.with_all_deps }
+            it { is_expected.to contain_service('autofs') }
+            case facts[:os]['release']['major']
+            when '6', '7'
+              it { is_expected.to contain_augeas('cvmfs_automaster') }
+              it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.conf') }
+            else
+              it { is_expected.to contain_file('/etc/auto.master.d/cvmfs.conf') }
+              it { is_expected.not_to contain_augeas('cvmfs_automaster') }
+            end
+          end
+
+          context 'with mount method setto mount' do
+            let(:params) do
+              { mount_method: 'mount',
+                cvmfs_http_proxy: :undef
+              }
+            end
+            it { is_expected.to compile.with_all_deps }
+            it { is_expected.not_to contain_service('autofs') }
+            it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.conf') }
+            it { is_expected.not_to contain_augeas('cvmfs_automaster') }
+          end
+
           context 'with cvmfs_yum_config_enabled set to 1' do
             let(:params) do
               { cvmfs_yum_config_enabled: 1,
