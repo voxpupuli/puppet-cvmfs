@@ -15,7 +15,7 @@ describe 'cvmfs' do
         it { is_expected.to contain_class('cvmfs::config') }
         it { is_expected.to contain_class('cvmfs::service') }
         it { is_expected.to contain_package('cvmfs').with_ensure('present') }
-        it { is_expected.to contain_package('cvmfs').with_require('Yumrepo[cvmfs]') }
+        it { is_expected.to contain_package('cvmfs').with_require('Class[Cvmfs::Yum]') }
 
         context 'with defaults and cvmfspartsize fact unset' do
           it { is_expected.to contain_class('cvmfs::config') }
