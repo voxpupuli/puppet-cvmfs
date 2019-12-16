@@ -81,9 +81,9 @@ describe 'cvmfs' do
           context 'with mount method setto autofs' do
             let(:params) do
               { mount_method: 'autofs',
-                cvmfs_http_proxy: :undef
-              }
+                cvmfs_http_proxy: :undef }
             end
+
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to contain_service('autofs') }
             case facts[:os]['release']['major']
@@ -99,9 +99,9 @@ describe 'cvmfs' do
           context 'with mount method setto mount' do
             let(:params) do
               { mount_method: 'mount',
-                cvmfs_http_proxy: :undef
-              }
+                cvmfs_http_proxy: :undef }
             end
+
             it { is_expected.to compile.with_all_deps }
             it { is_expected.not_to contain_service('autofs') }
             it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.conf') }

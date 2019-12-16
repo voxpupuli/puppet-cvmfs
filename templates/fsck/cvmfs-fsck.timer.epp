@@ -1,0 +1,16 @@
+<%-|
+  Boolean $onreboot,
+|-%>
+# Installed with Puppet
+[Unit]
+Description=cvmfs fsck timer
+
+[Timer]
+<%- if $onreboot { -%>
+OnBootSec=5min
+<%- } -%>
+OnUnitActiveSec=1week
+Unit=cvmfs-fsck.service
+
+[Install]
+WantedBy=multi-user.target
