@@ -19,6 +19,7 @@ UPTIME=$(/usr/bin/awk -F'[ .]' '{print $1}' /proc/uptime)
 # Only run if up for more than one day. If you want sooner enable the
 # on reboot cron job.
 if [ $UPTIME -gt $IGNORE ] && [ -d <%= @cvmfs_cache_base %>/shared  ] ; then
-   /bin/nice /usr/bin/cvmfs_fsck <%= @options %> <%= @cvmfs_cache_base %>/shared 
+   # The additional sleep provides further randomization and reduces interference on @reboot.
+   sleep 300
+   nice ionice -c3 /usr/bin/cvmfs_fsck <%= @options %> <%= @cvmfs_cache_base %>/shared
 fi
-

@@ -1,6 +1,7 @@
 # == Define: cvmfs::domain
 define cvmfs::domain($cvmfs_quota_limit = undef,
   $cvmfs_server_url = undef,
+  $cvmfs_http_proxy = undef,
   $cvmfs_timeout = undef,
   $cvmfs_timeout_direct = undef,
   $cvmfs_nfiles = undef,
@@ -10,6 +11,11 @@ define cvmfs::domain($cvmfs_quota_limit = undef,
   $cvmfs_env_variables = undef,
   $cvmfs_use_geoapi = undef,
   $cvmfs_follow_redirects = undef,
+  Optional[String] $cvmfs_external_fallback_proxy = undef,
+  Optional[String] $cvmfs_external_http_proxy = undef,
+  Optional[Integer] $cvmfs_external_timeout = undef,
+  Optional[Integer] $cvmfs_external_timeout_direct = undef,
+  Optional[String] $cvmfs_external_url = undef,
 ) {
 
   include ::cvmfs

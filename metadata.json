@@ -3,24 +3,24 @@
   "name": "CERNOps-cvmfs",
   "author": "CERNOps",
   "project_page": "https://github.com/cvmfs/puppet-cvmfs",
-  "version": "3.1.0",
+  "version": "6.2.0",
   "source": "https://github.com/cvmfs/puppet-cvmfs",
   "license": "Apache-2.0",
   "dependencies": [
     {
-      "version_requirement": ">=1.0.0",
+      "version_requirement": ">=1.0.0 < 6.0.0",
       "name": "puppetlabs/concat"
     },
     {
-      "version_requirement": ">=1.0.0",
+      "version_requirement": ">=4.13.1 < 6.0.0",
       "name": "puppetlabs/stdlib"
     },
     {
-      "version_requirement": ">=1.0.0",
+      "version_requirement": ">=1.0.0 < 2.0.0",
       "name": "puppetlabs/firewall"
     },
     {
-      "version_requirement": ">=0.3.1",
+      "version_requirement": ">=0.3.1 < 1.0.0",
       "name": "erwbgy/limits"
     }
   ],

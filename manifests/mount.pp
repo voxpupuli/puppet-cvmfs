@@ -1,6 +1,7 @@
 # == Define: cvmfs::mount
 define cvmfs::mount($cvmfs_quota_limit = undef,
   $cvmfs_server_url = undef,
+  $cvmfs_http_proxy = undef,
   $cvmfs_timeout = undef,
   $cvmfs_timeout_direct = undef,
   $cvmfs_nfiles = undef,
@@ -11,9 +12,16 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   $cvmfs_use_geoapi = undef,
   $cvmfs_repo_list = true,
   $cmvfs_mount_rw = undef,
+  $cvmfs_memcache_size = undef,
+  $cvmfs_claim_ownership = undef,
   $cvmfs_follow_redirects = undef,
   $mount_options = 'defaults,_netdev,nodev',
   $mount_method = $cvmfs::mount_method,
+  Optional[String] $cvmfs_external_fallback_proxy = undef,
+  Optional[String] $cvmfs_external_http_proxy = undef,
+  Optional[Integer] $cvmfs_external_timeout = undef,
+  Optional[Integer] $cvmfs_external_timeout_direct = undef,
+  Optional[String] $cvmfs_external_url = undef,
 ) {
 
   include ::cvmfs
@@ -49,7 +57,7 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
       fstype  => 'cvmfs',
       options => $mount_options,
       atboot  => true,
-      require => [File["/cvmfs/${repo}"],File["/etc/cvmfs/config.d/${repo}.local"],File['/etc/cvmfs/default.local'],File['/etc/fuse.conf']],
+      require => [File["/cvmfs/${repo}"],File["/etc/cvmfs/config.d/${repo}.local"],Concat['/etc/cvmfs/default.local'],File['/etc/fuse.conf']],
     }
   }
 }

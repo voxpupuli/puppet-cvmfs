@@ -11,15 +11,19 @@
 # Copyright 2012 CERN
 #
 class cvmfs::config (
-  $mount_method           = $cvmfs::mount_method,
-  $manage_autofs_service  = $cvmfs::manage_autofs_service,
-  $cvmfs_quota_limit      = $cvmfs::cvmfs_quota_limit,
-  $cvmfs_quota_ratio      = $cvmfs::cvmfs_quota_ratio,
-  $cvmfs_repo_list        = $cvmfs::cvmfs_repo_list,
-  $default_cvmfs_partsize = $cvmfs::default_cvmfs_partsize,
+  $mount_method                        = $cvmfs::mount_method,
+  $manage_autofs_service               = $cvmfs::manage_autofs_service,
+  $cvmfs_quota_limit                   = $cvmfs::cvmfs_quota_limit,
+  $cvmfs_quota_ratio                   = $cvmfs::cvmfs_quota_ratio,
+  $cvmfs_repo_list                     = $cvmfs::cvmfs_repo_list,
+  $cvmfs_memcache_size                 = $cvmfs::cvmfs_memcache_size,
+  $cvmfs_claim_ownership               = $cvmfs::cvmfs_claim_ownership,
+  $default_cvmfs_partsize              = $cvmfs::default_cvmfs_partsize,
+  Optional[Integer] $cvmfs_dns_max_ttl = $cvmfs::cvmfs_dns_max_ttl,
+  Optional[Integer] $cvmfs_dns_min_ttl = $cvmfs::cvmfs_dns_min_ttl,
 ) inherits cvmfs {
 
-  # If cvmfspartsize fact exists use it, otherwise use a sensible default. 
+  # If cvmfspartsize fact exists use it, otherwise use a sensible default.
   if getvar(::cvmfspartsize) {
     $_cvmfs_partsize = $::cvmfspartsize
   } else {
@@ -32,10 +36,10 @@ class cvmfs::config (
     default: { $my_cvmfs_quota_limit = $cvmfs_quota_limit }
   }
 
-  # Clobber the /etc/cvmfs/domain.d directory.
+  # Clobber the /etc/cvmfs/(domain|config).d directories.
   # This puppet module just does not support
-  # concept of this directory so it's safer to clean it.
-  file{'/etc/cvmfs/domain.d':
+  # concept of these directories so it's safer to clean them.
+  file{ ['/etc/cvmfs/domain.d', '/etc/cvmfs/config.d']:
     ensure  => directory,
     purge   => true,
     recurse => true,
@@ -52,6 +56,14 @@ class cvmfs::config (
     mode    => '0644',
     content => "This directory is managed by puppet but *.conf files are ignored from purging\n",
     require => File['/etc/cvmfs/domain.d'],
+  }
+  file{'/etc/cvmfs/config.d/README.PUPPET':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    content => "This directory is managed by puppet but *.conf files are ignored from purging\n",
+    require => File['/etc/cvmfs/config.d'],
   }
 
   # Clobber the /etc/fuse.conf, hopefully no

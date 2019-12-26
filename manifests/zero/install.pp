@@ -1,9 +1,9 @@
 #Class: cvmfs::zero::install , desingned
 #to be included from instances of cvmfs::zero
 class cvmfs::zero::install (
-  $cvmfs_version        = $cvmfs::params::cvmfs_version,
-  $cvmfs_kernel_version = $cvmfs::params::cvmfs_kernel_version,
-  $cvmfs_aufs2_version  = $cvmfs::params::cvmfs_aufs2_version,
+  String $cvmfs_version        = 'present',
+  String $cvmfs_kernel_version = 'present',
+  String $cvmfs_aufs2_version  = 'present',
 ) {
   include ::cvmfs::zero::yum
 

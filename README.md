@@ -76,18 +76,22 @@ cvmfs::mount{'myrepo.example.org':
    you have allocated a partition to cvmfs cache.
 * `cvmfs_http_proxy` List of squid servers, see params.pp for default.
 * `cvmfs_cache_base` Location of the CVMFS cache base, see params.pp for default.
+* `cvmfs_dns_min_ttl` Minimum ttl of DNS lookups.
+* `cvmfs_dns_max_ttl` Maximum ttl of DNS lookups.
+  `cvmfs_claim_ownership` Whether the client claims ownership of files or not, see params.pp for default.
+* `cvmfs_memcache_size` Size of the CernVM-FS meta-data memory cache in Megabyte.
 * `cvmfs_mount_rw` Mount option to mount read-only or read/write, 'yes|no', see params.pp for default.
 * `cvmfs_follow_redirects` Sets CVMFS_FOLLOW_REDIRECTS to its value, by default unset.
 * `cvmfs_timeout` cvmfs timeout setting, see params.pp for default.
 * `cvmfs_timeout_direct` cvmfs timeout to direct connections, see params.pp for default.
 * `cvmfs_nfiles` Number of open files, system setting, see params.pp for default.
-* `cvmfs_force_signing` Boolean defaults to true, repositories must be signed.
 * `cvmfs_syslog_level`  Default is in params.pp
 * `cvmfs_tracefile`  Create a tracefile at this location.
 * `cvmfs_debuglog` Create a debug log file at this location.
 * `cvmfs_max_ttl` Max ttl, see params.pp for default.
 * `cvmfs_version` Version of cvmfs to install , default is present.
 * `cvmfs_yum`  Yum repository URL for cvmfs.
+* `cvmfs_yum_priority` Yum priority of repositories, defaults to 80.
 * `cvmfs_yum_proxy` http proxy for cvmfs yum package repository
 * `cvmfs_yum_config`  Yum repository URL for cvmfs site configs.
 * `cvmfs_yum_config_enabled`  Defaults to false, set to true to enable.
@@ -141,6 +145,7 @@ cvmfs::mount{'cms.example.org':
 * `cvmfs_follow_redirects` Sets CVMFS_FOLLOW_REDIRECTS to its value, by default unset.
 * `mount_options` If the *mount_method* is *mount* then this specifies the mount
    options. By default: `nodev,_netdev,defaults`.
+* `cvmfs_memcache_size` Size of the CernVM-FS meta-data memory cache in Megabyte.
 * TBC
 
 
@@ -150,7 +155,7 @@ allowing the mounts to be specified in a hiera yaml file:
 
 ```YAML
 ---
-cvmfs::mount:
+cvmfs::cvmfs_hash:
   atlas.example.ch:
     cvmfs_quota_limit: 10000
   atlas-condb.example.ch:
@@ -315,7 +320,8 @@ a
 ```puppet
 cvmfs::one{'mice.example.org':
   origin => 'http://cvmfs01.example.org/cvmfs',
-  keys   => ['/etc/cvmfs/keys/example1.pub','/etc/cvmfs/keys/example1.pub']
+  keys   => ['/etc/cvmfs/keys/example1.pub','/etc/cvmfs/keys/example1.pub'],
+  mime_expire => 61,
 }
 ```
 

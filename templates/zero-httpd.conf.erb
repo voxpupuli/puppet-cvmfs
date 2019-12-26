@@ -21,6 +21,6 @@ Alias /cvmfs/<%= @repo %> <%= @repo_store %>/<%= @repo %>
 
     ExpiresActive On
     ExpiresDefault "access plus 3 days"
-    ExpiresByType application/x-cvmfs "access plus 2 minutes"
-    ExpiresByType application/json    "access plus 2 minutes"
+    ExpiresByType application/x-cvmfs "access plus <%= @mime_expire %> seconds"
+    ExpiresByType application/json    "access plus <%= @mime_expire %> seconds"
 </Directory>

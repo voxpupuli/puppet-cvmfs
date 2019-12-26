@@ -8,14 +8,26 @@
 # within the default.conf file.
 <% end -%>
 
+<% if @cvmfs_dns_max_ttl -%>
+CVMFS_DNS_MAX_TTL='<%= @cvmfs_dns_max_ttl %>'
+<% end -%>
+<% if @cvmfs_dns_min_ttl -%>
+CVMFS_DNS_MIN_TTL='<%= @cvmfs_dns_min_ttl %>'
+<% end -%>
 <% if @my_cvmfs_quota_limit and  @my_cvmfs_quota_limit != '' -%>
 CVMFS_QUOTA_LIMIT='<%= @my_cvmfs_quota_limit %>'
+<% end -%>
+<% if @cvmfs_memcache_size -%>
+CVMFS_MEMCACHE_SIZE=<%= @cvmfs_memcache_size %>
 <% end -%>
 <% if @cvmfs_http_proxy and  @cvmfs_http_proxy != '' -%>
 CVMFS_HTTP_PROXY='<%= @cvmfs_http_proxy %>'
 <% end -%>
 <% if @cvmfs_cache_base and  @cvmfs_cache_base != '' -%>
 CVMFS_CACHE_BASE='<%= @cvmfs_cache_base %>'
+<% end -%>
+<% if @cvmfs_claim_ownership and  @cvmfs_claim_ownership != '' -%>
+CVMFS_CLAIM_OWNERSHIP='<%= @cvmfs_claim_ownership %>'
 <% end -%>
 <% if @cvmfs_server_url and @cvmfs_server_url != '' -%>
 CVMFS_SERVER_URL='<%= @cvmfs_server_url %>'
@@ -31,9 +43,6 @@ CVMFS_NFILES='<%= @cvmfs_nfiles %>'
 <% end -%>
 <% if @cvmfs_public_key and @cvmfs_public_key != '' -%>
 CVMFS_PUBLIC_KEY='<%= @cvmfs_public_key %>'
-<% end -%>
-<% @cvmfs_force_signing and  if @cvmfs_force_signing != '' -%>
-CVMFS_FORCE_SIGNING='<%= @cvmfs_force_signing %>'
 <% end -%>
 <% if @cvmfs_syslog_level and  @cvmfs_syslog_level != '' -%>
 CVMFS_SYSLOG_LEVEL='<%= @cvmfs_syslog_level %>'
@@ -56,8 +65,29 @@ CVMFS_MOUNT_RW=<%= @cvmfs_mount_rw %>
 <% if @cvmfs_follow_redirects -%>
 CVMFS_FOLLOW_REDIRECTS='<%= @cvmfs_follow_redirects %>'
 <% end -%>
+<% if @cvmfs_external_fallback_proxy -%>
+CVMFS_EXTERNAL_FALLBACK_PROXY='<%= @cvmfs_external_fallback_proxy %>'
+<% end -%>
+<% if @cvmfs_external_http_proxy -%>
+CVMFS_EXTERNAL_HTTP_PROXY='<%= @cvmfs_external_http_proxy %>'
+<% end -%>
+<% if @cvmfs_external_timeout -%>
+CVMFS_EXTERNAL_TIMEOUT='<%= @cvmfs_external_timeout %>'
+<% end -%>
+<% if @cvmfs_external_timeout_direct -%>
+CVMFS_EXTERNAL_TIMEOUT_DIRECT='<%= @cvmfs_external_timeout_direct %>'
+<% end -%>
+<% if @cvmfs_external_url -%>
+CVMFS_EXTERNAL_URL='<%= @cvmfs_external_url %>'
+<% end -%>
 <%if @cvmfs_env_variables -%>
 <% @cvmfs_env_variables.each_pair do |var, value| -%>
 export <%=var-%>=<%=value%>
 <%end-%>
+<% if @cvmfs_alien_cache -%>
+CVMFS_ALIEN_CACHE='<%= @cvmfs_alien_cache %>'
+<% end -%>
+<% if @cvmfs_shared_cache -%>
+CVMFS_SHARED_CACHE='<%= @cvmfs_shared_cache %>'
+<% end -%>
 <%end-%>
