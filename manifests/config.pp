@@ -44,7 +44,6 @@ class cvmfs::config (
     purge   => true,
     recurse => true,
     ignore  => '*.conf',
-    require => Package['cvmfs'],
     owner   => root,
     group   => root,
     mode    => '0755',
@@ -55,7 +54,6 @@ class cvmfs::config (
     group   => root,
     mode    => '0644',
     content => "This directory is managed by puppet but *.conf files are ignored from purging\n",
-    require => File['/etc/cvmfs/domain.d'],
   }
   file{'/etc/cvmfs/config.d/README.PUPPET':
     ensure  => file,
@@ -63,7 +61,6 @@ class cvmfs::config (
     group   => root,
     mode    => '0644',
     content => "This directory is managed by puppet but *.conf files are ignored from purging\n",
-    require => File['/etc/cvmfs/config.d'],
   }
 
   # Clobber the /etc/fuse.conf, hopefully no
@@ -78,11 +75,9 @@ class cvmfs::config (
     }
   )
   concat{'/etc/cvmfs/default.local':
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    require => Class['cvmfs::install'],
-    notify  => Class['cvmfs::service'],
+    owner => 'root',
+    group => 'root',
+    mode  => '0644',
   }
   concat::fragment{'cvmfs_default_local_header':
     target  => '/etc/cvmfs/default.local',
@@ -103,22 +98,26 @@ class cvmfs::config (
   }
 
   if $mount_method == 'autofs' {
-    $_notifyservice = $manage_autofs_service ? {
-      true    => Service['autofs'],
-      false   => undef,
-      default => undef,
-    }
-    augeas{'cvmfs_automaster':
-      context => '/files/etc/auto.master/',
-      lens    => 'Automaster.lns',
-      incl    => '/etc/auto.master',
-      changes => [
-        'set 01      /cvmfs',
-        'set 01/type program',
-        'set 01/map  /etc/auto.cvmfs',
-      ],
-      onlyif  => 'match *[map="/etc/auto.cvmfs"] size == 0',
-      notify  => $_notifyservice,
+    if versioncmp($facts['os']['release']['major'],'7') <= 0 {
+      augeas{'cvmfs_automaster':
+        context => '/files/etc/auto.master/',
+        lens    => 'Automaster.lns',
+        incl    => '/etc/auto.master',
+        changes => [
+          'set 01      /cvmfs',
+          'set 01/type program',
+          'set 01/map  /etc/auto.cvmfs',
+        ],
+        onlyif  => 'match *[map="/etc/auto.cvmfs"] size == 0',
+      }
+    } else {
+      file{'/etc/auto.master.d/cvmfs.conf':
+        ensure  => file,
+        content => "Puppet installed\n/cvmfs  program:/etc/auto.cvmfs\n",
+        owner   => root,
+        group   => root,
+        mode    => '0644',
+      }
     }
   }
 }
