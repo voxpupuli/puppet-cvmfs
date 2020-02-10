@@ -89,9 +89,9 @@ describe 'cvmfs' do
             case facts[:os]['release']['major']
             when '6', '7'
               it { is_expected.to contain_augeas('cvmfs_automaster') }
-              it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.conf') }
+              it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.autofs') }
             else
-              it { is_expected.to contain_file('/etc/auto.master.d/cvmfs.conf') }
+              it { is_expected.to contain_file('/etc/auto.master.d/cvmfs.autofs') }
               it { is_expected.not_to contain_augeas('cvmfs_automaster') }
             end
           end
@@ -104,7 +104,7 @@ describe 'cvmfs' do
 
             it { is_expected.to compile.with_all_deps }
             it { is_expected.not_to contain_service('autofs') }
-            it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.conf') }
+            it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.autofs') }
             it { is_expected.not_to contain_augeas('cvmfs_automaster') }
           end
 
