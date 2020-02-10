@@ -111,7 +111,7 @@ class cvmfs::config (
         onlyif  => 'match *[map="/etc/auto.cvmfs"] size == 0',
       }
     } else {
-      file{'/etc/auto.master.d/cvmfs.conf':
+      file{'/etc/auto.master.d/cvmfs.autofs':
         ensure  => file,
         content => "Puppet installed\n/cvmfs  program:/etc/auto.cvmfs\n",
         owner   => root,
