@@ -1,6 +1,0 @@
-<%-|
-  String[1] $cache_base,
-|-%>
-# installed with puppet
-d <%= $cache_base %>/shared/quarantaine 0700 cvmfs cvmfs 30d
-
