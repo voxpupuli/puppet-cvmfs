@@ -1,0 +1,15 @@
+<%-|
+  String[1] $cache_base,
+  String $options,
+|-%>
+# Puppet Installed
+
+[Unit]
+Description=cvmfs fsck
+
+[Service]
+Type=oneshot
+Nice=19
+IOSchedulingClass=2
+IOSchedulingPriority=7
+ExecStart=/usr/bin/cvmfs_fsck <%= $options %> <%= $cache_base %>/shared

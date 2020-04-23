@@ -1,7 +1,15 @@
-## XXXX-XX-XX - Release X.X.X
-- New optional parameters `cvmfs_shared_cache` and `cvmfs_alien_cache` to
-  specify if using alien cache shared between one or more machines
-  Defaults to `undef`
+## 2020-02-10 - Release 7.0.1
+- Bugfix on CentOS 8 only. Files in `/etc/autofs.master.d/`
+  must end in .autofs to be included.
+## 2020-01-06 - Release 7.0.0
+- remove SLC5 support
+- Add CentOS 8 support
+- fsck cron jobs are now a systemd timer on 8
+- A file is placed in auto.master.d rather than editing auto.master
+- New parameters `cvmfs_shared_cache` and `cvmfs_alien_cache`
+- Docs - correct cvmfs mount hash example
+- `cvmfs_yum_includepkgs` now accepts an array of packages. Setting it as a string
+  of packages is deprecated.
 
 ## 2019-03-14 - Release 6.2.0
 - Support cvmfs_http_proxy on a mount
