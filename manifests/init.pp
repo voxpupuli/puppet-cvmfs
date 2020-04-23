@@ -42,10 +42,11 @@ class cvmfs (
 ) {
 
 
-  contain 'cvmfs::install'
-  contain 'cvmfs::config'
-  contain 'cvmfs::service'
-  Class['Cvmfs::Install'] -> Class['Cvmfs::Config'] ~> Class['Cvmfs::Service']
+  anchor{'cvmfs::begin':}
+  -> class{'::cvmfs::install':}
+  -> class{'::cvmfs::config':}
+  ~> class{'::cvmfs::service':}
+  -> anchor{'cvmfs::end':}
 
   # Finally allow the individual repositories to be loaded from hiera.
   create_resources('cvmfs::mount', $cvmfs_hash)
