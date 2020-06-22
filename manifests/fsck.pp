@@ -22,6 +22,7 @@ class cvmfs::fsck (
       {
         'onreboot' => $onreboot,
       }),
+      enable  => true,
       active  => true,
     }
     systemd::unit_file{'cvmfs-fsck.service':
