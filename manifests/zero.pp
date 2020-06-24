@@ -19,9 +19,9 @@ define cvmfs::zero(
   $creator_version = '2.3.0-1',
   $mime_expire = 120,
 ) {
-  include ::cvmfs::zero::install
-  include ::cvmfs::zero::config
-  include ::cvmfs::zero::service
+  include cvmfs::zero::install
+  include cvmfs::zero::config
+  include cvmfs::zero::service
 
   group{$group:
     gid => $gid,

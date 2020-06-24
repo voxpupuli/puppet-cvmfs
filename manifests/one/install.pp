@@ -3,7 +3,7 @@
 class cvmfs::one::install (
   String $cvmfs_version = 'present',
 ) {
-  class{'::cvmfs::server::yum':}
+  class{'cvmfs::server::yum':}
 
   package{'cvmfs-server':
     ensure  => $cvmfs_version,

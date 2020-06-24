@@ -25,8 +25,8 @@ define cvmfs::one (
   $keys = ['/etc/cvmfs/keys/cern.ch.pub','/etc/cvmfs/keys/cern-it1.cern.ch.pub','/etc/cvmfs/keys/cern-it2.cern.ch.pub'],
   $mime_expire = 61,
 ) {
-  include '::cvmfs::one::install'
-  include '::cvmfs::one::config'
+  include 'cvmfs::one::install'
+  include 'cvmfs::one::config'
 
   $joinedkeys = join($keys,':')
   exec{"replicate_${name}":

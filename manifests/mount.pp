@@ -24,7 +24,7 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   Optional[String] $cvmfs_external_url = undef,
 ) {
 
-  include ::cvmfs
+  include cvmfs
 
   $repo = $name
 

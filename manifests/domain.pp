@@ -18,7 +18,7 @@ define cvmfs::domain($cvmfs_quota_limit = undef,
   Optional[String] $cvmfs_external_url = undef,
 ) {
 
-  include ::cvmfs
+  include cvmfs
 
   # In this case the repo is really a domain
   # but it's the same configuration file format

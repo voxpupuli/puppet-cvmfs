@@ -5,7 +5,7 @@ class cvmfs::zero::install (
   String $cvmfs_kernel_version = 'present',
   String $cvmfs_aufs2_version  = 'present',
 ) {
-  include ::cvmfs::zero::yum
+  include cvmfs::zero::yum
 
   package{['cvmfs-server','cvmfs']:
     ensure  => $cvmfs_version,

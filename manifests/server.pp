@@ -45,8 +45,8 @@ class cvmfs::server (
 ) {
 
   notify{'cvmfs::server class is now deprecated, migrate to type cvmfs::zero now':}
-  class{'::cvmfs::server::install':}
-  class{'::cvmfs::server::config':
+  class{'cvmfs::server::install':}
+  class{'cvmfs::server::config':
     repo     => $repo,
     nfsshare => $nfsshare,
     nfshost  => $nfshost,
