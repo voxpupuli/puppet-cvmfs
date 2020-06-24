@@ -33,6 +33,7 @@ class cvmfs (
   Variant[Enum['absent'], Array[String]] $cvmfs_yum_includepkgs  = ['cvmfs','cvmfs-keys','cvmfs-server','cvmfs-config-default'],
   Optional[Enum['yes','no']] $cvmfs_use_geoapi                   = undef,
   Optional[Enum['yes','no']] $cvmfs_follow_redirects             = undef,
+  Boolean $cvmfs_instrument_fuse                                 = false,
   Boolean $cvmfs_yum_manage_repo                                 = true,
   Boolean $cvmfs_repo_list                                       = true,
   Optional[Integer] $cvmfs_dns_min_ttl                           = undef,
