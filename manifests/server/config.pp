@@ -50,18 +50,6 @@ class cvmfs::server::config (
     require    => Group[$user],
   }
 
-  ::limits::entry{'shared-soft':
-    type   => 'soft',
-    item   => 'nofile',
-    value  => $nofiles,
-    domain => 'shared',}
-  ::limits::entry{'shared-hard':
-    type   => 'hard',
-    item   => 'nofile',
-    value  => $nofiles,
-    domain => 'shared',
-  }
-
   exec{'cvmfs_mkfs':
     command => "/usr/bin/cvmfs_server mkfs -o ${user} ${repo}",
     creates => "/etc/cvmfs/repositories.d/${repo}",
