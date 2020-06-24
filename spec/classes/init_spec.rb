@@ -16,6 +16,7 @@ describe 'cvmfs' do
         it { is_expected.to contain_class('cvmfs::service') }
         it { is_expected.to contain_package('cvmfs').with_ensure('present') }
         it { is_expected.to contain_package('cvmfs').with_require('Class[Cvmfs::Yum]') }
+        it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_INSTRUMENT_FUSE.*$}) }
 
         context 'with defaults and cvmfspartsize fact unset' do
           it { is_expected.to contain_class('cvmfs::config') }
@@ -241,6 +242,30 @@ describe 'cvmfs' do
                 with_content(%r{^CVMFS_DNS_MAX_TTL='200'$})
             end
           end
+          context 'with cvmfs_instrument_fuse set true' do
+            let(:params) do
+              { cvmfs_instrument_fuse: true,
+                cvmfs_http_proxy: :undef }
+            end
+
+            it do
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+                with_content(%r{^CVMFS_INSTRUMENT_FUSE=true$})
+            end
+          end
+
+          context 'with cvmfs_instrument_fuse set false' do
+            let(:params) do
+              { cvmfs_instrument_fuse: false,
+                cvmfs_http_proxy: :undef }
+            end
+
+            it do
+              is_expected.not_to contain_concat__fragment('cvmfs_default_local_header').
+                with_content(%r{^CVMFS_INSTRUMENT_FUSE.*$})
+            end
+          end
+
           context 'with cvmfs_mount_rw not set' do
             it do
               is_expected.to contain_concat__fragment('cvmfs_default_local_header').
