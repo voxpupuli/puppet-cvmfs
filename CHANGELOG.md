@@ -1,3 +1,8 @@
+## 2020-06-34 - Release 7.1.0
+- New pararmeter `cvmfs_instrument_fuse` parameter.
+- Enable cmvfs-fsck.timer so it starts on boot.
+- Remove legacy limits module requirement.
+
 ## 2020-02-10 - Release 7.0.1
 - Bugfix on CentOS 8 only. Files in `/etc/autofs.master.d/`
   must end in .autofs to be included.
