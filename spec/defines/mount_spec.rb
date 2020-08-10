@@ -24,6 +24,7 @@ describe 'cvmfs::mount' do
         it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without_content(%r{.*CVMFS_USE_GEOAPI.*$}) }
         it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without_content(%r{.*CVMFS_FOLLOW_REDIRECTS.*$}) }
         it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without_content(%r{.*CVMFS_CLAIM_OWNERSHIP.*$}) }
+        it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without_content(%r{.*CVMFS_REPOSITORY_TAG.*$}) }
         it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without('content' => %r{^CVMFS_HTTP_PROXY.*$}) }
         context 'with lots of  parameters set' do
           let(:params) do
@@ -31,7 +32,8 @@ describe 'cvmfs::mount' do
               cvmfs_use_geoapi: 'yes',
               cvmfs_follow_redirects: 'yes',
               cvmfs_memcache_size: 2000,
-              cvmfs_claim_ownership: 'yes'
+              cvmfs_claim_ownership: 'yes',
+              cvmfs_repository_tag: 'testing'
             }
           end
 
@@ -39,6 +41,7 @@ describe 'cvmfs::mount' do
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_USE_GEOAPI='yes'$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_FOLLOW_REDIRECTS='yes'$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_CLAIM_OWNERSHIP='yes'$}) }
+          it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_REPOSITORY_TAG='testing'$}) }
         end
       end
     end
