@@ -1,3 +1,6 @@
+## 2020-08-11 - Release 7.2.0
+- New `cvmfs_repository_tag` parameter to mount command.
+
 ## 2020-06-34 - Release 7.1.0
 - New pararmeter `cvmfs_instrument_fuse` parameter.
 - Enable cmvfs-fsck.timer so it starts on boot.
