@@ -146,6 +146,7 @@ cvmfs::mount{'cms.example.org':
 * `mount_options` If the *mount_method* is *mount* then this specifies the mount
    options. By default: `nodev,_netdev,defaults`.
 * `cvmfs_memcache_size` Size of the CernVM-FS meta-data memory cache in Megabyte.
+* `cvmfs_repository_tag` Specify a tag , sets `CVMFS_REPOSITORY_TAG`
 * TBC
 
 

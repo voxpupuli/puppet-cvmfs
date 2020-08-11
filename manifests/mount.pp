@@ -22,6 +22,7 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   Optional[Integer] $cvmfs_external_timeout = undef,
   Optional[Integer] $cvmfs_external_timeout_direct = undef,
   Optional[String] $cvmfs_external_url = undef,
+  Optional[String[1]] $cvmfs_repository_tag = undef,
 ) {
 
   include ::cvmfs
