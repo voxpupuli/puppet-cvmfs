@@ -102,7 +102,10 @@ cvmfs::mount{'myrepo.example.org':
 * `cvmfs_yum_gpgkey`  Set a custom GPG key for yum repos, you must deploy it yourself.
 * `cvmfs_yum_manage_repo` Defaults to true, set to false to disable yum repositories management.
 * `cvmfs_use_geoapi`  **TO DOC**
-
+* `cvmfs_repositories` By default undef and `CVMFS_REPOSITORIES` in `default.local` will be populated
+   automatically from what is explicitly mounted with `cvmfs::mount`. If this is 
+   specified then`CVMFS_REPOSITORIES` list in `default.local` will be exactly managed with this variable.
+   e.g `cvmfs-config.cern.ch,atlas.cern.ch`
 * `cvmfs_hash` Rather than using cvmfs::mount defined type a hash of mounts can be sepecfied.
    cvmfs_hash {'myrepo' => {'cvmfs_server_url' => 'http://web.example.org/cvmfs/ams.example.org/}
 * `cvmfs_env_variables`  $cvmfs_env_variables = {'CMS_LOCAL_SITE' => '<path to siteconf>'
@@ -141,7 +144,8 @@ cvmfs::mount{'cms.example.org':
 * `namevar`  The namevar is the repository name, e.g atlas.example.ch
 * `cvmfs_repo_list` A boolean defaults to `true`. Should this repository be 
    included in the list of repositories listed as `CVMFS_REPOSITORIES`
-   with `/etc/cvmfs/default.local`.
+   with `/etc/cvmfs/default.local`. This is ignored if `cvmfs_repositories` is
+   set on the main class.
 * `cvmfs_follow_redirects` Sets CVMFS_FOLLOW_REDIRECTS to its value, by default unset.
 * `mount_options` If the *mount_method* is *mount* then this specifies the mount
    options. By default: `nodev,_netdev,defaults`.
