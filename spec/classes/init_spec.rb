@@ -16,7 +16,13 @@ describe 'cvmfs' do
         it { is_expected.to contain_class('cvmfs::service') }
         it { is_expected.to contain_package('cvmfs').with_ensure('present') }
         it { is_expected.to contain_package('cvmfs').with_require('Class[Cvmfs::Yum]') }
+        it { is_expected.to contain_concat__fragment('cvmfs_default_local_header') }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_INSTRUMENT_FUSE.*$}) }
+        it { is_expected.to contain_concat__fragment('cvmfs_default_local_repo_start') }
+        it { is_expected.to contain_concat__fragment('cvmfs_default_local_repo_start').with_content('CVMFS_REPOSITORIES=\'') }
+        it { is_expected.to contain_concat__fragment('cvmfs_default_local_repo_end') }
+        it { is_expected.to contain_concat__fragment('cvmfs_default_local_repo_end').with_content("'\n\n") }
+        it { is_expected.not_to contain_concat__fragment('cvmfs_default_local_repo') }
 
         context 'with defaults and cvmfspartsize fact unset' do
           it { is_expected.to contain_class('cvmfs::config') }
@@ -326,6 +332,19 @@ describe 'cvmfs' do
 
             it { is_expected.to contain_file('/etc/cvmfs/config.d/one.example.org.local').with_content(%r{^CVMFS_SERVER_URL='http://one.example.org/'$}) }
             it { is_expected.to contain_file('/etc/cvmfs/config.d/two.example.org.local').with_content(%r{^export LOCAL_SITE=jump}) }
+            it { is_expected.to contain_concat_fragment('cvmfs_default_local_one.example.org').with_content('one.example.org,') }
+            it { is_expected.to contain_concat_fragment('cvmfs_default_local_two.example.org').with_content('two.example.org,') }
+            context 'with cvmfs_reposiories set' do
+              let(:params) do
+                super().merge(cvmfs_repositories: 'foo,bar,whatever')
+              end
+
+              it { is_expected.not_to contain_concat_fragment('cvmfs_default_local_one.example.org') }
+              it { is_expected.not_to contain_concat_fragment('cvmfs_default_local_two.example.org') }
+              it { is_expected.not_to contain_concat__fragment('cvmfs_default_local_repo_start') }
+              it { is_expected.not_to contain_concat__fragment('cvmfs_default_local_repo_end') }
+              it { is_expected.to contain_concat__fragment('cvmfs_default_local_repo').with_content(%r{^CVMFS_REPOSITORIES='foo,bar,whatever'$}) }
+            end
           end
         end
       end

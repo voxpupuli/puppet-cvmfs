@@ -39,7 +39,8 @@ class cvmfs (
   Optional[Integer] $cvmfs_dns_min_ttl                           = undef,
   Optional[Integer] $cvmfs_dns_max_ttl                           = undef,
   Optional[String] $cvmfs_alien_cache                            = undef,
-  Optional[Enum['yes','no']] $cvmfs_shared_cache                 = undef
+  Optional[Enum['yes','no']] $cvmfs_shared_cache                 = undef,
+  Optional[String[1]] $cvmfs_repositories                        = undef,
 ) {
 
 

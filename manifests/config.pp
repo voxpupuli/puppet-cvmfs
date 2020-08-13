@@ -21,6 +21,7 @@ class cvmfs::config (
   $default_cvmfs_partsize              = $cvmfs::default_cvmfs_partsize,
   Optional[Integer] $cvmfs_dns_max_ttl = $cvmfs::cvmfs_dns_max_ttl,
   Optional[Integer] $cvmfs_dns_min_ttl = $cvmfs::cvmfs_dns_min_ttl,
+  $cvmfs_repositories                  = $cvmfs::cvmfs_repositories,
 ) inherits cvmfs {
 
   # If cvmfspartsize fact exists use it, otherwise use a sensible default.
@@ -84,7 +85,14 @@ class cvmfs::config (
     order   => 0,
     content => template('cvmfs/repo.local.erb'),
   }
-  if $cvmfs_repo_list {
+
+  if $cvmfs_repositories {
+    concat::fragment{'cvmfs_default_local_repo':
+      target  => '/etc/cvmfs/default.local',
+      order   => 5,
+      content => "CVMFS_REPOSITORIES='${cvmfs_repositories}'\n",
+    }
+  } elsif $cvmfs_repo_list {
     concat::fragment{'cvmfs_default_local_repo_end':
       target  => '/etc/cvmfs/default.local',
       order   => 7,

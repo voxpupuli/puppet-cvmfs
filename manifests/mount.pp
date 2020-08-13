@@ -38,7 +38,7 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
     require => Class['cvmfs::install'],
     notify  => Class['cvmfs::service'],
   }
-  if $cvmfs_repo_list {
+  if $cvmfs_repo_list and $cvmfs::cvmfs_repositories =~ Undef {
     concat::fragment{"cvmfs_default_local_${repo}":
       target  => '/etc/cvmfs/default.local',
       order   => 6,
