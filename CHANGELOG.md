@@ -1,3 +1,7 @@
+## 2020-08-13 - Release 7.3.0
+- New `cvmfs_repositories` parameter to exactly specify `CVMFS_REPOSITORIES` in
+  `default.local` as used by `cvmfs_config probe` for instance.
+
 ## 2020-08-11 - Release 7.2.0
 - New `cvmfs_repository_tag` parameter to mount command.
 
