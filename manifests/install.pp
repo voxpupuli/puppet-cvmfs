@@ -41,7 +41,7 @@ class cvmfs::install (
       group   => cvmfs,
       mode    => '0700',
       seltype => $cache_seltype,
-      require => Package['cvmfs']
+      require => Package['cvmfs'],
     }
   }
 
