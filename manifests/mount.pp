@@ -14,6 +14,8 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   $cmvfs_mount_rw = undef,
   $cvmfs_memcache_size = undef,
   $cvmfs_claim_ownership = undef,
+  $cvmfs_uid_map = {},
+  $cvmfs_gid_map = {},
   $cvmfs_follow_redirects = undef,
   $mount_options = 'defaults,_netdev,nodev',
   $mount_method = $cvmfs::mount_method,
@@ -28,6 +30,36 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   include ::cvmfs
 
   $repo = $name
+
+  # UID and GID map are stored in separate files and included in the config.
+  $_cvmfs_id_map_file_prefix = "/etc/cvmfs/config.d/${repo}"
+  [ 'uid', 'gid' ].each |$_idt| {
+    $_cvmfs_id_map = getvar("cvmfs_${_idt}_map")
+    if $_cvmfs_id_map.length() > 0 {
+      concat{"${_cvmfs_id_map_file_prefix}.${_idt}_map":
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        require => Class['cvmfs::install'],
+        notify  => Class['cvmfs::service'],
+      }
+      concat::fragment{"cvmfs_${_idt}_map_${repo}_header":
+        target  => "${_cvmfs_id_map_file_prefix}.${_idt}_map",
+        order   => '01',
+        content => "# Created by puppet.\n\n",
+        notify  => Class['cvmfs::service'],
+      }
+      $_cvmfs_id_map.each |$_from_id, $_to_id| {
+        concat::fragment{"cvmfs_${_idt}_map_${repo}_from_${_from_id}_to_${_to_id}":
+          target  => "${_cvmfs_id_map_file_prefix}.${_idt}_map",
+          order   => '10',
+          content => "${_from_id} ${_to_id}\n",
+          notify  => Class['cvmfs::service'],
+        }
+      }
+    }
+  }
 
   file{"/etc/cvmfs/config.d/${repo}.local":
     ensure  =>  file,

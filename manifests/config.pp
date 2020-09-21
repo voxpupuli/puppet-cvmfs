@@ -18,6 +18,8 @@ class cvmfs::config (
   $cvmfs_repo_list                     = $cvmfs::cvmfs_repo_list,
   $cvmfs_memcache_size                 = $cvmfs::cvmfs_memcache_size,
   $cvmfs_claim_ownership               = $cvmfs::cvmfs_claim_ownership,
+  $cvmfs_uid_map                       = $cvmfs::cvmfs_uid_map,
+  $cvmfs_gid_map                       = $cvmfs::cvmfs_gid_map,
   $default_cvmfs_partsize              = $cvmfs::default_cvmfs_partsize,
   Optional[Integer] $cvmfs_dns_max_ttl = $cvmfs::cvmfs_dns_max_ttl,
   Optional[Integer] $cvmfs_dns_min_ttl = $cvmfs::cvmfs_dns_min_ttl,
@@ -79,6 +81,35 @@ class cvmfs::config (
     owner => 'root',
     group => 'root',
     mode  => '0644',
+  }
+  # UID and GID map are stored in separate files and included in the config.
+  $_cvmfs_id_map_file_prefix = '/etc/cvmfs/config.d/default'
+  [ 'uid', 'gid' ].each |$_idt| {
+    $_cvmfs_id_map = getvar("cvmfs_${_idt}_map")
+    if $_cvmfs_id_map.length() > 0 {
+      concat{"${_cvmfs_id_map_file_prefix}.${_idt}_map":
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        require => Class['cvmfs::install'],
+        notify  => Class['cvmfs::service'],
+      }
+      concat::fragment{"cvmfs_${_idt}_map_${repo}_header":
+        target  => "${_cvmfs_id_map_file_prefix}.${_idt}_map",
+        order   => '01',
+        content => "# Created by puppet.\n\n",
+        notify  => Class['cvmfs::service'],
+      }
+      $_cvmfs_id_map.each |$_from_id, $_to_id| {
+        concat::fragment{"cvmfs_${_idt}_map_${repo}_from_${_from_id}_to_${_to_id}":
+          target  => "${_cvmfs_id_map_file_prefix}.${_idt}_map",
+          order   => '10',
+          content => "${_from_id} ${_to_id}\n",
+          notify  => Class['cvmfs::service'],
+        }
+      }
+    }
   }
   concat::fragment{'cvmfs_default_local_header':
     target  => '/etc/cvmfs/default.local',
