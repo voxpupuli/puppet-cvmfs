@@ -86,30 +86,17 @@ class cvmfs::config (
   $_cvmfs_id_map_file_prefix = '/etc/cvmfs/config.d/default'
   [ 'uid', 'gid' ].each |$_idt| {
     $_cvmfs_id_map = getvar("cvmfs_${_idt}_map")
-    if $_cvmfs_id_map.length() > 0 {
-      concat{"${_cvmfs_id_map_file_prefix}.${_idt}_map":
-        ensure  => present,
+    if $_cvmfs_id_map {
+      file{"${_cvmfs_id_map_file_prefix}.${_idt}_map":
+        ensure  => file,
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
+        content => epp("${module_name}/id_map.epp", { 'id_maps' => $_cvmfs_id_map }),
         require => Class['cvmfs::install'],
         notify  => Class['cvmfs::service'],
       }
-      Concat["${_cvmfs_id_map_file_prefix}.${_idt}_map"] -> Mount<| fstype == 'cvmfs' |>
-      concat::fragment{"cvmfs_${_idt}_map_${repo}_header":
-        target  => "${_cvmfs_id_map_file_prefix}.${_idt}_map",
-        order   => '01',
-        content => "# Created by puppet.\n\n",
-        notify  => Class['cvmfs::service'],
-      }
-      $_cvmfs_id_map.each |$_from_id, $_to_id| {
-        concat::fragment{"cvmfs_${_idt}_map_${repo}_from_${_from_id}_to_${_to_id}":
-          target  => "${_cvmfs_id_map_file_prefix}.${_idt}_map",
-          order   => '10',
-          content => "${_from_id} ${_to_id}\n",
-          notify  => Class['cvmfs::service'],
-        }
-      }
+      File["${_cvmfs_id_map_file_prefix}.${_idt}_map"] -> Mount<| fstype == 'cvmfs' |>
     }
   }
   concat::fragment{'cvmfs_default_local_header':

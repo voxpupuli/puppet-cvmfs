@@ -1,0 +1,6 @@
+<%- | Hash[Variant[Integer,String], Integer, 1] $id_maps,
+| -%>
+# Created by puppet.
+<% $id_maps.each |$from_id,$to_id| { -%>
+<%= $from_id %> <%= $to_id %>
+<% } -%>

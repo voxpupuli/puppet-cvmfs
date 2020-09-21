@@ -8,8 +8,10 @@ class cvmfs (
   Float   $cvmfs_quota_ratio                                     = 0.85,
   Stdlib::Absolutepath $cvmfs_cache_base                         = '/var/lib/cvmfs',
   Optional[Enum['yes','no']] $cvmfs_claim_ownership              = undef,
-  Hash $cvmfs_uid_map                                            = {},
-  Hash $cvmfs_gid_map                                            = {},
+  Optional[Hash[Variant[Integer,String], Integer, 1]]
+                                              $cvmfs_uid_map     = undef,
+  Optional[Hash[Variant[Integer,String], Integer, 1]]
+                                              $cvmfs_gid_map     = undef,
   Optional[Enum['yes','no']] $cvmfs_mount_rw                     = undef,
   Optional[Integer] $cvmfs_memcache_size                         = undef,
   Optional[Integer] $cvmfs_timeout                               = undef,
