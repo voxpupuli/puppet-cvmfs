@@ -95,6 +95,7 @@ class cvmfs::config (
         require => Class['cvmfs::install'],
         notify  => Class['cvmfs::service'],
       }
+      Concat["${_cvmfs_id_map_file_prefix}.${_idt}_map"] -> Mount<| fstype == 'cvmfs' |>
       concat::fragment{"cvmfs_${_idt}_map_${repo}_header":
         target  => "${_cvmfs_id_map_file_prefix}.${_idt}_map",
         order   => '01',

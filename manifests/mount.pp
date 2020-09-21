@@ -44,6 +44,7 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
         require => Class['cvmfs::install'],
         notify  => Class['cvmfs::service'],
       }
+      Concat["${_cvmfs_id_map_file_prefix}.${_idt}_map"] -> File["/etc/cvmfs/config.d/${repo}.local"]
       concat::fragment{"cvmfs_${_idt}_map_${repo}_header":
         target  => "${_cvmfs_id_map_file_prefix}.${_idt}_map",
         order   => '01',
