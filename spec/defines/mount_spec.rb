@@ -35,7 +35,7 @@ describe 'cvmfs::mount' do
               cvmfs_claim_ownership: 'yes',
               cvmfs_repository_tag: 'testing',
               cvmfs_uid_map: { 123 => 12 },
-              cvmfs_gid_map: { 137 => 42 },
+              cvmfs_gid_map: { 137 => 42 }
             }
           end
 
