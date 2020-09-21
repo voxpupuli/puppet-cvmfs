@@ -23,6 +23,10 @@ describe 'cvmfs' do
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_repo_end') }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_repo_end').with_content("'\n\n") }
         it { is_expected.not_to contain_concat__fragment('cvmfs_default_local_repo') }
+        it { is_expected.not_to contain_file('/etc/cvmfs/config.d/default.uid_map') }
+        it { is_expected.not_to contain_file('/etc/cvmfs/config.d/default.gid_map') }
+        it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_UID_MAP.*$}) }
+        it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_GID_MAP.*$}) }
 
         context 'with defaults and cvmfspartsize fact unset' do
           it { is_expected.to contain_class('cvmfs::config') }
@@ -321,6 +325,30 @@ describe 'cvmfs' do
             it do
               is_expected.to contain_concat__fragment('cvmfs_default_local_header').
                 with_content(%r{^CVMFS_CLAIM_OWNERSHIP='yes'$})
+            end
+          end
+          context 'with cvmfs_uid_map set to a value' do
+            let(:params) do
+              { cvmfs_uid_map: { 123 => 12 },
+                cvmfs_http_proxy: :undef }
+            end
+
+            it do
+              is_expected.to contain_file('/etc/cvmfs/config.d/default.uid_map').with('content' => %r{^123 12$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+                with_content(%r{^CVMFS_UID_MAP='/etc/cvmfs/config.d/default.uid_map'$})
+            end
+          end
+          context 'with cvmfs_gid_map set to a value' do
+            let(:params) do
+              { cvmfs_gid_map: { 137 => 42 },
+                cvmfs_http_proxy: :undef }
+            end
+
+            it do
+              is_expected.to contain_file('/etc/cvmfs/config.d/default.gid_map').with('content' => %r{^137 42$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+                with_content(%r{^CVMFS_GID_MAP='/etc/cvmfs/config.d/default.gid_map'$})
             end
           end
           context 'with cvmfs::hash set' do
