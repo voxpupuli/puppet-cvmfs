@@ -31,21 +31,15 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
 
   $repo = $name
 
-  # UID and GID map are stored in separate files and included in the config.
   $_cvmfs_id_map_file_prefix = "/etc/cvmfs/config.d/${repo}"
-  [ 'uid', 'gid' ].each |$_idt| {
-    $_cvmfs_id_map = getvar("cvmfs_${_idt}_map")
-    if $_cvmfs_id_map {
-      file{"${_cvmfs_id_map_file_prefix}.${_idt}_map":
-        ensure  => file,
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0644',
-        content => epp("${module_name}/id_map.epp", { 'id_maps' => $_cvmfs_id_map }),
-        require => Class['cvmfs::install'],
-        notify  => Class['cvmfs::service'],
-      }
-      File["${_cvmfs_id_map_file_prefix}.${_idt}_map"] -> File["/etc/cvmfs/config.d/${repo}.local"]
+  if $cvmfs_uid_map {
+    cvmfs::id_map{ "${_cvmfs_id_map_file_prefix}.uid_map":
+      map => $cvmfs_uid_map,
+    }
+  }
+  if $cvmfs_gid_map {
+    cvmfs::id_map{ "${_cvmfs_id_map_file_prefix}.gid_map":
+      map => $cvmfs_gid_map,
     }
   }
 
