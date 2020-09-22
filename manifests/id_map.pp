@@ -9,7 +9,7 @@ define cvmfs::id_map(
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => "# Created by puppet.\n${_map_content}",
+    content => "# Created by puppet.\n${_map_content}\n",
     require => Class['cvmfs::install'],
     notify  => Class['cvmfs::service'],
   }
