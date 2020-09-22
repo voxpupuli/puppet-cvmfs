@@ -1,7 +1,7 @@
 # == Define: cvmfs::id_map
 define cvmfs::id_map(
-  Stdlib::Absolutepath                      $location = $title,
-  Hash[Variant[Integer,String], Integer, 1] $map
+  Hash[Variant[Integer,String], Integer, 1] $map,
+  Stdlib::Absolutepath                      $location = $title
 ) {
   $_map_content = $map.map |$from_id,$to_id| { "${from_id} ${to_id}" }.join("\n")
   file { $location:
@@ -12,6 +12,6 @@ define cvmfs::id_map(
     content => "# Created by puppet.\n${_map_content}",
     require => Class['cvmfs::install'],
     notify  => Class['cvmfs::service'],
-  }->
-  Mount<| fstype == 'cvmfs' |>
+  }
+  ->Mount<| fstype == 'cvmfs' |>
 }
