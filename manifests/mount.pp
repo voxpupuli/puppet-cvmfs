@@ -14,6 +14,8 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   $cmvfs_mount_rw = undef,
   $cvmfs_memcache_size = undef,
   $cvmfs_claim_ownership = undef,
+  $cvmfs_uid_map = undef,
+  $cvmfs_gid_map = undef,
   $cvmfs_follow_redirects = undef,
   $mount_options = 'defaults,_netdev,nodev',
   $mount_method = $cvmfs::mount_method,
@@ -28,6 +30,18 @@ define cvmfs::mount($cvmfs_quota_limit = undef,
   include ::cvmfs
 
   $repo = $name
+
+  $_cvmfs_id_map_file_prefix = "/etc/cvmfs/config.d/${repo}"
+  if $cvmfs_uid_map {
+    cvmfs::id_map{ "${_cvmfs_id_map_file_prefix}.uid_map":
+      map => $cvmfs_uid_map,
+    }
+  }
+  if $cvmfs_gid_map {
+    cvmfs::id_map{ "${_cvmfs_id_map_file_prefix}.gid_map":
+      map => $cvmfs_gid_map,
+    }
+  }
 
   file{"/etc/cvmfs/config.d/${repo}.local":
     ensure  =>  file,

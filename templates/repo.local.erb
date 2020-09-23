@@ -29,6 +29,12 @@ CVMFS_CACHE_BASE='<%= @cvmfs_cache_base %>'
 <% if @cvmfs_claim_ownership and  @cvmfs_claim_ownership != '' -%>
 CVMFS_CLAIM_OWNERSHIP='<%= @cvmfs_claim_ownership %>'
 <% end -%>
+<% if @cvmfs_uid_map -%>
+CVMFS_UID_MAP='<%= @_cvmfs_id_map_file_prefix %>.uid_map'
+<% end -%>
+<% if @cvmfs_gid_map -%>
+CVMFS_GID_MAP='<%= @_cvmfs_id_map_file_prefix %>.gid_map'
+<% end -%>
 <% if @cvmfs_server_url and @cvmfs_server_url != '' -%>
 CVMFS_SERVER_URL='<%= @cvmfs_server_url %>'
 <% end -%>

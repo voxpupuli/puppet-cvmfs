@@ -18,6 +18,8 @@ class cvmfs::config (
   $cvmfs_repo_list                     = $cvmfs::cvmfs_repo_list,
   $cvmfs_memcache_size                 = $cvmfs::cvmfs_memcache_size,
   $cvmfs_claim_ownership               = $cvmfs::cvmfs_claim_ownership,
+  $cvmfs_uid_map                       = $cvmfs::cvmfs_uid_map,
+  $cvmfs_gid_map                       = $cvmfs::cvmfs_gid_map,
   $default_cvmfs_partsize              = $cvmfs::default_cvmfs_partsize,
   Optional[Integer] $cvmfs_dns_max_ttl = $cvmfs::cvmfs_dns_max_ttl,
   Optional[Integer] $cvmfs_dns_min_ttl = $cvmfs::cvmfs_dns_min_ttl,
@@ -79,6 +81,18 @@ class cvmfs::config (
     owner => 'root',
     group => 'root',
     mode  => '0644',
+  }
+  # UID and GID map are stored in separate files and included in the config.
+  $_cvmfs_id_map_file_prefix = '/etc/cvmfs/config.d/default'
+  if $cvmfs_uid_map {
+    cvmfs::id_map{"${_cvmfs_id_map_file_prefix}.uid_map":
+      map => $cvmfs_uid_map,
+    }
+  }
+  if $cvmfs_gid_map {
+    cvmfs::id_map{"${_cvmfs_id_map_file_prefix}.gid_map":
+      map => $cvmfs_gid_map,
+    }
   }
   concat::fragment{'cvmfs_default_local_header':
     target  => '/etc/cvmfs/default.local',
