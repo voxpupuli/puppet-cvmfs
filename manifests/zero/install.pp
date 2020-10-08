@@ -5,9 +5,9 @@ class cvmfs::zero::install (
   String $cvmfs_kernel_version = 'present',
   String $cvmfs_aufs2_version  = 'present',
 ) {
-  include ::cvmfs::zero::yum
+  include cvmfs::zero::yum
 
-  package{['cvmfs-server','cvmfs']:
+  package { ['cvmfs-server','cvmfs']:
     ensure  => $cvmfs_version,
     require => Yumrepo['cvmfs'],
   }
@@ -15,16 +15,16 @@ class cvmfs::zero::install (
   # already.
 
   unless $::kernelrelease  =~ /^.*aufs.*/ {
-    notify{'An aufs kernel is not, install, upgrade, reboot until an aufs kernel is running':}
+    notify { 'An aufs kernel is not, install, upgrade, reboot until an aufs kernel is running': }
   }
 
-  package{'kernel':
+  package { 'kernel':
     ensure  => $cvmfs_kernel_version,
     require => Yumrepo['cvmfs-kernel'],
   }
-  package{'aufs2-util':
+  package { 'aufs2-util':
     ensure  => $cvmfs_aufs2_version,
     require => Yumrepo['cvmfs-kernel'],
   }
-  ensure_packages('httpd', { ensure => present, } )
+  ensure_packages('httpd', { ensure => present, })
 }

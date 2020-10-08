@@ -44,8 +44,6 @@ class cvmfs (
   Optional[Enum['yes','no']] $cvmfs_shared_cache                     = undef,
   Optional[String[1]] $cvmfs_repositories                            = undef,
 ) {
-
-
   contain 'cvmfs::install'
   contain 'cvmfs::config'
   contain 'cvmfs::service'
@@ -54,5 +52,4 @@ class cvmfs (
   # Finally allow the individual repositories to be loaded from hiera.
   create_resources('cvmfs::mount', $cvmfs_hash)
   create_resources('cvmfs::domain', $cvmfs_domain_hash)
-
 }
