@@ -1,18 +1,22 @@
 {
-  "summary": "Manages CVMFS clients and servers",
-  "name": "CERNOps-cvmfs",
-  "author": "CERNOps",
-  "project_page": "https://github.com/cvmfs/puppet-cvmfs",
-  "version": "7.3.0",
-  "source": "https://github.com/cvmfs/puppet-cvmfs",
+  "name": "puppet-cvmfs",
+  "version": "7.3.1-rc0",
+  "summary": "Manages CVMFS clients",
+  "author": "Vox Pupuli",
+  "project_page": "https://github.com/voxpupuli/puppet-cvmfs",
+  "source": "https://github.com/voxpupuli/puppet-cvmfs.git",
+  "issues_url": "https://github.com/voxpupuli/puppet-cvmfs/issues",
+  "tags": [
+    "cvmfs"
+  ],
   "license": "Apache-2.0",
   "dependencies": [
     {
-      "version_requirement": ">=1.0.0 < 6.0.0",
+      "version_requirement": ">=1.0.0 < 7.0.0",
       "name": "puppetlabs/concat"
     },
     {
-      "version_requirement": ">=4.13.1 < 6.0.0",
+      "version_requirement": ">=4.13.1 < 7.0.0",
       "name": "puppetlabs/stdlib"
     },
     {
@@ -24,15 +28,15 @@
   "operatingsystem_support": [
     {
       "operatingsystem":"RedHat",
-      "operatingsystemrelease":["6", "7", "8" ]
+      "operatingsystemrelease":["7", "8" ]
     },
     {
       "operatingsystem": "CentOS",
-      "operatingsystemrelease": ["6", "7", "8" ]
+      "operatingsystemrelease": ["7", "8" ]
     },
     {
       "operatingsystem": "Scientific",
-      "operatingsystemrelease": ["6", "7" ]
+      "operatingsystemrelease": ["7" ]
     }
   ]
 }
