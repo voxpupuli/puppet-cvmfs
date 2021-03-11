@@ -3,20 +3,19 @@
 class cvmfs::one::config (
   $cvmfs_sync_minute = '*/15',
 ) {
-
-  firewall{'100 - allow access from 80':
+  firewall { '100 - allow access from 80':
     proto  => 'tcp',
     dport  => 80,
     action => 'accept',
   }
 
-  service{'httpd':
+  service { 'httpd':
     ensure  => running,
     enable  => true,
     require => Package['httpd'],
   }
 
-  user{'cvmfsr':
+  user { 'cvmfsr':
     ensure     => present,
     home       => '/var/lib/cvmfsr' ,
     comment    => 'cvmfs repication account',
@@ -24,13 +23,13 @@ class cvmfs::one::config (
     system     => true,
   }
 
-  cron{'cvmfs_sync':
+  cron { 'cvmfs_sync':
     user    => cvmfsr,
     minute  => $cvmfs_sync_minute,
     command => '/usr/local/sbin/sync-cron.sh',
     require => File['/usr/local/sbin/sync-cron.sh'],
   }
-  file{'/usr/local/sbin/sync-cron.sh':
+  file { '/usr/local/sbin/sync-cron.sh':
     ensure => file,
     mode   => '0755',
     owner  => root,
@@ -38,18 +37,16 @@ class cvmfs::one::config (
     source => 'puppet:///modules/cvmfs/sync-cron.sh',
   }
 
-  file{'/var/log/cvmfs':
+  file { '/var/log/cvmfs':
     ensure  => directory,
     owner   => cvmfsr,
     group   => cvmfsr,
     require => User['cvmfsr'],
   }
-  file{'/etc/logrotate.d/cvmfsr':
+  file { '/etc/logrotate.d/cvmfsr':
     ensure => file,
     owner  => root,
     group  => root,
     source => 'puppet:///modules/cvmfs/cvmfsr.logrotate',
   }
-
 }
-

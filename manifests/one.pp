@@ -25,16 +25,16 @@ define cvmfs::one (
   $keys = ['/etc/cvmfs/keys/cern.ch.pub','/etc/cvmfs/keys/cern-it1.cern.ch.pub','/etc/cvmfs/keys/cern-it2.cern.ch.pub'],
   $mime_expire = 61,
 ) {
-  include '::cvmfs::one::install'
-  include '::cvmfs::one::config'
+  include 'cvmfs::one::install'
+  include 'cvmfs::one::config'
 
   $joinedkeys = join($keys,':')
-  exec{"replicate_${name}":
+  exec { "replicate_${name}":
     command => "/usr/bin/cvmfs_server add-replica -o cvmfsr ${origin}/${repo} ${joinedkeys}",
     creates => "/etc/cvmfs/repositories.d/${repo}/replica.conf",
     require => [User['cvmfsr'],Package['cvmfs-server'],Service['httpd']],
   }
-  file{"/etc/httpd/conf.d/cvmfs.${repo}.conf":
+  file { "/etc/httpd/conf.d/cvmfs.${repo}.conf":
     ensure  => file,
     mode    => '0644',
     owner   => root,

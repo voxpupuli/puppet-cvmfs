@@ -23,12 +23,12 @@ class cvmfs (
   Hash $cvmfs_hash                                                   = {},
   Hash $cvmfs_domain_hash                                            = {},
   String[1] $cvmfs_version                                           = 'present',
-  Stdlib::Httpurl $cvmfs_yum                                         = "http://cern.ch/cvmrepo/yum/cvmfs/EL/${::operatingsystemmajrelease}/${::architecture}",
-  Stdlib::Httpurl $cvmfs_yum_config                                  = "http://cern.ch/cvmrepo/yum/cvmfs-config/EL/${::operatingsystemmajrelease}/${::architecture}",
+  Stdlib::Httpurl $cvmfs_yum                                         = "http://cern.ch/cvmrepo/yum/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+  Stdlib::Httpurl $cvmfs_yum_config                                  = "http://cern.ch/cvmrepo/yum/cvmfs-config/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
   Integer $cvmfs_yum_priority                                        = 80,
   Integer[0,1] $cvmfs_yum_config_enabled                             = 0,
   Optional[Stdlib::Httpurl] $cvmfs_yum_proxy                         = undef,
-  Stdlib::Httpurl $cvmfs_yum_testing                                 = "http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${::operatingsystemmajrelease}/${::architecture}",
+  Stdlib::Httpurl $cvmfs_yum_testing                                 = "http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
   Integer[0,1] $cvmfs_yum_testing_enabled                            = 0,
   Integer[0,1] $cvmfs_yum_gpgcheck                                   = 1,
   Variant[Stdlib::Filesource,Stdlib::Httpurl] $cvmfs_yum_gpgkey      = 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
@@ -44,8 +44,6 @@ class cvmfs (
   Optional[Enum['yes','no']] $cvmfs_shared_cache                     = undef,
   Optional[String[1]] $cvmfs_repositories                            = undef,
 ) {
-
-
   contain 'cvmfs::install'
   contain 'cvmfs::config'
   contain 'cvmfs::service'
@@ -54,5 +52,4 @@ class cvmfs (
   # Finally allow the individual repositories to be loaded from hiera.
   create_resources('cvmfs::mount', $cvmfs_hash)
   create_resources('cvmfs::domain', $cvmfs_domain_hash)
-
 }
