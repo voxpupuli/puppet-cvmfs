@@ -41,7 +41,7 @@
 - All the deprecated explicit hiera calls that were issuing
   notify calls for the last year have been completely removed.
 - Puppet 4 types have now been added and much stronger
-  type checking of input is now done. e.g while a 
+  type checking of input is now done. e.g while a
   `cvmfs_quota_limit` of `'1234'` or `1234` used to be permitted only
   the latter is now permitted.
 
@@ -65,7 +65,7 @@
   `cvmfs_yum`, `cvmfs_yum_testing`, `cvmfs_yum_testing_enabled`, `cvmfs_kernel_version`, `cvmfs_yum_kernel`,
   `cvmfs_yum_kernel_enabled`, `cvmfs_sync_minute`.
 
-  In almost every case the existing conventional class parameter can be used instead. 
+  In almost every case the existing conventional class parameter can be used instead.
   e.g `cvmfs_quota_limit` becomes `cvmfs::cvmfs_quota_limit`. The class parameter
   can be specified via hiera if so wished.
   These parameters have been available, documented and advised for sometime.
@@ -76,8 +76,8 @@
   The next version `puppet-cvmfs` will completely drop thier support as well as support for puppet3.
 
 ## 2017-05-18 - Release 4.2.0
-- New paramter `mime_expire` to `cvmfs::zero` to specify 
-  expirey headers for cvmfs files in apache. Defaults 
+- New paramter `mime_expire` to `cvmfs::zero` to specify
+  expirey headers for cvmfs files in apache. Defaults
   to `120`. Unit is seconds.
 - New optional parameter `cvmfs_claim_ownership` to main class
   and to mount type.
@@ -85,11 +85,11 @@
 
 
 ## 2017-04-04 - Release 4.1.0
-- New parameter `cvmfs_memcache_size` to main class and 
+- New parameter `cvmfs_memcache_size` to main class and
   to mount type.
 
 ## 2017-02-15 - Release 4.0.0
-- cvmfs::server is now deprecated and will be removed 
+- cvmfs::server is now deprecated and will be removed
   at next release. README.md contains details
   for migating to cvmfs::zero defined type.
 
@@ -122,7 +122,7 @@
 - Remove all support for cvmfs 2.0.
 - Only one rather than two puppet runs are now
   requied.
-- Drop bundled augeas automaster lens. 
+- Drop bundled augeas automaster lens.
 - Stratum 1 apache file update for cvmfs 2.2.
 
 
@@ -181,12 +181,12 @@
 ## Deprecations
 - All the hiera variables explicity called from params.pp
   file are now deprecated. These variables include.
-  `cvmfs_config_automaster`, `cvmfs_quota_limit`, 
+  `cvmfs_config_automaster`, `cvmfs_quota_limit`,
   `cvmfs_quota_limit`, `cvmfs_quota_ratio`, `cvmfs_http_proxy`,
   `cvmfs_server_url`, `cvmfs_cache_base`, `cvmfs_timeout`,
   `cvmfs_nfiles`, `cvmfs_public_key`, `cvmfs_force_signing`,
   `cvmfs_syslog_level`, `cvmfs_tracefile`, `cvmfs_debuglog`
-  `cvmfs_max_ttl`, `cvmfs::mount`, `cvmfsversion`, 
+  `cvmfs_max_ttl`, `cvmfs::mount`, `cvmfsversion`,
   `cvmfs_yum`, `cvmfs_yum_testing`, `cvmfs_yum_proxy`
   `cvmfs_kernel_version`, `cvmfs_yum_kernel`, `cvmfs_yum_kernel_enabled`
   Instead use the hiera binding that maps to one of the paramters
@@ -198,13 +198,13 @@
 ## Features
 - Beaker acceptence tests now added for client. Configures
   a client and mounts the cms.cern.ch and atlas.cern.ch
-  repositories. 
+  repositories.
 - The fact ::operatingsystemmajrelease is used everywhere now
   to determine major OS version.
 - Unit tests for yumrepos.
 - The GPG key location for packages in the cvmfs yum repositories
-  can now be specified. 
-- The GPG check of packages can be disabled in the yum repository 
+  can now be specified.
+- The GPG check of packages can be disabled in the yum repository
   configuration.
 - The new cvmfs-config repository is now configured but is disabled
   by default.
@@ -238,17 +238,17 @@
   be managed module. Existing paramter `config_automaster` now only configures
   `auto.master file` - @jcpunk.
 - New type cvmfs::zero to configure a CvmFS stratum 0. The existing
-  class cvmfs::server for stratum 0s will be deprecated at some 
+  class cvmfs::server for stratum 0s will be deprecated at some
   future date.
 - Doc changes for latest PL style guide. CHANGELOG is now markdown.
   Docs for classes and types being migrated from them to README.md.
 - puppet-cvmfs is now autodeployed to puppetforge once tagged.
 - CvmFS env settings can now be set globally as well per domain or mount.
-- New variable `cvmfs_domain_hash` allows a hash of CvmFS domains to 
+- New variable `cvmfs_domain_hash` allows a hash of CvmFS domains to
   loaded from hiera.
 - New variable `cvmfs_use_geoapi` can be set globally, per domain or
   mount to influence `CVMFS_USE_GEOAPI`
-- rspec functional tests now exist for class cvmfs and types 
+- rspec functional tests now exist for class cvmfs and types
   cvmfs::zero, cvmfs::mount and cvmfs::domain.
 
 
@@ -272,11 +272,11 @@
 
 ### Features
 - server - seperate yum configuration for server and client.
-- server - Add `nofiles` paramter to server class to allow no open files to 
+- server - Add `nofiles` paramter to server class to allow no open files to
   be specified for the user running the cvmfs server.
 - server - An exact kernel version is no longer specified.
 - README file converted to markdown, now README.md.
-- client - new defined type cvmfs::domain to create <domain>.local file in 
+- client - new defined type cvmfs::domain to create <domain>.local file in
   /etc/cvmfs/domain.d.
 - client - cvmfs::init class is now paramatised so supports that in addition to hiera.
 

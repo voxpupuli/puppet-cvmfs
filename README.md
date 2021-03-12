@@ -7,7 +7,7 @@ This cvmfs module is designed to install, enable and configure
 CvmFS clients and servers.
 
 For general details on CvmFS see
-http://cernvm.cern.ch/portal/filesystem 
+http://cernvm.cern.ch/portal/filesystem
 
 ## Custom Facts
 The module include one customfacts
@@ -42,7 +42,7 @@ cvmfs::domain{'example.net'
 ```
 
 To use puppet's mount type rather that autofs
-a typical configuration might be the following. This 
+a typical configuration might be the following. This
 examples configures a cvmfs domain, a configuration
 repository and finally a particular repository for
 mount.
@@ -105,7 +105,7 @@ cvmfs::mount{'myrepo.example.org':
 * `cvmfs_yum_manage_repo` Defaults to true, set to false to disable yum repositories management.
 * `cvmfs_use_geoapi`  **TO DOC**
 * `cvmfs_repositories` By default undef and `CVMFS_REPOSITORIES` in `default.local` will be populated
-   automatically from what is explicitly mounted with `cvmfs::mount`. If this is 
+   automatically from what is explicitly mounted with `cvmfs::mount`. If this is
    specified then`CVMFS_REPOSITORIES` list in `default.local` will be exactly managed with this variable.
    e.g `cvmfs-config.cern.ch,atlas.cern.ch`
 * `cvmfs_hash` Rather than using cvmfs::mount defined type a hash of mounts can be sepecfied.
@@ -133,18 +133,18 @@ configuration on each repository. e.g
 ```puppet
 cvmfs::mount{'lhcb.example.org':
 }
-cvmfs::mount{'atlas.example.org': 
-  cvmfs_timeout => 50 
+cvmfs::mount{'atlas.example.org':
+  cvmfs_timeout => 50
 }
-cvmfs::mount{'cms.example.org': 
+cvmfs::mount{'cms.example.org':
   cvmfs_timeout    => 100,
-  cvmfs_server_url => 'http://web.example.org/cms.cern.ch' 
+  cvmfs_server_url => 'http://web.example.org/cms.cern.ch'
 }
-```                                 
+```
 
 ###  Cvmfs::Mount Type Parameters
 * `namevar`  The namevar is the repository name, e.g atlas.example.ch
-* `cvmfs_repo_list` A boolean defaults to `true`. Should this repository be 
+* `cvmfs_repo_list` A boolean defaults to `true`. Should this repository be
    included in the list of repositories listed as `CVMFS_REPOSITORIES`
    with `/etc/cvmfs/default.local`. This is ignored if `cvmfs_repositories` is
    set on the main class.
@@ -207,9 +207,9 @@ In addition a cron will be created to purge quarentine corrupted files after 30 
 * `onreboot` If set to true a @reboot job will be set to run `cvmfs_fsck` at boot time. Default is false.
 
 ## Stratum 0 Configuration
-There are currently two options to configure a stratum 0. 
+There are currently two options to configure a stratum 0.
 The class method only supports one stratum one and will
-at some point be deprecated.  
+at some point be deprecated.
 
 ### Stratum 0 Configuration as a Class
 ```puppet
@@ -222,8 +222,8 @@ class{'cvmfs::server':
 See the docs in cvmfs::server for explanation of parameters.
 
 ### Stratum 0 Configuration as a Defined Type
-A new method where each stratum 0 can be configured as an instance. 
-The advantage here is that multiple stratum zeros can be configured per 
+A new method where each stratum 0 can be configured as an instance.
+The advantage here is that multiple stratum zeros can be configured per
 server. The previous class method will be deprecated at some future point.
 
 ```puppet
@@ -238,7 +238,7 @@ cvmfs::zero{'files.example.org':
 
 * `clientuesr` If set will specify the user running the cvmfs_client on the server. Optinal.
 * `claim_ownership`. By default false if true it enables the `CVMFS_CLAIM_OWNERSHIP` option the server's client instance.
-* `group` The group name that will manage the repository and own the files on the server. 
+* `group` The group name that will manage the repository and own the files on the server.
 * `home` The home directory of the `user` account that owns the cvmfs repositories. The default value is
    `repo_store`/`repo`/`user`.
 * `gid` The gid fo the `group`, it defaults to the be same as the `uid`, defaults to the `user` setting.
@@ -295,7 +295,7 @@ The class based stratum 0 will be deprecated at some point. The differences are:
   externally as per the example above.
 
 
-Replacing 
+Replacing
 
 ```puppet
 class{'cvmfs::server':
@@ -306,7 +306,7 @@ class{'cvmfs::server':
 }
 ```
 
-with 
+with
 
 ```puppet
 cvmfs::zero{'ilc.example.org':
@@ -323,7 +323,7 @@ file{'/etc/cvmfs/keys/ilc.example.org':
 Stratum One Configuration
 ------------------------
 A stratum one can be configured for multiple repositories with
-a 
+a
 ```puppet
 cvmfs::one{'mice.example.org':
   origin => 'http://cvmfs01.example.org/cvmfs',
