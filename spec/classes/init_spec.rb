@@ -351,6 +351,17 @@ describe 'cvmfs' do
                 with_content(%r{^CVMFS_GID_MAP='/etc/cvmfs/config.d/default.gid_map'$})
             end
           end
+          context 'with cvmfs_domain_hash set' do
+            let(:params) do
+              super().merge(cvmfs_domain_hash: {
+                              'example.org' => { 'cvmfs_server_url' => 'http://foobar.example.org' },
+                              'foobar.org' => { 'cvmfs_server_url' => 'http://barfoo.example.net' },
+                            })
+            end
+
+            it { is_expected.to  contain_cvmfs__domain('example.org').with_cvmfs_server_url('http://foobar.example.org') }
+            it { is_expected.to  contain_cvmfs__domain('foobar.org').with_cvmfs_server_url('http://barfoo.example.net') }
+          end
           context 'with cvmfs::hash set' do
             let(:params) do
               { cvmfs_hash: { 'one.example.org' => { 'cvmfs_server_url' => 'http://one.example.org/' },
