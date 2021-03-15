@@ -9,11 +9,10 @@ class cvmfs::server::config (
   $uid      = 101,
   $pubkey   = 'cern-it1.cern.ch.pub'
 ) {
-
   validate_string($pubkey)
 
   if $nfshost and $nfsshare {
-    ::nfs::client::mount{'cvmfs_volume':
+    ::nfs::client::mount { 'cvmfs_volume':
       ensure  => 'mounted',
       server  => $nfshost,
       share   => $nfsshare,
@@ -24,24 +23,24 @@ class cvmfs::server::config (
       before  => [Exec['cvmfs_mkfs'],User[$user]],
     }
   }
-  file{'/srv/cvmfs':
+  file { '/srv/cvmfs':
     ensure  => directory,
     mode    => '0755',
     owner   => root,
     group   => root,
     require => File['/srv'],
   }
-  file{'/srv':
+  file { '/srv':
     ensure => directory,
     mode   => '0755',
     owner  => root,
     group  => root,
   }
 
-  group{$user:
+  group { $user:
     gid => $uid,
   }
-  user{$user:
+  user { $user:
     uid        => $uid,
     gid        => $uid,
     comment    => 'cvmfs shared account',
@@ -50,31 +49,30 @@ class cvmfs::server::config (
     require    => Group[$user],
   }
 
-  exec{'cvmfs_mkfs':
+  exec { 'cvmfs_mkfs':
     command => "/usr/bin/cvmfs_server mkfs -o ${user} ${repo}",
     creates => "/etc/cvmfs/repositories.d/${repo}",
-    require => [User[$user],Package[kernel],Service['httpd']],
+    require => [User[$user],Package['kernel'],Service['httpd']],
   }
 
-  service{'httpd':
+  service { 'httpd':
     ensure  => running,
     enable  => true,
     require => Package['httpd'],
   }
   # Disable requiretty in sudoers since puppet runs mkfs with out a tty.
-  augeas{'disable_requiretty':
+  augeas { 'disable_requiretty':
     context => '/files/etc/sudoers',
     changes => 'set Defaults[*]/requiretty/negate ""',
     before  => Exec['cvmfs_mkfs'],
   }
-  firewall{'100 - allow access from 80':
+  firewall { '100 - allow access from 80':
     proto  => 'tcp',
     dport  => 80,
     action => 'accept',
   }
-  file{"/etc/cvmfs/keys/${repo}.pub":
+  file { "/etc/cvmfs/keys/${repo}.pub":
     ensure => link,
     target => $pubkey,
   }
-
 }

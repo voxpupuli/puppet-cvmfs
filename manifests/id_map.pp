@@ -1,5 +1,5 @@
 # == Define: cvmfs::id_map
-define cvmfs::id_map(
+define cvmfs::id_map (
   Hash[Variant[Integer,String], Integer, 1] $map,
   Stdlib::Absolutepath                      $location = $title
 ) {

@@ -23,15 +23,14 @@ class cvmfs::yum (
   $cvmfs_yum_includepkgs = $cvmfs::cvmfs_yum_includepkgs,
   Integer $cvmfs_yum_priority = $cvmfs::cvmfs_yum_priority,
 )  inherits cvmfs {
-
   if $cvmfs_yum_includepkgs =~ Array[String] {
     $yum_includepkgs = join($cvmfs_yum_includepkgs, ' ')
   } else {
     $yum_includepkgs = $cvmfs_yum_includepkgs
   }
 
-  yumrepo{'cvmfs':
-    descr       => "CVMFS yum repository for el${::operatingsystemmajrelease}",
+  yumrepo { 'cvmfs':
+    descr       => "CVMFS yum repository for el${facts['os']['release']['major']}",
     baseurl     => $cvmfs_yum,
     gpgcheck    => $cvmfs_yum_gpgcheck,
     gpgkey      => $cvmfs_yum_gpgkey,
@@ -41,8 +40,8 @@ class cvmfs::yum (
     require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
     proxy       => $cvmfs_yum_proxy,
   }
-  yumrepo{'cvmfs-testing':
-    descr       => "CVMFS yum testing repository for el${::operatingsystemmajrelease}",
+  yumrepo { 'cvmfs-testing':
+    descr       => "CVMFS yum testing repository for el${facts['os']['release']['major']}",
     baseurl     => $cvmfs_yum_testing,
     gpgcheck    => $cvmfs_yum_gpgcheck,
     gpgkey      => $cvmfs_yum_gpgkey,
@@ -52,8 +51,8 @@ class cvmfs::yum (
     require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
     proxy       => $cvmfs_yum_proxy,
   }
-  yumrepo{'cvmfs-config':
-    descr    => "CVMFS config yum repository for el${::operatingsystemmajrelease}",
+  yumrepo { 'cvmfs-config':
+    descr    => "CVMFS config yum repository for el${facts['os']['release']['major']}",
     baseurl  => $cvmfs_yum_config,
     gpgcheck => $cvmfs_yum_gpgcheck,
     gpgkey   => $cvmfs_yum_gpgkey,
@@ -64,7 +63,7 @@ class cvmfs::yum (
   }
 
   #  Copy out the gpg key once only ever.
-  file{'/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM':
+  file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM':
     ensure  => file,
     source  => 'puppet:///modules/cvmfs/RPM-GPG-KEY-CernVM',
     replace => false,
@@ -73,4 +72,3 @@ class cvmfs::yum (
     mode    => '0644',
   }
 }
-

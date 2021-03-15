@@ -1,33 +1,64 @@
-# Use this file to configure the Overcommit hooks you wish to use. This will
-# extend the default configuration defined in:
-# https://github.com/brigade/overcommit/blob/master/config/default.yml
+# Managed by https://github.com/voxpupuli/modulesync_configs
 #
-# At the topmost level of this YAML file is a key representing type of hook
-# being run (e.g. pre-commit, commit-msg, etc.). Within each type you can
-# customize each hook, such as whether to only run it on certain files (via
-# `include`), whether to only display output if it fails (via `quiet`), etc.
+# Hooks are only enabled if you take action.
 #
-# For a complete list of hooks, see:
-# https://github.com/brigade/overcommit/tree/master/lib/overcommit/hook
+# To enable the hooks run:
 #
-# For a complete list of options that you can use to customize hooks, see:
-# https://github.com/brigade/overcommit#configuration
+# ```
+# bundle exec overcommit --install
+# # ensure .overcommit.yml does not harm to you and then
+# bundle exec overcommit --sign
+# ```
 #
-# Uncomment the following lines to make the configuration take effect.
+# (it will manage the .git/hooks directory):
+#
+# Examples howto skip a test for a commit or push:
+#
+# ```
+# SKIP=RuboCop git commit
+# SKIP=PuppetLint git commit
+# SKIP=RakeTask git push
+# ```
+#
+# Don't invoke overcommit at all:
+#
+# ```
+# OVERCOMMIT_DISABLE=1 git commit
+# ```
+#
+# Read more about overcommit: https://github.com/brigade/overcommit
+#
+# To manage this config yourself in your module add
+#
+# ```
+# .overcommit.yml:
+#   unmanaged: true
+# ```
+#
+# to your modules .sync.yml config
+---
+PreCommit:
+  RuboCop:
+    enabled: true
+    description: 'Runs rubocop on modified files only'
+    command: ['bundle', 'exec', 'rubocop']
+  PuppetLint:
+    enabled: true
+    description: 'Runs puppet-lint on modified files only'
+    command: ['bundle', 'exec', 'puppet-lint']
+  YamlSyntax:
+    enabled: true
+  JsonSyntax:
+    enabled: true
+  TrailingWhitespace:
+    enabled: true
 
-#PreCommit:
-#  RuboCop:
-#    enabled: true
-#    on_warn: fail # Treat all warnings as failures
-#
-#  TrailingWhitespace:
-#    enabled: true
-#    exclude:
-#      - '**/db/structure.sql' # Ignore trailing whitespace in generated files
-#
-#PostCheckout:
-#  ALL: # Special hook name that customizes all hooks of this type
-#    quiet: true # Change all post-checkout hooks to only display output on failure
-#
-#  IndexTags:
-#    enabled: true # Generate a tags file with `ctags` each time HEAD changes
+PrePush:
+  RakeTarget:
+    enabled: true
+    description: 'Run rake targets'
+    targets:
+      - 'validate'
+      - 'test'
+      - 'rubocop'
+    command: ['bundle', 'exec', 'rake']

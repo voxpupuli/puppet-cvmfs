@@ -43,10 +43,9 @@ class cvmfs::server (
   $cvmfs_yum_testing                      = "http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
   Integer[0,1] $cvmfs_yum_testing_enabled = 0,
 ) {
-
-  notify{'cvmfs::server class is now deprecated, migrate to type cvmfs::zero now':}
-  class{'::cvmfs::server::install':}
-  class{'::cvmfs::server::config':
+  notify { 'cvmfs::server class is now deprecated, migrate to type cvmfs::zero now': }
+  class { 'cvmfs::server::install': }
+  class { 'cvmfs::server::config':
     repo     => $repo,
     nfsshare => $nfsshare,
     nfshost  => $nfshost,
@@ -58,5 +57,3 @@ class cvmfs::server (
     require  => Class['cvmfs::server::install'],
   }
 }
-
-
