@@ -21,6 +21,7 @@ group :release do
   gem 'puppet-blacksmith',           :require => false
   gem 'voxpupuli-release',           :require => false
   gem 'puppet-strings', '>= 2.2',    :require => false
+  gem 'puppet-lint-param-docs',      :require => false
 end
 
 gem 'puppetlabs_spec_helper', '~> 2.0', :require => false

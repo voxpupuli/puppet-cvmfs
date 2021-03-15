@@ -2,3 +2,8 @@
 spec/spec_helper_acceptance.rb:
   unmanaged: false
 
+Gemfile:
+  optional:
+    ':test:':
+      - gem: puppet-lint-param-docs
+

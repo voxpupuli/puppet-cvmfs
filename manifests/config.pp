@@ -1,14 +1,5 @@
-# == Class: cvmfs::config
-#
-# Configures generic configuration for all cvmfs mounts.
-#
-# === Authors
-#
-# Steve Traylen <steve.traylen@cern.ch>
-#
-# === Copyright
-#
-# Copyright 2012 CERN
+# @summary Central configuration of CvmFS
+# @api private
 #
 class cvmfs::config (
   $mount_method                        = $cvmfs::mount_method,

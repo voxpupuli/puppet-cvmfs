@@ -1,16 +1,5 @@
-# == Class: cvmfs::services
-# Manages the cvmfs services. Optinally this also manages the autofs services
-# as well.
-#
-# === Parameters
-#
-# === Authors
-#
-# Steve Traylen <steve.traylen@cern.ch>
-#
-# === Copyright
-#
-# Copyright 2012 CERN
+# @summary Manages the cvmfs services. Opionally this also manages the autofs services
+# @api private
 #
 class cvmfs::service (
   $mount_method          = $cvmfs::mount_method,
