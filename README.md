@@ -155,11 +155,6 @@ cvmfs::mount{'cms.example.org':
 * `cvmfs_repository_tag` Specify a tag , sets `CVMFS_REPOSITORY_TAG`
 * TBC
 
-
-In addition to creating mounts as above the
-`create_resources('cvmfs::mount',{})` function is called
-allowing the mounts to be specified in a hiera yaml file:
-
 ```YAML
 ---
 cvmfs::cvmfs_hash:

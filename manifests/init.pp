@@ -49,7 +49,16 @@ class cvmfs (
   contain 'cvmfs::service'
   Class['Cvmfs::Install'] -> Class['Cvmfs::Config'] ~> Class['Cvmfs::Service']
 
-  # Finally allow the individual repositories to be loaded from hiera.
-  create_resources('cvmfs::mount', $cvmfs_hash)
-  create_resources('cvmfs::domain', $cvmfs_domain_hash)
+  # Finally allow the individual repositories or domains to be loaded from hiera.
+  $cvmfs_hash.each |$_n, $_v| {
+    cvmfs::mount { $_n:
+      * => $_v,
+    }
+  }
+
+  $cvmfs_domain_hash.each |$_n, $_v| {
+    cvmfs::domain { $_n:
+      * => $_v,
+    }
+  }
 }
