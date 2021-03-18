@@ -28,6 +28,14 @@ describe 'cvmfs' do
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_UID_MAP.*$}) }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_GID_MAP.*$}) }
 
+        context 'with cvmfs_http_proxy set' do
+          let(:params) do
+            super().merge(cvmfs_http_proxy: 'http://foobar.example.org:3128')
+          end
+
+          it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').with_content(%r{^CVMFS_HTTP_PROXY='http://foobar.example.org:3128'$}) }
+        end
+
         context 'with defaults and cvmfspartsize fact unset' do
           it { is_expected.to contain_class('cvmfs::config') }
           it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').with_content(%r{^CVMFS_QUOTA_LIMIT='1000'$}) }
