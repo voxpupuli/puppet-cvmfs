@@ -35,6 +35,13 @@ describe 'cvmfs::domain' do
             is_expected.to contain_file('/etc/cvmfs/domain.d/example.org.local').with('content' => %r{^CVMFS_FOLLOW_REDIRECTS='yes'$})
           end
         end
+        context 'with cvmfs_quota_limit set' do
+          let(:params) { { cvmfs_quota_limit: 12_345 } }
+
+          it do
+            is_expected.to contain_file('/etc/cvmfs/domain.d/example.org.local').with('content' => %r{^CVMFS_QUOTA_LIMIT='12345'$})
+          end
+        end
       end
     end
   end

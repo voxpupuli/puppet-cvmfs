@@ -21,7 +21,6 @@
 # @param cvmfs_external_timeout_direct Sets CVMFS_EXTERNAL_TIMEOUT_DIRECT
 # @param cvmfs_external_url Sets CVMFS_EXTERNAL_URL
 # @param cvmfs_public_key Specify repository signing key
-# @param cvmfs_force_singing Force signing, deprecated.
 #
 define cvmfs::domain (
   Stdlib::Fqdn $domain                             = $name,
@@ -32,7 +31,6 @@ define cvmfs::domain (
   Optional[Integer] $cvmfs_timeout_direct          = undef,
   Optional[Integer] $cvmfs_nfiles                  = undef,
   Optional[String[1]] $cvmfs_public_key            = undef,
-  Optional[Stdlib::Yes_no] $cvmfs_force_singing    = undef,
   Optional[Integer] $cvmfs_max_ttl                 = undef,
   Optional[Hash] $cvmfs_env_variables              = undef,
   Optional[Stdlib::Yes_no] $cvmfs_use_geoapi       = undef,

@@ -91,6 +91,7 @@ define cvmfs::mount (
     content => epp('cvmfs/repo.local.epp', {
         'repo'                          => $repo,
         'cvmfs_server_url'              => $cvmfs_server_url,
+        'cvmfs_quota_limit'             => $cvmfs_quota_limit,
         'cvmfs_http_proxy'              => $cvmfs_http_proxy,
         'cvmfs_timeout'                 => $cvmfs_timeout,
         'cvmfs_timeout_direct'          => $cvmfs_timeout_direct,
