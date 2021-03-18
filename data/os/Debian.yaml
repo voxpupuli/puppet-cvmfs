@@ -1,0 +1,4 @@
+---
+
+cvmfs::repo_base:   https://cvmrepo.web.cern.ch/cvmrepo/apt
+cvmfs::repo_gpgkey: https://cvmrepo.web.cern.ch/cvmrepo/apt/cernvm.gpg

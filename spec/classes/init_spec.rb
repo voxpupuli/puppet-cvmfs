@@ -15,7 +15,7 @@ describe 'cvmfs' do
         it { is_expected.to contain_class('cvmfs::config') }
         it { is_expected.to contain_class('cvmfs::service') }
         it { is_expected.to contain_package('cvmfs').with_ensure('present') }
-        it { is_expected.to contain_package('cvmfs').that_requires('Class[cvmfs::yum]') }
+
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header') }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_INSTRUMENT_FUSE.*$}) }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_repo_start') }
@@ -27,6 +27,16 @@ describe 'cvmfs' do
         it { is_expected.not_to contain_file('/etc/cvmfs/config.d/default.gid_map') }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_UID_MAP.*$}) }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_GID_MAP.*$}) }
+        case facts[:os]['family']
+        when 'Debian'
+          it { is_expected.to contain_class('cvmfs::apt') }
+          it { is_expected.not_to contain_class('cvmfs::yum') }
+          it { is_expected.to contain_package('cvmfs').that_requires('Class[cvmfs::apt]') }
+        else
+          it { is_expected.not_to contain_class('cvmfs::apt') }
+          it { is_expected.to contain_class('cvmfs::yum') }
+          it { is_expected.to contain_package('cvmfs').that_requires('Class[cvmfs::yum]') }
+        end
 
         context 'with cvmfs_http_proxy set' do
           let(:params) do
@@ -59,42 +69,58 @@ describe 'cvmfs' do
 
           # cvmfs-config repository should be disable by default.
           #
-          case facts[:os]['release']['major']
-          when '6'
-            it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/6/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/6/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/6/x86_64') }
-          when '7'
-            it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/7/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/7/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/7/x86_64') }
+          case facts[:os]['family']
+          when 'RedHat'
+            case facts[:os]['release']['major']
+            when '7'
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/7/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/7/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/7/x86_64') }
+            else
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64') }
+            end
+            it do
+              is_expected.to contain_yumrepo('cvmfs').with(
+                'enabled' => true,
+                'gpgcheck' => true,
+                'gpgkey'   => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM',
+                'priority' => 80
+              )
+            end
+            it do
+              is_expected.to contain_yumrepo('cvmfs-testing').with(
+                'enabled' => false,
+                'gpgcheck' => true,
+                'gpgkey'   => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM'
+              )
+            end
+            it do
+              is_expected.to contain_yumrepo('cvmfs-config').with(
+                'enabled' => false,
+                'gpgcheck' => true,
+                'gpgkey'   => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM'
+              )
+            end
           else
-            it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64') }
-          end
-
-          it do
-            is_expected.to contain_yumrepo('cvmfs').with(
-              'enabled' => true,
-              'gpgcheck' => true,
-              'gpgkey'   => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM',
-              'priority' => 80
-            )
-          end
-          it do
-            is_expected.to contain_yumrepo('cvmfs-testing').with(
-              'enabled' => false,
-              'gpgcheck' => true,
-              'gpgkey'   => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM'
-            )
-          end
-          it do
-            is_expected.to contain_yumrepo('cvmfs-config').with(
-              'enabled' => false,
-              'gpgcheck' => true,
-              'gpgkey'   => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM'
-            )
+            case facts[:os]['distro']['codename']
+            when 'focal'
+              it {
+                is_expected.to contain_apt__source('cvmfs').with({
+                                                                   'ensure' => 'present',
+                                                                   'location'       => 'https://cvmrepo.web.cern.ch/cvmrepo/apt',
+                                                                   'release'        => 'focal-prod',
+                                                                   'allow_unsigned' => false,
+                                                                 })}
+              it {
+                is_expected.to contain_apt__source('cvmfs-testing').with({
+                                                                           'ensure' => 'absent',
+                                                                           'location'       => 'https://cvmrepo.web.cern.ch/cvmrepo/apt',
+                                                                           'release'        => 'focal-testing',
+                                                                           'allow_unsigned' => false,
+                                                                         })}
+            end
           end
 
           context 'with mount method setto autofs' do
@@ -105,8 +131,8 @@ describe 'cvmfs' do
 
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to contain_service('autofs') }
-            case facts[:os]['release']['major']
-            when '6', '7'
+            case [facts[:os]['family'], facts[:os]['release']['major']]
+            when %w[RedHat 7], ['Debian', '18.04']
               it { is_expected.to contain_augeas('cvmfs_automaster') }
               it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.autofs') }
             else
@@ -142,7 +168,12 @@ describe 'cvmfs' do
                 cvmfs_http_proxy: :undef }
             end
 
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_enabled(true) }
+            case facts[:os]['family']
+            when 'RedHat'
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_enabled(true) }
+            else
+              it { is_expected.not_to contain_yumrepo('cvmfs-config') }
+            end
           end
 
           context 'with repo_base set to http://example.org/base' do
@@ -151,15 +182,14 @@ describe 'cvmfs' do
                 cvmfs_http_proxy: :undef }
             end
 
-            case facts[:os]['release']['major']
-            when '7'
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('http://example.org/base/cvmfs/EL/7/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('http://example.org/base/cvmfs-testing/EL/7/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('http://example.org/base/cvmfs-config/EL/7/x86_64') }
+            case facts[:os]['family']
+            when 'RedHat'
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl(%r{^http://example.org/base/cvmfs/EL/\d+/x86_64$}) }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl(%r{^http://example.org/base/cvmfs-testing/EL/\d+/x86_64$}) }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl(%r{^http://example.org/base/cvmfs-config/EL/\d+/x86_64$}) }
             else
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('http://example.org/base/cvmfs/EL/8/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('http://example.org/base/cvmfs-testing/EL/8/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('http://example.org/base/cvmfs-config/EL/8/x86_64') }
+              it { is_expected.to contain_apt__source('cvmfs').with_location('http://example.org/base') }
+              it { is_expected.to contain_apt__source('cvmfs-testing').with_location('http://example.org/base') }
             end
           end
 
@@ -180,12 +210,18 @@ describe 'cvmfs' do
                 cvmfs_http_proxy: :undef }
             end
 
-            it { is_expected.to contain_yumrepo('cvmfs').with_gpgcheck(false) }
-            it { is_expected.to contain_yumrepo('cvmfs').with_priority(100) }
-            it { is_expected.to contain_yumrepo('cvmfs-testing').with_gpgcheck(false) }
-            it { is_expected.to contain_yumrepo('cvmfs-testing').with_priority(100) }
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_gpgcheck(false) }
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_priority(100) }
+            case facts[:os]['family']
+            when 'RedHat'
+              it { is_expected.to contain_yumrepo('cvmfs').with_gpgcheck(false) }
+              it { is_expected.to contain_yumrepo('cvmfs').with_priority(100) }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_gpgcheck(false) }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_priority(100) }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_gpgcheck(false) }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_priority(100) }
+            else
+              it { is_expected.to contain_apt__source('cvmfs').with_allow_unsigned(true) }
+              it { is_expected.to contain_apt__source('cvmfs-testing').with_allow_unsigned(true) }
+            end
           end
 
           context 'with repo_gpgkey set to http://example.org/key.gpg' do
@@ -194,9 +230,18 @@ describe 'cvmfs' do
                 cvmfs_http_proxy: :undef }
             end
 
-            it { is_expected.to contain_yumrepo('cvmfs').with_gpgkey('http://example.org/key.gpg') }
-            it { is_expected.to contain_yumrepo('cvmfs-testing').with_gpgkey('http://example.org/key.gpg') }
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_gpgkey('http://example.org/key.gpg') }
+            case facts[:os]['family']
+            when 'RedHat'
+              it { is_expected.to contain_yumrepo('cvmfs').with_gpgkey('http://example.org/key.gpg') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_gpgkey('http://example.org/key.gpg') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_gpgkey('http://example.org/key.gpg') }
+            else
+              it {
+                is_expected.to contain_apt__source('cvmfs').with_key(
+                  { 'ensure' => 'refreshed', 'id' => '70B9890488208E315ED45208230D389D8AE45CE7', 'source' => 'http://example.org/key.gpg' }
+                )
+              }
+            end
           end
 
           context 'with repo_manage set to true' do
@@ -205,10 +250,14 @@ describe 'cvmfs' do
                 cvmfs_http_proxy: :undef }
             end
 
-            it { is_expected.to contain_class('cvmfs::yum') }
-            it { is_expected.to contain_yumrepo('cvmfs') }
-            it { is_expected.to contain_yumrepo('cvmfs-testing') }
-            it { is_expected.to contain_yumrepo('cvmfs-config') }
+            case facts[:os]['family']
+            when 'RedHat'
+              it { is_expected.to contain_class('cvmfs::yum') }
+              it { is_expected.not_to contain_class('cvmfs::apt') }
+            else
+              it { is_expected.to contain_class('cvmfs::apt') }
+              it { is_expected.not_to contain_class('cvmfs::yum') }
+            end
           end
 
           context 'with repo_manage set to false' do
@@ -220,9 +269,7 @@ describe 'cvmfs' do
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to have_yumrepo_resource_count(0) }
             it { is_expected.not_to contain_class('cvmfs::yum') }
-            it { is_expected.not_to contain_yumrepo('cvmfs') }
-            it { is_expected.not_to contain_yumrepo('cvmfs-testing') }
-            it { is_expected.not_to contain_yumrepo('cvmfs-config') }
+            it { is_expected.not_to contain_class('cvmfs::apt') }
           end
 
           context 'with manage_autofs_service true' do
