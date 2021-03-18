@@ -61,17 +61,17 @@ describe 'cvmfs' do
           #
           case facts[:os]['release']['major']
           when '6'
-            it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('http://cern.ch/cvmrepo/yum/cvmfs/EL/6/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/6/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('http://cern.ch/cvmrepo/yum/cvmfs-config/EL/6/x86_64') }
+            it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/6/x86_64') }
+            it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/6/x86_64') }
+            it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/6/x86_64') }
           when '7'
-            it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('http://cern.ch/cvmrepo/yum/cvmfs/EL/7/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/7/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('http://cern.ch/cvmrepo/yum/cvmfs-config/EL/7/x86_64') }
+            it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/7/x86_64') }
+            it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/7/x86_64') }
+            it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/7/x86_64') }
           else
-            it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('http://cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('http://cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64') }
+            it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64') }
+            it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
+            it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64') }
           end
 
           it do
