@@ -4,10 +4,16 @@
 class cvmfs::install (
   $cvmfs_version = $cvmfs::cvmfs_version,
   $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
-  $cvmfs_yum_manage_repo = $cvmfs::cvmfs_yum_manage_repo,
+  $repo_manage = $cvmfs::repo_manage,
 ) inherits cvmfs {
-  if $cvmfs_yum_manage_repo {
-    contain 'cvmfs::yum'
+  if $repo_manage {
+    case $facts['os']['family'] {
+      'RedHat': {
+        contain 'cvmfs::yum'
+        Class['cvmfs::yum'] -> Package['cvmfs']
+      }
+      default: { fail('Only repositories for RedHat family can be managed') }
+    }
   }
 
   # Create the cache dir if one is defined, otherwise assume default is in the package.
@@ -29,14 +35,8 @@ class cvmfs::install (
     }
   }
 
-  $_pkgrequire = $cvmfs_yum_manage_repo ? {
-    true  => 'Class[Cvmfs::Yum]',
-    false => undef,
-  }
-
   package { 'cvmfs':
     ensure  => $cvmfs_version,
-    require => $_pkgrequire,
   }
 
   # Create a file for the cvmfs

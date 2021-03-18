@@ -1,0 +1,9 @@
+---
+
+cvmfs::repo_base:   https://cern.ch/cvmrepo/yum
+cvmfs::repo_gpgkey: https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM
+cvmfs::repo_includepkgs:
+  - cvmfs
+  - cvmfs-keys
+  - cvmfs
+  - cvmfs-config-default
