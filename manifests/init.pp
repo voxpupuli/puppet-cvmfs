@@ -53,16 +53,15 @@
 # @param cvmfs_debuglog Create a debug log file at this location.
 # @param cvmfs_max_ttl Max ttl, see params.pp for default.
 # @param cvmfs_version Version of cvmfs to install , default is present.
-# @param cvmfs_yum Yum repository URL for cvmfs.
-# @param cvmfs_yum_priority Yum priority of repositories, defaults to 80.
-# @param cvmfs_yum_proxy http proxy for cvmfs yum package repository
-# @param cvmfs_yum_config  Yum repository URL for cvmfs site configs.
-# @param cvmfs_yum_config_enabled  Defaults to false, set to true to enable.
-# @param cvmfs_yum_testing Yum repository URL for cmvfs testing repository.
-# @param cvmfs_yum_testing_enabled Defaults to false, should the testing repository be enabled.
-# @param cvmfs_yum_gpgcheck  Defaults to true, set to false to disable GPG checking (Do Not Do This)
-# @param cvmfs_yum_gpgkey  Set a custom GPG key for yum repos, you must deploy it yourself.
-# @param cvmfs_yum_manage_repo Set to false to disable yum repositories management.
+# @param repo_base URL containting stable, testing and config apt or yum repositories. Default in hiera data.
+# @param repo_includepkgs Specify an includepkgs to the yum repos to ignore other packages.
+# @param repo_priority Yum priority of repositories
+# @param repo_proxy http proxy for cvmfs yum package repository
+# @param repo_config_enabled Should the config yum repository be enabled
+# @param repo_testing_enabled Should the testing repository be enabled.
+# @param repo_gpgcheck  set to false to disable GPG checking
+# @param repo_gpgkey Set a custom GPG key for yum repos. Default in hiera data.
+# @param repo_manage Set to false to disable yum or apt repositories management.
 # @param cvmfs_use_geoapi Enable geoapi to find suitable proxies.
 # @param cvmfs_repositories
 #   By default undef and `CVMFS_REPOSITORIES` in `default.local` will be populated
@@ -77,15 +76,28 @@
 #   will produce `export CMS_LOCAL_SITE=<path to siteconf>`in the default.local file.
 # @param default_cvmfs_partsize
 # @param cvmfs_domain_hash Specify of a hash `cvmfs::domain` types.
-# @param cvmfs_yum_includepkgs Specify an includepkgs to the yum repos to ignore other packages.
+
 # @param cvmfs_instrument_fuse  Instrument Fuse
 # @param cvmfs_repo_list Specify exactly the REPO_LIST in `defaults.local` overriding auto population.
 # @param cvmfs_alien_cache Use an alien cache
 # @param cvmfs_shared_cache Enable a shared cache
-#
-#
+# Deprecated paramters below
+# @param cvmfs_yum Deprecated, use repo_base
+# @param cvmfs_yum_priority Deprecated, use repo_priority
+# @param cvmfs_yum_proxy Deprecated, user repo_proxy
+# @param cvmfs_yum_config  Deprecated, use repo_base
+# @param cvmfs_yum_config_enabled  Deprecated, user repo_config_enabled
+# @param cvmfs_yum_testing Deprecated, use repo_base
+# @param cvmfs_yum_testing_enabled Deprecated, use repo_testing_enabled
+# @param cvmfs_yum_gpgcheck  Deprecated, use repo_gpgcheck
+# @param cvmfs_yum_gpgkey Deprecated, use repo_gpgkey
+# @param cvmfs_yum_manage_repo Deprecated, use repo_manage
+# @param cvmfs_yum_includepkgs Deprecated, use repo_includepkgs
+
 #
 class cvmfs (
+  Stdlib::Httpurl $repo_base,
+  Stdlib::Httpurl $repo_gpgkey,
   Variant[Undef,String] $cvmfs_http_proxy,
   Enum['autofs','mount','none'] $mount_method                        = 'autofs',
   Boolean $manage_autofs_service                                     = true,
@@ -109,27 +121,55 @@ class cvmfs (
   Hash $cvmfs_hash                                                   = {},
   Hash $cvmfs_domain_hash                                            = {},
   String[1] $cvmfs_version                                           = 'present',
-  Stdlib::Httpurl $cvmfs_yum                                         = "http://cern.ch/cvmrepo/yum/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
-  Stdlib::Httpurl $cvmfs_yum_config                                  = "http://cern.ch/cvmrepo/yum/cvmfs-config/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
-  Integer $cvmfs_yum_priority                                        = 80,
-  Integer[0,1] $cvmfs_yum_config_enabled                             = 0,
-  Optional[Stdlib::Httpurl] $cvmfs_yum_proxy                         = undef,
-  Stdlib::Httpurl $cvmfs_yum_testing                                 = "http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
-  Integer[0,1] $cvmfs_yum_testing_enabled                            = 0,
-  Integer[0,1] $cvmfs_yum_gpgcheck                                   = 1,
-  Variant[Stdlib::Filesource,Stdlib::Httpurl] $cvmfs_yum_gpgkey      = 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
-  Variant[Enum['absent'], Array[String]] $cvmfs_yum_includepkgs      = ['cvmfs','cvmfs-keys','cvmfs-config-default'],
+  Boolean $repo_manage                                               = true,
+  Integer $repo_priority                                             = 80,
+  Boolean $repo_config_enabled                                       = false,
+  Boolean $repo_testing_enabled                                      = false,
+  Optional[Stdlib::Httpurl] $repo_proxy                              = undef,
+  Boolean $repo_gpgcheck                                             = true,
+  Optional[Variant[Enum['absent'], Array[String[1]]]] $repo_includepkgs,
   Optional[Enum['yes','no']] $cvmfs_use_geoapi                       = undef,
   Optional[Enum['yes','no']] $cvmfs_follow_redirects                 = undef,
   Boolean $cvmfs_instrument_fuse                                     = false,
-  Boolean $cvmfs_yum_manage_repo                                     = true,
   Boolean $cvmfs_repo_list                                           = true,
   Optional[Integer] $cvmfs_dns_min_ttl                               = undef,
   Optional[Integer] $cvmfs_dns_max_ttl                               = undef,
   Optional[String] $cvmfs_alien_cache                                = undef,
   Optional[Enum['yes','no']] $cvmfs_shared_cache                     = undef,
   Optional[String[1]] $cvmfs_repositories                            = undef,
+  # Deprecated Parameters
+  Optional[Boolean] $cvmfs_yum_manage_repo                                = undef,
+  Optional[Stdlib::Httpurl] $cvmfs_yum                                    = undef,
+  Optional[Stdlib::Httpurl] $cvmfs_yum_config                             = undef,
+  Optional[Integer] $cvmfs_yum_priority                                   = undef,
+  Optional[Integer[0,1]] $cvmfs_yum_config_enabled                        = undef,
+  Optional[Stdlib::Httpurl] $cvmfs_yum_proxy                              = undef,
+  Optional[Stdlib::Httpurl] $cvmfs_yum_testing                            = undef,
+  Optional[Integer[0,1]] $cvmfs_yum_testing_enabled                       = undef,
+  Optional[Integer[0,1]] $cvmfs_yum_gpgcheck                              = undef,
+  Optional[Variant[Stdlib::Filesource,Stdlib::Httpurl]] $cvmfs_yum_gpgkey = undef,
+  Optional[Variant[Enum['absent'], Array[String]]] $cvmfs_yum_includepkgs = undef,
+
 ) {
+  # Deprecations
+  {
+    'cvmfs_yum_manage_repo'     => 'repo_manage',
+    'cvmfs_yum'                 => 'repo_base',
+    'cvmfs_yum_config'          => 'repo_base',
+    'cvmfs_yum_testing'         => 'repo_base',
+    'cvmfs_yum_priority'        => 'repo_priority',
+    'cvmfs_yum_config_enabled'  => 'repo_config_enabled',
+    'cvmfs_yum_testing_enabled' => 'repo_testing_enabled',
+    'cvmfs_yum_proxy'           => 'repo_proxy',
+    'cvmfs_yum_gpgcheck'        => 'repo_gpgcheck',
+    'cvmfs_yum_gpgkey'          => 'repo_gpgkey',
+    'cvmfs_yum_includepkgs'     => 'repo_includepkgs',
+  }.each | $_deprecation, $_replacement | {
+    if getvar($_deprecation) !~ Undef {
+      fail("cvmfs parameter '${_deprecation}' is deprecated, Check how to use '${_replacement}' instead")
+    }
+  }
+
   contain 'cvmfs::install'
   contain 'cvmfs::config'
   contain 'cvmfs::service'

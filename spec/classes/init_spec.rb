@@ -15,7 +15,7 @@ describe 'cvmfs' do
         it { is_expected.to contain_class('cvmfs::config') }
         it { is_expected.to contain_class('cvmfs::service') }
         it { is_expected.to contain_package('cvmfs').with_ensure('present') }
-        it { is_expected.to contain_package('cvmfs').with_require('Class[Cvmfs::Yum]') }
+        it { is_expected.to contain_package('cvmfs').that_requires('Class[cvmfs::yum]') }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header') }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_INSTRUMENT_FUSE.*$}) }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_repo_start') }
@@ -76,24 +76,24 @@ describe 'cvmfs' do
 
           it do
             is_expected.to contain_yumrepo('cvmfs').with(
-              'enabled' => '1',
-              'gpgcheck' => 1,
-              'gpgkey'   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM',
+              'enabled' => true,
+              'gpgcheck' => true,
+              'gpgkey'   => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM',
               'priority' => 80
             )
           end
           it do
             is_expected.to contain_yumrepo('cvmfs-testing').with(
-              'enabled' => '0',
-              'gpgcheck' => 1,
-              'gpgkey'   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'
+              'enabled' => false,
+              'gpgcheck' => true,
+              'gpgkey'   => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM'
             )
           end
           it do
             is_expected.to contain_yumrepo('cvmfs-config').with(
-              'enabled' => '0',
-              'gpgcheck' => 1,
-              'gpgkey'   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'
+              'enabled' => false,
+              'gpgcheck' => true,
+              'gpgkey'   => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM'
             )
           end
 
@@ -133,16 +133,34 @@ describe 'cvmfs' do
                 cvmfs_http_proxy: :undef }
             end
 
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_enabled(1) }
+            it { is_expected.to compile.and_raise_error(%r{'cvmfs_yum_config_enabled' is deprecated}) }
           end
 
-          context 'with cvmfs_yum_config set to http://example.org/yum' do
+          context 'with repo_config_enabled set to 1' do
             let(:params) do
-              { cvmfs_yum_config: 'http://example.org/yum',
+              { repo_config_enabled: true,
                 cvmfs_http_proxy: :undef }
             end
 
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('http://example.org/yum') }
+            it { is_expected.to contain_yumrepo('cvmfs-config').with_enabled(true) }
+          end
+
+          context 'with repo_base set to http://example.org/base' do
+            let(:params) do
+              { repo_base: 'http://example.org/base',
+                cvmfs_http_proxy: :undef }
+            end
+
+            case facts[:os]['release']['major']
+            when '7'
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('http://example.org/base/cvmfs/EL/7/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('http://example.org/base/cvmfs-testing/EL/7/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('http://example.org/base/cvmfs-config/EL/7/x86_64') }
+            else
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('http://example.org/base/cvmfs/EL/8/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('http://example.org/base/cvmfs-testing/EL/8/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('http://example.org/base/cvmfs-config/EL/8/x86_64') }
+            end
           end
 
           context 'with cvmfs_quota_ratio set' do
@@ -155,24 +173,24 @@ describe 'cvmfs' do
             it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').with_content(%r{^CVMFS_QUOTA_LIMIT='5000000'$}) }
           end
 
-          context 'with cvmfs_yum_gpgcheck set to 0 and yum_priority 100' do
+          context 'with repo_gpgcheck set to 0 and repo_priority 100' do
             let(:params) do
-              { cvmfs_yum_gpgcheck: 0,
-                cvmfs_yum_priority: 100,
+              { repo_gpgcheck: false,
+                repo_priority: 100,
                 cvmfs_http_proxy: :undef }
             end
 
-            it { is_expected.to contain_yumrepo('cvmfs').with_gpgcheck(0) }
+            it { is_expected.to contain_yumrepo('cvmfs').with_gpgcheck(false) }
             it { is_expected.to contain_yumrepo('cvmfs').with_priority(100) }
-            it { is_expected.to contain_yumrepo('cvmfs-testing').with_gpgcheck(0) }
+            it { is_expected.to contain_yumrepo('cvmfs-testing').with_gpgcheck(false) }
             it { is_expected.to contain_yumrepo('cvmfs-testing').with_priority(100) }
-            it { is_expected.to contain_yumrepo('cvmfs-config').with_gpgcheck(0) }
+            it { is_expected.to contain_yumrepo('cvmfs-config').with_gpgcheck(false) }
             it { is_expected.to contain_yumrepo('cvmfs-config').with_priority(100) }
           end
 
-          context 'with cvmfs_yum_gpgkey set to http://example.org/key.gpg' do
+          context 'with repo_gpgkey set to http://example.org/key.gpg' do
             let(:params) do
-              { cvmfs_yum_gpgkey: 'http://example.org/key.gpg',
+              { repo_gpgkey: 'http://example.org/key.gpg',
                 cvmfs_http_proxy: :undef }
             end
 
@@ -181,9 +199,9 @@ describe 'cvmfs' do
             it { is_expected.to contain_yumrepo('cvmfs-config').with_gpgkey('http://example.org/key.gpg') }
           end
 
-          context 'with cvmfs_yum_manage_repo set to true' do
+          context 'with repo_manage set to true' do
             let(:params) do
-              { cvmfs_yum_manage_repo: true,
+              { repo_manage: true,
                 cvmfs_http_proxy: :undef }
             end
 
@@ -193,9 +211,9 @@ describe 'cvmfs' do
             it { is_expected.to contain_yumrepo('cvmfs-config') }
           end
 
-          context 'with cvmfs_yum_manage_repo set to false' do
+          context 'with repo_manage set to false' do
             let(:params) do
-              { cvmfs_yum_manage_repo: false,
+              { repo_manage: false,
                 cvmfs_http_proxy: :undef }
             end
 

@@ -2,63 +2,45 @@
 # @api private
 #
 class cvmfs::yum (
-  $cvmfs_yum_testing = $cvmfs::cvmfs_yum_testing,
-  $cvmfs_yum = $cvmfs::cvmfs_yum,
-  $cvmfs_yum_config = $cvmfs::cvmfs_yum_config,
-  $cvmfs_yum_config_enabled = $cvmfs::cvmfs_yum_config_enabled,
-  $cvmfs_yum_testing_enabled  = $cvmfs::cvmfs_yum_testing_enabled,
-  $cvmfs_yum_proxy = $cvmfs::cvmfs_yum_proxy,
-  $cvmfs_yum_gpgcheck = $cvmfs::cvmfs_yum_gpgcheck,
-  $cvmfs_yum_gpgkey = $cvmfs::cvmfs_yum_gpgkey,
-  $cvmfs_yum_includepkgs = $cvmfs::cvmfs_yum_includepkgs,
-  Integer $cvmfs_yum_priority = $cvmfs::cvmfs_yum_priority,
+  Stdlib::Httpurl $repo_base                                            = $cvmfs::repo_base,
+  Stdlib::Httpurl $repo_gpgkey                                          = $cvmfs::repo_gpgkey,
+  Integer $repo_priority                                                = $cvmfs::repo_priority,
+  Boolean $repo_config_enabled                                          = $cvmfs::repo_config_enabled,
+  Boolean $repo_testing_enabled                                         = $cvmfs::repo_testing_enabled,
+  Optional[Stdlib::Httpurl] $repo_proxy                                 = $cvmfs::repo_proxy,
+  Boolean $repo_gpgcheck                                                = $cvmfs::repo_gpgcheck,
+  Optional[Variant[Enum['absent'], Array[String[1]]]] $repo_includepkgs = $cvmfs::repo_includepkgs,
+
 )  inherits cvmfs {
-  if $cvmfs_yum_includepkgs =~ Array[String] {
-    $yum_includepkgs = join($cvmfs_yum_includepkgs, ' ')
+  if $repo_includepkgs =~ Array[String] {
+    $_yum_includepkgs = join($repo_includepkgs, ' ')
   } else {
-    $yum_includepkgs = $cvmfs_yum_includepkgs
+    $_yum_includepkgs = $repo_includepkgs
+  }
+
+  Yumrepo {
+    gpgcheck    => $repo_gpgcheck,
+    gpgkey      => $repo_gpgkey,
+    includepkgs => $_yum_includepkgs,
+    priority    => $repo_priority,
+    proxy       => $repo_proxy,
   }
 
   yumrepo { 'cvmfs':
-    descr       => "CVMFS yum repository for el${facts['os']['release']['major']}",
-    baseurl     => $cvmfs_yum,
-    gpgcheck    => $cvmfs_yum_gpgcheck,
-    gpgkey      => $cvmfs_yum_gpgkey,
-    enabled     => 1,
-    includepkgs => $yum_includepkgs,
-    priority    => $cvmfs_yum_priority,
-    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
-    proxy       => $cvmfs_yum_proxy,
-  }
-  yumrepo { 'cvmfs-testing':
-    descr       => "CVMFS yum testing repository for el${facts['os']['release']['major']}",
-    baseurl     => $cvmfs_yum_testing,
-    gpgcheck    => $cvmfs_yum_gpgcheck,
-    gpgkey      => $cvmfs_yum_gpgkey,
-    enabled     => $cvmfs_yum_testing_enabled,
-    includepkgs => $yum_includepkgs,
-    priority    => $cvmfs_yum_priority,
-    require     => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
-    proxy       => $cvmfs_yum_proxy,
-  }
-  yumrepo { 'cvmfs-config':
-    descr    => "CVMFS config yum repository for el${facts['os']['release']['major']}",
-    baseurl  => $cvmfs_yum_config,
-    gpgcheck => $cvmfs_yum_gpgcheck,
-    gpgkey   => $cvmfs_yum_gpgkey,
-    enabled  => $cvmfs_yum_config_enabled,
-    priority => $cvmfs_yum_priority,
-    require  => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'],
-    proxy    => $cvmfs_yum_proxy,
+    descr   => "CVMFS yum repository for el${facts['os']['release']['major']}",
+    baseurl => "${repo_base}/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+    enabled => true,
   }
 
-  #  Copy out the gpg key once only ever.
-  file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM':
-    ensure  => file,
-    source  => 'puppet:///modules/cvmfs/RPM-GPG-KEY-CernVM',
-    replace => false,
-    owner   => root,
-    group   => root,
-    mode    => '0644',
+  yumrepo { 'cvmfs-testing':
+    descr   => "CVMFS yum testing repository for el${facts['os']['release']['major']}",
+    baseurl => "${repo_base}/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+    enabled => $repo_testing_enabled,
+  }
+
+  yumrepo { 'cvmfs-config':
+    descr   => "CVMFS config yum repository for el${facts['os']['release']['major']}",
+    baseurl => "${repo_base}/cvmfs-config/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+    enabled => $repo_config_enabled,
   }
 }
