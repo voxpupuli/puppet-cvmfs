@@ -1,9 +1,11 @@
 #Class: cvmfs::zero::install , desingned
 #to be included from instances of cvmfs::zero
 class cvmfs::zero::install (
+  # lint:ignore:parameter_documentation
   String $cvmfs_version        = 'present',
   String $cvmfs_kernel_version = 'present',
   String $cvmfs_aufs2_version  = 'present',
+  # lint:endignore
 ) {
   include cvmfs::zero::yum
 

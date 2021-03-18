@@ -1,6 +1,6 @@
 # == Class cvmfs::server
 # This class will set up a cvmfs server
-
+# lint:ignore:parameter_documentation
 # === Parameters
 # [*repo*]
 # This is the namevar , it should be set to the name of repository, e.g mysoftware.example.org, if
@@ -42,6 +42,7 @@ class cvmfs::server (
   $cvmfs_yum                              = "http://cern.ch/cvmrepo/yum/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
   $cvmfs_yum_testing                      = "http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
   Integer[0,1] $cvmfs_yum_testing_enabled = 0,
+  # lint:endignore
 ) {
   notify { 'cvmfs::server class is now deprecated, migrate to type cvmfs::zero now': }
   class { 'cvmfs::server::install': }

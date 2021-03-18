@@ -20,10 +20,12 @@
 # === Copyright
 # Steve Traylen, <steve.traylen@cern.ch>, CERN 2013.
 define cvmfs::one (
+  # lint:ignore:parameter_documentation
   $repo = $name,
   $origin = 'http://stratum0.example.org/cvmfs',
   $keys = ['/etc/cvmfs/keys/cern.ch.pub','/etc/cvmfs/keys/cern-it1.cern.ch.pub','/etc/cvmfs/keys/cern-it2.cern.ch.pub'],
   $mime_expire = 61,
+  # lint:endignore
 ) {
   include 'cvmfs::one::install'
   include 'cvmfs::one::config'

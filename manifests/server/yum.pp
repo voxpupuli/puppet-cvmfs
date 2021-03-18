@@ -1,10 +1,12 @@
 # Class cvmfs::server::yum
 class cvmfs::server::yum (
+  # lint:ignore:parameter_documentation
   Stdlib::Httpurl $cvmfs_yum_kernel       = "http://cern.ch/cvmrepo/yum/cvmfs-kernel/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
   Integer[0,1] $cvmfs_yum_kernel_enabled  = 1,
   Integer[0,1] $cvmfs_yum_testing_enabled = 0,
   Stdlib::Httpurl $cvmfs_yum              = "http://cern.ch/cvmrepo/yum/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
   Stdlib::Httpurl $cvmfs_yum_testing      = "http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+  # lint:endignore
 ) {
   yumrepo { 'cvmfs':
     descr       => "CVMFS yum repository for el${facts['os']['release']['major']}",

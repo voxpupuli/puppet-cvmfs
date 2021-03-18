@@ -1,7 +1,9 @@
 # Class: cvmfs::one::install,
 # included once from the cvmfs::one defined type.
 class cvmfs::one::install (
+  # lint:ignore:parameter_documentation
   String $cvmfs_version = 'present',
+  # lint:endignore
 ) {
   class { 'cvmfs::server::yum': }
 

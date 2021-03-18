@@ -1,8 +1,10 @@
 # Class - cvmfs::server::install
 class cvmfs::server::install (
+  # lint:ignore:parameter_documentation
   String $cvmfs_version        = 'present',
   String $cvmfs_kernel_version = 'present',
   String $cvmfs_aufs2_version  = 'present',
+  # lint:endignore
 ) {
   class { 'cvmfs::server::yum': }
 
