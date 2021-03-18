@@ -1,4 +1,9 @@
-# Enable this class to run a weekly cron job to fsck your cache.
+# @summary enable check_fsck as a cron or systemd timer
+# @param cvmfs_cache_base Root of cvmfs ache
+# @param options Any extra options
+# @param onreboot Should fsck be run after every reboot
+# @param usesystemd Use a systemd timer
+# #
 class cvmfs::fsck (
   $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
   $options = '',

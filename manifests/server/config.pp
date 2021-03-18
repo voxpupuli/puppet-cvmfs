@@ -1,5 +1,6 @@
 # class: cvmfs::server:config
 class cvmfs::server::config (
+  # lint:ignore:parameter_documentation
   $repo = undef,
   $nfshost = undef,
   $nfsshare = undef,
@@ -8,6 +9,7 @@ class cvmfs::server::config (
   $nofiles  = 65000,
   $uid      = 101,
   $pubkey   = 'cern-it1.cern.ch.pub'
+  # lint:endignore
 ) {
   validate_string($pubkey)
 

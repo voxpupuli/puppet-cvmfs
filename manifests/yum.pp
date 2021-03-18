@@ -1,15 +1,5 @@
-# == Class: cvmfs::yum
-#
-# Configures cvmfs from a yum repository.
-#
-# === Parameters
-# === Authors
-#
-# Steve Traylen <steve.traylen@cern.ch>
-#
-# === Copyright
-#
-# Copyright 2012 CERN
+# @summary Configure cvmfs yum repositories
+# @api private
 #
 class cvmfs::yum (
   $cvmfs_yum_testing = $cvmfs::cvmfs_yum_testing,

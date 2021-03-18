@@ -1,7 +1,9 @@
 # Class: cvmfs::one::config
 # Included once from the cvmfs::one defined type.
 class cvmfs::one::config (
+  # lint:ignore:parameter_documentation
   $cvmfs_sync_minute = '*/15',
+  # lint:endignore
 ) {
   firewall { '100 - allow access from 80':
     proto  => 'tcp',

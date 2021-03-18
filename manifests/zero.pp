@@ -1,5 +1,6 @@
 # See README.md
 define cvmfs::zero (
+  # lint:ignore:parameter_documentation
   $user,
   $uid,
   $group,
@@ -18,6 +19,7 @@ define cvmfs::zero (
   $ignore_xdir_hardlinks = false,
   $creator_version = '2.3.0-1',
   $mime_expire = 120,
+  # lint:endignore
 ) {
   include cvmfs::zero::install
   include cvmfs::zero::config

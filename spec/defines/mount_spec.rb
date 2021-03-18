@@ -27,6 +27,7 @@ describe 'cvmfs::mount' do
         it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without_content(%r{.*CVMFS_CLAIM_OWNERSHIP.*$}) }
         it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without_content(%r{.*CVMFS_REPOSITORY_TAG.*$}) }
         it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without('content' => %r{^CVMFS_HTTP_PROXY.*$}) }
+        it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without('content' => %r{^CVMFS_QUOTA_LIMIT.*$}) }
         context 'with lots of  parameters set' do
           let(:params) do
             {
@@ -36,7 +37,8 @@ describe 'cvmfs::mount' do
               cvmfs_claim_ownership: 'yes',
               cvmfs_repository_tag: 'testing',
               cvmfs_uid_map: { 123 => 12 },
-              cvmfs_gid_map: { 137 => 42 }
+              cvmfs_gid_map: { 137 => 42 },
+              cvmfs_quota_limit: 54_321,
             }
           end
 
@@ -47,6 +49,7 @@ describe 'cvmfs::mount' do
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_REPOSITORY_TAG='testing'$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_UID_MAP='/etc/cvmfs/config.d/files.example.org.uid_map'$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_GID_MAP='/etc/cvmfs/config.d/files.example.org.gid_map'$}) }
+          it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_QUOTA_LIMIT='54321'$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.uid_map').with('content' => %r{^123 12$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.gid_map').with('content' => %r{^137 42$}) }
         end

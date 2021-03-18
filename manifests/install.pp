@@ -1,20 +1,5 @@
-# == Class: cvmfs::install
-#
-# Install cvmfs from a yum repository.
-#
-# === Parameters
-#
-# [*cvmfs_version*]
-#   Is passed the cvmfs package instance to ensure the
-#   cvmfs package with latest, present or an exact version.
-#
-# === Authors
-#
-# Steve Traylen <steve.traylen@cern.ch>
-#
-# === Copyright
-#
-# Copyright 2012 CERN
+# @summary Install cvmfs from a yum repository.
+# @api private
 #
 class cvmfs::install (
   $cvmfs_version = $cvmfs::cvmfs_version,
