@@ -278,6 +278,31 @@ describe 'cvmfs' do
                 with_content(%r{^CVMFS_DNS_MAX_TTL='200'$})
             end
           end
+          context 'with cvmfs_ipfamily_prefer not set' do
+            it do
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+                without_content(%r{^CVMFS_IPFAMILY_PREFER})
+            end
+          end
+          context 'with cvmfs_ipfamily_prefer set to 6' do
+            let(:params) do
+              { cvmfs_ipfamily_prefer: 6,
+                cvmfs_http_proxy: :undef }
+            end
+
+            it do
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+                with_content(%r{^CVMFS_IPFAMILY_PREFER=6$})
+            end
+          end
+          context 'with cvmfs_ipfamily_prefer set to 5' do
+            let(:params) do
+              { cvmfs_ipfamily_prefer: 5,
+                cvmfs_http_proxy: :undef }
+            end
+
+            it { is_expected.not_to compile }
+          end
           context 'with cvmfs_instrument_fuse set true' do
             let(:params) do
               { cvmfs_instrument_fuse: true,
