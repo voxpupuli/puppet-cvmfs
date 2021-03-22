@@ -1,5 +1,4 @@
 [![Puppet Forge](http://img.shields.io/puppetforge/v/CERNOps/cvmfs.svg)](https://forge.puppetlabs.com/CERNOps/cvmfs)
-[![Build Status](https://travis-ci.org/cvmfs/puppet-cvmfs.svg?branch=master)](https://travis-ci.org/cvmfs/puppet-cvmfs)
 # puppet-cvmfs
 
 
@@ -9,8 +8,10 @@ CvmFS clients.
 For general details on CvmFS see
 http://cernvm.cern.ch/portal/filesystem
 
+This module obsoletes [CERNOps-cvmfs-7.3.0](https://forge.puppet.com/modules/CERNOps/cvmfs)
+
 ## Custom Facts
-The module include one customfacts
+The module include one customfact
 
 * cvmfspartsize returns the size in megabytes of partition that contains the CVMFS_CACHE_BASE.
 
@@ -98,7 +99,7 @@ cvmfs::domain{'example.org':
 ###  Cvmfs::Domain Type Parameters
 See [REFERENCE.md](REFERENCE.md)
 
-## Fsck Module
+## Fsck Class
 An optional class 'cvmfs::fsck' can be included to enable a cron job to regualarly
 run fsck on cvmfs systems.
 
@@ -112,28 +113,8 @@ class{'cvmfs::fsck':
 In addition a cron will be created to purge quarentine corrupted files after 30 days.
 
 ### Fsck Options
-* `options` Will pass parameters to the `cvmfs_fsck` command, by default none will be passed.
-* `onreboot` If set to true a @reboot job will be set to run `cvmfs_fsck` at boot time. Default is false.
+See [REFERENCE.md](REFERENCE.md)
 
-## Tests
-To run standalone tests
-
-```bash
-bundle install
-bundle exec rake validate
-bundle exec rake lint
-bundle exec rake spec
-```
-
-The acceptance tests by default use docker
-ensure that is working or provide beaker configuration
-for your own hypervisor.
-
-
-```bash
-bundle install
-BEAKER_debug=yes BEAKER_set=centos-7-x86_64-docker bundle exec rspec spec/acceptance
-```
 ## License
 Apache II License for all files except automaster.aug which is copied from
 the http://augeas.net project. The automaster.aug file is LGPL v2+.
@@ -142,5 +123,5 @@ the http://augeas.net project. The automaster.aug file is LGPL v2+.
 Steve Traylen <steve.traylen@cern.ch>
 
 ## Support
-https://github.com/cvmfs/puppet-cvmfs
+https://github.com/voxpupuli/puppet-cvmfs
 

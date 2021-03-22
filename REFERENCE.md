@@ -10,19 +10,10 @@
 
 * [`cvmfs`](#cvmfs): Installs and Configures CvmFS
 * [`cvmfs::fsck`](#cvmfsfsck): enable check_fsck as a cron or systemd timer
-* [`cvmfs::one::config`](#cvmfsoneconfig): Class: cvmfs::one::config Included once from the cvmfs::one defined type.
-* [`cvmfs::one::install`](#cvmfsoneinstall): Class: cvmfs::one::install, included once from the cvmfs::one defined type.
-* [`cvmfs::server`](#cvmfsserver): == Class cvmfs::server This class will set up a cvmfs server lint:ignore:parameter_documentation === Parameters [*repo*] This is the namevar 
-* [`cvmfs::server::config`](#cvmfsserverconfig): class: cvmfs::server:config
-* [`cvmfs::server::install`](#cvmfsserverinstall): Class - cvmfs::server::install
-* [`cvmfs::server::yum`](#cvmfsserveryum): Class cvmfs::server::yum
-* [`cvmfs::zero::config`](#cvmfszeroconfig): Class cvmfs::zero::config included from instances of cvmfs::zero defined type.
-* [`cvmfs::zero::install`](#cvmfszeroinstall): Class: cvmfs::zero::install , desingned to be included from instances of cvmfs::zero
-* [`cvmfs::zero::service`](#cvmfszeroservice): Class: cvmfs::zero::install , desingned to be included from instances of cvmfs::zero
-* [`cvmfs::zero::yum`](#cvmfszeroyum): Class cvmfs::server::yum
 
 #### Private Classes
 
+* `cvmfs::apt`: Configure cvmfs apt repositories
 * `cvmfs::config`: Central configuration of CvmFS
 * `cvmfs::install`: Install cvmfs from a yum repository.
 * `cvmfs::service`: Manages the cvmfs services. Opionally this also manages the autofs services
@@ -34,14 +25,12 @@
 * [`cvmfs::id_map`](#cvmfsid_map): Create a map file uid or gid mappings
 * [`cvmfs::mount`](#cvmfsmount): Mount one cvmfs repository. Most parameters map as lower case
 versions of the raw cvmfs parameters.
-* [`cvmfs::one`](#cvmfsone): == Define: cvmfs::one Sets up a stratum one service for CVMFS.  === Parameters [*repo*]  The name of the repostory, if the repo is not set th
-* [`cvmfs::zero`](#cvmfszero): See README.md
 
 ## Classes
 
 ### <a name="cvmfs"></a>`cvmfs`
 
-Installs and Configures CvmFS
+Deprecated paramters below
 
 * **See also**
   * https://cvmfs.readthedocs.io/en/stable/apx-parameters.html
@@ -52,32 +41,43 @@ Installs and Configures CvmFS
 ##### Simple Example For one Mount
 
 ```puppet
-class{"cvmfs":
-  cvmfs_http_proxy  => 'http://ca-proxy.example.org:3128',
+class{'cvmfs':
+  cvmfs_http_proxy => 'http://ca-proxy.example.org:3128',
   cvmfs_quota_limit => 100
 }
 cvmfs::mount{'files.example.org:
-  cvmfs_server_url  => 'http://web.example.org/cvmfs/files.example.org',
+  cvmfs_server_url => 'http://web.example.org/cvmfs/files.example.org',
 }
 ```
 
 ##### Mount a Domain
 
 ```puppet
-class{"cvmfs":
+class{'cvmfs':
   cvmfs_http_proxy  => 'http://ca-proxy.example.org:3128',
   cvmfs_quota_limit => 100,
 }
 cvmfs::domain{'example.net'
-  cvmfs_server_url   => 'http://web.example.org/cvmfs/@fqrn@'
+  cvmfs_server_url => 'http://web.example.org/cvmfs/@fqrn@'
 }
 ```
 
 ##### Use Mount rather than AutoFS
 
 ```puppet
-class{'::cvmfs':
+class{'cvmfs':
   mount_method => 'mount',
+}
+```
+
+##### Specify mounts as a hash
+
+```puppet
+class{'cvmfs':
+  cvmfs_hash => {
+    'foo.example.org' => { 'cvmfs_server_url => 'http://web.example.org/cmfs/foo.example.org' },
+    'bar.example.org' => { 'cvmfs_server_url => 'http://web.example.org/cvmfs/bar.example.org' },
+  }
 }
 ```
 
@@ -91,6 +91,7 @@ The following parameters are available in the `cvmfs` class:
 * [`cvmfs_quota_ratio`](#cvmfs_quota_ratio)
 * [`cvmfs_http_proxy`](#cvmfs_http_proxy)
 * [`cvmfs_cache_base`](#cvmfs_cache_base)
+* [`cvmfs_ipfamily_prefer`](#cvmfs_ipfamily_prefer)
 * [`cvmfs_dns_min_ttl`](#cvmfs_dns_min_ttl)
 * [`cvmfs_dns_max_ttl`](#cvmfs_dns_max_ttl)
 * [`cvmfs_claim_ownership`](#cvmfs_claim_ownership)
@@ -107,6 +108,25 @@ The following parameters are available in the `cvmfs` class:
 * [`cvmfs_debuglog`](#cvmfs_debuglog)
 * [`cvmfs_max_ttl`](#cvmfs_max_ttl)
 * [`cvmfs_version`](#cvmfs_version)
+* [`repo_base`](#repo_base)
+* [`repo_includepkgs`](#repo_includepkgs)
+* [`repo_priority`](#repo_priority)
+* [`repo_proxy`](#repo_proxy)
+* [`repo_config_enabled`](#repo_config_enabled)
+* [`repo_testing_enabled`](#repo_testing_enabled)
+* [`repo_gpgcheck`](#repo_gpgcheck)
+* [`repo_gpgkey`](#repo_gpgkey)
+* [`repo_manage`](#repo_manage)
+* [`cvmfs_use_geoapi`](#cvmfs_use_geoapi)
+* [`cvmfs_repositories`](#cvmfs_repositories)
+* [`cvmfs_hash`](#cvmfs_hash)
+* [`cvmfs_env_variables`](#cvmfs_env_variables)
+* [`default_cvmfs_partsize`](#default_cvmfs_partsize)
+* [`cvmfs_domain_hash`](#cvmfs_domain_hash)
+* [`cvmfs_instrument_fuse`](#cvmfs_instrument_fuse)
+* [`cvmfs_repo_list`](#cvmfs_repo_list)
+* [`cvmfs_alien_cache`](#cvmfs_alien_cache)
+* [`cvmfs_shared_cache`](#cvmfs_shared_cache)
 * [`cvmfs_yum`](#cvmfs_yum)
 * [`cvmfs_yum_priority`](#cvmfs_yum_priority)
 * [`cvmfs_yum_proxy`](#cvmfs_yum_proxy)
@@ -117,24 +137,14 @@ The following parameters are available in the `cvmfs` class:
 * [`cvmfs_yum_gpgcheck`](#cvmfs_yum_gpgcheck)
 * [`cvmfs_yum_gpgkey`](#cvmfs_yum_gpgkey)
 * [`cvmfs_yum_manage_repo`](#cvmfs_yum_manage_repo)
-* [`cvmfs_use_geoapi`](#cvmfs_use_geoapi)
-* [`cvmfs_repositories`](#cvmfs_repositories)
-* [`cvmfs_hash`](#cvmfs_hash)
-* [`cvmfs_env_variables`](#cvmfs_env_variables)
-* [`default_cvmfs_partsize`](#default_cvmfs_partsize)
-* [`cvmfs_domain_hash`](#cvmfs_domain_hash)
 * [`cvmfs_yum_includepkgs`](#cvmfs_yum_includepkgs)
-* [`cvmfs_instrument_fuse`](#cvmfs_instrument_fuse)
-* [`cvmfs_repo_list`](#cvmfs_repo_list)
-* [`cvmfs_alien_cache`](#cvmfs_alien_cache)
-* [`cvmfs_shared_cache`](#cvmfs_shared_cache)
 
 ##### <a name="mount_method"></a>`mount_method`
 
 Data type: `Enum['autofs','mount','none']`
 
-The `autofs` will configure cvmfs to be mounted with autofs. The `mount` option will
-use puppets mount type, currently adding a line to /etc/fstab. The *none* option
+The `autofs` option will configure cvmfs to be mounted with autofs. The `mount` option will
+use puppet's mount type, currently adding a line to /etc/fstab. The *none* option
 skips all mounting.  Note that migrating between for instance *autofs* and then *mount* is not supported.
 
 Default value: `'autofs'`
@@ -159,9 +169,9 @@ Default value: `1000`
 
 Data type: `Float`
 
-If set to ration, e.g '0.8' then 0.8 of the partition size
+If set , e.g '0.8', then 0.8 of the partition size
 the cvmfs cache is on will be used. Setting this assumes you have
-allocated a partition to cvmfs cache.
+pre-allocated a partition to the cvmfs cache or else it makes little sense.
 
 Default value: `0.85`
 
@@ -169,7 +179,7 @@ Default value: `0.85`
 
 Data type: `Variant[Undef,String]`
 
-List of squid servers
+List of squid servers, e.g `http://squid1.example.org;http;//squid2.example.org`
 
 ##### <a name="cvmfs_cache_base"></a>`cvmfs_cache_base`
 
@@ -179,11 +189,19 @@ Location of the CVMFS cache base
 
 Default value: `'/var/lib/cvmfs'`
 
+##### <a name="cvmfs_ipfamily_prefer"></a>`cvmfs_ipfamily_prefer`
+
+Data type: `Optional[Variant[Integer[4,4],Integer[6,6]]]`
+
+Preferred IP protocol for dual-stack proxies. If not set, cvmfs default will be used.
+
+Default value: ``undef``
+
 ##### <a name="cvmfs_dns_min_ttl"></a>`cvmfs_dns_min_ttl`
 
 Data type: `Optional[Integer]`
 
-Minimum ttl of DNS lookups.
+Minimum ttl of DNS lookups in seconds.
 
 Default value: ``undef``
 
@@ -191,7 +209,7 @@ Default value: ``undef``
 
 Data type: `Optional[Integer]`
 
-Maximum ttl of DNS lookups.
+Maximum ttl of DNS lookups in seconds.
 
 Default value: ``undef``
 
@@ -231,7 +249,7 @@ Default value: ``undef``
 
 Data type: `Optional[Enum['yes','no']]`
 
-Mount option to mount read-only or read/write.
+Mount option to mount as read-only or read/write.
 
 Default value: ``undef``
 
@@ -255,7 +273,7 @@ Default value: ``undef``
 
 Data type: `Optional[Integer]`
 
-cvmfs timeout to direct connections, see params.pp for default.
+cvmfs timeout to direct connections.
 
 Default value: ``undef``
 
@@ -263,7 +281,7 @@ Default value: ``undef``
 
 Data type: `Optional[Integer]`
 
-Number of open files, system setting, see params.pp for default.
+Number of open files, system setting.
 
 Default value: ``undef``
 
@@ -271,7 +289,7 @@ Default value: ``undef``
 
 Data type: `Optional[Integer[1,2]]`
 
-Default is in params.pp
+Level to syslog at.
 
 Default value: ``undef``
 
@@ -295,7 +313,7 @@ Default value: ``undef``
 
 Data type: `Optional[Integer]`
 
-Max ttl, see params.pp for default.
+Max ttl.
 
 Default value: ``undef``
 
@@ -303,27 +321,31 @@ Default value: ``undef``
 
 Data type: `String[1]`
 
-Version of cvmfs to install , default is present.
+Version of cvmfs to install.
 
 Default value: `'present'`
 
-##### <a name="cvmfs_yum"></a>`cvmfs_yum`
+##### <a name="repo_base"></a>`repo_base`
 
 Data type: `Stdlib::Httpurl`
 
-Yum repository URL for cvmfs.
+URL containting stable, testing and config apt or yum repositories. Default in hiera data.
 
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
+##### <a name="repo_includepkgs"></a>`repo_includepkgs`
 
-##### <a name="cvmfs_yum_priority"></a>`cvmfs_yum_priority`
+Data type: `Optional[Variant[Enum['absent'], Array[String[1]]]]`
+
+Specify an includepkgs to the yum repos to ignore other packages.
+
+##### <a name="repo_priority"></a>`repo_priority`
 
 Data type: `Integer`
 
-Yum priority of repositories, defaults to 80.
+Yum priority of repositories
 
 Default value: `80`
 
-##### <a name="cvmfs_yum_proxy"></a>`cvmfs_yum_proxy`
+##### <a name="repo_proxy"></a>`repo_proxy`
 
 Data type: `Optional[Stdlib::Httpurl]`
 
@@ -331,59 +353,41 @@ http proxy for cvmfs yum package repository
 
 Default value: ``undef``
 
-##### <a name="cvmfs_yum_config"></a>`cvmfs_yum_config`
-
-Data type: `Stdlib::Httpurl`
-
-Yum repository URL for cvmfs site configs.
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs-config/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-##### <a name="cvmfs_yum_config_enabled"></a>`cvmfs_yum_config_enabled`
-
-Data type: `Integer[0,1]`
-
-Defaults to false, set to true to enable.
-
-Default value: `0`
-
-##### <a name="cvmfs_yum_testing"></a>`cvmfs_yum_testing`
-
-Data type: `Stdlib::Httpurl`
-
-Yum repository URL for cmvfs testing repository.
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-##### <a name="cvmfs_yum_testing_enabled"></a>`cvmfs_yum_testing_enabled`
-
-Data type: `Integer[0,1]`
-
-Defaults to false, should the testing repository be enabled.
-
-Default value: `0`
-
-##### <a name="cvmfs_yum_gpgcheck"></a>`cvmfs_yum_gpgcheck`
-
-Data type: `Integer[0,1]`
-
-Defaults to true, set to false to disable GPG checking (Do Not Do This)
-
-Default value: `1`
-
-##### <a name="cvmfs_yum_gpgkey"></a>`cvmfs_yum_gpgkey`
-
-Data type: `Variant[Stdlib::Filesource,Stdlib::Httpurl]`
-
-Set a custom GPG key for yum repos, you must deploy it yourself.
-
-Default value: `'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CernVM'`
-
-##### <a name="cvmfs_yum_manage_repo"></a>`cvmfs_yum_manage_repo`
+##### <a name="repo_config_enabled"></a>`repo_config_enabled`
 
 Data type: `Boolean`
 
-Set to false to disable yum repositories management.
+Should the config yum repository be enabled
+
+Default value: ``false``
+
+##### <a name="repo_testing_enabled"></a>`repo_testing_enabled`
+
+Data type: `Boolean`
+
+Should the testing repository be enabled.
+
+Default value: ``false``
+
+##### <a name="repo_gpgcheck"></a>`repo_gpgcheck`
+
+Data type: `Boolean`
+
+set to false to disable GPG checking
+
+Default value: ``true``
+
+##### <a name="repo_gpgkey"></a>`repo_gpgkey`
+
+Data type: `Stdlib::Httpurl`
+
+Set a custom GPG key for yum repos. Default in hiera data.
+
+##### <a name="repo_manage"></a>`repo_manage`
+
+Data type: `Boolean`
+
+Set to false to disable yum or apt repositories management.
 
 Default value: ``true``
 
@@ -399,7 +403,7 @@ Default value: ``undef``
 
 Data type: `Optional[String[1]]`
 
-By default undef and `CVMFS_REPOSITORIES` in `default.local` will be populated
+If undef `CVMFS_REPOSITORIES` in `default.local` will be populated
 automatically from what is explicitly mounted with `cvmfs::mount`. If this is
 specified then`CVMFS_REPOSITORIES` list in `default.local` will be exactly managed with this variable.
 e.g `cvmfs-config.cern.ch,atlas.cern.ch`
@@ -411,7 +415,6 @@ Default value: ``undef``
 Data type: `Hash`
 
 Rather than using cvmfs::mount defined type a hash of mounts can be sepecfied.
-`cvmfs_hash {'myrepo' => {'cvmfs_server_url' => 'http://web.example.org/cvmfs/ams.example.org/}`
 
 Default value: `{}`
 
@@ -439,14 +442,6 @@ Data type: `Hash`
 Specify of a hash `cvmfs::domain` types.
 
 Default value: `{}`
-
-##### <a name="cvmfs_yum_includepkgs"></a>`cvmfs_yum_includepkgs`
-
-Data type: `Variant[Enum['absent'], Array[String]]`
-
-Specify an includepkgs to the yum repos to ignore other packages.
-
-Default value: `['cvmfs','cvmfs-keys','cvmfs-server','cvmfs-config-default']`
 
 ##### <a name="cvmfs_instrument_fuse"></a>`cvmfs_instrument_fuse`
 
@@ -477,6 +472,94 @@ Default value: ``undef``
 Data type: `Optional[Enum['yes','no']]`
 
 Enable a shared cache
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum"></a>`cvmfs_yum`
+
+Data type: `Optional[Stdlib::Httpurl]`
+
+Deprecated, use repo_base
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum_priority"></a>`cvmfs_yum_priority`
+
+Data type: `Optional[Integer]`
+
+Deprecated, use repo_priority
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum_proxy"></a>`cvmfs_yum_proxy`
+
+Data type: `Optional[Stdlib::Httpurl]`
+
+Deprecated, user repo_proxy
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum_config"></a>`cvmfs_yum_config`
+
+Data type: `Optional[Stdlib::Httpurl]`
+
+Deprecated, use repo_base
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum_config_enabled"></a>`cvmfs_yum_config_enabled`
+
+Data type: `Optional[Integer[0,1]]`
+
+Deprecated, user repo_config_enabled
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum_testing"></a>`cvmfs_yum_testing`
+
+Data type: `Optional[Stdlib::Httpurl]`
+
+Deprecated, use repo_base
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum_testing_enabled"></a>`cvmfs_yum_testing_enabled`
+
+Data type: `Optional[Integer[0,1]]`
+
+Deprecated, use repo_testing_enabled
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum_gpgcheck"></a>`cvmfs_yum_gpgcheck`
+
+Data type: `Optional[Integer[0,1]]`
+
+Deprecated, use repo_gpgcheck
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum_gpgkey"></a>`cvmfs_yum_gpgkey`
+
+Data type: `Optional[Variant[Stdlib::Filesource,Stdlib::Httpurl]]`
+
+Deprecated, use repo_gpgkey
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum_manage_repo"></a>`cvmfs_yum_manage_repo`
+
+Data type: `Optional[Boolean]`
+
+Deprecated, use repo_manage
+
+Default value: ``undef``
+
+##### <a name="cvmfs_yum_includepkgs"></a>`cvmfs_yum_includepkgs`
+
+Data type: `Optional[Variant[Enum['absent'], Array[String]]]`
+
+Deprecated, use repo_includepkgs
 
 Default value: ``undef``
 
@@ -524,468 +607,6 @@ Data type: `Optional[Boolean]`
 Use a systemd timer
 
 Default value: ``undef``
-
-### <a name="cvmfsoneconfig"></a>`cvmfs::one::config`
-
-Class: cvmfs::one::config
-Included once from the cvmfs::one defined type.
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::one::config` class:
-
-* [`cvmfs_sync_minute`](#cvmfs_sync_minute)
-
-##### <a name="cvmfs_sync_minute"></a>`cvmfs_sync_minute`
-
-Data type: `Any`
-
-
-
-Default value: `'*/15'`
-
-### <a name="cvmfsoneinstall"></a>`cvmfs::one::install`
-
-Class: cvmfs::one::install,
-included once from the cvmfs::one defined type.
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::one::install` class:
-
-* [`cvmfs_version`](#cvmfs_version)
-
-##### <a name="cvmfs_version"></a>`cvmfs_version`
-
-Data type: `String`
-
-
-
-Default value: `'present'`
-
-### <a name="cvmfsserver"></a>`cvmfs::server`
-
-== Class cvmfs::server
-This class will set up a cvmfs server
-lint:ignore:parameter_documentation
-=== Parameters
-[*repo*]
-This is the namevar , it should be set to the name of repository, e.g mysoftware.example.org, if
-not set the namevar will be used.
-[*nfshost*]
-[*nfsshare*]
-If *nfshost* and *nfsshare* are set then an nfsvolume will be mounted early on before all the cvmfs
-configuration is done.
-[*nfsoptions*]
-Nfs options can be set, there is a sensible default as below.
-[*pubkey*]
-The name of pubkey to be used. It is assume the pubkey is in the directory
-'/etc/cvmfs/keys'
-
-=== Examples
-   class{'cvmfs::server':
-     repo   => 'ilc.example.org',
-     pubkey => 'key.example.org'
-   }
-or
-   class{'cvmfs::server':
-     repo       => 'bute.example.org',
-     nfshost    => 'nfs-server.example.org',
-     nfsshare   => '/volume/bute'
-     nfsoptions => 'noatime',
-     pubkey     => 'key.example.org'
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::server` class:
-
-* [`pubkey`](#pubkey)
-* [`repo`](#repo)
-* [`nfsshare`](#nfsshare)
-* [`nfshost`](#nfshost)
-* [`nfsopts`](#nfsopts)
-* [`user`](#user)
-* [`nofiles`](#nofiles)
-* [`uid`](#uid)
-* [`cvmfs_yum_kernel`](#cvmfs_yum_kernel)
-* [`cvmfs_yum_kernel_enabled`](#cvmfs_yum_kernel_enabled)
-* [`cvmfs_yum`](#cvmfs_yum)
-* [`cvmfs_yum_testing`](#cvmfs_yum_testing)
-* [`cvmfs_yum_testing_enabled`](#cvmfs_yum_testing_enabled)
-
-##### <a name="pubkey"></a>`pubkey`
-
-Data type: `Any`
-
-
-
-##### <a name="repo"></a>`repo`
-
-Data type: `Any`
-
-
-
-Default value: `$name`
-
-##### <a name="nfsshare"></a>`nfsshare`
-
-Data type: `Any`
-
-
-
-Default value: ``undef``
-
-##### <a name="nfshost"></a>`nfshost`
-
-Data type: `Any`
-
-
-
-Default value: ``undef``
-
-##### <a name="nfsopts"></a>`nfsopts`
-
-Data type: `Any`
-
-
-
-Default value: `'rw,noatime,hard,nfsvers=3'`
-
-##### <a name="user"></a>`user`
-
-Data type: `Any`
-
-
-
-Default value: `'shared'`
-
-##### <a name="nofiles"></a>`nofiles`
-
-Data type: `Any`
-
-
-
-Default value: `65000`
-
-##### <a name="uid"></a>`uid`
-
-Data type: `Any`
-
-
-
-Default value: `101`
-
-##### <a name="cvmfs_yum_kernel"></a>`cvmfs_yum_kernel`
-
-Data type: `Any`
-
-
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs-kernel/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-##### <a name="cvmfs_yum_kernel_enabled"></a>`cvmfs_yum_kernel_enabled`
-
-Data type: `Integer[0,1]`
-
-
-
-Default value: `0`
-
-##### <a name="cvmfs_yum"></a>`cvmfs_yum`
-
-Data type: `Any`
-
-
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-##### <a name="cvmfs_yum_testing"></a>`cvmfs_yum_testing`
-
-Data type: `Any`
-
-
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-##### <a name="cvmfs_yum_testing_enabled"></a>`cvmfs_yum_testing_enabled`
-
-Data type: `Integer[0,1]`
-
-
-
-Default value: `0`
-
-### <a name="cvmfsserverconfig"></a>`cvmfs::server::config`
-
-class: cvmfs::server:config
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::server::config` class:
-
-* [`repo`](#repo)
-* [`nfshost`](#nfshost)
-* [`nfsshare`](#nfsshare)
-* [`nfsopts`](#nfsopts)
-* [`user`](#user)
-* [`nofiles`](#nofiles)
-* [`uid`](#uid)
-* [`pubkey`](#pubkey)
-
-##### <a name="repo"></a>`repo`
-
-Data type: `Any`
-
-
-
-Default value: ``undef``
-
-##### <a name="nfshost"></a>`nfshost`
-
-Data type: `Any`
-
-
-
-Default value: ``undef``
-
-##### <a name="nfsshare"></a>`nfsshare`
-
-Data type: `Any`
-
-
-
-Default value: ``undef``
-
-##### <a name="nfsopts"></a>`nfsopts`
-
-Data type: `Any`
-
-
-
-Default value: `'rw,noatime,hard,nfsvers=3'`
-
-##### <a name="user"></a>`user`
-
-Data type: `Any`
-
-
-
-Default value: `'shared'`
-
-##### <a name="nofiles"></a>`nofiles`
-
-Data type: `Any`
-
-
-
-Default value: `65000`
-
-##### <a name="uid"></a>`uid`
-
-Data type: `Any`
-
-
-
-Default value: `101`
-
-##### <a name="pubkey"></a>`pubkey`
-
-Data type: `Any`
-
-
-
-Default value: `'cern-it1.cern.ch.pub'`
-
-### <a name="cvmfsserverinstall"></a>`cvmfs::server::install`
-
-Class - cvmfs::server::install
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::server::install` class:
-
-* [`cvmfs_version`](#cvmfs_version)
-* [`cvmfs_kernel_version`](#cvmfs_kernel_version)
-* [`cvmfs_aufs2_version`](#cvmfs_aufs2_version)
-
-##### <a name="cvmfs_version"></a>`cvmfs_version`
-
-Data type: `String`
-
-
-
-Default value: `'present'`
-
-##### <a name="cvmfs_kernel_version"></a>`cvmfs_kernel_version`
-
-Data type: `String`
-
-
-
-Default value: `'present'`
-
-##### <a name="cvmfs_aufs2_version"></a>`cvmfs_aufs2_version`
-
-Data type: `String`
-
-
-
-Default value: `'present'`
-
-### <a name="cvmfsserveryum"></a>`cvmfs::server::yum`
-
-Class cvmfs::server::yum
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::server::yum` class:
-
-* [`cvmfs_yum_kernel`](#cvmfs_yum_kernel)
-* [`cvmfs_yum_kernel_enabled`](#cvmfs_yum_kernel_enabled)
-* [`cvmfs_yum_testing_enabled`](#cvmfs_yum_testing_enabled)
-* [`cvmfs_yum`](#cvmfs_yum)
-* [`cvmfs_yum_testing`](#cvmfs_yum_testing)
-
-##### <a name="cvmfs_yum_kernel"></a>`cvmfs_yum_kernel`
-
-Data type: `Stdlib::Httpurl`
-
-
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs-kernel/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-##### <a name="cvmfs_yum_kernel_enabled"></a>`cvmfs_yum_kernel_enabled`
-
-Data type: `Integer[0,1]`
-
-
-
-Default value: `1`
-
-##### <a name="cvmfs_yum_testing_enabled"></a>`cvmfs_yum_testing_enabled`
-
-Data type: `Integer[0,1]`
-
-
-
-Default value: `0`
-
-##### <a name="cvmfs_yum"></a>`cvmfs_yum`
-
-Data type: `Stdlib::Httpurl`
-
-
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-##### <a name="cvmfs_yum_testing"></a>`cvmfs_yum_testing`
-
-Data type: `Stdlib::Httpurl`
-
-
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-### <a name="cvmfszeroconfig"></a>`cvmfs::zero::config`
-
-Class cvmfs::zero::config
-included from instances of cvmfs::zero defined type.
-
-### <a name="cvmfszeroinstall"></a>`cvmfs::zero::install`
-
-Class: cvmfs::zero::install , desingned
-to be included from instances of cvmfs::zero
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::zero::install` class:
-
-* [`cvmfs_version`](#cvmfs_version)
-* [`cvmfs_kernel_version`](#cvmfs_kernel_version)
-* [`cvmfs_aufs2_version`](#cvmfs_aufs2_version)
-
-##### <a name="cvmfs_version"></a>`cvmfs_version`
-
-Data type: `String`
-
-
-
-Default value: `'present'`
-
-##### <a name="cvmfs_kernel_version"></a>`cvmfs_kernel_version`
-
-Data type: `String`
-
-
-
-Default value: `'present'`
-
-##### <a name="cvmfs_aufs2_version"></a>`cvmfs_aufs2_version`
-
-Data type: `String`
-
-
-
-Default value: `'present'`
-
-### <a name="cvmfszeroservice"></a>`cvmfs::zero::service`
-
-Class: cvmfs::zero::install , desingned
-to be included from instances of cvmfs::zero
-
-### <a name="cvmfszeroyum"></a>`cvmfs::zero::yum`
-
-Class cvmfs::server::yum
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::zero::yum` class:
-
-* [`cvmfs_yum_kernel`](#cvmfs_yum_kernel)
-* [`cvmfs_yum_kernel_enabled`](#cvmfs_yum_kernel_enabled)
-* [`cvmfs_yum`](#cvmfs_yum)
-* [`cvmfs_yum_testing`](#cvmfs_yum_testing)
-* [`cvmfs_yum_testing_enabled`](#cvmfs_yum_testing_enabled)
-
-##### <a name="cvmfs_yum_kernel"></a>`cvmfs_yum_kernel`
-
-Data type: `Stdlib::Httpurl`
-
-
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs-kernel/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-##### <a name="cvmfs_yum_kernel_enabled"></a>`cvmfs_yum_kernel_enabled`
-
-Data type: `Integer[0,1]`
-
-
-
-Default value: `1`
-
-##### <a name="cvmfs_yum"></a>`cvmfs_yum`
-
-Data type: `Stdlib::Httpurl`
-
-
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-##### <a name="cvmfs_yum_testing"></a>`cvmfs_yum_testing`
-
-Data type: `Stdlib::Httpurl`
-
-
-
-Default value: `"http://cern.ch/cvmrepo/yum/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}"`
-
-##### <a name="cvmfs_yum_testing_enabled"></a>`cvmfs_yum_testing_enabled`
-
-Data type: `Integer[0,1]`
-
-
-
-Default value: `1`
 
 ## Defined types
 
@@ -1454,232 +1075,4 @@ Data type: `String[1]`
 Mount options to use for fstab style mounting.
 
 Default value: `'defaults,_netdev,nodev'`
-
-### <a name="cvmfsone"></a>`cvmfs::one`
-
-== Define: cvmfs::one
-Sets up a stratum one service for CVMFS.
-
-=== Parameters
-[*repo*]
- The name of the repostory, if the repo is not set the *namevar* will be used.
-
-[*origin*]
- The URL prefix of the stratum zero endpoint, the repo name will be appended to the end.
-
-[*keys*]
- An array of keys to use for a repository. The default value is
- ['/etc/cvmfs/keys/cern.ch.pub','/etc/cvmfs/keys/cern-it1.cern.ch.pub','/etc/cvmfs/keys/cern-it2.cern.ch.pub']
-
-=== Examples
-  cvmfs::one{'mice.example.org':
-    origin => 'http://cvmfs01.example.org/cvmfs',
-    keys   => ['/etc/cvmfs/keys/example1.pub','/etc/cvmfs/keys/example1.pub']
-  }
-=== Copyright
-Steve Traylen, <steve.traylen@cern.ch>, CERN 2013.
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::one` defined type:
-
-* [`repo`](#repo)
-* [`origin`](#origin)
-* [`keys`](#keys)
-* [`mime_expire`](#mime_expire)
-
-##### <a name="repo"></a>`repo`
-
-Data type: `Any`
-
-
-
-Default value: `$name`
-
-##### <a name="origin"></a>`origin`
-
-Data type: `Any`
-
-
-
-Default value: `'http://stratum0.example.org/cvmfs'`
-
-##### <a name="keys"></a>`keys`
-
-Data type: `Any`
-
-
-
-Default value: `['/etc/cvmfs/keys/cern.ch.pub','/etc/cvmfs/keys/cern-it1.cern.ch.pub','/etc/cvmfs/keys/cern-it2.cern.ch.pub']`
-
-##### <a name="mime_expire"></a>`mime_expire`
-
-Data type: `Any`
-
-
-
-Default value: `61`
-
-### <a name="cvmfszero"></a>`cvmfs::zero`
-
-See README.md
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::zero` defined type:
-
-* [`user`](#user)
-* [`uid`](#uid)
-* [`group`](#group)
-* [`gid`](#gid)
-* [`repo`](#repo)
-* [`clientuser`](#clientuser)
-* [`nofiles`](#nofiles)
-* [`repo_store`](#repo_store)
-* [`spool_store`](#spool_store)
-* [`home`](#home)
-* [`claim_ownership`](#claim_ownership)
-* [`auto_tag`](#auto_tag)
-* [`garbage_collection`](#garbage_collection)
-* [`auto_gc`](#auto_gc)
-* [`auto_gc_timespan`](#auto_gc_timespan)
-* [`ignore_xdir_hardlinks`](#ignore_xdir_hardlinks)
-* [`creator_version`](#creator_version)
-* [`mime_expire`](#mime_expire)
-
-##### <a name="user"></a>`user`
-
-Data type: `Any`
-
-
-
-##### <a name="uid"></a>`uid`
-
-Data type: `Any`
-
-
-
-##### <a name="group"></a>`group`
-
-Data type: `Any`
-
-
-
-##### <a name="gid"></a>`gid`
-
-Data type: `Any`
-
-
-
-##### <a name="repo"></a>`repo`
-
-Data type: `Any`
-
-
-
-Default value: `$title`
-
-##### <a name="clientuser"></a>`clientuser`
-
-Data type: `Any`
-
-
-
-Default value: `$user`
-
-##### <a name="nofiles"></a>`nofiles`
-
-Data type: `Any`
-
-
-
-Default value: `65000`
-
-##### <a name="repo_store"></a>`repo_store`
-
-Data type: `Any`
-
-
-
-Default value: `'/srv/cvmfs'`
-
-##### <a name="spool_store"></a>`spool_store`
-
-Data type: `Any`
-
-
-
-Default value: `'/var/spool/cvmfs'`
-
-##### <a name="home"></a>`home`
-
-Data type: `Any`
-
-
-
-Default value: `"/srv/cvmfs/${title}/${user}"`
-
-##### <a name="claim_ownership"></a>`claim_ownership`
-
-Data type: `Any`
-
-
-
-Default value: ``false``
-
-##### <a name="auto_tag"></a>`auto_tag`
-
-Data type: `Any`
-
-
-
-Default value: ``true``
-
-##### <a name="garbage_collection"></a>`garbage_collection`
-
-Data type: `Any`
-
-
-
-Default value: ``false``
-
-##### <a name="auto_gc"></a>`auto_gc`
-
-Data type: `Any`
-
-
-
-Default value: ``false``
-
-##### <a name="auto_gc_timespan"></a>`auto_gc_timespan`
-
-Data type: `Any`
-
-
-
-Default value: `'3 days ago'`
-
-##### <a name="ignore_xdir_hardlinks"></a>`ignore_xdir_hardlinks`
-
-Data type: `Any`
-
-
-
-Default value: ``false``
-
-##### <a name="creator_version"></a>`creator_version`
-
-Data type: `Any`
-
-
-
-Default value: `'2.3.0-1'`
-
-##### <a name="mime_expire"></a>`mime_expire`
-
-Data type: `Any`
-
-
-
-Default value: `120`
 
