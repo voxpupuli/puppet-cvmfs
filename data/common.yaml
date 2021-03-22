@@ -1,2 +1,3 @@
-cvmfs::repo_incude_pkgs: ~
+---
+cvmfs::repo_includepkgs: ~
 
