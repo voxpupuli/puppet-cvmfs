@@ -12,7 +12,11 @@ class cvmfs::install (
         contain 'cvmfs::yum'
         Class['cvmfs::yum'] -> Package['cvmfs']
       }
-      default: { fail('Only repositories for RedHat family can be managed') }
+      'Debian': {
+        contain 'cvmfs::apt'
+        Class['cvmfs::apt'] -> Package['cvmfs']
+      }
+      default: { fail('Only repositories for RedHat or Debian family can be managed') }
     }
   }
 
