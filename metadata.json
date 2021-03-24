@@ -1,6 +1,6 @@
 {
   "name": "puppet-cvmfs",
-  "version": "8.0.0",
+  "version": "8.0.1-rc0",
   "summary": "Manages CVMFS clients",
   "author": "Vox Pupuli",
   "project_page": "https://github.com/voxpupuli/puppet-cvmfs",
@@ -43,16 +43,24 @@
       ]
     },
     {
-      "operatingsystem":"RedHat",
-      "operatingsystemrelease":["7", "8" ]
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
     },
     {
       "operatingsystem": "CentOS",
-      "operatingsystemrelease": ["7", "8" ]
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
     },
     {
       "operatingsystem": "Scientific",
-      "operatingsystemrelease": ["7" ]
+      "operatingsystemrelease": [
+        "7"
+      ]
     }
   ],
   "requirements": [
