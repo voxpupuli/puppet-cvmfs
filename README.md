@@ -1,4 +1,4 @@
-[![Puppet Forge](http://img.shields.io/puppetforge/v/CERNOps/cvmfs.svg)](https://forge.puppetlabs.com/CERNOps/cvmfs)
+[![Puppet Forge](http://img.shields.io/puppetforge/v/puppet/cvmfs.svg)](https://forge.puppetlabs.com/puppet/cvmfs)
 # puppet-cvmfs
 
 
