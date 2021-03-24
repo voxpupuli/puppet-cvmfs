@@ -6,11 +6,12 @@
 
 require 'yaml'
 Facter.add(:cvmfspartsize) do
-  confine kernel: 'Linux'
+  @df_cmd = Facter::Util::Resolution.which('df')
+  confine { @df_cmd }
   setcode do
     if File.exist?('/etc/cvmfs/cvmfsfacts.yaml')
       directory = YAML.safe_load(File.open('/etc/cvmfs/cvmfsfacts.yaml'))['cvmfs_cache_base']
-      Facter::Util::Resolution.exec("/bin/df -m -P #{directory}").split("\n").last.split(%r{\s+})[1]
+      Facter::Core::Execution.execute(%(#{@df_cmd} -m -P #{directory})).split("\n").last.split(%r{\s+})[1].to_i
     end
   end
 end
