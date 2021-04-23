@@ -16,6 +16,7 @@
   Optional[Integer[0]]                         $cvmfs_timeout_direct = undef,
   Optional[Integer[1]]                         $cvmfs_nfiles = undef,
   Optional[String[1]]                          $cvmfs_public_key = undef,
+  Optional[String[1]]                          $cvmfs_keys_dir = undef,
   Optional[Integer[0,1]]                       $cvmfs_syslog_level = undef,
   Optional[Stdlib::Unixpath]                   $cvmfs_tracefile = undef,
   Optional[Stdlib::Unixpath]                   $cvmfs_debuglog = undef,
@@ -88,6 +89,9 @@ CVMFS_NFILES='<%= $cvmfs_nfiles %>'
 <% } -%>
 <% if $cvmfs_public_key { -%>
 CVMFS_PUBLIC_KEY='<%= $cvmfs_public_key %>'
+<% } -%>
+<% if $cvmfs_keys_dir { -%>
+CVMFS_KEYS_DIR='<%= $cvmfs_keys_dir %>'
 <% } -%>
 <% if $cvmfs_syslog_level { -%>
 CVMFS_SYSLOG_LEVEL='<%= $cvmfs_syslog_level %>'
