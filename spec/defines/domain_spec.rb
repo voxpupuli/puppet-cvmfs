@@ -42,6 +42,13 @@ describe 'cvmfs::domain' do
             is_expected.to contain_file('/etc/cvmfs/domain.d/example.org.local').with('content' => %r{^CVMFS_QUOTA_LIMIT='12345'$})
           end
         end
+        context 'with cvmfs_keys_dir set' do
+          let(:params) { { cvmfs_keys_dir: '/etc/cvmfs/keys/example.org' } }
+
+          it do
+            is_expected.to contain_file('/etc/cvmfs/domain.d/example.org.local').with('content' => %r{^CVMFS_KEYS_DIR='/etc/cvmfs/keys/example.org'$})
+          end
+        end
       end
     end
   end

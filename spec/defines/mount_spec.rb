@@ -45,6 +45,7 @@ describe 'cvmfs::mount' do
               cvmfs_uid_map: { 123 => 12 },
               cvmfs_gid_map: { 137 => 42 },
               cvmfs_quota_limit: 54_321,
+              cvmfs_keys_dir: '/etc/cvmfs/keys/example.org',
               cvmfs_external_fallback_proxy: 'http://external-fallback.example.org:3128',
               cvmfs_external_http_proxy: 'http://http-proxy.example.org:2138',
               cvmfs_external_timeout: 100,
@@ -61,6 +62,7 @@ describe 'cvmfs::mount' do
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_UID_MAP='/etc/cvmfs/config.d/files.example.org.uid_map'$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_GID_MAP='/etc/cvmfs/config.d/files.example.org.gid_map'$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_QUOTA_LIMIT='54321'$}) }
+          it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_KEYS_DIR='/etc/cvmfs/keys/example.org'$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_EXTERNAL_FALLBACK_PROXY='http://external-fallback.example.org:3128'$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_EXTERNAL_HTTP_PROXY='http://http-proxy.example.org:2138'$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with('content' => %r{^CVMFS_EXTERNAL_TIMEOUT='100'$}) }
