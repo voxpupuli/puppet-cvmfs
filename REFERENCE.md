@@ -645,6 +645,7 @@ The following parameters are available in the `cvmfs::domain` defined type:
 * [`cvmfs_external_timeout_direct`](#cvmfs_external_timeout_direct)
 * [`cvmfs_external_url`](#cvmfs_external_url)
 * [`cvmfs_public_key`](#cvmfs_public_key)
+* [`cvmfs_keys_dir`](#cvmfs_keys_dir)
 
 ##### <a name="domain"></a>`domain`
 
@@ -782,6 +783,14 @@ Specify repository signing key
 
 Default value: ``undef``
 
+##### <a name="cvmfs_keys_dir"></a>`cvmfs_keys_dir`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Specify directory with repository signing keys for domain
+
+Default value: ``undef``
+
 ### <a name="cvmfsid_map"></a>`cvmfs::id_map`
 
 Create a map file uid or gid mappings
@@ -849,6 +858,7 @@ The following parameters are available in the `cvmfs::mount` defined type:
 * [`cvmfs_timeout_direct`](#cvmfs_timeout_direct)
 * [`cvmfs_nfiles`](#cvmfs_nfiles)
 * [`cvmfs_public_key`](#cvmfs_public_key)
+* [`cvmfs_keys_dir`](#cvmfs_keys_dir)
 * [`cvmfs_max_ttl`](#cvmfs_max_ttl)
 * [`cvmfs_env_variables`](#cvmfs_env_variables)
 * [`cvmfs_use_geoapi`](#cvmfs_use_geoapi)
@@ -929,6 +939,14 @@ Default value: ``undef``
 Data type: `Optional[String[1]]`
 
 Public key of repository, sets CVMFS_PUBLIC_KEYS
+
+Default value: ``undef``
+
+##### <a name="cvmfs_keys_dir"></a>`cvmfs_keys_dir`
+
+Data type: `Optional[String[1]]`
+
+Directory with public keys of repository, sets CVMFS_KEYS_DIR
 
 Default value: ``undef``
 

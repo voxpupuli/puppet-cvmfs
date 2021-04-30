@@ -25,6 +25,7 @@
 # @param cvmfs_timeout_direct Sets CVMFS_HTTP_TIMEOUT_DIRECT
 # @param cvmfs_nfiles Number of open files permitted on the OS. Sets CVMFS_NFILES
 # @param cvmfs_public_key Public key of repository, sets CVMFS_PUBLIC_KEYS
+# @param cvmfs_keys_dir Directory with publice keys for repository, sets CVMFS_KEYS_DIR
 # @param cvmfs_max_ttl Maximum effective TTL in seconds for DNS queries of proxy server names. Sets CVMFS_MAX_TTL
 # @param cvmfs_env_variables Sets per repo environments variables for magic links.
 # @param cvmfs_use_geoapi Set CVMFS_MAX_GEOAPI
@@ -53,6 +54,7 @@ define cvmfs::mount (
   Optional[Integer] $cvmfs_timeout_direct                           = undef,
   Optional[Integer] $cvmfs_nfiles                                   = undef,
   Optional[String[1]] $cvmfs_public_key                             = undef,
+  Optional[Stdlib::Absolutepath] $cvmfs_keys_dir                    = undef,
   Optional[Integer] $cvmfs_max_ttl                                  = undef,
   Optional[Hash] $cvmfs_env_variables                               = undef,
   Optional[Stdlib::Yes_no] $cvmfs_use_geoapi                        = undef,
@@ -97,6 +99,7 @@ define cvmfs::mount (
         'cvmfs_timeout_direct'          => $cvmfs_timeout_direct,
         'cvmfs_nfiles'                  => $cvmfs_nfiles,
         'cvmfs_public_key'              => $cvmfs_public_key,
+        'cvmfs_keys_dir'                => $cvmfs_keys_dir,
         'cvmfs_max_ttl'                 => $cvmfs_max_ttl,
         'cvmfs_env_variables'           => $cvmfs_env_variables,
         'cvmfs_use_geoapi'              => $cvmfs_use_geoapi,
