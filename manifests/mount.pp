@@ -54,7 +54,7 @@ define cvmfs::mount (
   Optional[Integer] $cvmfs_timeout_direct                           = undef,
   Optional[Integer] $cvmfs_nfiles                                   = undef,
   Optional[String[1]] $cvmfs_public_key                             = undef,
-  Optional[String[1]] $cvmfs_keys_dir                               = undef,
+  Optional[Stdlib::Absolutepath] $cvmfs_keys_dir                    = undef,
   Optional[Integer] $cvmfs_max_ttl                                  = undef,
   Optional[Hash] $cvmfs_env_variables                               = undef,
   Optional[Stdlib::Yes_no] $cvmfs_use_geoapi                        = undef,
