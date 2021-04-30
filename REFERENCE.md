@@ -785,7 +785,7 @@ Default value: ``undef``
 
 ##### <a name="cvmfs_keys_dir"></a>`cvmfs_keys_dir`
 
-Data type: `Optional[String[1]]`
+Data type: `Optional[Stdlib::Absolutepath]`
 
 Specify directory with repository signing keys for domain
 
