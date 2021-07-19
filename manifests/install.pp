@@ -15,6 +15,8 @@ class cvmfs::install (
       'Debian': {
         contain 'cvmfs::apt'
         Class['cvmfs::apt'] -> Package['cvmfs']
+        # Needed since apt::update is only notified in apt::source, but not contained.
+        Class['apt::update'] -> Package['cvmfs']
       }
       default: { fail('Only repositories for RedHat or Debian family can be managed') }
     }
