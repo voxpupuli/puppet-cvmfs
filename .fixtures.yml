@@ -4,9 +4,6 @@ fixtures:
     apt: https://github.com/puppetlabs/puppetlabs-apt.git
     systemd: https://github.com/camptocamp/puppet-systemd.git
     concat: https://github.com/puppetlabs/puppetlabs-concat.git
-    firewall: https://github.com/puppetlabs/puppetlabs-firewall.git
-    limits: https://github.com/erwbgy/puppet-limits.git
-    file_concat: git://github.com/electrical/puppet-lib-file_concat.git
     yumrepo_core: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
     cron_core: https://github.com/puppetlabs/puppetlabs-cron_core.git
     augeas_core: https://github.com/puppetlabs/puppetlabs-augeas_core.git
