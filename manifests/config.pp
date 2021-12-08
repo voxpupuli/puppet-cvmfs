@@ -169,7 +169,7 @@ class cvmfs::config (
     } else {
       file { '/etc/auto.master.d/cvmfs.autofs':
         ensure  => file,
-        content => "Puppet installed\n/cvmfs  program:/etc/auto.cvmfs\n",
+        content => "# Puppet installed\n/cvmfs  program:/etc/auto.cvmfs\n",
         owner   => root,
         group   => root,
         mode    => '0644',
