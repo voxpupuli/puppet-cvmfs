@@ -6,6 +6,7 @@
 
 [Unit]
 Description=cvmfs fsck
+ConditionPathExists=<%= $cache_base %>/shared/txn
 
 [Service]
 Type=oneshot
