@@ -36,7 +36,7 @@ describe 'cvmfs::fsck' do
         end
       end
 
-      context 'with onreboot true' do
+      context 'with onreboot true' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             onreboot: true
@@ -52,7 +52,7 @@ describe 'cvmfs::fsck' do
         end
       end
 
-      context 'with onreboot false' do
+      context 'with onreboot false' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             onreboot: false
@@ -67,7 +67,7 @@ describe 'cvmfs::fsck' do
         end
       end
 
-      context 'with options set' do
+      context 'with options set' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             options: '-p',
