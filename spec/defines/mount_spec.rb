@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'cvmfs::mount' do
@@ -34,7 +36,7 @@ describe 'cvmfs::mount' do
         it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without('content' => %r{^CVMFS_EXTERNAL_TIMEOUT_DIRECT=.*$}) }
         it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').without('content' => %r{^CVMFS_EXTERNAL_URL=.*$}) }
 
-        context 'with lots of  parameters set' do
+        context 'with lots of parameters set' do
           let(:params) do
             {
               cvmfs_use_geoapi: 'yes',

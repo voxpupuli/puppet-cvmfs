@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'cvmfs::domain' do
@@ -28,6 +30,7 @@ describe 'cvmfs::domain' do
             is_expected.to contain_file('/etc/cvmfs/domain.d/example.org.local').with('content' => %r{^CVMFS_USE_GEOAPI='yes'$})
           end
         end
+
         context 'with cvmfs_follow_redirects set to yes' do
           let(:params) { { cvmfs_follow_redirects: 'yes' } }
 
@@ -35,6 +38,7 @@ describe 'cvmfs::domain' do
             is_expected.to contain_file('/etc/cvmfs/domain.d/example.org.local').with('content' => %r{^CVMFS_FOLLOW_REDIRECTS='yes'$})
           end
         end
+
         context 'with cvmfs_quota_limit set' do
           let(:params) { { cvmfs_quota_limit: 12_345 } }
 
@@ -42,6 +46,7 @@ describe 'cvmfs::domain' do
             is_expected.to contain_file('/etc/cvmfs/domain.d/example.org.local').with('content' => %r{^CVMFS_QUOTA_LIMIT='12345'$})
           end
         end
+
         context 'with cvmfs_keys_dir set' do
           let(:params) { { cvmfs_keys_dir: '/etc/cvmfs/keys/example.org' } }
 
