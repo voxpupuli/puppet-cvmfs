@@ -27,6 +27,7 @@ describe 'cvmfs::fsck' do
           it { is_expected.not_to contain_cron('cvmfs_fsck') }
           it { is_expected.to contain_systemd__tmpfile('cvmfs-quarantaine.conf').with_content(%r{d /var/lib/cvmfs/shared/quarantaine 0700 cvmfs cvmfs 30d}) }
           it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.service').with_content(%r{^ExecStart=/usr/bin/cvmfs_fsck  /var/lib/cvmfs/shared$}) }
+          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.service').with_content(%r{^ConditionPathExists=/var/lib/cvmfs/shared/txn$}) }
           it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.timer').with_content(%r{^OnUnitActiveSec=1week$}) }
           it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.timer').without_content(%r{^OnBootSec$}) }
         end
@@ -63,15 +64,17 @@ describe 'cvmfs::fsck' do
       context 'with options set' do
         let(:params) do
           {
-            options: '-p'
+            options: '-p',
+            cvmfs_cache_base: '/foo'
           }
         end
 
         case facts[:os]['release']['major']
         when '6', '7'
-          it { is_expected.to contain_file('/usr/local/sbin/cvmfs_fsck_cron.sh').with_content(%r{\s* nice ionice -c3 /usr/bin/cvmfs_fsck -p /var/lib/cvmfs/shared$}) }
+          it { is_expected.to contain_file('/usr/local/sbin/cvmfs_fsck_cron.sh').with_content(%r{\s* nice ionice -c3 /usr/bin/cvmfs_fsck -p /foo/shared$}) }
         else
-          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.service').with_content(%r{^ExecStart=/usr/bin/cvmfs_fsck -p /var/lib/cvmfs/shared$}) }
+          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.service').with_content(%r{^ExecStart=/usr/bin/cvmfs_fsck -p /foo/shared$}) }
+          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.service').with_content(%r{^ConditionPathExists=/foo/shared/txn$}) }
         end
       end
     end
