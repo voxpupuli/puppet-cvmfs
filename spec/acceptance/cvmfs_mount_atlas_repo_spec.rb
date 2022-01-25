@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'cvmfs::mount atlas.cern.ch' do
@@ -9,7 +11,7 @@ describe 'cvmfs::mount atlas.cern.ch' do
          cvmfs::mount{'atlas.cern.ch':
             cvmfs_server_url =>  'http://cvmfs-stratum-one.cern.ch/cvmfs/atlas.cern.ch'
          }
-      EOS
+    EOS
     # Run it three times, it should be stable by then
     apply_manifest(pp, catch_failures: true)
     apply_manifest(pp, catch_failures: true)

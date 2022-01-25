@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: cvmfspartsize
 #
 # Purpose: Report the size of the volume that cvmfs_cache_base  resides on.

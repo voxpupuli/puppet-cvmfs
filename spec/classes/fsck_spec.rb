@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe 'cvmfs::fsck' do
   let(:pre_condition) do
@@ -13,6 +15,7 @@ describe 'cvmfs::fsck' do
       context 'with defaults' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.not_to contain_cron('cvmfs_fsck_on_reboot') }
+
         case facts[:os]['release']['major']
         when '6', '7'
           it { is_expected.to contain_file('/usr/local/sbin/cvmfs_fsck_cron.sh').with_content(%r{\s* nice ionice -c3 /usr/bin/cvmfs_fsck  /var/lib/cvmfs/shared$}) }
@@ -32,7 +35,8 @@ describe 'cvmfs::fsck' do
           it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.timer').without_content(%r{^OnBootSec$}) }
         end
       end
-      context 'with onreboot true' do
+
+      context 'with onreboot true' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             onreboot: true
@@ -47,7 +51,8 @@ describe 'cvmfs::fsck' do
           it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.timer').with_content(%r{^OnBootSec=5min$}) }
         end
       end
-      context 'with onreboot false' do
+
+      context 'with onreboot false' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             onreboot: false
@@ -61,7 +66,8 @@ describe 'cvmfs::fsck' do
           it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.timer').with_content(%r{^OnUnitActiveSec=1week$}) }
         end
       end
-      context 'with options set' do
+
+      context 'with options set' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             options: '-p',
