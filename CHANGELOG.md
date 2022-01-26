@@ -4,7 +4,38 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v8.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v8.0.0) (2021-03-23)
+## [v8.1.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v8.1.0) (2022-02-14)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v8.0.0...v8.1.0)
+
+**Implemented enhancements:**
+
+- Add configuration option for CVMFS\_KEYS\_DIR [\#134](https://github.com/voxpupuli/puppet-cvmfs/pull/134) ([vokac](https://github.com/vokac))
+
+**Fixed bugs:**
+
+- acceptance tests: os.distro fact requires lsb-release on Debian [\#148](https://github.com/voxpupuli/puppet-cvmfs/pull/148) ([traylenator](https://github.com/traylenator))
+- Do not run fsck if no mount has occurred [\#142](https://github.com/voxpupuli/puppet-cvmfs/pull/142) ([traylenator](https://github.com/traylenator))
+- Line not commented in auto.master configuration [\#141](https://github.com/voxpupuli/puppet-cvmfs/pull/141) ([traylenator](https://github.com/traylenator))
+- limits, file\_concat and firewall fixtures not required [\#140](https://github.com/voxpupuli/puppet-cvmfs/pull/140) ([traylenator](https://github.com/traylenator))
+- Remove double entry in array [\#133](https://github.com/voxpupuli/puppet-cvmfs/pull/133) ([traylenator](https://github.com/traylenator))
+- cvmfspartsize fact return integer rather than string [\#132](https://github.com/voxpupuli/puppet-cvmfs/pull/132) ([traylenator](https://github.com/traylenator))
+
+**Closed issues:**
+
+- baseurl breaks usage for users with their own mirrors [\#135](https://github.com/voxpupuli/puppet-cvmfs/issues/135)
+- cvmfspartsize fact should be an Integer [\#131](https://github.com/voxpupuli/puppet-cvmfs/issues/131)
+
+**Merged pull requests:**
+
+- mount: fix doc typo [\#147](https://github.com/voxpupuli/puppet-cvmfs/pull/147) ([kenyon](https://github.com/kenyon))
+- rubocop corrections for 1.22.3 [\#144](https://github.com/voxpupuli/puppet-cvmfs/pull/144) ([traylenator](https://github.com/traylenator))
+- fixtures.yml: Migrate to git URLs [\#139](https://github.com/voxpupuli/puppet-cvmfs/pull/139) ([bastelfreak](https://github.com/bastelfreak))
+- Allow up-to-date dependencies [\#137](https://github.com/voxpupuli/puppet-cvmfs/pull/137) ([smortex](https://github.com/smortex))
+- install: Require apt::update before package installation. [\#136](https://github.com/voxpupuli/puppet-cvmfs/pull/136) ([olifre](https://github.com/olifre))
+- Correct badge following migration to VoxPup [\#130](https://github.com/voxpupuli/puppet-cvmfs/pull/130) ([traylenator](https://github.com/traylenator))
+
+## [v8.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v8.0.0) (2021-03-24)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v7.3.0...v8.0.0)
 
@@ -18,22 +49,22 @@ These should not affect the functionality of the module.
 
 - Add CVMFS\_IPFAMILY\_PREFER config parameter [\#125](https://github.com/voxpupuli/puppet-cvmfs/pull/125) ([luisfdez](https://github.com/luisfdez))
 - Add ubuntu 18.04, 20.04 and debian 10 support [\#124](https://github.com/voxpupuli/puppet-cvmfs/pull/124) ([traylenator](https://github.com/traylenator))
+- Use modern splat rather than create resources [\#121](https://github.com/voxpupuli/puppet-cvmfs/pull/121) ([traylenator](https://github.com/traylenator))
 - Convert main config template to epp [\#118](https://github.com/voxpupuli/puppet-cvmfs/pull/118) ([traylenator](https://github.com/traylenator))
+- Add UID\_MAP and GID\_MAP functionality. [\#110](https://github.com/voxpupuli/puppet-cvmfs/pull/110) ([olifre](https://github.com/olifre))
 
 **Fixed bugs:**
 
 - cvmfs\_external\_url parameter to mount fixed [\#127](https://github.com/voxpupuli/puppet-cvmfs/pull/127) ([traylenator](https://github.com/traylenator))
 - Correct parameter name for default case [\#126](https://github.com/voxpupuli/puppet-cvmfs/pull/126) ([traylenator](https://github.com/traylenator))
+- cvmfs::install: Fact file creation must depend on Package\[cvmfs\]. [\#111](https://github.com/voxpupuli/puppet-cvmfs/pull/111) ([olifre](https://github.com/olifre))
+- add missing package require for file ownership [\#104](https://github.com/voxpupuli/puppet-cvmfs/pull/104) ([fschaer](https://github.com/fschaer))
 
 **Merged pull requests:**
 
 - Update all documentation [\#128](https://github.com/voxpupuli/puppet-cvmfs/pull/128) ([traylenator](https://github.com/traylenator))
-- Use modern splat rather than create resources [\#121](https://github.com/voxpupuli/puppet-cvmfs/pull/121) ([traylenator](https://github.com/traylenator))
 - Whitespace, Automatic lint and Rubocop Fixes [\#114](https://github.com/voxpupuli/puppet-cvmfs/pull/114) ([traylenator](https://github.com/traylenator))
 - Increase upper version of firewall module [\#112](https://github.com/voxpupuli/puppet-cvmfs/pull/112) ([sorrison](https://github.com/sorrison))
-- cvmfs::install: Fact file creation must depend on Package\[cvmfs\]. [\#111](https://github.com/voxpupuli/puppet-cvmfs/pull/111) ([olifre](https://github.com/olifre))
-- Add UID\_MAP and GID\_MAP functionality. [\#110](https://github.com/voxpupuli/puppet-cvmfs/pull/110) ([olifre](https://github.com/olifre))
-- add missing package require for file ownership [\#104](https://github.com/voxpupuli/puppet-cvmfs/pull/104) ([fschaer](https://github.com/fschaer))
 
 ## [v7.3.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v7.3.0) (2020-08-13)
 
