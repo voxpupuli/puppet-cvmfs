@@ -25,7 +25,7 @@
 # @param cvmfs_timeout_direct Sets CVMFS_HTTP_TIMEOUT_DIRECT
 # @param cvmfs_nfiles Number of open files permitted on the OS. Sets CVMFS_NFILES
 # @param cvmfs_public_key Public key of repository, sets CVMFS_PUBLIC_KEYS
-# @param cvmfs_keys_dir Directory with publice keys for repository, sets CVMFS_KEYS_DIR
+# @param cvmfs_keys_dir Directory with public keys for repository, sets CVMFS_KEYS_DIR
 # @param cvmfs_max_ttl Maximum effective TTL in seconds for DNS queries of proxy server names. Sets CVMFS_MAX_TTL
 # @param cvmfs_env_variables Sets per repo environments variables for magic links.
 # @param cvmfs_use_geoapi Set CVMFS_MAX_GEOAPI
