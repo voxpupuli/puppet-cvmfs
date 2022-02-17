@@ -19,22 +19,18 @@ class cvmfs::fsck (
   }
 
   if $_usesystemd {
-    systemd::unit_file { 'cvmfs-fsck.timer':
-      ensure  => present,
-      content => epp('cvmfs/fsck/cvmfs-fsck.timer.epp',
-        {
-          'onreboot' => $onreboot,
-      }),
-      enable  => true,
-      active  => true,
-    }
-    systemd::unit_file { 'cvmfs-fsck.service':
-      ensure  => present,
-      content => epp('cvmfs/fsck/cvmfs-fsck.service.epp',
+    systemd::timer { 'cvmfs-fsck.timer':
+      service_content => epp('cvmfs/fsck/cvmfs-fsck.service.epp',
         {
           'cache_base' => $cvmfs_cache_base,
           'options'    => $options,
       }),
+      timer_content   => epp('cvmfs/fsck/cvmfs-fsck.timer.epp',
+        {
+          'onreboot' => $onreboot,
+      }),
+      enable          => true,
+      active          => true,
     }
     systemd::tmpfile { 'cvmfs-quarantaine.conf':
       content => epp('cvmfs/fsck/cvmfs-quarantaine.conf.epp',
