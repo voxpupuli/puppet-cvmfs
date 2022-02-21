@@ -22,17 +22,16 @@ describe 'cvmfs::fsck' do
           it { is_expected.to contain_cron('clean_quarantaine') }
           it { is_expected.to contain_cron('cvmfs_fsck') }
           it { is_expected.not_to contain_systemd__tmpfile('cvmfs-quarantaine.conf') }
-          it { is_expected.not_to contain_systemd__unit_file('cvmfs-fsck.service') }
-          it { is_expected.not_to contain_systemd__unit_file('cvmfs-fsck.timer') }
+          it { is_expected.not_to contain_systemd__timer('cvmfs-fsck.timer') }
         else
           it { is_expected.not_to contain_file('/usr/local/sbin/cvmfs_fsck_cron.sh') }
           it { is_expected.not_to contain_cron('clean_quarantaine') }
           it { is_expected.not_to contain_cron('cvmfs_fsck') }
           it { is_expected.to contain_systemd__tmpfile('cvmfs-quarantaine.conf').with_content(%r{d /var/lib/cvmfs/shared/quarantaine 0700 cvmfs cvmfs 30d}) }
-          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.service').with_content(%r{^ExecStart=/usr/bin/cvmfs_fsck  /var/lib/cvmfs/shared$}) }
-          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.service').with_content(%r{^ConditionPathExists=/var/lib/cvmfs/shared/txn$}) }
-          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.timer').with_content(%r{^OnUnitActiveSec=1week$}) }
-          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.timer').without_content(%r{^OnBootSec$}) }
+          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').with_service_content(%r{^ExecStart=/usr/bin/cvmfs_fsck  /var/lib/cvmfs/shared$}) }
+          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').with_service_content(%r{^ConditionPathExists=/var/lib/cvmfs/shared/txn$}) }
+          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').with_timer_content(%r{^OnUnitActiveSec=1week$}) }
+          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').without_timer_content(%r{^OnBootSec$}) }
         end
       end
 
@@ -48,7 +47,7 @@ describe 'cvmfs::fsck' do
           it { is_expected.to contain_cron('cvmfs_fsck_on_reboot') }
         else
           it { is_expected.not_to contain_cron('cvmfs_fsck_on_reboot') }
-          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.timer').with_content(%r{^OnBootSec=5min$}) }
+          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').with_timer_content(%r{^OnBootSec=5min$}) }
         end
       end
 
@@ -63,7 +62,7 @@ describe 'cvmfs::fsck' do
         when '6', '7'
           it { is_expected.not_to contain_cron('cvmfs_fsck_on_reboot') }
         else
-          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.timer').with_content(%r{^OnUnitActiveSec=1week$}) }
+          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').with_timer_content(%r{^OnUnitActiveSec=1week$}) }
         end
       end
 
@@ -79,8 +78,8 @@ describe 'cvmfs::fsck' do
         when '6', '7'
           it { is_expected.to contain_file('/usr/local/sbin/cvmfs_fsck_cron.sh').with_content(%r{\s* nice ionice -c3 /usr/bin/cvmfs_fsck -p /foo/shared$}) }
         else
-          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.service').with_content(%r{^ExecStart=/usr/bin/cvmfs_fsck -p /foo/shared$}) }
-          it { is_expected.to contain_systemd__unit_file('cvmfs-fsck.service').with_content(%r{^ConditionPathExists=/foo/shared/txn$}) }
+          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').with_service_content(%r{^ExecStart=/usr/bin/cvmfs_fsck -p /foo/shared$}) }
+          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').with_service_content(%r{^ConditionPathExists=/foo/shared/txn$}) }
         end
       end
     end
