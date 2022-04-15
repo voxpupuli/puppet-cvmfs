@@ -303,6 +303,23 @@ describe 'cvmfs' do
             it { is_expected.not_to contain_service('autofs') }
           end
 
+          context 'with cvmfs_include_fsck not set' do
+            it do
+              is_expected.not_to contain_class('cvmfs::fsck')
+            end
+          end
+
+          context 'with cvmfs_fsck set to true' do
+            let(:params) do
+              { cvmfs_fsck: true,
+                cvmfs_http_proxy: :undef }
+            end
+
+            it do
+              is_expected.to contain_class('cvmfs::fsck')
+            end
+          end
+
           context 'with cvmfs_dns_min_ttl not set' do
             it do
               is_expected.to contain_concat__fragment('cvmfs_default_local_header').

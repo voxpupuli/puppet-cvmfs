@@ -1,6 +1,6 @@
 <%-|
   String[1] $cache_base,
-  String $options,
+  Optional[String] $options = undef,
 |-%>
 # Puppet Installed
 
