@@ -173,7 +173,7 @@ describe 'cvmfs' do
             it { is_expected.to compile.and_raise_error(%r{'cvmfs_yum_config_enabled' is deprecated}) }
           end
 
-          context 'with repo_config_enabled set to 1' do # rubocop:disable RSpec/EmptyExampleGroup
+          context 'with repo_config_enabled set to 1' do
             let(:params) do
               { repo_config_enabled: true,
                 cvmfs_http_proxy: :undef }
@@ -187,7 +187,7 @@ describe 'cvmfs' do
             end
           end
 
-          context 'with repo_base set to http://example.org/base' do # rubocop:disable RSpec/EmptyExampleGroup
+          context 'with repo_base set to http://example.org/base' do
             let(:params) do
               { repo_base: 'http://example.org/base',
                 cvmfs_http_proxy: :undef }
@@ -214,7 +214,7 @@ describe 'cvmfs' do
             it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').with_content(%r{^CVMFS_QUOTA_LIMIT='5000000'$}) }
           end
 
-          context 'with repo_gpgcheck set to 0 and repo_priority 100' do # rubocop:disable RSpec/EmptyExampleGroup
+          context 'with repo_gpgcheck set to 0 and repo_priority 100' do
             let(:params) do
               { repo_gpgcheck: false,
                 repo_priority: 100,
@@ -235,7 +235,7 @@ describe 'cvmfs' do
             end
           end
 
-          context 'with repo_gpgkey set to http://example.org/key.gpg' do # rubocop:disable RSpec/EmptyExampleGroup
+          context 'with repo_gpgkey set to http://example.org/key.gpg' do
             let(:params) do
               { repo_gpgkey: 'http://example.org/key.gpg',
                 cvmfs_http_proxy: :undef }
@@ -255,7 +255,7 @@ describe 'cvmfs' do
             end
           end
 
-          context 'with repo_manage set to true' do # rubocop:disable RSpec/EmptyExampleGroup
+          context 'with repo_manage set to true' do
             let(:params) do
               { repo_manage: true,
                 cvmfs_http_proxy: :undef }
