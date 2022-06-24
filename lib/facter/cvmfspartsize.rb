@@ -13,7 +13,9 @@ Facter.add(:cvmfspartsize) do
   setcode do
     if File.exist?('/etc/cvmfs/cvmfsfacts.yaml')
       directory = YAML.safe_load(File.open('/etc/cvmfs/cvmfsfacts.yaml'))['cvmfs_cache_base']
-      Facter::Core::Execution.execute(%(#{@df_cmd} -m -P #{directory})).split("\n").last.split(%r{\s+})[1].to_i
+      if File.exist?(directory)
+        Facter::Core::Execution.execute(%(#{@df_cmd} -m -P #{directory})).split("\n").last.split(%r{\s+})[1].to_i
+      end
     end
   end
 end
