@@ -99,21 +99,21 @@ cvmfs::domain{'example.org':
 ###  Cvmfs::Domain Type Parameters
 See [REFERENCE.md](REFERENCE.md)
 
-## Fsck Class
-An optional class 'cvmfs::fsck' can be included to enable a cron job to regualarly
-run fsck on cvmfs systems.
+## Managing cvmfs fsck
+The optional class 'cvmfs::fsck' can be included to enable a cron job to regualarly run fsck on cvmfs systems.
 
 ```puppet
-class{'cvmfs::fsck':
-   options => '-p',
-   onreboot => true
+class{'cvmfs':
+   cvmfs_fsck => true,
+   cvmfs_fsck_options  => '-p',
+   cvmfs_fsck_onreboot => true
 }
 ```
 
 In addition a cron will be created to purge quarentine corrupted files after 30 days.
 
 ### Fsck Options
-See [REFERENCE.md](REFERENCE.md)
+See [REFERENCE.md](REFERENCE.md) and the CVMFS documentation.
 
 ## License
 Apache II License for all files except automaster.aug which is copied from
