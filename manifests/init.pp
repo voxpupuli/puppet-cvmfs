@@ -88,6 +88,9 @@
 # @param cvmfs_repo_list Specify exactly the REPO_LIST in `defaults.local` overriding auto population.
 # @param cvmfs_alien_cache Use an alien cache
 # @param cvmfs_shared_cache Enable a shared cache
+# @param cvmfs_fsck Ensure the cvmfs::fsck class is included.
+# @param cvmfs_fsck_options Any extra options for cvmfs fsck
+# @param cvmfs_fsck_onreboot Should fsck be run after every reboot
 # Deprecated paramters below
 # @param cvmfs_yum Deprecated, use repo_base
 # @param cvmfs_yum_priority Deprecated, use repo_priority
@@ -144,6 +147,9 @@ class cvmfs (
   Optional[String] $cvmfs_alien_cache                                 = undef,
   Optional[Enum['yes','no']] $cvmfs_shared_cache                      = undef,
   Optional[String[1]] $cvmfs_repositories                             = undef,
+  Boolean $cvmfs_fsck                                                 = false,
+  Optional[String] $cvmfs_fsck_options                                = undef,
+  Boolean $cvmfs_fsck_onreboot                                        = false,
   # Deprecated Parameters
   Optional[Boolean] $cvmfs_yum_manage_repo                                = undef,
   Optional[Stdlib::Httpurl] $cvmfs_yum                                    = undef,
@@ -181,6 +187,10 @@ class cvmfs (
   contain 'cvmfs::config'
   contain 'cvmfs::service'
   Class['Cvmfs::Install'] -> Class['Cvmfs::Config'] ~> Class['Cvmfs::Service']
+
+  if $cvmfs_fsck {
+    include 'cvmfs::fsck'
+  }
 
   # Finally allow the individual repositories or domains to be loaded from hiera.
   $cvmfs_hash.each |$_n, $_v| {

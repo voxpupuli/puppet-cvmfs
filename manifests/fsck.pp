@@ -1,13 +1,16 @@
+# @api private
+#
 # @summary enable check_fsck as a cron or systemd timer
-# @param cvmfs_cache_base Root of cvmfs ache
+#
+# @param cvmfs_cache_base Root of cvmfs cache
 # @param options Any extra options
 # @param onreboot Should fsck be run after every reboot
 # @param usesystemd Use a systemd timer
-# #
+#
 class cvmfs::fsck (
   $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
-  $options = '',
-  $onreboot = false,
+  $options = $cvmfs::cvmfs_fsck_options,
+  $onreboot = $cvmfs::cvmfs_fsck_onreboot,
   Optional[Boolean] $usesystemd = undef,
 ) inherits cvmfs {
   if ($facts['os']['family'] == 'RedHat' and (versioncmp($facts['os']['release']['major'],'7') <= 0))
