@@ -78,23 +78,23 @@ describe 'cvmfs' do
           when 'RedHat'
             case facts[:os]['release']['major']
             when '7'
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/7/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/7/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/7/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/7/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/7/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/7/x86_64') }
             when '8'
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64') }
             else
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-testing/EL/9/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cern.ch/cvmrepo/yum/cvmfs-config/EL/9/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/9/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/9/x86_64') }
             end
             it do
               is_expected.to contain_yumrepo('cvmfs').with(
                 'enabled' => true,
                 'gpgcheck' => true,
-                'gpgkey' => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM',
+                'gpgkey' => 'https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM',
                 'priority' => 80
               )
             end
@@ -103,7 +103,7 @@ describe 'cvmfs' do
               is_expected.to contain_yumrepo('cvmfs-testing').with(
                 'enabled' => false,
                 'gpgcheck' => true,
-                'gpgkey' => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM'
+                'gpgkey' => 'https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM'
               )
             end
 
@@ -111,7 +111,7 @@ describe 'cvmfs' do
               is_expected.to contain_yumrepo('cvmfs-config').with(
                 'enabled' => false,
                 'gpgcheck' => true,
-                'gpgkey' => 'https://cvmrepo.web.cern.ch/yum/RPM-GPG-KEY-CernVM'
+                'gpgkey' => 'https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM'
               )
             end
           else
@@ -120,7 +120,7 @@ describe 'cvmfs' do
               it {
                 is_expected.to contain_apt__source('cvmfs').with({
                                                                    'ensure' => 'present',
-                                                                   'location' => 'https://cvmrepo.web.cern.ch/cvmrepo/apt',
+                                                                   'location' => 'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
                                                                    'release' => 'focal-prod',
                                                                    'allow_unsigned' => false,
                                                                  })
@@ -129,7 +129,7 @@ describe 'cvmfs' do
               it {
                 is_expected.to contain_apt__source('cvmfs-testing').with({
                                                                            'ensure' => 'absent',
-                                                                           'location' => 'https://cvmrepo.web.cern.ch/cvmrepo/apt',
+                                                                           'location' => 'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
                                                                            'release' => 'focal-testing',
                                                                            'allow_unsigned' => false,
                                                                          })
