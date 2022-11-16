@@ -9,21 +9,21 @@
 #### Public Classes
 
 * [`cvmfs`](#cvmfs): Installs and Configures CvmFS
-* [`cvmfs::fsck`](#cvmfsfsck): enable check_fsck as a cron or systemd timer
 
 #### Private Classes
 
 * `cvmfs::apt`: Configure cvmfs apt repositories
 * `cvmfs::config`: Central configuration of CvmFS
+* `cvmfs::fsck`: enable check_fsck as a cron or systemd timer
 * `cvmfs::install`: Install cvmfs from a yum repository.
 * `cvmfs::service`: Manages the cvmfs services. Opionally this also manages the autofs services
 * `cvmfs::yum`: Configure cvmfs yum repositories
 
 ### Defined types
 
-* [`cvmfs::domain`](#cvmfsdomain): Configure a a domain of cvmfs repositories
-* [`cvmfs::id_map`](#cvmfsid_map): Create a map file uid or gid mappings
-* [`cvmfs::mount`](#cvmfsmount): Mount one cvmfs repository. Most parameters map as lower case
+* [`cvmfs::domain`](#cvmfs--domain): Configure a a domain of cvmfs repositories
+* [`cvmfs::id_map`](#cvmfs--id_map): Create a map file uid or gid mappings
+* [`cvmfs::mount`](#cvmfs--mount): Mount one cvmfs repository. Most parameters map as lower case
 versions of the raw cvmfs parameters.
 
 ## Classes
@@ -85,61 +85,64 @@ class{'cvmfs':
 
 The following parameters are available in the `cvmfs` class:
 
-* [`mount_method`](#mount_method)
-* [`manage_autofs_service`](#manage_autofs_service)
-* [`cvmfs_quota_limit`](#cvmfs_quota_limit)
-* [`cvmfs_quota_ratio`](#cvmfs_quota_ratio)
-* [`cvmfs_http_proxy`](#cvmfs_http_proxy)
-* [`cvmfs_cache_base`](#cvmfs_cache_base)
-* [`cvmfs_ipfamily_prefer`](#cvmfs_ipfamily_prefer)
-* [`cvmfs_dns_min_ttl`](#cvmfs_dns_min_ttl)
-* [`cvmfs_dns_max_ttl`](#cvmfs_dns_max_ttl)
-* [`cvmfs_claim_ownership`](#cvmfs_claim_ownership)
-* [`cvmfs_uid_map`](#cvmfs_uid_map)
-* [`cvmfs_gid_map`](#cvmfs_gid_map)
-* [`cvmfs_memcache_size`](#cvmfs_memcache_size)
-* [`cvmfs_mount_rw`](#cvmfs_mount_rw)
-* [`cvmfs_follow_redirects`](#cvmfs_follow_redirects)
-* [`cvmfs_timeout`](#cvmfs_timeout)
-* [`cvmfs_timeout_direct`](#cvmfs_timeout_direct)
-* [`cvmfs_nfiles`](#cvmfs_nfiles)
-* [`cvmfs_syslog_level`](#cvmfs_syslog_level)
-* [`cvmfs_tracefile`](#cvmfs_tracefile)
-* [`cvmfs_debuglog`](#cvmfs_debuglog)
-* [`cvmfs_max_ttl`](#cvmfs_max_ttl)
-* [`cvmfs_version`](#cvmfs_version)
-* [`repo_base`](#repo_base)
-* [`repo_includepkgs`](#repo_includepkgs)
-* [`repo_priority`](#repo_priority)
-* [`repo_proxy`](#repo_proxy)
-* [`repo_config_enabled`](#repo_config_enabled)
-* [`repo_testing_enabled`](#repo_testing_enabled)
-* [`repo_gpgcheck`](#repo_gpgcheck)
-* [`repo_gpgkey`](#repo_gpgkey)
-* [`repo_manage`](#repo_manage)
-* [`cvmfs_use_geoapi`](#cvmfs_use_geoapi)
-* [`cvmfs_repositories`](#cvmfs_repositories)
-* [`cvmfs_hash`](#cvmfs_hash)
-* [`cvmfs_env_variables`](#cvmfs_env_variables)
-* [`default_cvmfs_partsize`](#default_cvmfs_partsize)
-* [`cvmfs_domain_hash`](#cvmfs_domain_hash)
-* [`cvmfs_instrument_fuse`](#cvmfs_instrument_fuse)
-* [`cvmfs_repo_list`](#cvmfs_repo_list)
-* [`cvmfs_alien_cache`](#cvmfs_alien_cache)
-* [`cvmfs_shared_cache`](#cvmfs_shared_cache)
-* [`cvmfs_yum`](#cvmfs_yum)
-* [`cvmfs_yum_priority`](#cvmfs_yum_priority)
-* [`cvmfs_yum_proxy`](#cvmfs_yum_proxy)
-* [`cvmfs_yum_config`](#cvmfs_yum_config)
-* [`cvmfs_yum_config_enabled`](#cvmfs_yum_config_enabled)
-* [`cvmfs_yum_testing`](#cvmfs_yum_testing)
-* [`cvmfs_yum_testing_enabled`](#cvmfs_yum_testing_enabled)
-* [`cvmfs_yum_gpgcheck`](#cvmfs_yum_gpgcheck)
-* [`cvmfs_yum_gpgkey`](#cvmfs_yum_gpgkey)
-* [`cvmfs_yum_manage_repo`](#cvmfs_yum_manage_repo)
-* [`cvmfs_yum_includepkgs`](#cvmfs_yum_includepkgs)
+* [`mount_method`](#-cvmfs--mount_method)
+* [`manage_autofs_service`](#-cvmfs--manage_autofs_service)
+* [`cvmfs_quota_limit`](#-cvmfs--cvmfs_quota_limit)
+* [`cvmfs_quota_ratio`](#-cvmfs--cvmfs_quota_ratio)
+* [`cvmfs_http_proxy`](#-cvmfs--cvmfs_http_proxy)
+* [`cvmfs_cache_base`](#-cvmfs--cvmfs_cache_base)
+* [`cvmfs_ipfamily_prefer`](#-cvmfs--cvmfs_ipfamily_prefer)
+* [`cvmfs_dns_min_ttl`](#-cvmfs--cvmfs_dns_min_ttl)
+* [`cvmfs_dns_max_ttl`](#-cvmfs--cvmfs_dns_max_ttl)
+* [`cvmfs_claim_ownership`](#-cvmfs--cvmfs_claim_ownership)
+* [`cvmfs_uid_map`](#-cvmfs--cvmfs_uid_map)
+* [`cvmfs_gid_map`](#-cvmfs--cvmfs_gid_map)
+* [`cvmfs_memcache_size`](#-cvmfs--cvmfs_memcache_size)
+* [`cvmfs_mount_rw`](#-cvmfs--cvmfs_mount_rw)
+* [`cvmfs_follow_redirects`](#-cvmfs--cvmfs_follow_redirects)
+* [`cvmfs_timeout`](#-cvmfs--cvmfs_timeout)
+* [`cvmfs_timeout_direct`](#-cvmfs--cvmfs_timeout_direct)
+* [`cvmfs_nfiles`](#-cvmfs--cvmfs_nfiles)
+* [`cvmfs_syslog_level`](#-cvmfs--cvmfs_syslog_level)
+* [`cvmfs_tracefile`](#-cvmfs--cvmfs_tracefile)
+* [`cvmfs_debuglog`](#-cvmfs--cvmfs_debuglog)
+* [`cvmfs_max_ttl`](#-cvmfs--cvmfs_max_ttl)
+* [`cvmfs_version`](#-cvmfs--cvmfs_version)
+* [`repo_base`](#-cvmfs--repo_base)
+* [`repo_includepkgs`](#-cvmfs--repo_includepkgs)
+* [`repo_priority`](#-cvmfs--repo_priority)
+* [`repo_proxy`](#-cvmfs--repo_proxy)
+* [`repo_config_enabled`](#-cvmfs--repo_config_enabled)
+* [`repo_testing_enabled`](#-cvmfs--repo_testing_enabled)
+* [`repo_gpgcheck`](#-cvmfs--repo_gpgcheck)
+* [`repo_gpgkey`](#-cvmfs--repo_gpgkey)
+* [`repo_manage`](#-cvmfs--repo_manage)
+* [`cvmfs_use_geoapi`](#-cvmfs--cvmfs_use_geoapi)
+* [`cvmfs_repositories`](#-cvmfs--cvmfs_repositories)
+* [`cvmfs_hash`](#-cvmfs--cvmfs_hash)
+* [`cvmfs_env_variables`](#-cvmfs--cvmfs_env_variables)
+* [`default_cvmfs_partsize`](#-cvmfs--default_cvmfs_partsize)
+* [`cvmfs_domain_hash`](#-cvmfs--cvmfs_domain_hash)
+* [`cvmfs_instrument_fuse`](#-cvmfs--cvmfs_instrument_fuse)
+* [`cvmfs_repo_list`](#-cvmfs--cvmfs_repo_list)
+* [`cvmfs_alien_cache`](#-cvmfs--cvmfs_alien_cache)
+* [`cvmfs_shared_cache`](#-cvmfs--cvmfs_shared_cache)
+* [`cvmfs_fsck`](#-cvmfs--cvmfs_fsck)
+* [`cvmfs_fsck_options`](#-cvmfs--cvmfs_fsck_options)
+* [`cvmfs_fsck_onreboot`](#-cvmfs--cvmfs_fsck_onreboot)
+* [`cvmfs_yum`](#-cvmfs--cvmfs_yum)
+* [`cvmfs_yum_priority`](#-cvmfs--cvmfs_yum_priority)
+* [`cvmfs_yum_proxy`](#-cvmfs--cvmfs_yum_proxy)
+* [`cvmfs_yum_config`](#-cvmfs--cvmfs_yum_config)
+* [`cvmfs_yum_config_enabled`](#-cvmfs--cvmfs_yum_config_enabled)
+* [`cvmfs_yum_testing`](#-cvmfs--cvmfs_yum_testing)
+* [`cvmfs_yum_testing_enabled`](#-cvmfs--cvmfs_yum_testing_enabled)
+* [`cvmfs_yum_gpgcheck`](#-cvmfs--cvmfs_yum_gpgcheck)
+* [`cvmfs_yum_gpgkey`](#-cvmfs--cvmfs_yum_gpgkey)
+* [`cvmfs_yum_manage_repo`](#-cvmfs--cvmfs_yum_manage_repo)
+* [`cvmfs_yum_includepkgs`](#-cvmfs--cvmfs_yum_includepkgs)
 
-##### <a name="mount_method"></a>`mount_method`
+##### <a name="-cvmfs--mount_method"></a>`mount_method`
 
 Data type: `Enum['autofs','mount','none']`
 
@@ -149,15 +152,15 @@ skips all mounting.  Note that migrating between for instance *autofs* and then 
 
 Default value: `'autofs'`
 
-##### <a name="manage_autofs_service"></a>`manage_autofs_service`
+##### <a name="-cvmfs--manage_autofs_service"></a>`manage_autofs_service`
 
 Data type: `Boolean`
 
 should the autofs service be maintained.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="cvmfs_quota_limit"></a>`cvmfs_quota_limit`
+##### <a name="-cvmfs--cvmfs_quota_limit"></a>`cvmfs_quota_limit`
 
 Data type: `Variant[Enum['auto'],Integer]`
 
@@ -165,7 +168,7 @@ The cvmfs quota size in megabytes.
 
 Default value: `1000`
 
-##### <a name="cvmfs_quota_ratio"></a>`cvmfs_quota_ratio`
+##### <a name="-cvmfs--cvmfs_quota_ratio"></a>`cvmfs_quota_ratio`
 
 Data type: `Float`
 
@@ -175,13 +178,13 @@ pre-allocated a partition to the cvmfs cache or else it makes little sense.
 
 Default value: `0.85`
 
-##### <a name="cvmfs_http_proxy"></a>`cvmfs_http_proxy`
+##### <a name="-cvmfs--cvmfs_http_proxy"></a>`cvmfs_http_proxy`
 
 Data type: `Variant[Undef,String]`
 
 List of squid servers, e.g `http://squid1.example.org;http;//squid2.example.org`
 
-##### <a name="cvmfs_cache_base"></a>`cvmfs_cache_base`
+##### <a name="-cvmfs--cvmfs_cache_base"></a>`cvmfs_cache_base`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -189,135 +192,135 @@ Location of the CVMFS cache base
 
 Default value: `'/var/lib/cvmfs'`
 
-##### <a name="cvmfs_ipfamily_prefer"></a>`cvmfs_ipfamily_prefer`
+##### <a name="-cvmfs--cvmfs_ipfamily_prefer"></a>`cvmfs_ipfamily_prefer`
 
 Data type: `Optional[Variant[Integer[4,4],Integer[6,6]]]`
 
 Preferred IP protocol for dual-stack proxies. If not set, cvmfs default will be used.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_dns_min_ttl"></a>`cvmfs_dns_min_ttl`
+##### <a name="-cvmfs--cvmfs_dns_min_ttl"></a>`cvmfs_dns_min_ttl`
 
 Data type: `Optional[Integer]`
 
 Minimum ttl of DNS lookups in seconds.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_dns_max_ttl"></a>`cvmfs_dns_max_ttl`
+##### <a name="-cvmfs--cvmfs_dns_max_ttl"></a>`cvmfs_dns_max_ttl`
 
 Data type: `Optional[Integer]`
 
 Maximum ttl of DNS lookups in seconds.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_claim_ownership"></a>`cvmfs_claim_ownership`
+##### <a name="-cvmfs--cvmfs_claim_ownership"></a>`cvmfs_claim_ownership`
 
 Data type: `Optional[Enum['yes','no']]`
 
 Whether the client claims ownership of files or not.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_uid_map"></a>`cvmfs_uid_map`
+##### <a name="-cvmfs--cvmfs_uid_map"></a>`cvmfs_uid_map`
 
 Data type: `Optional[Hash[Variant[Integer,String], Integer, 1]]`
 
 Hash of UID pairs to map UIDs from catalogue to on the client.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_gid_map"></a>`cvmfs_gid_map`
+##### <a name="-cvmfs--cvmfs_gid_map"></a>`cvmfs_gid_map`
 
 Data type: `Optional[Hash[Variant[Integer,String], Integer, 1]]`
 
 Hash of GID pairs to map GIDs from catalogue to on the client.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_memcache_size"></a>`cvmfs_memcache_size`
+##### <a name="-cvmfs--cvmfs_memcache_size"></a>`cvmfs_memcache_size`
 
 Data type: `Optional[Integer]`
 
 Size of the CernVM-FS meta-data memory cache in Megabyte.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_mount_rw"></a>`cvmfs_mount_rw`
+##### <a name="-cvmfs--cvmfs_mount_rw"></a>`cvmfs_mount_rw`
 
 Data type: `Optional[Enum['yes','no']]`
 
 Mount option to mount as read-only or read/write.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_follow_redirects"></a>`cvmfs_follow_redirects`
+##### <a name="-cvmfs--cvmfs_follow_redirects"></a>`cvmfs_follow_redirects`
 
 Data type: `Optional[Enum['yes','no']]`
 
 Sets CVMFS_FOLLOW_REDIRECTS to its value
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_timeout"></a>`cvmfs_timeout`
+##### <a name="-cvmfs--cvmfs_timeout"></a>`cvmfs_timeout`
 
 Data type: `Optional[Integer]`
 
 cvmfs timeout setting.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_timeout_direct"></a>`cvmfs_timeout_direct`
+##### <a name="-cvmfs--cvmfs_timeout_direct"></a>`cvmfs_timeout_direct`
 
 Data type: `Optional[Integer]`
 
 cvmfs timeout to direct connections.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_nfiles"></a>`cvmfs_nfiles`
+##### <a name="-cvmfs--cvmfs_nfiles"></a>`cvmfs_nfiles`
 
 Data type: `Optional[Integer]`
 
 Number of open files, system setting.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_syslog_level"></a>`cvmfs_syslog_level`
+##### <a name="-cvmfs--cvmfs_syslog_level"></a>`cvmfs_syslog_level`
 
 Data type: `Optional[Integer[1,2]]`
 
 Level to syslog at.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_tracefile"></a>`cvmfs_tracefile`
+##### <a name="-cvmfs--cvmfs_tracefile"></a>`cvmfs_tracefile`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Create a tracefile at this location.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_debuglog"></a>`cvmfs_debuglog`
+##### <a name="-cvmfs--cvmfs_debuglog"></a>`cvmfs_debuglog`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Create a debug log file at this location.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_max_ttl"></a>`cvmfs_max_ttl`
+##### <a name="-cvmfs--cvmfs_max_ttl"></a>`cvmfs_max_ttl`
 
 Data type: `Optional[Integer]`
 
 Max ttl.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_version"></a>`cvmfs_version`
+##### <a name="-cvmfs--cvmfs_version"></a>`cvmfs_version`
 
 Data type: `String[1]`
 
@@ -325,19 +328,19 @@ Version of cvmfs to install.
 
 Default value: `'present'`
 
-##### <a name="repo_base"></a>`repo_base`
+##### <a name="-cvmfs--repo_base"></a>`repo_base`
 
 Data type: `Stdlib::Httpurl`
 
 URL containting stable, testing and config apt or yum repositories. Default in hiera data.
 
-##### <a name="repo_includepkgs"></a>`repo_includepkgs`
+##### <a name="-cvmfs--repo_includepkgs"></a>`repo_includepkgs`
 
 Data type: `Optional[Variant[Enum['absent'], Array[String[1]]]]`
 
 Specify an includepkgs to the yum repos to ignore other packages.
 
-##### <a name="repo_priority"></a>`repo_priority`
+##### <a name="-cvmfs--repo_priority"></a>`repo_priority`
 
 Data type: `Integer`
 
@@ -345,61 +348,61 @@ Yum priority of repositories
 
 Default value: `80`
 
-##### <a name="repo_proxy"></a>`repo_proxy`
+##### <a name="-cvmfs--repo_proxy"></a>`repo_proxy`
 
 Data type: `Optional[Stdlib::Httpurl]`
 
 http proxy for cvmfs yum package repository
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="repo_config_enabled"></a>`repo_config_enabled`
+##### <a name="-cvmfs--repo_config_enabled"></a>`repo_config_enabled`
 
 Data type: `Boolean`
 
 Should the config yum repository be enabled
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="repo_testing_enabled"></a>`repo_testing_enabled`
+##### <a name="-cvmfs--repo_testing_enabled"></a>`repo_testing_enabled`
 
 Data type: `Boolean`
 
 Should the testing repository be enabled.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="repo_gpgcheck"></a>`repo_gpgcheck`
+##### <a name="-cvmfs--repo_gpgcheck"></a>`repo_gpgcheck`
 
 Data type: `Boolean`
 
 set to false to disable GPG checking
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="repo_gpgkey"></a>`repo_gpgkey`
+##### <a name="-cvmfs--repo_gpgkey"></a>`repo_gpgkey`
 
 Data type: `Stdlib::Httpurl`
 
 Set a custom GPG key for yum repos. Default in hiera data.
 
-##### <a name="repo_manage"></a>`repo_manage`
+##### <a name="-cvmfs--repo_manage"></a>`repo_manage`
 
 Data type: `Boolean`
 
 Set to false to disable yum or apt repositories management.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="cvmfs_use_geoapi"></a>`cvmfs_use_geoapi`
+##### <a name="-cvmfs--cvmfs_use_geoapi"></a>`cvmfs_use_geoapi`
 
 Data type: `Optional[Enum['yes','no']]`
 
 Enable geoapi to find suitable proxies.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_repositories"></a>`cvmfs_repositories`
+##### <a name="-cvmfs--cvmfs_repositories"></a>`cvmfs_repositories`
 
 Data type: `Optional[String[1]]`
 
@@ -408,9 +411,9 @@ automatically from what is explicitly mounted with `cvmfs::mount`. If this is
 specified then`CVMFS_REPOSITORIES` list in `default.local` will be exactly managed with this variable.
 e.g `cvmfs-config.cern.ch,atlas.cern.ch`
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_hash"></a>`cvmfs_hash`
+##### <a name="-cvmfs--cvmfs_hash"></a>`cvmfs_hash`
 
 Data type: `Hash`
 
@@ -418,7 +421,7 @@ Rather than using cvmfs::mount defined type a hash of mounts can be sepecfied.
 
 Default value: `{}`
 
-##### <a name="cvmfs_env_variables"></a>`cvmfs_env_variables`
+##### <a name="-cvmfs--cvmfs_env_variables"></a>`cvmfs_env_variables`
 
 Data type: `Hash`
 
@@ -427,7 +430,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### <a name="default_cvmfs_partsize"></a>`default_cvmfs_partsize`
+##### <a name="-cvmfs--default_cvmfs_partsize"></a>`default_cvmfs_partsize`
 
 Data type: `Integer`
 
@@ -435,7 +438,7 @@ Data type: `Integer`
 
 Default value: `10000`
 
-##### <a name="cvmfs_domain_hash"></a>`cvmfs_domain_hash`
+##### <a name="-cvmfs--cvmfs_domain_hash"></a>`cvmfs_domain_hash`
 
 Data type: `Hash`
 
@@ -443,174 +446,153 @@ Specify of a hash `cvmfs::domain` types.
 
 Default value: `{}`
 
-##### <a name="cvmfs_instrument_fuse"></a>`cvmfs_instrument_fuse`
+##### <a name="-cvmfs--cvmfs_instrument_fuse"></a>`cvmfs_instrument_fuse`
 
 Data type: `Boolean`
 
 Instrument Fuse
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="cvmfs_repo_list"></a>`cvmfs_repo_list`
+##### <a name="-cvmfs--cvmfs_repo_list"></a>`cvmfs_repo_list`
 
 Data type: `Boolean`
 
 Specify exactly the REPO_LIST in `defaults.local` overriding auto population.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="cvmfs_alien_cache"></a>`cvmfs_alien_cache`
+##### <a name="-cvmfs--cvmfs_alien_cache"></a>`cvmfs_alien_cache`
 
 Data type: `Optional[String]`
 
 Use an alien cache
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_shared_cache"></a>`cvmfs_shared_cache`
+##### <a name="-cvmfs--cvmfs_shared_cache"></a>`cvmfs_shared_cache`
 
 Data type: `Optional[Enum['yes','no']]`
 
 Enable a shared cache
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum"></a>`cvmfs_yum`
+##### <a name="-cvmfs--cvmfs_fsck"></a>`cvmfs_fsck`
+
+Data type: `Boolean`
+
+Ensure the cvmfs::fsck class is included.
+
+Default value: `false`
+
+##### <a name="-cvmfs--cvmfs_fsck_options"></a>`cvmfs_fsck_options`
+
+Data type: `Optional[String]`
+
+Any extra options for cvmfs fsck
+
+Default value: `undef`
+
+##### <a name="-cvmfs--cvmfs_fsck_onreboot"></a>`cvmfs_fsck_onreboot`
+
+Data type: `Boolean`
+
+Should fsck be run after every reboot
+
+Default value: `false`
+
+##### <a name="-cvmfs--cvmfs_yum"></a>`cvmfs_yum`
 
 Data type: `Optional[Stdlib::Httpurl]`
 
 Deprecated, use repo_base
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum_priority"></a>`cvmfs_yum_priority`
+##### <a name="-cvmfs--cvmfs_yum_priority"></a>`cvmfs_yum_priority`
 
 Data type: `Optional[Integer]`
 
 Deprecated, use repo_priority
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum_proxy"></a>`cvmfs_yum_proxy`
+##### <a name="-cvmfs--cvmfs_yum_proxy"></a>`cvmfs_yum_proxy`
 
 Data type: `Optional[Stdlib::Httpurl]`
 
 Deprecated, user repo_proxy
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum_config"></a>`cvmfs_yum_config`
+##### <a name="-cvmfs--cvmfs_yum_config"></a>`cvmfs_yum_config`
 
 Data type: `Optional[Stdlib::Httpurl]`
 
 Deprecated, use repo_base
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum_config_enabled"></a>`cvmfs_yum_config_enabled`
+##### <a name="-cvmfs--cvmfs_yum_config_enabled"></a>`cvmfs_yum_config_enabled`
 
 Data type: `Optional[Integer[0,1]]`
 
 Deprecated, user repo_config_enabled
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum_testing"></a>`cvmfs_yum_testing`
+##### <a name="-cvmfs--cvmfs_yum_testing"></a>`cvmfs_yum_testing`
 
 Data type: `Optional[Stdlib::Httpurl]`
 
 Deprecated, use repo_base
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum_testing_enabled"></a>`cvmfs_yum_testing_enabled`
+##### <a name="-cvmfs--cvmfs_yum_testing_enabled"></a>`cvmfs_yum_testing_enabled`
 
 Data type: `Optional[Integer[0,1]]`
 
 Deprecated, use repo_testing_enabled
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum_gpgcheck"></a>`cvmfs_yum_gpgcheck`
+##### <a name="-cvmfs--cvmfs_yum_gpgcheck"></a>`cvmfs_yum_gpgcheck`
 
 Data type: `Optional[Integer[0,1]]`
 
 Deprecated, use repo_gpgcheck
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum_gpgkey"></a>`cvmfs_yum_gpgkey`
+##### <a name="-cvmfs--cvmfs_yum_gpgkey"></a>`cvmfs_yum_gpgkey`
 
 Data type: `Optional[Variant[Stdlib::Filesource,Stdlib::Httpurl]]`
 
 Deprecated, use repo_gpgkey
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum_manage_repo"></a>`cvmfs_yum_manage_repo`
+##### <a name="-cvmfs--cvmfs_yum_manage_repo"></a>`cvmfs_yum_manage_repo`
 
 Data type: `Optional[Boolean]`
 
 Deprecated, use repo_manage
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_yum_includepkgs"></a>`cvmfs_yum_includepkgs`
+##### <a name="-cvmfs--cvmfs_yum_includepkgs"></a>`cvmfs_yum_includepkgs`
 
 Data type: `Optional[Variant[Enum['absent'], Array[String]]]`
 
 Deprecated, use repo_includepkgs
 
-Default value: ``undef``
-
-### <a name="cvmfsfsck"></a>`cvmfs::fsck`
-
-#
-
-#### Parameters
-
-The following parameters are available in the `cvmfs::fsck` class:
-
-* [`cvmfs_cache_base`](#cvmfs_cache_base)
-* [`options`](#options)
-* [`onreboot`](#onreboot)
-* [`usesystemd`](#usesystemd)
-
-##### <a name="cvmfs_cache_base"></a>`cvmfs_cache_base`
-
-Data type: `Any`
-
-Root of cvmfs ache
-
-Default value: `$cvmfs::cvmfs_cache_base`
-
-##### <a name="options"></a>`options`
-
-Data type: `Any`
-
-Any extra options
-
-Default value: `''`
-
-##### <a name="onreboot"></a>`onreboot`
-
-Data type: `Any`
-
-Should fsck be run after every reboot
-
-Default value: ``false``
-
-##### <a name="usesystemd"></a>`usesystemd`
-
-Data type: `Optional[Boolean]`
-
-Use a systemd timer
-
-Default value: ``undef``
+Default value: `undef`
 
 ## Defined types
 
-### <a name="cvmfsdomain"></a>`cvmfs::domain`
+### <a name="cvmfs--domain"></a>`cvmfs::domain`
 
 Configure a a domain of cvmfs repositories
 
@@ -628,26 +610,26 @@ cvmfs::domain{'example.org':
 
 The following parameters are available in the `cvmfs::domain` defined type:
 
-* [`domain`](#domain)
-* [`cvmfs_quota_limit`](#cvmfs_quota_limit)
-* [`cvmfs_server_url`](#cvmfs_server_url)
-* [`cvmfs_http_proxy`](#cvmfs_http_proxy)
-* [`cvmfs_timeout`](#cvmfs_timeout)
-* [`cvmfs_timeout_direct`](#cvmfs_timeout_direct)
-* [`cvmfs_nfiles`](#cvmfs_nfiles)
-* [`cvmfs_max_ttl`](#cvmfs_max_ttl)
-* [`cvmfs_env_variables`](#cvmfs_env_variables)
-* [`cvmfs_use_geoapi`](#cvmfs_use_geoapi)
-* [`cvmfs_follow_redirects`](#cvmfs_follow_redirects)
-* [`cvmfs_external_fallback_proxy`](#cvmfs_external_fallback_proxy)
-* [`cvmfs_external_http_proxy`](#cvmfs_external_http_proxy)
-* [`cvmfs_external_timeout`](#cvmfs_external_timeout)
-* [`cvmfs_external_timeout_direct`](#cvmfs_external_timeout_direct)
-* [`cvmfs_external_url`](#cvmfs_external_url)
-* [`cvmfs_public_key`](#cvmfs_public_key)
-* [`cvmfs_keys_dir`](#cvmfs_keys_dir)
+* [`domain`](#-cvmfs--domain--domain)
+* [`cvmfs_quota_limit`](#-cvmfs--domain--cvmfs_quota_limit)
+* [`cvmfs_server_url`](#-cvmfs--domain--cvmfs_server_url)
+* [`cvmfs_http_proxy`](#-cvmfs--domain--cvmfs_http_proxy)
+* [`cvmfs_timeout`](#-cvmfs--domain--cvmfs_timeout)
+* [`cvmfs_timeout_direct`](#-cvmfs--domain--cvmfs_timeout_direct)
+* [`cvmfs_nfiles`](#-cvmfs--domain--cvmfs_nfiles)
+* [`cvmfs_max_ttl`](#-cvmfs--domain--cvmfs_max_ttl)
+* [`cvmfs_env_variables`](#-cvmfs--domain--cvmfs_env_variables)
+* [`cvmfs_use_geoapi`](#-cvmfs--domain--cvmfs_use_geoapi)
+* [`cvmfs_follow_redirects`](#-cvmfs--domain--cvmfs_follow_redirects)
+* [`cvmfs_external_fallback_proxy`](#-cvmfs--domain--cvmfs_external_fallback_proxy)
+* [`cvmfs_external_http_proxy`](#-cvmfs--domain--cvmfs_external_http_proxy)
+* [`cvmfs_external_timeout`](#-cvmfs--domain--cvmfs_external_timeout)
+* [`cvmfs_external_timeout_direct`](#-cvmfs--domain--cvmfs_external_timeout_direct)
+* [`cvmfs_external_url`](#-cvmfs--domain--cvmfs_external_url)
+* [`cvmfs_public_key`](#-cvmfs--domain--cvmfs_public_key)
+* [`cvmfs_keys_dir`](#-cvmfs--domain--cvmfs_keys_dir)
 
-##### <a name="domain"></a>`domain`
+##### <a name="-cvmfs--domain--domain"></a>`domain`
 
 Data type: `Stdlib::Fqdn`
 
@@ -655,143 +637,143 @@ The domain of CvmFS repositories to mount
 
 Default value: `$name`
 
-##### <a name="cvmfs_quota_limit"></a>`cvmfs_quota_limit`
+##### <a name="-cvmfs--domain--cvmfs_quota_limit"></a>`cvmfs_quota_limit`
 
 Data type: `Optional[Integer]`
 
 Per mount quota limit, not relavent to shared cache. Sets cvmfs_quota_limit
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_server_url"></a>`cvmfs_server_url`
+##### <a name="-cvmfs--domain--cvmfs_server_url"></a>`cvmfs_server_url`
 
 Data type: `Optional[String[1]]`
 
 Stratum 1 list, typically `;` delimited. Sets CVMFS_SERVER_URL parameter.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_http_proxy"></a>`cvmfs_http_proxy`
+##### <a name="-cvmfs--domain--cvmfs_http_proxy"></a>`cvmfs_http_proxy`
 
 Data type: `Optional[String[1]]`
 
 List of http proxies to use. Sets CVMFS_PROXY_LIST parameter.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_timeout"></a>`cvmfs_timeout`
+##### <a name="-cvmfs--domain--cvmfs_timeout"></a>`cvmfs_timeout`
 
 Data type: `Optional[Integer]`
 
 Sets CVMFS_HTTP_TIMEOUT parameter
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_timeout_direct"></a>`cvmfs_timeout_direct`
+##### <a name="-cvmfs--domain--cvmfs_timeout_direct"></a>`cvmfs_timeout_direct`
 
 Data type: `Optional[Integer]`
 
 Sets CVMFS_HTTP_TIMEOUT_DIRECT
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_nfiles"></a>`cvmfs_nfiles`
+##### <a name="-cvmfs--domain--cvmfs_nfiles"></a>`cvmfs_nfiles`
 
 Data type: `Optional[Integer]`
 
 Number of open files permitted on the OS. Sets CVMFS_NFILES
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_max_ttl"></a>`cvmfs_max_ttl`
+##### <a name="-cvmfs--domain--cvmfs_max_ttl"></a>`cvmfs_max_ttl`
 
 Data type: `Optional[Integer]`
 
 Maximum effective TTL in seconds for DNS queries of proxy server names. Sets CVMFS_MAX_TTL
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_env_variables"></a>`cvmfs_env_variables`
+##### <a name="-cvmfs--domain--cvmfs_env_variables"></a>`cvmfs_env_variables`
 
 Data type: `Optional[Hash]`
 
 Sets per repo environments variables for magic links.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_use_geoapi"></a>`cvmfs_use_geoapi`
+##### <a name="-cvmfs--domain--cvmfs_use_geoapi"></a>`cvmfs_use_geoapi`
 
 Data type: `Optional[Stdlib::Yes_no]`
 
 Set CVMFS_MAX_GEOAPI
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_follow_redirects"></a>`cvmfs_follow_redirects`
+##### <a name="-cvmfs--domain--cvmfs_follow_redirects"></a>`cvmfs_follow_redirects`
 
 Data type: `Optional[Stdlib::Yes_no]`
 
 Sets CVMFS_FOLLOW_REDIRECTS.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_external_fallback_proxy"></a>`cvmfs_external_fallback_proxy`
+##### <a name="-cvmfs--domain--cvmfs_external_fallback_proxy"></a>`cvmfs_external_fallback_proxy`
 
 Data type: `Optional[String]`
 
 Sets CVMFS_EXTERNAL_FALLBACK_PROXY
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_external_http_proxy"></a>`cvmfs_external_http_proxy`
+##### <a name="-cvmfs--domain--cvmfs_external_http_proxy"></a>`cvmfs_external_http_proxy`
 
 Data type: `Optional[String]`
 
 Sets CVMFS_EXTERNAL_HTTP_PROXY
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_external_timeout"></a>`cvmfs_external_timeout`
+##### <a name="-cvmfs--domain--cvmfs_external_timeout"></a>`cvmfs_external_timeout`
 
 Data type: `Optional[Integer]`
 
 Sets CVMFS_EXTERNAL_TIMEOUT
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_external_timeout_direct"></a>`cvmfs_external_timeout_direct`
+##### <a name="-cvmfs--domain--cvmfs_external_timeout_direct"></a>`cvmfs_external_timeout_direct`
 
 Data type: `Optional[Integer]`
 
 Sets CVMFS_EXTERNAL_TIMEOUT_DIRECT
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_external_url"></a>`cvmfs_external_url`
+##### <a name="-cvmfs--domain--cvmfs_external_url"></a>`cvmfs_external_url`
 
 Data type: `Optional[String]`
 
 Sets CVMFS_EXTERNAL_URL
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_public_key"></a>`cvmfs_public_key`
+##### <a name="-cvmfs--domain--cvmfs_public_key"></a>`cvmfs_public_key`
 
 Data type: `Optional[String[1]]`
 
 Specify repository signing key
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_keys_dir"></a>`cvmfs_keys_dir`
+##### <a name="-cvmfs--domain--cvmfs_keys_dir"></a>`cvmfs_keys_dir`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Specify repository directory with signing keys
 
-Default value: ``undef``
+Default value: `undef`
 
-### <a name="cvmfsid_map"></a>`cvmfs::id_map`
+### <a name="cvmfs--id_map"></a>`cvmfs::id_map`
 
 Create a map file uid or gid mappings
 
@@ -799,16 +781,16 @@ Create a map file uid or gid mappings
 
 The following parameters are available in the `cvmfs::id_map` defined type:
 
-* [`map`](#map)
-* [`location`](#location)
+* [`map`](#-cvmfs--id_map--map)
+* [`location`](#-cvmfs--id_map--location)
 
-##### <a name="map"></a>`map`
+##### <a name="-cvmfs--id_map--map"></a>`map`
 
 Data type: `Hash[Variant[Integer,String], Integer, 1]`
 
 Hash of `{from => to}` pairs
 
-##### <a name="location"></a>`location`
+##### <a name="-cvmfs--id_map--location"></a>`location`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -816,7 +798,7 @@ Path to write map to.
 
 Default value: `$title`
 
-### <a name="cvmfsmount"></a>`cvmfs::mount`
+### <a name="cvmfs--mount"></a>`cvmfs::mount`
 
 Mount one cvmfs repository. Most parameters map as lower case
 versions of the raw cvmfs parameters.
@@ -850,35 +832,35 @@ cvmfs::mount{'foobar.example.org':
 
 The following parameters are available in the `cvmfs::mount` defined type:
 
-* [`repo`](#repo)
-* [`cvmfs_quota_limit`](#cvmfs_quota_limit)
-* [`cvmfs_server_url`](#cvmfs_server_url)
-* [`cvmfs_http_proxy`](#cvmfs_http_proxy)
-* [`cvmfs_timeout`](#cvmfs_timeout)
-* [`cvmfs_timeout_direct`](#cvmfs_timeout_direct)
-* [`cvmfs_nfiles`](#cvmfs_nfiles)
-* [`cvmfs_public_key`](#cvmfs_public_key)
-* [`cvmfs_keys_dir`](#cvmfs_keys_dir)
-* [`cvmfs_max_ttl`](#cvmfs_max_ttl)
-* [`cvmfs_env_variables`](#cvmfs_env_variables)
-* [`cvmfs_use_geoapi`](#cvmfs_use_geoapi)
-* [`mount_method`](#mount_method)
-* [`cvmfs_repo_list`](#cvmfs_repo_list)
-* [`cvmfs_mount_rw`](#cvmfs_mount_rw)
-* [`cvmfs_memcache_size`](#cvmfs_memcache_size)
-* [`cvmfs_claim_ownership`](#cvmfs_claim_ownership)
-* [`cvmfs_uid_map`](#cvmfs_uid_map)
-* [`cvmfs_gid_map`](#cvmfs_gid_map)
-* [`cvmfs_follow_redirects`](#cvmfs_follow_redirects)
-* [`cvmfs_external_fallback_proxy`](#cvmfs_external_fallback_proxy)
-* [`cvmfs_external_http_proxy`](#cvmfs_external_http_proxy)
-* [`cvmfs_external_timeout`](#cvmfs_external_timeout)
-* [`cvmfs_external_timeout_direct`](#cvmfs_external_timeout_direct)
-* [`cvmfs_external_url`](#cvmfs_external_url)
-* [`cvmfs_repository_tag`](#cvmfs_repository_tag)
-* [`mount_options`](#mount_options)
+* [`repo`](#-cvmfs--mount--repo)
+* [`cvmfs_quota_limit`](#-cvmfs--mount--cvmfs_quota_limit)
+* [`cvmfs_server_url`](#-cvmfs--mount--cvmfs_server_url)
+* [`cvmfs_http_proxy`](#-cvmfs--mount--cvmfs_http_proxy)
+* [`cvmfs_timeout`](#-cvmfs--mount--cvmfs_timeout)
+* [`cvmfs_timeout_direct`](#-cvmfs--mount--cvmfs_timeout_direct)
+* [`cvmfs_nfiles`](#-cvmfs--mount--cvmfs_nfiles)
+* [`cvmfs_public_key`](#-cvmfs--mount--cvmfs_public_key)
+* [`cvmfs_keys_dir`](#-cvmfs--mount--cvmfs_keys_dir)
+* [`cvmfs_max_ttl`](#-cvmfs--mount--cvmfs_max_ttl)
+* [`cvmfs_env_variables`](#-cvmfs--mount--cvmfs_env_variables)
+* [`cvmfs_use_geoapi`](#-cvmfs--mount--cvmfs_use_geoapi)
+* [`mount_method`](#-cvmfs--mount--mount_method)
+* [`cvmfs_repo_list`](#-cvmfs--mount--cvmfs_repo_list)
+* [`cvmfs_mount_rw`](#-cvmfs--mount--cvmfs_mount_rw)
+* [`cvmfs_memcache_size`](#-cvmfs--mount--cvmfs_memcache_size)
+* [`cvmfs_claim_ownership`](#-cvmfs--mount--cvmfs_claim_ownership)
+* [`cvmfs_uid_map`](#-cvmfs--mount--cvmfs_uid_map)
+* [`cvmfs_gid_map`](#-cvmfs--mount--cvmfs_gid_map)
+* [`cvmfs_follow_redirects`](#-cvmfs--mount--cvmfs_follow_redirects)
+* [`cvmfs_external_fallback_proxy`](#-cvmfs--mount--cvmfs_external_fallback_proxy)
+* [`cvmfs_external_http_proxy`](#-cvmfs--mount--cvmfs_external_http_proxy)
+* [`cvmfs_external_timeout`](#-cvmfs--mount--cvmfs_external_timeout)
+* [`cvmfs_external_timeout_direct`](#-cvmfs--mount--cvmfs_external_timeout_direct)
+* [`cvmfs_external_url`](#-cvmfs--mount--cvmfs_external_url)
+* [`cvmfs_repository_tag`](#-cvmfs--mount--cvmfs_repository_tag)
+* [`mount_options`](#-cvmfs--mount--mount_options)
 
-##### <a name="repo"></a>`repo`
+##### <a name="-cvmfs--mount--repo"></a>`repo`
 
 Data type: `Stdlib::Fqdn`
 
@@ -886,95 +868,95 @@ The fully qualified repository name to mount
 
 Default value: `$name`
 
-##### <a name="cvmfs_quota_limit"></a>`cvmfs_quota_limit`
+##### <a name="-cvmfs--mount--cvmfs_quota_limit"></a>`cvmfs_quota_limit`
 
 Data type: `Optional[Integer]`
 
 Per mount quota limit, not relavent to shared cache. Sets cvmfs_quota_limit
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_server_url"></a>`cvmfs_server_url`
+##### <a name="-cvmfs--mount--cvmfs_server_url"></a>`cvmfs_server_url`
 
 Data type: `Optional[String[1]]`
 
 Stratum 1 list, typically `;` delimited. Sets CVMFS_SERVER_URL parameter.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_http_proxy"></a>`cvmfs_http_proxy`
+##### <a name="-cvmfs--mount--cvmfs_http_proxy"></a>`cvmfs_http_proxy`
 
 Data type: `Optional[String[1]]`
 
 List of http proxies to use. Sets CVMFS_PROXY_LIST parameter.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_timeout"></a>`cvmfs_timeout`
+##### <a name="-cvmfs--mount--cvmfs_timeout"></a>`cvmfs_timeout`
 
 Data type: `Optional[Integer]`
 
 Sets CVMFS_HTTP_TIMEOUT parameter
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_timeout_direct"></a>`cvmfs_timeout_direct`
+##### <a name="-cvmfs--mount--cvmfs_timeout_direct"></a>`cvmfs_timeout_direct`
 
 Data type: `Optional[Integer]`
 
 Sets CVMFS_HTTP_TIMEOUT_DIRECT
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_nfiles"></a>`cvmfs_nfiles`
+##### <a name="-cvmfs--mount--cvmfs_nfiles"></a>`cvmfs_nfiles`
 
 Data type: `Optional[Integer]`
 
 Number of open files permitted on the OS. Sets CVMFS_NFILES
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_public_key"></a>`cvmfs_public_key`
+##### <a name="-cvmfs--mount--cvmfs_public_key"></a>`cvmfs_public_key`
 
 Data type: `Optional[String[1]]`
 
 Public key of repository, sets CVMFS_PUBLIC_KEYS
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_keys_dir"></a>`cvmfs_keys_dir`
+##### <a name="-cvmfs--mount--cvmfs_keys_dir"></a>`cvmfs_keys_dir`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Directory with public keys for repository, sets CVMFS_KEYS_DIR
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_max_ttl"></a>`cvmfs_max_ttl`
+##### <a name="-cvmfs--mount--cvmfs_max_ttl"></a>`cvmfs_max_ttl`
 
 Data type: `Optional[Integer]`
 
 Maximum effective TTL in seconds for DNS queries of proxy server names. Sets CVMFS_MAX_TTL
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_env_variables"></a>`cvmfs_env_variables`
+##### <a name="-cvmfs--mount--cvmfs_env_variables"></a>`cvmfs_env_variables`
 
 Data type: `Optional[Hash]`
 
 Sets per repo environments variables for magic links.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_use_geoapi"></a>`cvmfs_use_geoapi`
+##### <a name="-cvmfs--mount--cvmfs_use_geoapi"></a>`cvmfs_use_geoapi`
 
 Data type: `Optional[Stdlib::Yes_no]`
 
 Set CVMFS_MAX_GEOAPI
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="mount_method"></a>`mount_method`
+##### <a name="-cvmfs--mount--mount_method"></a>`mount_method`
 
 Data type: `Enum['autofs','mount','none']`
 
@@ -982,111 +964,111 @@ Should the mount attempt be made with autofs or tranditional fstab mount. Do no 
 
 Default value: `$cvmfs::mount_method`
 
-##### <a name="cvmfs_repo_list"></a>`cvmfs_repo_list`
+##### <a name="-cvmfs--mount--cvmfs_repo_list"></a>`cvmfs_repo_list`
 
 Data type: `Boolean`
 
 If true the repository will added to the list of repositories maintained in `/etc/cvmfs/default.local`
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="cvmfs_mount_rw"></a>`cvmfs_mount_rw`
+##### <a name="-cvmfs--mount--cvmfs_mount_rw"></a>`cvmfs_mount_rw`
 
 Data type: `Optional[Stdlib::Yes_no]`
 
 sets CVMFS_MOUNT_RW
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_memcache_size"></a>`cvmfs_memcache_size`
+##### <a name="-cvmfs--mount--cvmfs_memcache_size"></a>`cvmfs_memcache_size`
 
 Data type: `Optional[Integer]`
 
 Sets CVMFS_MEMCACHE_SIZE in Megabytes.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_claim_ownership"></a>`cvmfs_claim_ownership`
+##### <a name="-cvmfs--mount--cvmfs_claim_ownership"></a>`cvmfs_claim_ownership`
 
 Data type: `Optional[Stdlib::Yes_no]`
 
 Sets CVMFS_CLAIM_OWNERSHIP.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_uid_map"></a>`cvmfs_uid_map`
+##### <a name="-cvmfs--mount--cvmfs_uid_map"></a>`cvmfs_uid_map`
 
 Data type: `Optional[Hash[Variant[Integer,String],Integer, 1]]`
 
 Specify a UID map file path for this repository . Sets CVMFS_UID_MAP
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_gid_map"></a>`cvmfs_gid_map`
+##### <a name="-cvmfs--mount--cvmfs_gid_map"></a>`cvmfs_gid_map`
 
 Data type: `Optional[Hash[Variant[Integer,String],Integer, 1]]`
 
 Specify a GID map file path for this repository . Sets CVMFS_GID_MAP
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_follow_redirects"></a>`cvmfs_follow_redirects`
+##### <a name="-cvmfs--mount--cvmfs_follow_redirects"></a>`cvmfs_follow_redirects`
 
 Data type: `Optional[Stdlib::Yes_no]`
 
 Sets CVMFS_FOLLOW_REDIRECTS.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_external_fallback_proxy"></a>`cvmfs_external_fallback_proxy`
+##### <a name="-cvmfs--mount--cvmfs_external_fallback_proxy"></a>`cvmfs_external_fallback_proxy`
 
 Data type: `Optional[String]`
 
 Sets CVMFS_EXTERNAL_FALLBACK_PROXY
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_external_http_proxy"></a>`cvmfs_external_http_proxy`
+##### <a name="-cvmfs--mount--cvmfs_external_http_proxy"></a>`cvmfs_external_http_proxy`
 
 Data type: `Optional[String]`
 
 Sets CVMFS_EXTERNAL_HTTP_PROXY
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_external_timeout"></a>`cvmfs_external_timeout`
+##### <a name="-cvmfs--mount--cvmfs_external_timeout"></a>`cvmfs_external_timeout`
 
 Data type: `Optional[Integer]`
 
 Sets CVMFS_EXTERNAL_TIMEOUT
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_external_timeout_direct"></a>`cvmfs_external_timeout_direct`
+##### <a name="-cvmfs--mount--cvmfs_external_timeout_direct"></a>`cvmfs_external_timeout_direct`
 
 Data type: `Optional[Integer]`
 
 Sets CVMFS_EXTERNAL_TIMEOUT_DIRECT
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_external_url"></a>`cvmfs_external_url`
+##### <a name="-cvmfs--mount--cvmfs_external_url"></a>`cvmfs_external_url`
 
 Data type: `Optional[String]`
 
 Sets CVMFS_EXTERNAL_URL
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cvmfs_repository_tag"></a>`cvmfs_repository_tag`
+##### <a name="-cvmfs--mount--cvmfs_repository_tag"></a>`cvmfs_repository_tag`
 
 Data type: `Optional[String[1]]`
 
 Sets CVMFS_REPOSITORY_TAG
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="mount_options"></a>`mount_options`
+##### <a name="-cvmfs--mount--mount_options"></a>`mount_options`
 
 Data type: `String[1]`
 
