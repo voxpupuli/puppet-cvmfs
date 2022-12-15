@@ -12,6 +12,10 @@ describe 'cvmfspartsize' do
   end
 
   context 'working case' do
+    before do
+      File.stubs(:exist?).with('/foo/bar').returns(true)
+    end
+
     let(:cvmfs_df_result) { "/dev/nvme0n1p5            976   251       659      28% /foo/bar\n" }
 
     it 'returns valid fact' do
@@ -29,6 +33,10 @@ describe 'cvmfspartsize' do
   end
 
   context 'df fails' do
+    before do
+      File.stubs(:exist?).with('/foo/bar').returns(false)
+    end
+
     let(:cvmfs_df_result) { :failed }
 
     it 'does not return a fact' do
