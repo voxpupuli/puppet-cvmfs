@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v9.0.0) (2023-02-24)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v8.1.0...v9.0.0)
+
+**Breaking changes:**
+
+- Enforce new enough puppetlabs-stdlib for  Stdlib::Yes\_no [\#150](https://github.com/voxpupuli/puppet-cvmfs/pull/150) ([traylenator](https://github.com/traylenator))
+
+**Implemented enhancements:**
+
+- Adjust package repositories to new S3 ones [\#158](https://github.com/voxpupuli/puppet-cvmfs/pull/158) ([traylenator](https://github.com/traylenator))
+- Support CentOS/RHEL 9 [\#156](https://github.com/voxpupuli/puppet-cvmfs/pull/156) ([traylenator](https://github.com/traylenator))
+- Add param to simplify loading `cvmfs::fsck` [\#152](https://github.com/voxpupuli/puppet-cvmfs/pull/152) ([jcpunk](https://github.com/jcpunk))
+
+**Fixed bugs:**
+
+- fsck: cvmfs-fsck.timer depends on cvmfs-fsck.service. [\#151](https://github.com/voxpupuli/puppet-cvmfs/pull/151) ([olifre](https://github.com/olifre))
+
+**Closed issues:**
+
+- Facter error if cvmfs has never been mounted [\#153](https://github.com/voxpupuli/puppet-cvmfs/issues/153)
+- Update stdlib required version [\#149](https://github.com/voxpupuli/puppet-cvmfs/issues/149)
+
+**Merged pull requests:**
+
+- Check that cvmfs\_cache\_base directory exists [\#160](https://github.com/voxpupuli/puppet-cvmfs/pull/160) ([jcpunk](https://github.com/jcpunk))
+
 ## [v8.1.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v8.1.0) (2022-02-14)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v8.0.0...v8.1.0)
