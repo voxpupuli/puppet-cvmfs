@@ -35,11 +35,10 @@ class cvmfs::fsck (
       enable          => true,
       active          => true,
     }
+
+    # This removal of a now redundant can be removed at some future date
     systemd::tmpfile { 'cvmfs-quarantaine.conf':
-      content => epp('cvmfs/fsck/cvmfs-quarantaine.conf.epp',
-        {
-          'cache_base' => $cvmfs_cache_base,
-      }),
+      ensure  => absent,
     }
   } else {
     file { '/usr/local/sbin/cvmfs_fsck_cron.sh':
