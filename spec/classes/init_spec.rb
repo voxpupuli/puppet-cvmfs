@@ -145,14 +145,36 @@ describe 'cvmfs' do
 
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to contain_service('autofs') }
+            it { is_expected.not_to contain_file('/etc/auto.cvmfs.jitter') }
+            it { is_expected.not_to contain_package('bc') }
 
             case [facts[:os]['family'], facts[:os]['release']['major']]
             when %w[RedHat 7], ['Debian', '18.04']
               it { is_expected.to contain_augeas('cvmfs_automaster') }
               it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.autofs') }
             else
-              it { is_expected.to contain_file('/etc/auto.master.d/cvmfs.autofs') }
+              it { is_expected.to contain_file('/etc/auto.master.d/cvmfs.autofs').with_content(%r{^/cvmfs\s+program:/etc/auto.cvmfs$}) }
               it { is_expected.not_to contain_augeas('cvmfs_automaster') }
+            end
+            context 'with jitter set' do
+              let(:params) { super().merge(jitter: 5) }
+
+              it { is_expected.to contain_file('/etc/auto.cvmfs.jitter').with_content(%r{^.*5 \* 1000.*$}) }
+              it { is_expected.to contain_package('bc').with_ensure('installed') }
+
+              case [facts[:os]['family'], facts[:os]['release']['major']]
+              when %w[RedHat 7], ['Debian', '18.04']
+                it { is_expected.to contain_augeas('cvmfs_automaster') }
+                it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.autofs') }
+              else
+                it { is_expected.to contain_file('/etc/auto.master.d/cvmfs.autofs').with_content(%r{^/cvmfs\s+program:/etc/auto.cvmfs.jitter$}) }
+                it { is_expected.not_to contain_augeas('cvmfs_automaster') }
+              end
+              context 'with bc_for_jitter false' do
+                let(:params) { super().merge(bc_for_jitter: false) }
+
+                it { is_expected.not_to contain_package('bc') }
+              end
             end
           end
 

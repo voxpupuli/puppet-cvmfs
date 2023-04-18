@@ -1,0 +1,17 @@
+<%-|
+  Integer $jitter,
+|-%>
+#!/bin/bash
+
+# Puppet Deployed
+
+#
+# sleep a random time up to <%= $jitter %> seconds
+#
+/usr/bin/sleep $(/usr/bin/echo "scale=4;$(($RANDOM % $((<%= $jitter %> * 1000))))/1000" | /usr/bin/bc)
+
+#
+# Proceed with normal cvmfs mount
+#
+exec /etc/auto.cvmfs $@
+

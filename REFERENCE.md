@@ -130,6 +130,8 @@ The following parameters are available in the `cvmfs` class:
 * [`cvmfs_fsck`](#-cvmfs--cvmfs_fsck)
 * [`cvmfs_fsck_options`](#-cvmfs--cvmfs_fsck_options)
 * [`cvmfs_fsck_onreboot`](#-cvmfs--cvmfs_fsck_onreboot)
+* [`jitter`](#-cvmfs--jitter)
+* [`bc_for_jitter`](#-cvmfs--bc_for_jitter)
 * [`cvmfs_yum`](#-cvmfs--cvmfs_yum)
 * [`cvmfs_yum_priority`](#-cvmfs--cvmfs_yum_priority)
 * [`cvmfs_yum_proxy`](#-cvmfs--cvmfs_yum_proxy)
@@ -501,6 +503,22 @@ Data type: `Boolean`
 Should fsck be run after every reboot
 
 Default value: `false`
+
+##### <a name="-cvmfs--jitter"></a>`jitter`
+
+Data type: `Optional[Integer[1]]`
+
+If defined sleep up to this number of seconds when auto mounting a repository
+
+Default value: `undef`
+
+##### <a name="-cvmfs--bc_for_jitter"></a>`bc_for_jitter`
+
+Data type: `Boolean`
+
+Should the bc package for jittering be installed
+
+Default value: `true`
 
 ##### <a name="-cvmfs--cvmfs_yum"></a>`cvmfs_yum`
 

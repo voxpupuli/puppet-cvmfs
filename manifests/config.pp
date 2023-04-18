@@ -31,6 +31,7 @@ class cvmfs::config (
   Optional[Variant[Integer[4,4],Integer[6,6]]] $cvmfs_ipfamily_prefer = $cvmfs::cvmfs_ipfamily_prefer,
   Optional[Integer] $cvmfs_dns_max_ttl                                = $cvmfs::cvmfs_dns_max_ttl,
   Optional[Integer] $cvmfs_dns_min_ttl                                = $cvmfs::cvmfs_dns_min_ttl,
+  Optional[Integer[1]] $jitter                                        = $cvmfs::jitter,
   $cvmfs_repositories                                                 = $cvmfs::cvmfs_repositories,
 ) inherits cvmfs {
   # If cvmfspartsize fact exists use it, otherwise use a sensible default.
@@ -153,23 +154,38 @@ class cvmfs::config (
   }
 
   if $mount_method == 'autofs' {
+    if $jitter {
+      $_mount_program = '/etc/auto.cvmfs.jitter'
+      file { $_mount_program:
+        ensure  => file,
+        owner   => root,
+        group   => root,
+        mode    => '0755',
+        content => epp('cvmfs/auto.cvmfs.jitter.epp', { 'jitter' => $jitter }),
+      }
+    } else {
+      $_mount_program = '/etc/auto.cvmfs'
+    }
     if ($facts['os']['family'] == 'RedHat' and versioncmp($facts['os']['release']['major'],'7') <= 0 ) or
     $facts['os']['release']['major'] == '18.04' {
       augeas { 'cvmfs_automaster':
         context => '/files/etc/auto.master/',
         lens    => 'Automaster.lns',
         incl    => '/etc/auto.master',
+        # Add the correct entry on the end and delete all the others
         changes => [
-          'set 01      /cvmfs',
+          'set 01     /cvmfs',
           'set 01/type program',
-          'set 01/map  /etc/auto.cvmfs',
+          "set 01/map ${_mount_program}",
+          "rm *[.=\"/cvmfs\" and position() < last()]",
         ],
-        onlyif  => 'match *[map="/etc/auto.cvmfs"] size == 0',
+        # Do not run if there is exactly one correct entry and there is only one "/cvmfs" entry
+        onlyif  => "match *[.=\"/cvmfs\" and type=\"program\" and map=\"${_mount_program}\"] size != 1 or match *[.=\"/cvmfs\"] size != 1",
       }
     } else {
       file { '/etc/auto.master.d/cvmfs.autofs':
         ensure  => file,
-        content => "# Puppet installed\n/cvmfs  program:/etc/auto.cvmfs\n",
+        content => "# Puppet installed\n/cvmfs  program:${_mount_program}\n",
         owner   => root,
         group   => root,
         mode    => '0644',

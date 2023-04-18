@@ -91,6 +91,8 @@
 # @param cvmfs_fsck Ensure the cvmfs::fsck class is included.
 # @param cvmfs_fsck_options Any extra options for cvmfs fsck
 # @param cvmfs_fsck_onreboot Should fsck be run after every reboot
+# @param jitter If defined sleep up to this number of seconds when auto mounting a repository
+# @param bc_for_jitter Should the bc package for jittering be installed
 # Deprecated paramters below
 # @param cvmfs_yum Deprecated, use repo_base
 # @param cvmfs_yum_priority Deprecated, use repo_priority
@@ -150,6 +152,8 @@ class cvmfs (
   Boolean $cvmfs_fsck                                                 = false,
   Optional[String] $cvmfs_fsck_options                                = undef,
   Boolean $cvmfs_fsck_onreboot                                        = false,
+  Optional[Integer[1]] $jitter                                        = undef,
+  Boolean $bc_for_jitter                                              = true,
   # Deprecated Parameters
   Optional[Boolean] $cvmfs_yum_manage_repo                                = undef,
   Optional[Stdlib::Httpurl] $cvmfs_yum                                    = undef,
