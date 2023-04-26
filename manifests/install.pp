@@ -33,9 +33,9 @@ class cvmfs::install (
   if $cvmfs_cache_base != $default_cvmfs_cache_base {
     file { $cvmfs_cache_base:
       ensure  => directory,
-      owner   => cvmfs,
-      group   => cvmfs,
-      mode    => '0700',
+      owner   => $cvmfs::cvmfs_cache_owner,
+      group   => $cvmfs::cvmfs_cache_group,
+      mode    => $cvmfs::cvmfs_cache_mode,
       seltype => $cache_seltype,
       require => Package['cvmfs'],
     }

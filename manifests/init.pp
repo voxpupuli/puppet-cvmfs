@@ -45,6 +45,9 @@
 #   pre-allocated a partition to the cvmfs cache or else it makes little sense.
 # @param cvmfs_http_proxy List of squid servers, e.g `http://squid1.example.org;http;//squid2.example.org`
 # @param cvmfs_cache_base Location of the CVMFS cache base
+# @param cvmfs_cache_owner expected owner of cvmfs cache
+# @param cvmfs_cache_group expected group of cvmfs cache
+# @param cvmfs_cache_mode  expected mode of cvmfs cache
 # @param cvmfs_ipfamily_prefer Preferred IP protocol for dual-stack proxies. If not set, cvmfs default will be used.
 # @param cvmfs_dns_min_ttl Minimum ttl of DNS lookups in seconds.
 # @param cvmfs_dns_max_ttl Maximum ttl of DNS lookups in seconds.
@@ -114,6 +117,9 @@ class cvmfs (
   Variant[Enum['auto'],Integer] $cvmfs_quota_limit                    = 1000,
   Float   $cvmfs_quota_ratio                                          = 0.85,
   Stdlib::Absolutepath $cvmfs_cache_base                              = '/var/lib/cvmfs',
+  String[1] $cvmfs_cache_owner                                        = 'cvmfs',
+  String[1] $cvmfs_cache_group                                        = 'cvmfs',
+  Stdlib::Filemode $cvmfs_cache_mode                                         = '0700',
   Optional[Enum['yes','no']] $cvmfs_claim_ownership                   = undef,
   Optional[Hash[Variant[Integer,String], Integer, 1]] $cvmfs_uid_map  = undef,
   Optional[Hash[Variant[Integer,String], Integer, 1]] $cvmfs_gid_map  = undef,
