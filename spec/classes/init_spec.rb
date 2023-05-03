@@ -29,6 +29,7 @@ describe 'cvmfs' do
         it { is_expected.not_to contain_file('/etc/cvmfs/config.d/default.gid_map') }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_UID_MAP.*$}) }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_GID_MAP.*$}) }
+        it { is_expected.not_to contain_package('fuse3') }
 
         case facts[:os]['family']
         when 'Debian'
@@ -39,6 +40,32 @@ describe 'cvmfs' do
           it { is_expected.not_to contain_class('cvmfs::apt') }
           it { is_expected.to contain_class('cvmfs::yum') }
           it { is_expected.to contain_package('cvmfs').that_requires('Class[cvmfs::yum]') }
+        end
+
+        context 'with fuse3 set true' do
+          let(:params) do
+            super().merge(fuse3: true)
+          end
+
+          case [facts[:os]['name'], facts[:os]['release']['major']]
+          when ['Ubuntu', '18.04']
+            it { is_expected.to compile.and_raise_error(%r{does not have fuse3}) }
+          else
+            it { is_expected.to contain_package('cvmfs-fuse3').with_ensure('present') }
+          end
+        end
+
+        context 'with fuse3 set false' do
+          let(:params) do
+            super().merge(fuse3: false)
+          end
+
+          case [facts[:os]['name'], facts[:os]['release']['major']]
+          when ['Ubuntu', '18.04']
+            it { is_expected.to compile.and_raise_error(%r{does not have fuse3}) }
+          else
+            it { is_expected.to contain_package('cvmfs-fuse3').with_ensure('absent') }
+          end
         end
 
         context 'with cvmfs_http_proxy set' do

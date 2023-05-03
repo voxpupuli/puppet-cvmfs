@@ -20,6 +20,11 @@
 #     cvmfs_server_url => 'http://web.example.org/cvmfs/@fqrn@'
 #   }
 #
+# @wxample Use fuse3 version of cvmfs
+#   class{'cvmfs':
+#     fuse3 => true,
+#   }
+#
 # @example Use Mount rather than AutoFS
 #   class{'cvmfs':
 #     mount_method => 'mount',
@@ -94,6 +99,10 @@
 # @param cvmfs_fsck Ensure the cvmfs::fsck class is included.
 # @param cvmfs_fsck_options Any extra options for cvmfs fsck
 # @param cvmfs_fsck_onreboot Should fsck be run after every reboot
+# @param fuse3
+#   Install or disable fuse3 variant of cvmfs, if left `undef` no change will be made. Note that changing
+#   this value when CvmFS mounts are active may well destroy those mounts.
+#   Not availabe on Ubuntu 18.04.
 # Deprecated paramters below
 # @param cvmfs_yum Deprecated, use repo_base
 # @param cvmfs_yum_priority Deprecated, use repo_priority
@@ -156,6 +165,7 @@ class cvmfs (
   Boolean $cvmfs_fsck                                                 = false,
   Optional[String] $cvmfs_fsck_options                                = undef,
   Boolean $cvmfs_fsck_onreboot                                        = false,
+  Optional[Boolean] $fuse3                                            = undef,
   # Deprecated Parameters
   Optional[Boolean] $cvmfs_yum_manage_repo                                = undef,
   Optional[Stdlib::Httpurl] $cvmfs_yum                                    = undef,
@@ -186,6 +196,31 @@ class cvmfs (
   }.each | $_deprecation, $_replacement | {
     if getvar($_deprecation) !~ Undef {
       fail("cvmfs parameter '${_deprecation}' is deprecated, Check how to use '${_replacement}' instead")
+    }
+  }
+
+  if $fuse3 =~ Boolean and  $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '18.04' {
+    fail('Ubuntu 18.04 does not have fuse3 available')
+  }
+
+  if $repo_manage {
+    case $facts['os']['family'] {
+      'RedHat': {
+        contain 'cvmfs::yum'
+        Class['cvmfs::yum'] -> Class['cvmfs::install']
+      }
+      'Debian': {
+        contain 'cvmfs::apt'
+        Class['cvmfs::apt'] -> Package['cvmfs']
+
+        Class['cvmfs::apt'] -> Class['cvmfs::install']
+        # Needed since apt::update is only notified in apt::source, but not contained.
+        Class['apt::update'] -> Package['cvmfs']
+        if $fuse3 {
+          Class['apt::update'] -> Package['cvmfs-fuse3']
+        }
+      }
+      default: { fail('Only repositories for RedHat or Debian family can be managed') }
     }
   }
 

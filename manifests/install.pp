@@ -4,24 +4,8 @@
 class cvmfs::install (
   $cvmfs_version = $cvmfs::cvmfs_version,
   $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
-  $repo_manage = $cvmfs::repo_manage,
+  $fuse3 = $cvmfs::fuse3,
 ) inherits cvmfs {
-  if $repo_manage {
-    case $facts['os']['family'] {
-      'RedHat': {
-        contain 'cvmfs::yum'
-        Class['cvmfs::yum'] -> Package['cvmfs']
-      }
-      'Debian': {
-        contain 'cvmfs::apt'
-        Class['cvmfs::apt'] -> Package['cvmfs']
-        # Needed since apt::update is only notified in apt::source, but not contained.
-        Class['apt::update'] -> Package['cvmfs']
-      }
-      default: { fail('Only repositories for RedHat or Debian family can be managed') }
-    }
-  }
-
   # Create the cache dir if one is defined, otherwise assume default is in the package.
   # Require the package so we know the user is in place.
   # We need to change the selinux context of this new directory below.
@@ -43,6 +27,12 @@ class cvmfs::install (
 
   package { 'cvmfs':
     ensure  => $cvmfs_version,
+  }
+
+  if $fuse3 =~ Boolean {
+    package { 'cvmfs-fuse3':
+      ensure  => bool2str($fuse3,$cvmfs_version,'absent'),
+    }
   }
 
   # Create a file for the cvmfs

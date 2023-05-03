@@ -4,6 +4,7 @@ require 'spec_helper_acceptance'
 
 describe 'cvmfs::mount atlas.cern.ch' do
   it 'configures and work with no errors' do
+    shell('cvmfs_config killall', acceptable_exit_codes: [0, 127])
     pp = <<-EOS
          class{"cvmfs":
              cvmfs_http_proxy => 'http://ca-proxy.cern.ch:3128;DIRECT',
