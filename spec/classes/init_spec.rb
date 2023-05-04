@@ -66,7 +66,7 @@ describe 'cvmfs' do
 
         context 'with defaults and cvmfspartsize fact set' do
           let(:facts) do
-            facts.merge(cvmfspartsize: '10000000')
+            facts.merge(cvmfspartsize: 10_000_000)
           end
 
           it { is_expected.to compile.with_all_deps }
