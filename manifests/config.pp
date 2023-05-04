@@ -154,7 +154,7 @@ class cvmfs::config (
 
   if $mount_method == 'autofs' {
     if ($facts['os']['family'] == 'RedHat' and versioncmp($facts['os']['release']['major'],'7') <= 0 ) or
-    $facts['os']['release']['major'] == '18.04' {
+    ($facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '18.04') {
       augeas { 'cvmfs_automaster':
         context => '/files/etc/auto.master/',
         lens    => 'Automaster.lns',
