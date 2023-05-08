@@ -119,7 +119,7 @@ class cvmfs (
   Stdlib::Absolutepath $cvmfs_cache_base                              = '/var/lib/cvmfs',
   String[1] $cvmfs_cache_owner                                        = 'cvmfs',
   String[1] $cvmfs_cache_group                                        = 'cvmfs',
-  Stdlib::Filemode $cvmfs_cache_mode                                         = '0700',
+  Stdlib::Filemode $cvmfs_cache_mode                                  = '0700',
   Optional[Enum['yes','no']] $cvmfs_claim_ownership                   = undef,
   Optional[Hash[Variant[Integer,String], Integer, 1]] $cvmfs_uid_map  = undef,
   Optional[Hash[Variant[Integer,String], Integer, 1]] $cvmfs_gid_map  = undef,
