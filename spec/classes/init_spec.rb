@@ -497,6 +497,17 @@ describe 'cvmfs' do
             end
           end
 
+          context 'cvmfs_cache_base set to non-defaults' do
+            let(:params) do
+              super().merge(cvmfs_cache_base: '/unit/test',
+                            cvmfs_cache_owner: 'unit',
+                            cvmfs_cache_group: 'test',
+                            cvmfs_cache_mode: '0777')
+            end
+
+            it { is_expected.to contain_file('/unit/test').with_owner('unit').with_group('test').with_mode('0777').with_seltype('cvmfs_cache_t') }
+          end
+
           context 'with cvmfs_domain_hash set' do
             let(:params) do
               super().merge(cvmfs_domain_hash: {

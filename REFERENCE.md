@@ -91,6 +91,9 @@ The following parameters are available in the `cvmfs` class:
 * [`cvmfs_quota_ratio`](#-cvmfs--cvmfs_quota_ratio)
 * [`cvmfs_http_proxy`](#-cvmfs--cvmfs_http_proxy)
 * [`cvmfs_cache_base`](#-cvmfs--cvmfs_cache_base)
+* [`cvmfs_cache_owner`](#-cvmfs--cvmfs_cache_owner)
+* [`cvmfs_cache_group`](#-cvmfs--cvmfs_cache_group)
+* [`cvmfs_cache_mode`](#-cvmfs--cvmfs_cache_mode)
 * [`cvmfs_ipfamily_prefer`](#-cvmfs--cvmfs_ipfamily_prefer)
 * [`cvmfs_dns_min_ttl`](#-cvmfs--cvmfs_dns_min_ttl)
 * [`cvmfs_dns_max_ttl`](#-cvmfs--cvmfs_dns_max_ttl)
@@ -191,6 +194,30 @@ Data type: `Stdlib::Absolutepath`
 Location of the CVMFS cache base
 
 Default value: `'/var/lib/cvmfs'`
+
+##### <a name="-cvmfs--cvmfs_cache_owner"></a>`cvmfs_cache_owner`
+
+Data type: `String[1]`
+
+expected owner of cvmfs cache
+
+Default value: `'cvmfs'`
+
+##### <a name="-cvmfs--cvmfs_cache_group"></a>`cvmfs_cache_group`
+
+Data type: `String[1]`
+
+expected group of cvmfs cache
+
+Default value: `'cvmfs'`
+
+##### <a name="-cvmfs--cvmfs_cache_mode"></a>`cvmfs_cache_mode`
+
+Data type: `Stdlib::Filemode`
+
+expected mode of cvmfs cache
+
+Default value: `'0700'`
 
 ##### <a name="-cvmfs--cvmfs_ipfamily_prefer"></a>`cvmfs_ipfamily_prefer`
 
