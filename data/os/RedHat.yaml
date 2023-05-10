@@ -6,3 +6,4 @@ cvmfs::repo_includepkgs:
   - cvmfs-keys
   - cvmfs
   - cvmfs-config-default
+  - cvmfs-fuse3
