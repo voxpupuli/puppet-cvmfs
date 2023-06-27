@@ -44,13 +44,16 @@ cvmfs::domain{'example.net'
 
 To use puppet's mount type rather that autofs
 a typical configuration might be the following. This
-examples configures a cvmfs domain, a configuration
+example configures a cvmfs domain for common settings, a configuration
 repository and finally a particular repository for
-mount.
+mount. In this example the `cvmfs-config.example.org` has
+been marked as the per client configuration repository and will always
+be mounted first.
 
 ```puppet
 class{'cvmfs':
   mount_method => 'mount',
+  config_repo  => 'cvmfs-config.example.org',
 }
 cvmfs::domain{'example.org':
   cvmfs_server_url   => 'http://web.example.org/cvmfs/@fqrn@'
