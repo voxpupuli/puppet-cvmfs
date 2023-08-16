@@ -20,7 +20,7 @@
 #     cvmfs_server_url => 'http://web.example.org/cvmfs/@fqrn@'
 #   }
 #
-# @wxample Use fuse3 version of cvmfs
+# @example Use fuse3 version of cvmfs
 #   class{'cvmfs':
 #     fuse3 => true,
 #   }
