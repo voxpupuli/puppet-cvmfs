@@ -62,6 +62,14 @@ cvmfs::domain{'example.net'
 }
 ```
 
+##### Use fuse3 version of cvmfs
+
+```puppet
+class{'cvmfs':
+  fuse3 => true,
+}
+```
+
 ##### Use Mount rather than AutoFS
 
 ```puppet
