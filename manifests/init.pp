@@ -20,7 +20,7 @@
 #     cvmfs_server_url => 'http://web.example.org/cvmfs/@fqrn@'
 #   }
 #
-# @wxample Use fuse3 version of cvmfs
+# @example Use fuse3 version of cvmfs
 #   class{'cvmfs':
 #     fuse3 => true,
 #   }
@@ -120,6 +120,7 @@ class cvmfs (
   Stdlib::Httpurl $repo_base,
   Stdlib::Httpurl $repo_gpgkey,
   Variant[Undef,String] $cvmfs_http_proxy,
+  Optional[Variant[Enum['absent'], Array[String[1]]]] $repo_includepkgs,
   Enum['autofs','mount','none'] $mount_method                         = 'autofs',
   Boolean $manage_autofs_service                                      = true,
   Integer $default_cvmfs_partsize                                     = 10000,
@@ -151,7 +152,6 @@ class cvmfs (
   Boolean $repo_testing_enabled                                       = false,
   Optional[Stdlib::Httpurl] $repo_proxy                               = undef,
   Boolean $repo_gpgcheck                                              = true,
-  Optional[Variant[Enum['absent'], Array[String[1]]]] $repo_includepkgs,
   Optional[Enum['yes','no']] $cvmfs_use_geoapi                        = undef,
   Optional[Enum['yes','no']] $cvmfs_follow_redirects                  = undef,
   Boolean $cvmfs_instrument_fuse                                      = false,
