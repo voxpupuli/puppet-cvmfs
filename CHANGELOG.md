@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v10.0.0) (2023-08-17)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v9.0.0...v10.0.0)
+
+**Breaking changes:**
+
+- Drop Puppet 6 support [\#167](https://github.com/voxpupuli/puppet-cvmfs/pull/167) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- puppetlabs/stdlib: Allow 9.x [\#178](https://github.com/voxpupuli/puppet-cvmfs/pull/178) ([bastelfreak](https://github.com/bastelfreak))
+- Accept latest puppetlabs-concat and puppetlabs-apt [\#172](https://github.com/voxpupuli/puppet-cvmfs/pull/172) ([traylenator](https://github.com/traylenator))
+- RockyLinux 8 and 9 support [\#170](https://github.com/voxpupuli/puppet-cvmfs/pull/170) ([olifre](https://github.com/olifre))
+- Debian 11, Ubuntu 22.04 and AlmaLinux 8 and 9 support [\#169](https://github.com/voxpupuli/puppet-cvmfs/pull/169) ([traylenator](https://github.com/traylenator))
+- New parameter fuse3 to enable fuse3 variant [\#168](https://github.com/voxpupuli/puppet-cvmfs/pull/168) ([traylenator](https://github.com/traylenator))
+- Permit alternate uid/gid/mode for CVMFS cache [\#166](https://github.com/voxpupuli/puppet-cvmfs/pull/166) ([jcpunk](https://github.com/jcpunk))
+
+**Fixed bugs:**
+
+- Allow new cvmfs-libs package [\#180](https://github.com/voxpupuli/puppet-cvmfs/pull/180) ([traylenator](https://github.com/traylenator))
+- Stop creating quarantaine directory [\#163](https://github.com/voxpupuli/puppet-cvmfs/pull/163) ([traylenator](https://github.com/traylenator))
+
+**Merged pull requests:**
+
+- Use cvmfs\_partsize as an integer in tests [\#171](https://github.com/voxpupuli/puppet-cvmfs/pull/171) ([traylenator](https://github.com/traylenator))
+
 ## [v9.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v9.0.0) (2023-02-24)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v8.1.0...v9.0.0)
