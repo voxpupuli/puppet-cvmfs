@@ -365,8 +365,8 @@ describe 'cvmfs' do
                 without_content(%r{CVMFS_STATFS_CACHE_TIMEOUT}).
                 without_content(%r{CVMFS_WORLD_READABLE}).
                 without_content(%r{CVMFS_CPU_AFFINITY}).
-                without_content(%r{CVMFS_XATTR_PRIVILEGED_GIDS$}).
-                without_content(%r{CVMFS_XATTR_PRIVILEGED_XATTRS$})
+                without_content(%r{CVMFS_XATTR_PRIVILEGED_GIDS}).
+                without_content(%r{CVMFS_XATTR_PRIVILEGED_XATTRS})
             end
           end
 
