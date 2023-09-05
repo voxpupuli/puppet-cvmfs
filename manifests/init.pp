@@ -38,6 +38,18 @@
 #     }
 #   }
 #
+# @example New parameters with CvmFS 2.11.0
+#  class{'cvmfs':
+#    cvmfs_cache_symlinks => 'yes',
+#    cvmfs_streaming_cache => 'no',
+#    cvmfs_statfs_cache_timeout => 10,
+#    cvmfs_world_readable => 'yes',
+#    cvmfs_cpu_affinity => [0,1,2],
+#    cvmfs_xattr_privileged_gids => [100,101,102],
+#    cvmfs_xattr_protected_xattrs => ['user.foo','user.bar'],
+#    cvmfs_cache_refcount => 'yes',
+#  }
+#
 # @param mount_method
 #    The `autofs` option will configure cvmfs to be mounted with autofs. The `mount` option will
 #    use puppet's mount type, currently adding a line to /etc/fstab. The *none* option
@@ -103,6 +115,15 @@
 #   Install or disable fuse3 variant of cvmfs, if left `undef` no change will be made. Note that changing
 #   this value when CvmFS mounts are active may well destroy those mounts.
 #   Not availabe on Ubuntu 18.04.
+# @param cvmfs_cache_symlinks If set to yes, enables symlink caching in the kernel.
+# @param cvmfs_streaming_cache If set to yes, use a download manager to download regular files on read.
+# @param cvmfs_statfs_cache_timeout Caching time of statfs() in seconds (no caching by default).
+# @param cvmfs_world_readable Override posix read permissions to make files in repository globally readable
+# @param cvmfs_cpu_affinity Set CPU affinity for all cvmfs components.
+# @param cvmfs_xattr_privileged_gids group IDs that are allowed to access the extended attributes by `$cvmfs_xattr_protected_xattrs`.
+# @param cvmfs_xattr_protected_xattrs List of extended attributes (full name, e.g. user.fqrn) that are only accessible by root and the group IDs listed by `$cvmfs_xattr_privileged_gids`.
+# @param cvmfs_cache_refcount If set to yes, deduplicate open file descriptors by refcounting.
+#
 # Deprecated paramters below
 # @param cvmfs_yum Deprecated, use repo_base
 # @param cvmfs_yum_priority Deprecated, use repo_priority
@@ -166,6 +187,14 @@ class cvmfs (
   Optional[String] $cvmfs_fsck_options                                = undef,
   Boolean $cvmfs_fsck_onreboot                                        = false,
   Optional[Boolean] $fuse3                                            = undef,
+  Optional[Enum['yes','no']] $cvmfs_cache_symlinks                    = undef,
+  Optional[Enum['yes','no']] $cvmfs_cache_refcount                    = undef,
+  Optional[Enum['yes','no']] $cvmfs_streaming_cache                   = undef,
+  Optional[Integer[1]] $cvmfs_statfs_cache_timeout                    = undef,
+  Optional[Enum['yes','no']] $cvmfs_world_readable                    = undef,
+  Optional[Array[Integer[0],1]] $cvmfs_cpu_affinity                   = undef,
+  Optional[Array[Integer[1],1]] $cvmfs_xattr_privileged_gids          = undef,
+  Optional[Array[String[1],1]] $cvmfs_xattr_protected_xattrs          = undef,
   # Deprecated Parameters
   Optional[Boolean] $cvmfs_yum_manage_repo                                = undef,
   Optional[Stdlib::Httpurl] $cvmfs_yum                                    = undef,

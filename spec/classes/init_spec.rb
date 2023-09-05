@@ -351,6 +351,54 @@ describe 'cvmfs' do
             end
           end
 
+          context 'with several parameters not set' do
+            let(:params) do
+              {
+                cvmfs_http_proxy: :undef,
+              }
+            end
+
+            it do
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+                without_content(%r{CVMFS_CACHE_SYMLINKS}).
+                without_content(%r{CVMFS_STREAMING_CACHE}).
+                without_content(%r{CVMFS_STATFS_CACHE_TIMEOUT}).
+                without_content(%r{CVMFS_WORLD_READABLE}).
+                without_content(%r{CVMFS_CPU_AFFINITY}).
+                without_content(%r{CVMFS_XATTR_PRIVILEGED_GIDS}).
+                without_content(%r{CVMFS_XATTR_PRIVILEGED_XATTRS}).
+                without_content(%r{CVMFS_CACHE_REFCOUNT})
+            end
+          end
+
+          context 'with several parameters set' do
+            let(:params) do
+              {
+                cvmfs_http_proxy: :undef,
+                cvmfs_cache_symlinks: 'yes',
+                cvmfs_streaming_cache: 'no',
+                cvmfs_statfs_cache_timeout: 10,
+                cvmfs_world_readable: 'yes',
+                cvmfs_cpu_affinity: [0, 1, 2],
+                cvmfs_xattr_privileged_gids: [100, 101, 102],
+                cvmfs_xattr_protected_xattrs: ['user.foo', 'user.bar'],
+                cvmfs_cache_refcount: 'no',
+              }
+            end
+
+            it do
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
+                with_content(%r{^CVMFS_CACHE_SYMLINKS='yes'$}).
+                with_content(%r{^CVMFS_STREAMING_CACHE='no'$}).
+                with_content(%r{^CVMFS_CACHE_REFCOUNT='no'$}).
+                with_content(%r{^CVMFS_STATFS_CACHE_TIMEOUT='10'$}).
+                with_content(%r{^CVMFS_WORLD_READABLE='yes'$}).
+                with_content(%r{^CVMFS_CPU_AFFINITY='0,1,2'$}).
+                with_content(%r{^CVMFS_XATTR_PRIVILEGED_GIDS='100,101,102'$}).
+                with_content(%r{^CVMFS_XATTR_PROTECTED_XATTRS='user.foo,user.bar'$})
+            end
+          end
+
           context 'with cvmfs_dns_min_ttl not set' do
             it do
               is_expected.to contain_concat__fragment('cvmfs_default_local_header').
