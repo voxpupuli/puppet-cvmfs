@@ -351,7 +351,7 @@ describe 'cvmfs' do
             end
           end
 
-          context 'with serveral parameters not set' do
+          context 'with several parameters not set' do
             let(:params) do
               {
                 cvmfs_http_proxy: :undef,
@@ -370,7 +370,7 @@ describe 'cvmfs' do
             end
           end
 
-          context 'with serveral parameters set' do
+          context 'with several parameters set' do
             let(:params) do
               {
                 cvmfs_http_proxy: :undef,
