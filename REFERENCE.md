@@ -62,6 +62,14 @@ cvmfs::domain{'example.net'
 }
 ```
 
+##### Use fuse3 version of cvmfs
+
+```puppet
+class{'cvmfs':
+  fuse3 => true,
+}
+```
+
 ##### Use Mount rather than AutoFS
 
 ```puppet
@@ -78,6 +86,20 @@ class{'cvmfs':
     'foo.example.org' => { 'cvmfs_server_url => 'http://web.example.org/cmfs/foo.example.org' },
     'bar.example.org' => { 'cvmfs_server_url => 'http://web.example.org/cvmfs/bar.example.org' },
   }
+}
+```
+
+##### New parameters with CvmFS 2.11.0
+
+```puppet
+class{'cvmfs':
+  cvmfs_cache_symlinks => 'yes',
+  cvmfs_streaming_cache => 'no',
+  cvmfs_statfs_cache_timeout => 10,
+  cvmfs_world_readable => 'yes',
+  cvmfs_cpu_affinity => [0,1,2],
+  cvmfs_xattr_privileged_gids => [100,101,102],
+  cvmfs_xattr_protected_xattrs => ['user.foo','user.bar'],
 }
 ```
 
@@ -134,6 +156,13 @@ The following parameters are available in the `cvmfs` class:
 * [`cvmfs_fsck_options`](#-cvmfs--cvmfs_fsck_options)
 * [`cvmfs_fsck_onreboot`](#-cvmfs--cvmfs_fsck_onreboot)
 * [`fuse3`](#-cvmfs--fuse3)
+* [`cvmfs_cache_symlinks`](#-cvmfs--cvmfs_cache_symlinks)
+* [`cvmfs_streaming_cache`](#-cvmfs--cvmfs_streaming_cache)
+* [`cvmfs_statfs_cache_timeout`](#-cvmfs--cvmfs_statfs_cache_timeout)
+* [`cvmfs_world_readable`](#-cvmfs--cvmfs_world_readable)
+* [`cvmfs_cpu_affinity`](#-cvmfs--cvmfs_cpu_affinity)
+* [`cvmfs_xattr_privileged_gids`](#-cvmfs--cvmfs_xattr_privileged_gids)
+* [`cvmfs_xattr_protected_xattrs`](#-cvmfs--cvmfs_xattr_protected_xattrs)
 * [`cvmfs_yum`](#-cvmfs--cvmfs_yum)
 * [`cvmfs_yum_priority`](#-cvmfs--cvmfs_yum_priority)
 * [`cvmfs_yum_proxy`](#-cvmfs--cvmfs_yum_proxy)
@@ -537,6 +566,62 @@ Data type: `Optional[Boolean]`
 Install or disable fuse3 variant of cvmfs, if left `undef` no change will be made. Note that changing
 this value when CvmFS mounts are active may well destroy those mounts.
 Not availabe on Ubuntu 18.04.
+
+Default value: `undef`
+
+##### <a name="-cvmfs--cvmfs_cache_symlinks"></a>`cvmfs_cache_symlinks`
+
+Data type: `Optional[Enum['yes','no']]`
+
+If set to yes, enables symlink caching in the kernel.
+
+Default value: `undef`
+
+##### <a name="-cvmfs--cvmfs_streaming_cache"></a>`cvmfs_streaming_cache`
+
+Data type: `Optional[Enum['yes','no']]`
+
+If set to yes, use a download manager to download regular files on read.
+
+Default value: `undef`
+
+##### <a name="-cvmfs--cvmfs_statfs_cache_timeout"></a>`cvmfs_statfs_cache_timeout`
+
+Data type: `Optional[Integer[1]]`
+
+Caching time of statfs() in seconds (no caching by default).
+
+Default value: `undef`
+
+##### <a name="-cvmfs--cvmfs_world_readable"></a>`cvmfs_world_readable`
+
+Data type: `Optional[Enum['yes','no']]`
+
+Override posix read permissions to make files in repository globally readable
+
+Default value: `undef`
+
+##### <a name="-cvmfs--cvmfs_cpu_affinity"></a>`cvmfs_cpu_affinity`
+
+Data type: `Optional[Array[Integer[0],1]]`
+
+Set CPU affinity for all cvmfs components.
+
+Default value: `undef`
+
+##### <a name="-cvmfs--cvmfs_xattr_privileged_gids"></a>`cvmfs_xattr_privileged_gids`
+
+Data type: `Optional[Array[Integer[1],1]]`
+
+group IDs that are allowed to access the extended attributes by `$cvmfs_xattr_protected_xattrs`.
+
+Default value: `undef`
+
+##### <a name="-cvmfs--cvmfs_xattr_protected_xattrs"></a>`cvmfs_xattr_protected_xattrs`
+
+Data type: `Optional[Array[String[1],1]]`
+
+List of extended attributes (full name, e.g. user.fqrn) that are only accessible by root and the group IDs listed by `$cvmfs_xattr_privileged_gids`.
 
 Default value: `undef`
 
