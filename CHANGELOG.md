@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v10.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v10.0.0) (2023-08-17)
+## [v10.1.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v10.1.0) (2023-09-05)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v10.0.0...v10.1.0)
+
+**Implemented enhancements:**
+
+- Support CvmFS 2.11.0 parameters [\#186](https://github.com/voxpupuli/puppet-cvmfs/pull/186) ([traylenator](https://github.com/traylenator))
+
+## [v10.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v10.0.0) (2023-08-21)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v9.0.0...v10.0.0)
 
