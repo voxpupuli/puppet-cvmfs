@@ -36,6 +36,7 @@
   Optional[Boolean]                            $cvmfs_instrument_fuse = undef,
   Optional[Enum['yes','no']]                   $cvmfs_cache_symlinks = undef,
   Optional[Enum['yes','no']]                   $cvmfs_streaming_cache = undef,
+  Optional[Enum['yes','no']]                   $cvmfs_cache_refcount = undef,
   Optional[Integer[1]]                         $cvmfs_statfs_cache_timeout = undef,
   Optional[Enum['yes','no']]                   $cvmfs_world_readable = undef,
   Optional[Array[Integer[0],1]]                $cvmfs_cpu_affinity = undef,
@@ -158,6 +159,7 @@ CVMFS_INSTRUMENT_FUSE=<%= $cvmfs_instrument_fuse %>
   [
     'CVMFS_CACHE_SYMLINKS',
     'CVMFS_STREAMING_CACHE',
+    'CVMFS_CACHE_REFCOUNT',
     'CVMFS_STATFS_CACHE_TIMEOUT',
     'CVMFS_WORLD_READABLE',
     'CVMFS_CPU_AFFINITY',

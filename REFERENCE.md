@@ -100,6 +100,7 @@ class{'cvmfs':
   cvmfs_cpu_affinity => [0,1,2],
   cvmfs_xattr_privileged_gids => [100,101,102],
   cvmfs_xattr_protected_xattrs => ['user.foo','user.bar'],
+  cvmfs_cache_refcount => 'yes',
 }
 ```
 
@@ -163,6 +164,7 @@ The following parameters are available in the `cvmfs` class:
 * [`cvmfs_cpu_affinity`](#-cvmfs--cvmfs_cpu_affinity)
 * [`cvmfs_xattr_privileged_gids`](#-cvmfs--cvmfs_xattr_privileged_gids)
 * [`cvmfs_xattr_protected_xattrs`](#-cvmfs--cvmfs_xattr_protected_xattrs)
+* [`cvmfs_cache_refcount`](#-cvmfs--cvmfs_cache_refcount)
 * [`cvmfs_yum`](#-cvmfs--cvmfs_yum)
 * [`cvmfs_yum_priority`](#-cvmfs--cvmfs_yum_priority)
 * [`cvmfs_yum_proxy`](#-cvmfs--cvmfs_yum_proxy)
@@ -622,6 +624,14 @@ Default value: `undef`
 Data type: `Optional[Array[String[1],1]]`
 
 List of extended attributes (full name, e.g. user.fqrn) that are only accessible by root and the group IDs listed by `$cvmfs_xattr_privileged_gids`.
+
+Default value: `undef`
+
+##### <a name="-cvmfs--cvmfs_cache_refcount"></a>`cvmfs_cache_refcount`
+
+Data type: `Optional[Enum['yes','no']]`
+
+If set to yes, deduplicate open file descriptors by refcounting.
 
 Default value: `undef`
 

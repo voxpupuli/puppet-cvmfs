@@ -47,6 +47,7 @@
 #    cvmfs_cpu_affinity => [0,1,2],
 #    cvmfs_xattr_privileged_gids => [100,101,102],
 #    cvmfs_xattr_protected_xattrs => ['user.foo','user.bar'],
+#    cvmfs_cache_refcount => 'yes',
 #  }
 #
 # @param mount_method
@@ -121,6 +122,7 @@
 # @param cvmfs_cpu_affinity Set CPU affinity for all cvmfs components.
 # @param cvmfs_xattr_privileged_gids group IDs that are allowed to access the extended attributes by `$cvmfs_xattr_protected_xattrs`.
 # @param cvmfs_xattr_protected_xattrs List of extended attributes (full name, e.g. user.fqrn) that are only accessible by root and the group IDs listed by `$cvmfs_xattr_privileged_gids`.
+# @param cvmfs_cache_refcount If set to yes, deduplicate open file descriptors by refcounting.
 #
 # Deprecated paramters below
 # @param cvmfs_yum Deprecated, use repo_base
@@ -186,6 +188,7 @@ class cvmfs (
   Boolean $cvmfs_fsck_onreboot                                        = false,
   Optional[Boolean] $fuse3                                            = undef,
   Optional[Enum['yes','no']] $cvmfs_cache_symlinks                    = undef,
+  Optional[Enum['yes','no']] $cvmfs_cache_refcount                    = undef,
   Optional[Enum['yes','no']] $cvmfs_streaming_cache                   = undef,
   Optional[Integer[1]] $cvmfs_statfs_cache_timeout                    = undef,
   Optional[Enum['yes','no']] $cvmfs_world_readable                    = undef,

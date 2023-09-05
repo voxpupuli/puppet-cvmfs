@@ -366,7 +366,8 @@ describe 'cvmfs' do
                 without_content(%r{CVMFS_WORLD_READABLE}).
                 without_content(%r{CVMFS_CPU_AFFINITY}).
                 without_content(%r{CVMFS_XATTR_PRIVILEGED_GIDS}).
-                without_content(%r{CVMFS_XATTR_PRIVILEGED_XATTRS})
+                without_content(%r{CVMFS_XATTR_PRIVILEGED_XATTRS}).
+                without_content(%r{CVMFS_CACHE_REFCOUNT})
             end
           end
 
@@ -381,6 +382,7 @@ describe 'cvmfs' do
                 cvmfs_cpu_affinity: [0, 1, 2],
                 cvmfs_xattr_privileged_gids: [100, 101, 102],
                 cvmfs_xattr_protected_xattrs: ['user.foo', 'user.bar'],
+                cvmfs_cache_refcount: 'no',
               }
             end
 
@@ -388,6 +390,7 @@ describe 'cvmfs' do
               is_expected.to contain_concat__fragment('cvmfs_default_local_header').
                 with_content(%r{^CVMFS_CACHE_SYMLINKS='yes'$}).
                 with_content(%r{^CVMFS_STREAMING_CACHE='no'$}).
+                with_content(%r{^CVMFS_CACHE_REFCOUNT='no'$}).
                 with_content(%r{^CVMFS_STATFS_CACHE_TIMEOUT='10'$}).
                 with_content(%r{^CVMFS_WORLD_READABLE='yes'$}).
                 with_content(%r{^CVMFS_CPU_AFFINITY='0,1,2'$}).
