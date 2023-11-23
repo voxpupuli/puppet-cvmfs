@@ -49,7 +49,7 @@ repository and finally a particular repository for
 mount.
 
 ```puppet
-class{'::cvmfs':
+class{'cvmfs':
   mount_method => 'mount',
 }
 cvmfs::domain{'example.org':
