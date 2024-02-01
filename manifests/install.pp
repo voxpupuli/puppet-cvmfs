@@ -2,9 +2,9 @@
 # @api private
 #
 class cvmfs::install (
-  $cvmfs_version = $cvmfs::cvmfs_version,
-  $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
-  $fuse3 = $cvmfs::fuse3,
+  String[1] $cvmfs_version = $cvmfs::cvmfs_version,
+  Stdlib::Absolutepath $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
+  Optional[Boolean] $fuse3 = $cvmfs::fuse3,
 ) inherits cvmfs {
   # Create the cache dir if one is defined, otherwise assume default is in the package.
   # Require the package so we know the user is in place.
