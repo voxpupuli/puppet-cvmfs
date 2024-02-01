@@ -2,8 +2,8 @@
 # @api private
 #
 class cvmfs::service (
-  $mount_method          = $cvmfs::mount_method,
-  $manage_autofs_service = $cvmfs::manage_autofs_service,
+  Enum['autofs','mount','none'] $mount_method = $cvmfs::mount_method,
+  Boolean $manage_autofs_service = $cvmfs::manage_autofs_service,
 ) inherits cvmfs {
   # CVMFS 2.1 at least uses cvmfs_config.
 

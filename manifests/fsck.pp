@@ -8,9 +8,9 @@
 # @param usesystemd Use a systemd timer
 #
 class cvmfs::fsck (
-  $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
-  $options = $cvmfs::cvmfs_fsck_options,
-  $onreboot = $cvmfs::cvmfs_fsck_onreboot,
+  Stdlib::Absolutepath $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
+  Optional[String] $options = $cvmfs::cvmfs_fsck_options,
+  Boolean $onreboot = $cvmfs::cvmfs_fsck_onreboot,
   Optional[Boolean] $usesystemd = undef,
 ) inherits cvmfs {
   if ($facts['os']['family'] == 'RedHat' and (versioncmp($facts['os']['release']['major'],'7') <= 0))
