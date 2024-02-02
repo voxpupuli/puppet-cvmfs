@@ -108,16 +108,6 @@ describe 'cvmfs::mount' do
 
           it { is_expected.to contain_mount('/cvmfs/files.example.org').with_options('one,two,three') }
         end
-
-        context 'with mount_options set to a string' do
-          let(:params) do
-            {
-              mount_options: 'four,five,six',
-            }
-          end
-
-          it { is_expected.to contain_mount('/cvmfs/files.example.org').with_options('four,five,six') }
-        end
       end
 
       context 'with mount_method mount and a config_repo set on main class' do
