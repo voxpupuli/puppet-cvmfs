@@ -1,4 +1,4 @@
-# @summary Central configuration of CvmFS
+# @summary Central configuration of CVMFS
 # @api private
 #
 class cvmfs::config (

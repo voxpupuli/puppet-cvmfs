@@ -1,4 +1,4 @@
-# @summary Installs and Configures CvmFS
+# @summary Installs and Configures CVMFS
 #
 # @see https://cvmfs.readthedocs.io/en/stable/apx-parameters.html CVMFS configuration parameters
 #
@@ -38,7 +38,7 @@
 #     }
 #   }
 #
-# @example New parameters with CvmFS 2.11.0
+# @example New parameters with CVMFS 2.11.0
 #  class{'cvmfs':
 #    cvmfs_cache_symlinks => 'yes',
 #    cvmfs_streaming_cache => 'no',
@@ -54,6 +54,11 @@
 #    The `autofs` option will configure cvmfs to be mounted with autofs. The `mount` option will
 #    use puppet's mount type, currently adding a line to /etc/fstab. The *none* option
 #    skips all mounting.  Note that migrating between for instance *autofs* and then *mount* is not supported.
+# @param config_repo
+#    When using the `mount_method` as `mount` it may be nescessary to specify a CVMFS located configuration_repository.
+#    This is a repository containing extra cvmfs configuration required to be mounted before any other
+#    repositories. There is at most one config_repo client. In addition the config_repo must actually be mounted
+#    explicitly with a `cvmfs::mount{$config_repo:}`, this is **not** automatic.
 # @param manage_autofs_service should the autofs service be maintained.
 # @param cvmfs_quota_limit The cvmfs quota size in megabytes.
 # @param cvmfs_quota_ratio
@@ -113,7 +118,7 @@
 # @param cvmfs_fsck_onreboot Should fsck be run after every reboot
 # @param fuse3
 #   Install or disable fuse3 variant of cvmfs, if left `undef` no change will be made. Note that changing
-#   this value when CvmFS mounts are active may well destroy those mounts.
+#   this value when CVMFS mounts are active may well destroy those mounts.
 #   Not availabe on Ubuntu 18.04.
 # @param cvmfs_cache_symlinks If set to yes, enables symlink caching in the kernel.
 # @param cvmfs_streaming_cache If set to yes, use a download manager to download regular files on read.
@@ -143,6 +148,7 @@ class cvmfs (
   Variant[Undef,String] $cvmfs_http_proxy,
   Optional[Variant[Enum['absent'], Array[String[1]]]] $repo_includepkgs,
   Enum['autofs','mount','none'] $mount_method                         = 'autofs',
+  Optional[Stdlib::Fqdn] $config_repo                                 = undef,
   Boolean $manage_autofs_service                                      = true,
   Integer $default_cvmfs_partsize                                     = 10000,
   Variant[Enum['auto'],Integer] $cvmfs_quota_limit                    = 1000,

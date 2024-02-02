@@ -17,6 +17,21 @@
 #     }
 #   }
 #
+# @example Mount a repository with mount (not automount)
+#   class{ 'cvmfs':
+#     mount_method => 'mount',
+#   }
+#   cvmfs::mount{'quark.example.org':}
+#
+# @example Mount a repository with mount and a config_repo as well.
+#
+#   class{ 'cvmfs':
+#     mount_method => 'mount',
+#     config_mount => 'cvmfs-config.example.org',
+#   }
+#   cvmfs::mount{'cvmfs-config.example.org':}
+#   cvmfs::mount{'down.example.org':}
+#
 # @param repo The fully qualified repository name to mount
 # @param cvmfs_quota_limit Per mount quota limit, not relavent to shared cache. Sets cvmfs_quota_limit
 # @param cvmfs_server_url Stratum 1 list, typically `;` delimited. Sets CVMFS_SERVER_URL parameter.
@@ -29,7 +44,7 @@
 # @param cvmfs_max_ttl Maximum effective TTL in seconds for DNS queries of proxy server names. Sets CVMFS_MAX_TTL
 # @param cvmfs_env_variables Sets per repo environments variables for magic links.
 # @param cvmfs_use_geoapi Set CVMFS_MAX_GEOAPI
-# @param mount_method Should the mount attempt be made with autofs or tranditional fstab mount. Do no use this.
+# @param mount_method Deprecated, do not set this, set mount_method for the whole client only on the main class.
 # @param cvmfs_repo_list If true the repository will added to the list of repositories maintained in `/etc/cvmfs/default.local`
 # @param cvmfs_mount_rw sets CVMFS_MOUNT_RW
 # @param cvmfs_memcache_size Sets CVMFS_MEMCACHE_SIZE in Megabytes.
@@ -43,7 +58,7 @@
 # @param cvmfs_external_timeout_direct Sets CVMFS_EXTERNAL_TIMEOUT_DIRECT
 # @param cvmfs_external_url Sets CVMFS_EXTERNAL_URL
 # @param cvmfs_repository_tag Sets CVMFS_REPOSITORY_TAG
-# @param mount_options Mount options to use for fstab style mounting.
+# @param mount_options Mount options to use for fstab style mounting. mount_method==mount only
 #
 define cvmfs::mount (
   Stdlib::Fqdn $repo                                                = $name,
@@ -65,8 +80,8 @@ define cvmfs::mount (
   Optional[Hash[Variant[Integer,String],Integer, 1]] $cvmfs_uid_map = undef,
   Optional[Hash[Variant[Integer,String],Integer, 1]] $cvmfs_gid_map = undef,
   Optional[Stdlib::Yes_no] $cvmfs_follow_redirects                  = undef,
-  String[1] $mount_options                                          = 'defaults,_netdev,nodev',
-  Enum['autofs','mount','none'] $mount_method                       = $cvmfs::mount_method,
+  Variant[String[1],Array[String[1]]] $mount_options                = ['defaults','_netdev','nodev'],
+  Optional[String[1]] $mount_method                                 = undef,
   Optional[String] $cvmfs_external_fallback_proxy                   = undef,
   Optional[String] $cvmfs_external_http_proxy                       = undef,
   Optional[Integer] $cvmfs_external_timeout                         = undef,
@@ -75,6 +90,19 @@ define cvmfs::mount (
   Optional[String[1]] $cvmfs_repository_tag                         = undef,
 ) {
   include cvmfs
+
+  #
+  # deprecations
+  #
+  if $mount_method {
+    deprecation("mount_method on cvmfs::mount{${repo}:}", 'Never set mount method on a cvmfs::mount. It should only ever be set on the main class for the whole client')
+  }
+  if $mount_options =~ String {
+    deprecation("mount_options on cvmfs::mount{${repo}:}", 'Setting mount_options as a string is deprecated, set as an array of options instead')
+    $_mount_options = $mount_options.split(',')
+  } else {
+    $_mount_options = $mount_options
+  }
 
   $_cvmfs_id_map_file_prefix = "/etc/cvmfs/config.d/${repo}"
   if $cvmfs_uid_map {
@@ -130,18 +158,29 @@ define cvmfs::mount (
       content => "${repo},",
     }
   }
-  if $mount_method == 'mount' {
+  if $cvmfs::mount_method == 'mount' {
     file { "/cvmfs/${repo}":
       ensure  => directory,
       owner   => 'cvmfs',
       group   => 'cvmfs',
       require => Package['cvmfs'],
     }
+
+    #
+    # Require the config repo for all repos except the config_repo
+    #
+    if $cvmfs::config_repo and $cvmfs::config_repo != $repo {
+      $_my_mount_options = $_mount_options  + ["x-systemd.requires-mounts-for=/cvmfs/${cvmfs::config_repo}"]
+      Mount["/cvmfs/${cvmfs::config_repo}"] -> Mount["/cvmfs/${repo}"]
+    } else {
+      $_my_mount_options = $_mount_options
+    }
+
     mount { "/cvmfs/${repo}":
       ensure  => mounted,
       device  => $repo,
       fstype  => 'cvmfs',
-      options => $mount_options,
+      options => $_my_mount_options.unique.join(','),
       atboot  => true,
       require => [File["/cvmfs/${repo}"],File["/etc/cvmfs/config.d/${repo}.local"],Concat['/etc/cvmfs/default.local'],File['/etc/fuse.conf']],
     }

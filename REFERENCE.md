@@ -8,12 +8,12 @@
 
 #### Public Classes
 
-* [`cvmfs`](#cvmfs): Installs and Configures CvmFS
+* [`cvmfs`](#cvmfs): Installs and Configures CVMFS
 
 #### Private Classes
 
 * `cvmfs::apt`: Configure cvmfs apt repositories
-* `cvmfs::config`: Central configuration of CvmFS
+* `cvmfs::config`: Central configuration of CVMFS
 * `cvmfs::fsck`: enable check_fsck as a cron or systemd timer
 * `cvmfs::install`: Install cvmfs from a yum repository.
 * `cvmfs::service`: Manages the cvmfs services. Opionally this also manages the autofs services
@@ -89,7 +89,7 @@ class{'cvmfs':
 }
 ```
 
-##### New parameters with CvmFS 2.11.0
+##### New parameters with CVMFS 2.11.0
 
 ```puppet
 class{'cvmfs':
@@ -109,6 +109,7 @@ class{'cvmfs':
 The following parameters are available in the `cvmfs` class:
 
 * [`mount_method`](#-cvmfs--mount_method)
+* [`config_repo`](#-cvmfs--config_repo)
 * [`manage_autofs_service`](#-cvmfs--manage_autofs_service)
 * [`cvmfs_quota_limit`](#-cvmfs--cvmfs_quota_limit)
 * [`cvmfs_quota_ratio`](#-cvmfs--cvmfs_quota_ratio)
@@ -186,6 +187,17 @@ use puppet's mount type, currently adding a line to /etc/fstab. The *none* optio
 skips all mounting.  Note that migrating between for instance *autofs* and then *mount* is not supported.
 
 Default value: `'autofs'`
+
+##### <a name="-cvmfs--config_repo"></a>`config_repo`
+
+Data type: `Optional[Stdlib::Fqdn]`
+
+When using the `mount_method` as `mount` it may be nescessary to specify a CVMFS located configuration_repository.
+This is a repository containing extra cvmfs configuration required to be mounted before any other
+repositories. There is at most one config_repo client. In addition the config_repo must actually be mounted
+explicitly with a `cvmfs::mount{$config_repo:}`, this is **not** automatic.
+
+Default value: `undef`
 
 ##### <a name="-cvmfs--manage_autofs_service"></a>`manage_autofs_service`
 
@@ -566,7 +578,7 @@ Default value: `false`
 Data type: `Optional[Boolean]`
 
 Install or disable fuse3 variant of cvmfs, if left `undef` no change will be made. Note that changing
-this value when CvmFS mounts are active may well destroy those mounts.
+this value when CVMFS mounts are active may well destroy those mounts.
 Not availabe on Ubuntu 18.04.
 
 Default value: `undef`
@@ -766,7 +778,7 @@ The following parameters are available in the `cvmfs::domain` defined type:
 
 Data type: `Stdlib::Fqdn`
 
-The domain of CvmFS repositories to mount
+The domain of CVMFS repositories to mount
 
 Default value: `$name`
 
@@ -961,6 +973,27 @@ cvmfs::mount{'foobar.example.org':
 }
 ```
 
+##### Mount a repository with mount (not automount)
+
+```puppet
+class{ 'cvmfs':
+  mount_method => 'mount',
+}
+cvmfs::mount{'quark.example.org':}
+```
+
+##### Mount a repository with mount and a config_repo as well.
+
+```puppet
+
+class{ 'cvmfs':
+  mount_method => 'mount',
+  config_mount => 'cvmfs-config.example.org',
+}
+cvmfs::mount{'cvmfs-config.example.org':}
+cvmfs::mount{'down.example.org':}
+```
+
 #### Parameters
 
 The following parameters are available in the `cvmfs::mount` defined type:
@@ -1091,11 +1124,11 @@ Default value: `undef`
 
 ##### <a name="-cvmfs--mount--mount_method"></a>`mount_method`
 
-Data type: `Enum['autofs','mount','none']`
+Data type: `Optional[String[1]]`
 
-Should the mount attempt be made with autofs or tranditional fstab mount. Do no use this.
+Deprecated, do not set this, set mount_method for the whole client only on the main class.
 
-Default value: `$cvmfs::mount_method`
+Default value: `undef`
 
 ##### <a name="-cvmfs--mount--cvmfs_repo_list"></a>`cvmfs_repo_list`
 
@@ -1203,9 +1236,9 @@ Default value: `undef`
 
 ##### <a name="-cvmfs--mount--mount_options"></a>`mount_options`
 
-Data type: `String[1]`
+Data type: `Variant[String[1],Array[String[1]]]`
 
-Mount options to use for fstab style mounting.
+Mount options to use for fstab style mounting. mount_method==mount only
 
-Default value: `'defaults,_netdev,nodev'`
+Default value: `['defaults','_netdev','nodev']`
 
