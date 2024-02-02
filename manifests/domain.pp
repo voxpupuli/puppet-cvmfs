@@ -4,7 +4,7 @@
 #    cvmfs_server_url = 'http://example.org/cvmfs/@fqrn@',
 #  }
 #
-# @param domain The domain of CvmFS repositories to mount
+# @param domain The domain of CVMFS repositories to mount
 # @param cvmfs_quota_limit Per mount quota limit, not relavent to shared cache. Sets cvmfs_quota_limit
 # @param cvmfs_server_url Stratum 1 list, typically `;` delimited. Sets CVMFS_SERVER_URL parameter.
 # @param cvmfs_http_proxy List of http proxies to use. Sets CVMFS_PROXY_LIST parameter.
