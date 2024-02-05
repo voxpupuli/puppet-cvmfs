@@ -531,6 +531,7 @@ describe 'cvmfs' do
             it do
               is_expected.to contain_concat__fragment('cvmfs_default_local_header').
                 without_content(%r{^CVMFS_CLAIM_OWNERSHIP})
+              is_expected.not_to contain_file('/var/lib/cvmfs')
             end
           end
 
@@ -543,6 +544,7 @@ describe 'cvmfs' do
             it do
               is_expected.to contain_concat__fragment('cvmfs_default_local_header').
                 with_content(%r{^CVMFS_CLAIM_OWNERSHIP='yes'$})
+              is_expected.to contain_file('/var/lib/cvmfs').with_owner('cvmfs').with_group('cvmfs')
             end
           end
 
