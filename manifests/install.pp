@@ -5,6 +5,7 @@ class cvmfs::install (
   String[1] $cvmfs_version = $cvmfs::cvmfs_version,
   Stdlib::Absolutepath $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
   Optional[Boolean] $fuse3 = $cvmfs::fuse3,
+  Optional[Enum['yes','no']] $cvmfs_claim_ownership = $cvmfs::cvmfs_claim_ownership,
 ) inherits cvmfs {
   # Create the cache dir if one is defined, otherwise assume default is in the package.
   # Require the package so we know the user is in place.
@@ -14,7 +15,7 @@ class cvmfs::install (
   # Compare the default value with the one from hiera if declared
   $default_cvmfs_cache_base  = '/var/lib/cvmfs'
 
-  if $cvmfs_cache_base != $default_cvmfs_cache_base {
+  if ($cvmfs_claim_ownership == 'yes') or ($cvmfs_cache_base != $default_cvmfs_cache_base) {
     file { $cvmfs_cache_base:
       ensure  => directory,
       owner   => $cvmfs::cvmfs_cache_owner,
