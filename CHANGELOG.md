@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.2.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v10.2.0) (2024-02-08)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v10.1.0...v10.2.0)
+
+**Implemented enhancements:**
+
+- Add parameter typing to all classes [\#191](https://github.com/voxpupuli/puppet-cvmfs/pull/191) ([traylenator](https://github.com/traylenator))
+- Support configuration repositories when using mount [\#177](https://github.com/voxpupuli/puppet-cvmfs/pull/177) ([traylenator](https://github.com/traylenator))
+
+**Fixed bugs:**
+
+- Add ownership of cachedir to puppet if claiming ownership [\#190](https://github.com/voxpupuli/puppet-cvmfs/pull/190) ([jcpunk](https://github.com/jcpunk))
+
+**Closed issues:**
+
+- Configuration repositories should be mounted first [\#176](https://github.com/voxpupuli/puppet-cvmfs/issues/176)
+
+**Merged pull requests:**
+
+- Remove legacy top-scope syntax [\#188](https://github.com/voxpupuli/puppet-cvmfs/pull/188) ([smortex](https://github.com/smortex))
+
 ## [v10.1.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v10.1.0) (2023-09-05)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v10.0.0...v10.1.0)
