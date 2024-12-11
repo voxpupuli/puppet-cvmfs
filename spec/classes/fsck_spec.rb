@@ -28,10 +28,15 @@ describe 'cvmfs::fsck' do
           it { is_expected.not_to contain_cron('clean_quarantaine') }
           it { is_expected.not_to contain_cron('cvmfs_fsck') }
           it { is_expected.to contain_systemd__tmpfile('cvmfs-quarantaine.conf').with_ensure('absent') }
-          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').with_service_content(%r{^ExecStart=/usr/bin/cvmfs_fsck  /var/lib/cvmfs/shared$}) }
-          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').with_service_content(%r{^ConditionPathExists=/var/lib/cvmfs/shared/txn$}) }
-          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').with_timer_content(%r{^OnUnitActiveSec=1week$}) }
-          it { is_expected.to contain_systemd__timer('cvmfs-fsck.timer').without_timer_content(%r{^OnBootSec$}) }
+
+          it {
+            is_expected.to contain_systemd__timer('cvmfs-fsck.timer').
+              with_service_content(%r{^ExecStart=/usr/bin/cvmfs_fsck  /var/lib/cvmfs/shared$}).
+              with_service_content(%r{^ConditionPathExists=/var/lib/cvmfs/shared/txn$}).
+              with_service_content(%r{^User=cvmfs$}).
+              with_timer_content(%r{^OnUnitActiveSec=1week$}).
+              without_timer_content(%r{^OnBootSec$})
+          }
         end
       end
 

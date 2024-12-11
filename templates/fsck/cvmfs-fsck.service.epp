@@ -10,6 +10,7 @@ ConditionPathExists=<%= $cache_base %>/shared/txn
 
 [Service]
 Type=oneshot
+User=cvmfs
 Nice=19
 IOSchedulingClass=2
 IOSchedulingPriority=7
