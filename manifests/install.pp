@@ -27,12 +27,12 @@ class cvmfs::install (
   }
 
   package { 'cvmfs':
-    ensure  => $cvmfs_version,
+    ensure => $cvmfs_version,
   }
 
   if $fuse3 =~ Boolean {
     package { 'cvmfs-fuse3':
-      ensure  => bool2str($fuse3,$cvmfs_version,'absent'),
+      ensure => bool2str($fuse3,$cvmfs_version,'absent'),
     }
   }
 

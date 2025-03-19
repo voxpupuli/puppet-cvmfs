@@ -38,7 +38,7 @@ class cvmfs::fsck (
 
     # This removal of a now redundant can be removed at some future date
     systemd::tmpfile { 'cvmfs-quarantaine.conf':
-      ensure  => absent,
+      ensure => absent,
     }
   } else {
     file { '/usr/local/sbin/cvmfs_fsck_cron.sh':
