@@ -62,14 +62,6 @@ cvmfs::domain{'example.net'
 }
 ```
 
-##### Use fuse3 version of cvmfs
-
-```puppet
-class{'cvmfs':
-  fuse3 => true,
-}
-```
-
 ##### Use Mount rather than AutoFS
 
 ```puppet
@@ -157,7 +149,6 @@ The following parameters are available in the `cvmfs` class:
 * [`cvmfs_fsck`](#-cvmfs--cvmfs_fsck)
 * [`cvmfs_fsck_options`](#-cvmfs--cvmfs_fsck_options)
 * [`cvmfs_fsck_onreboot`](#-cvmfs--cvmfs_fsck_onreboot)
-* [`fuse3`](#-cvmfs--fuse3)
 * [`cvmfs_cache_symlinks`](#-cvmfs--cvmfs_cache_symlinks)
 * [`cvmfs_streaming_cache`](#-cvmfs--cvmfs_streaming_cache)
 * [`cvmfs_statfs_cache_timeout`](#-cvmfs--cvmfs_statfs_cache_timeout)
@@ -572,16 +563,6 @@ Data type: `Boolean`
 Should fsck be run after every reboot
 
 Default value: `false`
-
-##### <a name="-cvmfs--fuse3"></a>`fuse3`
-
-Data type: `Optional[Boolean]`
-
-Install or disable fuse3 variant of cvmfs, if left `undef` no change will be made. Note that changing
-this value when CVMFS mounts are active may well destroy those mounts.
-Not availabe on Ubuntu 18.04.
-
-Default value: `undef`
 
 ##### <a name="-cvmfs--cvmfs_cache_symlinks"></a>`cvmfs_cache_symlinks`
 
