@@ -77,10 +77,6 @@ describe 'cvmfs' do
           case facts[:os]['family']
           when 'RedHat'
             case facts[:os]['release']['major']
-            when '7'
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/7/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/7/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/7/x86_64') }
             when '8'
               it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64') }
               it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
@@ -146,14 +142,8 @@ describe 'cvmfs' do
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to contain_service('autofs') }
 
-            case [facts[:os]['family'], facts[:os]['release']['major']]
-            when %w[RedHat 7], ['Debian', '18.04']
-              it { is_expected.to contain_augeas('cvmfs_automaster') }
-              it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.autofs') }
-            else
-              it { is_expected.to contain_file('/etc/auto.master.d/cvmfs.autofs') }
-              it { is_expected.not_to contain_augeas('cvmfs_automaster') }
-            end
+            it { is_expected.to contain_file('/etc/auto.master.d/cvmfs.autofs') }
+            it { is_expected.not_to contain_augeas('cvmfs_automaster') }
           end
 
           context 'with mount method setto mount' do
