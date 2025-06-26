@@ -74,23 +74,41 @@ describe 'cvmfs' do
 
           # cvmfs-config repository should be disable by default.
           #
-          case facts[:os]['family']
-          when 'RedHat'
+          case facts[:os]['name']
+          when 'RedHat', 'AlmaLinux', 'Rocky'
             case facts[:os]['release']['major']
             when '8'
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64') }
+              it {
+                is_expected.to contain_yumrepo('cvmfs').
+                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64').
+                  with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM')
+              }
+
               it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
               it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64') }
-            else
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64') }
+            when '9'
+              it {
+                is_expected.to contain_yumrepo('cvmfs').
+                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64').
+                  with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM')
+              }
+
               it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/9/x86_64') }
               it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/9/x86_64') }
+            else
+              it {
+                is_expected.to contain_yumrepo('cvmfs').
+                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/10/x86_64').
+                  with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM-2048')
+              }
+
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/10/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/10/x86_64') }
             end
             it do
               is_expected.to contain_yumrepo('cvmfs').with(
                 'enabled' => true,
                 'gpgcheck' => true,
-                'gpgkey' => 'https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM',
                 'priority' => 80
               )
             end
@@ -98,8 +116,7 @@ describe 'cvmfs' do
             it do
               is_expected.to contain_yumrepo('cvmfs-testing').with(
                 'enabled' => false,
-                'gpgcheck' => true,
-                'gpgkey' => 'https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM'
+                'gpgcheck' => true
               )
             end
 
@@ -110,25 +127,40 @@ describe 'cvmfs' do
                 'gpgkey' => 'https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM'
               )
             end
+          when 'Fedora'
+            case facts[:os]['release']['major']
+            when '41'
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/41/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/41/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/41/x86_64') }
+            else
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/42/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/42/x86_64') }
+            end
           else
             case facts[:os]['distro']['codename']
-            when 'focal'
+            when 'bookworm'
               it {
-                is_expected.to contain_apt__source('cvmfs').with({
-                                                                   'ensure' => 'present',
-                                                                   'location' => 'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
-                                                                   'release' => 'focal-prod',
-                                                                   'allow_unsigned' => false,
-                                                                 })
+                is_expected.to contain_apt__source('cvmfs').with(
+                  {
+                    'ensure' => 'present',
+                    'location' => 'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
+                    'release' => 'bookworm-prod',
+                    'allow_unsigned' => false,
+                  }
+                )
               }
 
               it {
-                is_expected.to contain_apt__source('cvmfs-testing').with({
-                                                                           'ensure' => 'absent',
-                                                                           'location' => 'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
-                                                                           'release' => 'focal-testing',
-                                                                           'allow_unsigned' => false,
-                                                                         })
+                is_expected.to contain_apt__source('cvmfs-testing').with(
+                  {
+                    'ensure' => 'absent',
+                    'location' => 'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
+                    'release' => 'bookworm-testing',
+                    'allow_unsigned' => false,
+                  }
+                )
               }
             end
           end
@@ -189,9 +221,9 @@ describe 'cvmfs' do
 
             case facts[:os]['family']
             when 'RedHat'
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl(%r{^http://example.org/base/cvmfs/EL/\d+/x86_64$}) }
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl(%r{^http://example.org/base/cvmfs-testing/EL/\d+/x86_64$}) }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl(%r{^http://example.org/base/cvmfs-config/EL/\d+/x86_64$}) }
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl(%r{^http://example.org/base/cvmfs/(fedora|EL)/\d+/x86_64$}) }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl(%r{^http://example.org/base/cvmfs-testing/(EL|fedora)/\d+/x86_64$}) }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl(%r{^http://example.org/base/cvmfs-config/(EL|fedora)/\d+/x86_64$}) }
             else
               it { is_expected.to contain_apt__source('cvmfs').with_location('http://example.org/base') }
               it { is_expected.to contain_apt__source('cvmfs-testing').with_location('http://example.org/base') }
