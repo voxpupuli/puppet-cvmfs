@@ -1,9 +1,0 @@
-# Installed with puppet
-
-/var/log/cvmfs_fsck.log {
-    monthly
-    compress
-    copytruncate
-    missingok
-}
-

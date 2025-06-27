@@ -169,27 +169,12 @@ class cvmfs::config (
   }
 
   if $mount_method == 'autofs' {
-    if ($facts['os']['family'] == 'RedHat' and versioncmp($facts['os']['release']['major'],'7') <= 0 ) or
-    ($facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '18.04') {
-      augeas { 'cvmfs_automaster':
-        context => '/files/etc/auto.master/',
-        lens    => 'Automaster.lns',
-        incl    => '/etc/auto.master',
-        changes => [
-          'set 01      /cvmfs',
-          'set 01/type program',
-          'set 01/map  /etc/auto.cvmfs',
-        ],
-        onlyif  => 'match *[map="/etc/auto.cvmfs"] size == 0',
-      }
-    } else {
-      file { '/etc/auto.master.d/cvmfs.autofs':
-        ensure  => file,
-        content => "# Puppet installed\n/cvmfs  program:/etc/auto.cvmfs\n",
-        owner   => root,
-        group   => root,
-        mode    => '0644',
-      }
+    file { '/etc/auto.master.d/cvmfs.autofs':
+      ensure  => file,
+      content => "# Puppet installed\n/cvmfs  program:/etc/auto.cvmfs\n",
+      owner   => root,
+      group   => root,
+      mode    => '0644',
     }
   }
 }
