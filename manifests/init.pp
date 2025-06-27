@@ -20,11 +20,6 @@
 #     cvmfs_server_url => 'http://web.example.org/cvmfs/@fqrn@'
 #   }
 #
-# @example Use fuse3 version of cvmfs
-#   class{'cvmfs':
-#     fuse3 => true,
-#   }
-#
 # @example Use Mount rather than AutoFS
 #   class{'cvmfs':
 #     mount_method => 'mount',
@@ -116,10 +111,6 @@
 # @param cvmfs_fsck Ensure the cvmfs::fsck class is included.
 # @param cvmfs_fsck_options Any extra options for cvmfs fsck
 # @param cvmfs_fsck_onreboot Should fsck be run after every reboot
-# @param fuse3
-#   Install or disable fuse3 variant of cvmfs, if left `undef` no change will be made. Note that changing
-#   this value when CVMFS mounts are active may well destroy those mounts.
-#   Not availabe on Ubuntu 18.04.
 # @param cvmfs_cache_symlinks If set to yes, enables symlink caching in the kernel.
 # @param cvmfs_streaming_cache If set to yes, use a download manager to download regular files on read.
 # @param cvmfs_statfs_cache_timeout Caching time of statfs() in seconds (no caching by default).
@@ -192,7 +183,6 @@ class cvmfs (
   Boolean $cvmfs_fsck                                                 = false,
   Optional[String] $cvmfs_fsck_options                                = undef,
   Boolean $cvmfs_fsck_onreboot                                        = false,
-  Optional[Boolean] $fuse3                                            = undef,
   Optional[Enum['yes','no']] $cvmfs_cache_symlinks                    = undef,
   Optional[Enum['yes','no']] $cvmfs_cache_refcount                    = undef,
   Optional[Enum['yes','no']] $cvmfs_streaming_cache                   = undef,
@@ -234,10 +224,6 @@ class cvmfs (
     }
   }
 
-  if $fuse3 =~ Boolean and  $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '18.04' {
-    fail('Ubuntu 18.04 does not have fuse3 available')
-  }
-
   if $repo_manage {
     case $facts['os']['family'] {
       'RedHat': {
@@ -251,9 +237,6 @@ class cvmfs (
         Class['cvmfs::apt'] -> Class['cvmfs::install']
         # Needed since apt::update is only notified in apt::source, but not contained.
         Class['apt::update'] -> Package['cvmfs']
-        if $fuse3 {
-          Class['apt::update'] -> Package['cvmfs-fuse3']
-        }
       }
       default: { fail('Only repositories for RedHat or Debian family can be managed') }
     }

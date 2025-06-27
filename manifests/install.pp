@@ -4,7 +4,6 @@
 class cvmfs::install (
   String[1] $cvmfs_version = $cvmfs::cvmfs_version,
   Stdlib::Absolutepath $cvmfs_cache_base = $cvmfs::cvmfs_cache_base,
-  Optional[Boolean] $fuse3 = $cvmfs::fuse3,
   Optional[Enum['yes','no']] $cvmfs_claim_ownership = $cvmfs::cvmfs_claim_ownership,
 ) inherits cvmfs {
   # Create the cache dir if one is defined, otherwise assume default is in the package.
@@ -28,12 +27,6 @@ class cvmfs::install (
 
   package { 'cvmfs':
     ensure => $cvmfs_version,
-  }
-
-  if $fuse3 =~ Boolean {
-    package { 'cvmfs-fuse3':
-      ensure => bool2str($fuse3,$cvmfs_version,'absent'),
-    }
   }
 
   # Create a file for the cvmfs
