@@ -26,21 +26,26 @@ class cvmfs::yum (
     proxy       => $repo_proxy,
   }
 
+  $_dir = $facts['os']['name'] ? {
+    'Fedora' => 'fedora',
+    default  => 'EL'
+  }
+
   yumrepo { 'cvmfs':
-    descr   => "CVMFS yum repository for el${facts['os']['release']['major']}",
-    baseurl => "${repo_base}/cvmfs/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+    descr   => "CVMFS yum repository for ${_dir}${facts['os']['release']['major']}",
+    baseurl => "${repo_base}/cvmfs/${_dir}/${facts['os']['release']['major']}/${facts['os']['architecture']}",
     enabled => true,
   }
 
   yumrepo { 'cvmfs-testing':
-    descr   => "CVMFS yum testing repository for el${facts['os']['release']['major']}",
-    baseurl => "${repo_base}/cvmfs-testing/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+    descr   => "CVMFS yum testing repository for ${_dir}${facts['os']['release']['major']}",
+    baseurl => "${repo_base}/cvmfs-testing/${_dir}/${facts['os']['release']['major']}/${facts['os']['architecture']}",
     enabled => $repo_testing_enabled,
   }
 
   yumrepo { 'cvmfs-config':
-    descr   => "CVMFS config yum repository for el${facts['os']['release']['major']}",
-    baseurl => "${repo_base}/cvmfs-config/EL/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+    descr   => "CVMFS config yum repository for ${_dir}${facts['os']['release']['major']}",
+    baseurl => "${repo_base}/cvmfs-config/${_dir}/${facts['os']['release']['major']}/${facts['os']['architecture']}",
     enabled => $repo_config_enabled,
   }
 }
