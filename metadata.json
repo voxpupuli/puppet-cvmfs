@@ -1,6 +1,6 @@
 {
   "name": "puppet-cvmfs",
-  "version": "10.2.1-rc0",
+  "version": "11.0.0",
   "summary": "Manages CVMFS clients",
   "author": "Vox Pupuli",
   "project_page": "https://github.com/voxpupuli/puppet-cvmfs",
