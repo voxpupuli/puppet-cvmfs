@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v11.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v11.0.0) (2025-06-29)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v10.2.0...v11.0.0)
+
+**Breaking changes:**
+
+- Remove fuse3 parameter [\#209](https://github.com/voxpupuli/puppet-cvmfs/pull/209) ([traylenator](https://github.com/traylenator))
+- Drop Support for EOL OSes [\#208](https://github.com/voxpupuli/puppet-cvmfs/pull/208) ([traylenator](https://github.com/traylenator))
+
+**Implemented enhancements:**
+
+- Support RH  10, Fed' 41,42 Ubu' 24.04 and Deb' 12 [\#210](https://github.com/voxpupuli/puppet-cvmfs/pull/210) ([traylenator](https://github.com/traylenator))
+- Allow puppetlabs/apt 10.x [\#205](https://github.com/voxpupuli/puppet-cvmfs/pull/205) ([smortex](https://github.com/smortex))
+- metadata.json: Add OpenVox [\#204](https://github.com/voxpupuli/puppet-cvmfs/pull/204) ([jstraw](https://github.com/jstraw))
+- Run cvmfs\_fsck service as user cvmfs [\#201](https://github.com/voxpupuli/puppet-cvmfs/pull/201) ([traylenator](https://github.com/traylenator))
+
 ## [v10.2.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v10.2.0) (2024-02-08)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v10.1.0...v10.2.0)
