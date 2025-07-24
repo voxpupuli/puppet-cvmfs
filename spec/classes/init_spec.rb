@@ -121,6 +121,13 @@ describe 'cvmfs' do
             end
 
             it do
+              is_expected.to contain_yumrepo('cvmfs-future').with(
+                'enabled' => false,
+                'gpgcheck' => true
+              )
+            end
+
+            it do
               is_expected.to contain_yumrepo('cvmfs-config').with(
                 'enabled' => false,
                 'gpgcheck' => true,
@@ -159,6 +166,31 @@ describe 'cvmfs' do
                     'location' => 'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
                     'release' => 'bookworm-testing',
                     'allow_unsigned' => false,
+                  }
+                )
+              }
+            end
+          end
+
+          context 'with repo_future_enabled true' do
+            let(:params) do
+              { repo_future_enabled: true,
+                cvmfs_http_proxy: :undef }
+            end
+
+            case facts[:os]['family']
+            when 'RedHat'
+              it do
+                is_expected.to contain_yumrepo('cvmfs-future').with(
+                  'enabled' => true,
+                  'gpgcheck' => true
+                )
+              end
+            else
+              it {
+                is_expected.to contain_apt__source('cvmfs-future').with(
+                  {
+                    'ensure' => 'present',
                   }
                 )
               }
