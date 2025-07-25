@@ -82,12 +82,14 @@
 # @param cvmfs_debuglog Create a debug log file at this location.
 # @param cvmfs_max_ttl Max ttl.
 # @param cvmfs_version Version of cvmfs to install.
-# @param repo_base URL containting stable, testing and config apt or yum repositories. Default in hiera data.
+# @param repo_base URL containing stable, testing and config apt or yum repositories. Default in hiera data.
+# @param repo_base_alt URL containing stable, Same as repo_base, hosted on a different backend. Default in hiera data.
 # @param repo_includepkgs Specify an includepkgs to the yum repos to ignore other packages.
 # @param repo_priority Yum priority of repositories
 # @param repo_proxy http proxy for cvmfs yum package repository
 # @param repo_config_enabled Should the config yum repository be enabled
 # @param repo_testing_enabled Should the testing repository be enabled.
+# @param repo_future_enabled Should the future (pre-release) repository be enabled.
 # @param repo_gpgcheck  set to false to disable GPG checking
 # @param repo_gpgkey Set a custom GPG key for yum repos. Default in hiera data.
 # @param repo_manage Set to false to disable yum or apt repositories management.
@@ -135,6 +137,7 @@
 #
 class cvmfs (
   Stdlib::Httpurl $repo_base,
+  Stdlib::Httpurl $repo_base_alt,
   Stdlib::Httpurl $repo_gpgkey,
   Variant[Undef,String] $cvmfs_http_proxy,
   Optional[Variant[Enum['absent'], Array[String[1]]]] $repo_includepkgs,
@@ -168,6 +171,7 @@ class cvmfs (
   Integer $repo_priority                                              = 80,
   Boolean $repo_config_enabled                                        = false,
   Boolean $repo_testing_enabled                                       = false,
+  Boolean $repo_future_enabled                                        = false,
   Optional[Stdlib::Httpurl] $repo_proxy                               = undef,
   Boolean $repo_gpgcheck                                              = true,
   Optional[Enum['yes','no']] $cvmfs_use_geoapi                        = undef,

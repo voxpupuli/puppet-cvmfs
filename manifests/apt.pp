@@ -5,6 +5,7 @@ class cvmfs::apt (
   Stdlib::Httpurl $repo_base                                            = $cvmfs::repo_base,
   Stdlib::Httpurl $repo_gpgkey                                          = $cvmfs::repo_gpgkey,
   Boolean $repo_testing_enabled                                         = $cvmfs::repo_testing_enabled,
+  Boolean $repo_future_enabled                                          = $cvmfs::repo_future_enabled,
   Optional[Stdlib::Httpurl] $repo_proxy                                 = $cvmfs::repo_proxy,
   Boolean $repo_gpgcheck                                                = $cvmfs::repo_gpgcheck,
 
@@ -30,5 +31,9 @@ class cvmfs::apt (
   apt::source { 'cvmfs-testing':
     ensure  => bool2str($repo_testing_enabled,'present','absent'),
     release => "${facts['os']['distro']['codename']}-testing",
+  }
+  apt::source { 'cvmfs-future':
+    ensure  => bool2str($repo_future_enabled,'present','absent'),
+    release => "${facts['os']['distro']['codename']}-future",
   }
 }
