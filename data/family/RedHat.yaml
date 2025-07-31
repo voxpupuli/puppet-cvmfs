@@ -9,4 +9,3 @@ cvmfs::repo_includepkgs:
   - cvmfs
   - cvmfs-config-default
   - cvmfs-fuse3
-  - prometheus-cvmfs-exporter
