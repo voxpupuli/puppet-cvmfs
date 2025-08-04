@@ -4,7 +4,21 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v11.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v11.0.0) (2025-06-29)
+## [v12.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v12.0.0) (2025-08-04)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v11.0.0...v12.0.0)
+
+**Breaking changes:**
+
+- Update openvox minimum version to 8.19 [\#215](https://github.com/voxpupuli/puppet-cvmfs/pull/215) ([TheMeier](https://github.com/TheMeier))
+- Drop puppet and openvox 7 support [\#214](https://github.com/voxpupuli/puppet-cvmfs/pull/214) ([traylenator](https://github.com/traylenator))
+
+**Implemented enhancements:**
+
+- Add prometheus-cvmfs-exporter to includepkgs [\#216](https://github.com/voxpupuli/puppet-cvmfs/pull/216) ([vvolkl](https://github.com/vvolkl))
+- add cvmfs-future repository [\#212](https://github.com/voxpupuli/puppet-cvmfs/pull/212) ([vvolkl](https://github.com/vvolkl))
+
+## [v11.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v11.0.0) (2025-06-30)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v10.2.0...v11.0.0)
 
