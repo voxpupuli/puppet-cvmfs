@@ -1,6 +1,7 @@
 ---
 
 cvmfs::repo_base: https://cvmrepo.s3.cern.ch/cvmrepo/yum
+cvmfs::repo_base_alt: https://cvmrepo.web.cern.ch/cvmrepo/yum
 cvmfs::repo_gpgkey: https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM-2048
 cvmfs::repo_includepkgs:
   - cvmfs-keys
