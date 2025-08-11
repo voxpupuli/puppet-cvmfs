@@ -140,7 +140,7 @@ class cvmfs (
   Stdlib::Httpurl $repo_base_alt,
   Stdlib::Httpurl $repo_gpgkey,
   Variant[Undef,String] $cvmfs_http_proxy,
-  Optional[Variant[Enum['absent'], Array[String[1]]]] $repo_includepkgs,
+  Optional[Variant[Enum['absent'], Array[String[1]]]] $repo_includepkgs = undef,
   Enum['autofs','mount','none'] $mount_method                         = 'autofs',
   Optional[Stdlib::Fqdn] $config_repo                                 = undef,
   Boolean $manage_autofs_service                                      = true,
