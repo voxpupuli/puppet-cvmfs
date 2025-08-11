@@ -410,6 +410,8 @@ Data type: `Optional[Variant[Enum['absent'], Array[String[1]]]]`
 
 Specify an includepkgs to the yum repos to ignore other packages.
 
+Default value: `undef`
+
 ##### <a name="-cvmfs--repo_priority"></a>`repo_priority`
 
 Data type: `Integer`
