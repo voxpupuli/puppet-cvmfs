@@ -307,7 +307,7 @@ describe 'cvmfs' do
             else
               it {
                 is_expected.to contain_apt__source('cvmfs').with_key(
-                  { 'ensure' => 'refreshed', 'id' => '70B9890488208E315ED45208230D389D8AE45CE7', 'source' => 'http://example.org/key.gpg' }
+                  { 'ensure' => 'refreshed', 'id' => 'FD80468D49B3B24C341741FC8CE0A76C497EA957', 'source' => 'http://example.org/key.gpg' }
                 )
               }
             end

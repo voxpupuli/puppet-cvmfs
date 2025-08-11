@@ -16,7 +16,7 @@ class cvmfs::apt (
     location       => $repo_base,
     key            => {
       ensure  => refreshed,
-      id      => '70B9890488208E315ED45208230D389D8AE45CE7',
+      id      => 'FD80468D49B3B24C341741FC8CE0A76C497EA957',
       source  => $repo_gpgkey,
     },
     repos          => 'main',
