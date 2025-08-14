@@ -45,6 +45,14 @@
 #    cvmfs_cache_refcount => 'yes',
 #  }
 #
+# @example Enable Prometheus Metrics Exporter
+#  class{ 'cvmfs':
+#    enable_prometheus_exporter => true,
+#  }
+#  class{ 'nftables::rules::node_exporter':
+#    port => 9868,
+#  }
+#
 # @param mount_method
 #    The `autofs` option will configure cvmfs to be mounted with autofs. The `mount` option will
 #    use puppet's mount type, currently adding a line to /etc/fstab. The *none* option
@@ -121,6 +129,7 @@
 # @param cvmfs_xattr_privileged_gids group IDs that are allowed to access the extended attributes by `$cvmfs_xattr_protected_xattrs`.
 # @param cvmfs_xattr_protected_xattrs List of extended attributes (full name, e.g. user.fqrn) that are only accessible by root and the group IDs listed by `$cvmfs_xattr_privileged_gids`.
 # @param cvmfs_cache_refcount If set to yes, deduplicate open file descriptors by refcounting.
+# @param enable_prometheus_exporter Install and start a Prometheus exporter on port 9868
 #
 # Deprecated paramters below
 # @param cvmfs_yum Deprecated, use repo_base
@@ -195,6 +204,7 @@ class cvmfs (
   Optional[Array[Integer[0],1]] $cvmfs_cpu_affinity                   = undef,
   Optional[Array[Integer[1],1]] $cvmfs_xattr_privileged_gids          = undef,
   Optional[Array[String[1],1]] $cvmfs_xattr_protected_xattrs          = undef,
+  Boolean $enable_prometheus_exporter                                 = false,
   # Deprecated Parameters
   Optional[Boolean] $cvmfs_yum_manage_repo                                = undef,
   Optional[Stdlib::Httpurl] $cvmfs_yum                                    = undef,
