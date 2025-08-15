@@ -7,6 +7,9 @@ group :test do
   gem 'voxpupuli-test', '~> 11.0',  :require => false
   gem 'puppet_metadata', '~> 5.0',  :require => false
   gem 'mocha',                      :require => false
+  gem 'beaker-hostgenerator',
+    git: 'https://github.com/voxpupuli/beaker-hostgenerator.git',
+    branch: 'rocky10'
 end
 
 group :development do
