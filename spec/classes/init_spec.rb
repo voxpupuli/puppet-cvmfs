@@ -30,6 +30,11 @@ describe 'cvmfs' do
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_UID_MAP.*$}) }
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').without_content(%r{^CVMFS_GID_MAP.*$}) }
 
+        it {
+          is_expected.to contain_package('prometheus-cvmfs-exporter').with_ensure('absent')
+          is_expected.to contain_service('cvmfs-client-prometheus.socket').with_ensure(false).with_enable(false)
+        }
+
         case facts[:os]['family']
         when 'Debian'
           it { is_expected.to contain_class('cvmfs::apt') }
@@ -47,6 +52,17 @@ describe 'cvmfs' do
           end
 
           it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').with_content(%r{^CVMFS_HTTP_PROXY='http://foobar.example.org:3128'$}) }
+        end
+
+        context 'with enable_prometheus_exporter set true' do
+          let(:params) do
+            super().merge(enable_prometheus_exporter: true)
+          end
+
+          it {
+            is_expected.to contain_package('prometheus-cvmfs-exporter').with_ensure('installed')
+            is_expected.to contain_service('cvmfs-client-prometheus.socket').with_ensure(true).with_enable(true)
+          }
         end
 
         context 'with defaults and cvmfspartsize fact unset' do

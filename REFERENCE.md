@@ -96,6 +96,17 @@ class{'cvmfs':
 }
 ```
 
+##### Enable Prometheus Metrics Exporter
+
+```puppet
+class{ 'cvmfs':
+  enable_prometheus_exporter => true,
+}
+class{ 'nftables::rules::node_exporter':
+  port => 9868,
+}
+```
+
 #### Parameters
 
 The following parameters are available in the `cvmfs` class:
@@ -159,6 +170,7 @@ The following parameters are available in the `cvmfs` class:
 * [`cvmfs_xattr_privileged_gids`](#-cvmfs--cvmfs_xattr_privileged_gids)
 * [`cvmfs_xattr_protected_xattrs`](#-cvmfs--cvmfs_xattr_protected_xattrs)
 * [`cvmfs_cache_refcount`](#-cvmfs--cvmfs_cache_refcount)
+* [`enable_prometheus_exporter`](#-cvmfs--enable_prometheus_exporter)
 * [`cvmfs_yum`](#-cvmfs--cvmfs_yum)
 * [`cvmfs_yum_priority`](#-cvmfs--cvmfs_yum_priority)
 * [`cvmfs_yum_proxy`](#-cvmfs--cvmfs_yum_proxy)
@@ -645,6 +657,14 @@ Data type: `Optional[Enum['yes','no']]`
 If set to yes, deduplicate open file descriptors by refcounting.
 
 Default value: `undef`
+
+##### <a name="-cvmfs--enable_prometheus_exporter"></a>`enable_prometheus_exporter`
+
+Data type: `Boolean`
+
+Install and start a Prometheus exporter on port 9868
+
+Default value: `false`
 
 ##### <a name="-cvmfs--cvmfs_yum"></a>`cvmfs_yum`
 
