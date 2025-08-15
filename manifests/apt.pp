@@ -10,15 +10,32 @@ class cvmfs::apt (
   Boolean $repo_gpgcheck                                                = $cvmfs::repo_gpgcheck,
 
 ) {
-  Apt::Source {
-    allow_unsigned => ! $repo_gpgcheck,
-    comment        => 'CernVM File System',
-    location       => $repo_base,
-    key            => {
+  if ($facts['os']['name'] == 'Debian' and versioncmp($facts['os']['release']['major'],'12') <= 0 ) or
+  ($facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'],'24.04') <= 0 ) {
+    $_source_format = 'list'
+    $_key           = {
       ensure  => refreshed,
       id      => 'FD80468D49B3B24C341741FC8CE0A76C497EA957',
       source  => $repo_gpgkey,
-    },
+    }
+    $_keyring       = undef
+  } else {
+    $_source_format = 'sources'
+    $_key           = undef
+    $_keyring       = '/etc/apt/keyrings/cernvm.gpg'
+
+    apt::keyring { 'cernvm.gpg':
+      source => $repo_gpgkey,
+    }
+  }
+
+  Apt::Source {
+    source_format  => $_source_format,
+    allow_unsigned => ! $repo_gpgcheck,
+    comment        => 'CernVM File System',
+    location       => assert_type(String[1], $repo_base),
+    key            => $_key,
+    keyring        => $_keyring,
     repos          => 'main',
     notify_update  => true,
   }
