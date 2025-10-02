@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v12.1.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v12.1.0) (2025-10-02)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v12.0.0...v12.1.0)
+
+**Implemented enhancements:**
+
+- New enable\_prometheus\_exporter parameter [\#222](https://github.com/voxpupuli/puppet-cvmfs/pull/222) ([traylenator](https://github.com/traylenator))
+- Remove superfluous repo\_includepkgs = undef from hiera data. [\#219](https://github.com/voxpupuli/puppet-cvmfs/pull/219) ([djuarezg](https://github.com/djuarezg))
+- apt: ensure RSA signing key is refreshed instead of old DSA key [\#218](https://github.com/voxpupuli/puppet-cvmfs/pull/218) ([olifre](https://github.com/olifre))
+
+**Merged pull requests:**
+
+- refactor: change from mocha to rspec-mocks [\#223](https://github.com/voxpupuli/puppet-cvmfs/pull/223) ([TheMeier](https://github.com/TheMeier))
+
 ## [v12.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v12.0.0) (2025-08-04)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v11.0.0...v12.0.0)
