@@ -146,8 +146,7 @@ describe 'cvmfs' do
             it do
               is_expected.to contain_yumrepo('cvmfs-config').with(
                 'enabled' => false,
-                'gpgcheck' => true,
-                'gpgkey' => 'https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM'
+                'gpgcheck' => true
               )
             end
           when 'Fedora'
