@@ -90,7 +90,8 @@
 # @param cvmfs_debuglog Create a debug log file at this location.
 # @param cvmfs_max_ttl Max ttl.
 # @param cvmfs_version Version of cvmfs to install.
-# @param repo_base URL containing stable, testing and config apt or yum repositories. Default in hiera data.
+# @param repo_base
+#   URL containing stable, testing and config apt or yum repositories. If an array is specified then on RedHat family multiple repos will be configured with failover. On Debian family the array can have length 1 only, failover is not supported for Debian.
 # @param repo_base_alt URL containing stable, Same as repo_base, hosted on a different backend. Default in hiera data.
 # @param repo_includepkgs Specify an includepkgs to the yum repos to ignore other packages.
 # @param repo_priority Yum priority of repositories
@@ -145,7 +146,7 @@
 # @param cvmfs_yum_includepkgs Deprecated, use repo_includepkgs
 #
 class cvmfs (
-  Stdlib::Httpurl $repo_base,
+  Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl,1]] $repo_base,
   Stdlib::Httpurl $repo_base_alt,
   Stdlib::Httpurl $repo_gpgkey,
   Variant[Undef,String] $cvmfs_http_proxy,
@@ -236,6 +237,11 @@ class cvmfs (
     if getvar($_deprecation) !~ Undef {
       fail("cvmfs parameter '${_deprecation}' is deprecated, Check how to use '${_replacement}' instead")
     }
+  }
+
+  # Unsupported combinations
+  if $facts['os']['family'] == 'Debian' and $repo_base =~ Array[Any,2] {
+    fail('With Debian family OSes only a single url for the \"repo_base\" parameter is supported')
   }
 
   if $repo_manage {

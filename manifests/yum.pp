@@ -2,7 +2,7 @@
 # @api private
 #
 class cvmfs::yum (
-  Stdlib::Httpurl $repo_base                                            = $cvmfs::repo_base,
+  Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl,1]] $repo_base          = $cvmfs::repo_base,
   Stdlib::Httpurl $repo_base_alt                                        = $cvmfs::repo_base_alt,
   Stdlib::Httpurl $repo_gpgkey                                          = $cvmfs::repo_gpgkey,
   Integer $repo_priority                                                = $cvmfs::repo_priority,
@@ -33,28 +33,32 @@ class cvmfs::yum (
     default  => 'EL'
   }
 
+  $_repo_base     = Array($repo_base, true)
+  $_major         = $facts['os']['release']['major']
+  $_arch          = $facts['os']['architecture']
+
   yumrepo { 'cvmfs':
-    descr   => "CVMFS yum repository for ${_dir}${facts['os']['release']['major']}",
-    baseurl => "${repo_base}/cvmfs/${_dir}/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+    descr   => "CVMFS yum repository for ${_dir}${_major}",
+    baseurl => $_repo_base.map | $_r | { "${_r}/cvmfs/${_dir}/${_major}/${_arch}" }.join(' '),
     enabled => true,
   }
 
   yumrepo { 'cvmfs-testing':
-    descr   => "CVMFS-testing yum repository for ${_dir}${facts['os']['release']['major']}. Same binaries as production repo, released earlier. Very stable.",
-    baseurl => "${repo_base}/cvmfs-testing/${_dir}/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+    descr   => "CVMFS-testing yum repository for ${_dir}${_major}. Same binaries as production repo, released earlier. Very stable.",
+    baseurl => $_repo_base.map | $_r | { "${_r}/cvmfs-testing/${_dir}/${_major}/${_arch}" }.join(' '),
     enabled => $repo_testing_enabled,
   }
 
   yumrepo { 'cvmfs-future':
-    descr   => "CVMFS-future yum repository for ${_dir}${facts['os']['release']['major']}. Tagged pre-releases. Stable.",
+    descr   => "CVMFS-future yum repository for ${_dir}${_major}. Tagged pre-releases. Stable.",
     # note the use of repo_base_alt - this is in principle a mirror of repo_base, but prereleases are published there first
-    baseurl => "${repo_base_alt}/cvmfs-future/${_dir}/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+    baseurl => "${repo_base_alt}/cvmfs-future/${_dir}/${_major}/${_arch}",
     enabled => $repo_future_enabled,
   }
 
   yumrepo { 'cvmfs-config':
-    descr   => "CVMFS config yum repository for ${_dir}${facts['os']['release']['major']}",
-    baseurl => "${repo_base}/cvmfs-config/${_dir}/${facts['os']['release']['major']}/${facts['os']['architecture']}",
+    descr   => "CVMFS config yum repository for ${_dir}${_major}",
+    baseurl => $_repo_base.map | $_r | { "${_r}/cvmfs-config/${_dir}/${_major}/${_arch}" }.join(' '),
     enabled => $repo_config_enabled,
   }
 }

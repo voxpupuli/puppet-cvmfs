@@ -96,30 +96,30 @@ describe 'cvmfs' do
             when '8'
               it {
                 is_expected.to contain_yumrepo('cvmfs').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64').
+                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64').
                   with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM')
               }
 
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64') }
             when '9'
               it {
                 is_expected.to contain_yumrepo('cvmfs').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64').
+                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64').
                   with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM')
               }
 
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/9/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/9/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/9/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/EL/9/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/9/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/EL/9/x86_64') }
             else
               it {
                 is_expected.to contain_yumrepo('cvmfs').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/10/x86_64').
+                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/10/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/10/x86_64').
                   with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM-2048')
               }
 
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/10/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/10/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/10/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/EL/10/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/10/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/EL/10/x86_64') }
             end
             it do
               is_expected.to contain_yumrepo('cvmfs').with(
@@ -152,13 +152,13 @@ describe 'cvmfs' do
           when 'Fedora'
             case facts[:os]['release']['major']
             when '41'
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/41/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/41/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/41/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/41/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/41/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/41/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/41/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/41/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/fedora/41/x86_64') }
             else
-              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/42/x86_64') }
-              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/42/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64') }
             end
           else
             case facts[:os]['distro']['codename']
@@ -260,7 +260,7 @@ describe 'cvmfs' do
             end
           end
 
-          context 'with repo_base set to http://example.org/base' do
+          context 'with repo_base set to a string http://example.org/base' do
             let(:params) do
               { repo_base: 'http://example.org/base',
                 cvmfs_http_proxy: :undef }
@@ -274,6 +274,39 @@ describe 'cvmfs' do
             else
               it { is_expected.to contain_apt__source('cvmfs').with_location('http://example.org/base') }
               it { is_expected.to contain_apt__source('cvmfs-testing').with_location('http://example.org/base') }
+            end
+          end
+
+          context 'with repo_base set to array of size 1 [http://example.org/base]' do
+            let(:params) do
+              { repo_base: ['http://example.org/base'],
+                cvmfs_http_proxy: :undef }
+            end
+
+            case facts[:os]['family']
+            when 'RedHat'
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl(%r{^http://example.org/base/cvmfs/(fedora|EL)/\d+/x86_64$}) }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl(%r{^http://example.org/base/cvmfs-testing/(EL|fedora)/\d+/x86_64$}) }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl(%r{^http://example.org/base/cvmfs-config/(EL|fedora)/\d+/x86_64$}) }
+            else
+              it { is_expected.to contain_apt__source('cvmfs').with_location('http://example.org/base') }
+              it { is_expected.to contain_apt__source('cvmfs-testing').with_location('http://example.org/base') }
+            end
+          end
+
+          context 'with repo_base set to an array of size 2 [http://example.org/base,http://example.net/base]' do
+            let(:params) do
+              { repo_base: ['http://example.org/base', 'http://example.net/base'],
+                cvmfs_http_proxy: :undef }
+            end
+
+            case facts[:os]['family']
+            when 'RedHat'
+              it { is_expected.to contain_yumrepo('cvmfs').with_baseurl(%r{^http://example.org/base/cvmfs/(fedora|EL)/\d+/x86_64 http://example.net/base/cvmfs/(fedora|EL)/\d+/x86_64$}) }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl(%r{^http://example.org/base/cvmfs-testing/(EL|fedora)/\d+/x86_64 http://example.net/base/cvmfs-testing/(EL|fedora)/\d+/x86_64$}) }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl(%r{^http://example.org/base/cvmfs-config/(EL|fedora)/\d+/x86_64 http://example.net/base/cvmfs-config/(EL|fedora)/\d+/x86_64$}) }
+            else
+              it { is_expected.to compile.and_raise_error(%r{Debian family OSes only a single url}) }
             end
           end
 

@@ -2,18 +2,20 @@
 # @api private
 #
 class cvmfs::apt (
-  Stdlib::Httpurl $repo_base                                            = $cvmfs::repo_base,
+  Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl,1]] $repo_base          = $cvmfs::repo_base,
   Stdlib::Httpurl $repo_gpgkey                                          = $cvmfs::repo_gpgkey,
   Boolean $repo_testing_enabled                                         = $cvmfs::repo_testing_enabled,
   Boolean $repo_future_enabled                                          = $cvmfs::repo_future_enabled,
   Optional[Stdlib::Httpurl] $repo_proxy                                 = $cvmfs::repo_proxy,
   Boolean $repo_gpgcheck                                                = $cvmfs::repo_gpgcheck,
-
 ) {
+  # We already reject arrays of more than one element in init.pp
+  $_location = Array($repo_base,true)[0]
+
   Apt::Source {
     allow_unsigned => ! $repo_gpgcheck,
     comment        => 'CernVM File System',
-    location       => $repo_base,
+    location       => $_location,
     key            => {
       ensure  => refreshed,
       id      => 'FD80468D49B3B24C341741FC8CE0A76C497EA957',
