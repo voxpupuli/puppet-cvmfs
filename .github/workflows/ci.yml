@@ -22,4 +22,6 @@ permissions:
 jobs:
   puppet:
     name: Puppet
-    uses: voxpupuli/gha-puppet/.github/workflows/beaker.yml@v4
+    uses: traylenator/gha-puppet/.github/workflows/beaker.yml@064a04f8c2e1247e236cf80ae57f7aab31990a59
+    with:
+      podman_rootful: true
