@@ -1,3 +1,6 @@
 ---
 spec/spec_helper_acceptance.rb:
   unmanaged: false
+
+.github/workflows/ci.yml:
+  beaker_hypervisor: vagrant_libvirt
