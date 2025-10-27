@@ -4,6 +4,9 @@ require 'spec_helper_acceptance'
 
 describe 'cvmfs::domain cern.ch' do
   it 'configures and work with no errors' do
+    pending('vargrant image being available') if ((fact('os.name') == 'Rocky') && (fact('os.release.major') == '9')) ||
+                                                 ((fact('os.name') == 'Ubuntu') && (fact('os.release.major') == '24.04'))
+
     # Clean up all existing mounts
     shell('cvmfs_config killall', acceptable_exit_codes: [0, 127])
     pp = <<-EOS
