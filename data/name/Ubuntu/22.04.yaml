@@ -1,0 +1,2 @@
+---
+cvmfs::repo_base: 'https://cvmrepo.s3.cern.ch/cvmrepo/apt'

@@ -409,7 +409,7 @@ Default value: `'present'`
 
 Data type: `Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl,1]]`
 
-URL containing stable, testing and config apt or yum repositories. If an array is specified then on RedHat family multiple repos will be configured with failover. On Debian family the array can have length 1 only, failover is not supported for Debian.
+URL containing stable, testing and config apt or yum repositories. If an array is specified then on RedHat family or Debian 13 or newer multiple repos will be configured with failover. For older Debian and Ubuntu only one repository can be configured.
 
 ##### <a name="-cvmfs--repo_base_alt"></a>`repo_base_alt`
 

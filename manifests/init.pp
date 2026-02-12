@@ -91,7 +91,7 @@
 # @param cvmfs_max_ttl Max ttl.
 # @param cvmfs_version Version of cvmfs to install.
 # @param repo_base
-#   URL containing stable, testing and config apt or yum repositories. If an array is specified then on RedHat family multiple repos will be configured with failover. On Debian family the array can have length 1 only, failover is not supported for Debian.
+#   URL containing stable, testing and config apt or yum repositories. If an array is specified then on RedHat family or Debian 13 or newer multiple repos will be configured with failover. For older Debian and Ubuntu only one repository can be configured.
 # @param repo_base_alt URL containing stable, Same as repo_base, hosted on a different backend. Default in hiera data.
 # @param repo_includepkgs Specify an includepkgs to the yum repos to ignore other packages.
 # @param repo_priority Yum priority of repositories
@@ -242,8 +242,11 @@ class cvmfs (
   }
 
   # Unsupported combinations
-  if $facts['os']['family'] == 'Debian' and $repo_base =~ Array[Any,2] {
-    fail('With Debian family OSes only a single url for the \"repo_base\" parameter is supported')
+  if (
+    ($facts['os']['name'] == 'Debian' and versioncmp($facts['os']['release']['major'],'12') <= 0 ) or
+    ($facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'],'24.04') <= 0 )
+  ) and $repo_base =~ Array[Any,2] {
+    fail('With Debian 11, 12 or Ubuntu 22.04, 24.04 only a single url for the \"repo_base\" parameter is supported')
   }
 
   if $repo_manage {

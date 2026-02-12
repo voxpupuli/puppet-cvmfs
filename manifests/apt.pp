@@ -9,8 +9,6 @@ class cvmfs::apt (
   Optional[Stdlib::Httpurl] $repo_proxy                                 = $cvmfs::repo_proxy,
   Boolean $repo_gpgcheck                                                = $cvmfs::repo_gpgcheck,
 ) {
-  # We already reject arrays of more than one element in init.pp
-
   if ($facts['os']['name'] == 'Debian' and versioncmp($facts['os']['release']['major'],'12') <= 0 ) or
   ($facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'],'24.04') <= 0 ) {
     $_source_format = 'list'
@@ -20,6 +18,7 @@ class cvmfs::apt (
       source  => $repo_gpgkey,
     }
     $_keyring = undef
+    # We already reject arrays of more than one element in init.pp
     $_location = Array($repo_base,true)[0] # Take first one for old format.
     $_release_cvmfs = "${facts['os']['distro']['codename']}-prod"
     $_release_testing = "${facts['os']['distro']['codename']}-testing"

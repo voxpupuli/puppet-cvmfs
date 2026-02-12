@@ -264,21 +264,30 @@ describe 'cvmfs' do
                   {
                     ensure: 'present',
                     enabled: true,
-                    location: ['https://cvmrepo.s3.cern.ch/cvmrepo/apt'],
+                    location: [
+                      'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
+                      'https://cvmrepo.web.cern.ch/cvmrepo/apt',
+                    ],
                   }
                 )
                 is_expected.to contain_apt__source('cvmfs-testing').with(
                   {
                     ensure: 'present',
                     enabled: false,
-                    location: ['https://cvmrepo.s3.cern.ch/cvmrepo/apt'],
+                    location: [
+                      'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
+                      'https://cvmrepo.web.cern.ch/cvmrepo/apt',
+                    ],
                   }
                 )
                 is_expected.to contain_apt__source('cvmfs-future').with(
                   {
                     ensure: 'present',
                     enabled: false,
-                    location: ['https://cvmrepo.s3.cern.ch/cvmrepo/apt'],
+                    location: [
+                      'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
+                      'https://cvmrepo.web.cern.ch/cvmrepo/apt',
+                    ],
                   }
                 )
               }
@@ -418,7 +427,24 @@ describe 'cvmfs' do
               it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl(%r{^http://example.org/base/cvmfs-testing/(EL|fedora)/\d+/x86_64 http://example.net/base/cvmfs-testing/(EL|fedora)/\d+/x86_64$}) }
               it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl(%r{^http://example.org/base/cvmfs-config/(EL|fedora)/\d+/x86_64 http://example.net/base/cvmfs-config/(EL|fedora)/\d+/x86_64$}) }
             else
-              it { is_expected.to compile.and_raise_error(%r{Debian family OSes only a single url}) }
+              case [facts[:os]['name'], facts[:os]['release']['major']]
+              when %w[Debian 11], %w[Debian 12], ['Ubuntu', '22.04'], ['Ubuntu', '24.04']
+                it { is_expected.to compile.and_raise_error(%r{only a single url for the}) }
+              else
+                it {
+                  is_expected.to contain_apt__source('cvmfs').with(
+                    {
+                      ensure: 'present',
+                      enabled: true,
+                      location: [
+                        'http://example.org/base',
+                        'http://example.net/base',
+                      ],
+                    }
+                  )
+                }
+
+              end
             end
           end
 
