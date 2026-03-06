@@ -25,20 +25,20 @@ describe 'cvmfs::mount' do
         it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local') }
 
         it {
-          is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').
-            without_content(%r{.*CVMFS_MEMCACHE_SIZE.*$}).
-            without_content(%r{.*CVMFS_USE_GEOAPI.*$}).
-            without_content(%r{.*CVMFS_FOLLOW_REDIRECTS.*$}).
-            without_content(%r{.*CVMFS_CLAIM_OWNERSHIP.*$}).
-            without_content(%r{.*CVMFS_REPOSITORY_TAG.*$}).
-            without_content(%r{^CVMFS_HTTP_PROXY.*$}).
-            without_content(%r{^CVMFS_QUOTA_LIMIT.*$}).
-            without_content(%r{^CVMFS_EXTERNAL_FALLBACK_PROXY=.*$}).
-            without_content(%r{^CVMFS_EXTERNAL_HTTP_PROXY=.*$}).
-            without_content(%r{^CVMFS_EXTERNAL_TIMEOUT=.*$}).
-            without_content(%r{^CVMFS_EXTERNAL_TIMEOUT_DIRECT=.*$}).
-            without_content(%r{^CVMFS_EXTERNAL_URL=.*$}).
-            with_content("# cvmfs files.example.org.local file installed with puppet.\n# this files overrides and extends the values contained\n# within the files.example.org.conf file.\n\n")
+          is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local')
+            .without_content(%r{.*CVMFS_MEMCACHE_SIZE.*$})
+            .without_content(%r{.*CVMFS_USE_GEOAPI.*$})
+            .without_content(%r{.*CVMFS_FOLLOW_REDIRECTS.*$})
+            .without_content(%r{.*CVMFS_CLAIM_OWNERSHIP.*$})
+            .without_content(%r{.*CVMFS_REPOSITORY_TAG.*$})
+            .without_content(%r{^CVMFS_HTTP_PROXY.*$})
+            .without_content(%r{^CVMFS_QUOTA_LIMIT.*$})
+            .without_content(%r{^CVMFS_EXTERNAL_FALLBACK_PROXY=.*$})
+            .without_content(%r{^CVMFS_EXTERNAL_HTTP_PROXY=.*$})
+            .without_content(%r{^CVMFS_EXTERNAL_TIMEOUT=.*$})
+            .without_content(%r{^CVMFS_EXTERNAL_TIMEOUT_DIRECT=.*$})
+            .without_content(%r{^CVMFS_EXTERNAL_URL=.*$})
+            .with_content("# cvmfs files.example.org.local file installed with puppet.\n# this files overrides and extends the values contained\n# within the files.example.org.conf file.\n\n")
         }
 
         it { is_expected.not_to contain_mount('/cvmfs/files.example.org') }
@@ -64,20 +64,20 @@ describe 'cvmfs::mount' do
           end
 
           it {
-            is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with_content(%r{^CVMFS_MEMCACHE_SIZE=2000$}).
-              with_content(%r{^CVMFS_USE_GEOAPI='yes'$}).
-              with_content(%r{^CVMFS_FOLLOW_REDIRECTS='yes'$}).
-              with_content(%r{^CVMFS_CLAIM_OWNERSHIP='yes'$}).
-              with_content(%r{^CVMFS_REPOSITORY_TAG='testing'$}).
-              with_content(%r{^CVMFS_UID_MAP='/etc/cvmfs/config.d/files.example.org.uid_map'$}).
-              with_content(%r{^CVMFS_GID_MAP='/etc/cvmfs/config.d/files.example.org.gid_map'$}).
-              with_content(%r{^CVMFS_QUOTA_LIMIT='54321'$}).
-              with_content(%r{^CVMFS_KEYS_DIR='/etc/cvmfs/keys/example.org'$}).
-              with_content(%r{^CVMFS_EXTERNAL_FALLBACK_PROXY='http://external-fallback.example.org:3128'$}).
-              with_content(%r{^CVMFS_EXTERNAL_HTTP_PROXY='http://http-proxy.example.org:2138'$}).
-              with_content(%r{^CVMFS_EXTERNAL_TIMEOUT='100'$}).
-              with_content(%r{^CVMFS_EXTERNAL_TIMEOUT_DIRECT='450'$}).
-              with_content(%r{^CVMFS_EXTERNAL_URL='http://external-url.example.org:80'$})
+            is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.local').with_content(%r{^CVMFS_MEMCACHE_SIZE=2000$})
+                                                                                      .with_content(%r{^CVMFS_USE_GEOAPI='yes'$})
+                                                                                      .with_content(%r{^CVMFS_FOLLOW_REDIRECTS='yes'$})
+                                                                                      .with_content(%r{^CVMFS_CLAIM_OWNERSHIP='yes'$})
+                                                                                      .with_content(%r{^CVMFS_REPOSITORY_TAG='testing'$})
+                                                                                      .with_content(%r{^CVMFS_UID_MAP='/etc/cvmfs/config.d/files.example.org.uid_map'$})
+                                                                                      .with_content(%r{^CVMFS_GID_MAP='/etc/cvmfs/config.d/files.example.org.gid_map'$})
+                                                                                      .with_content(%r{^CVMFS_QUOTA_LIMIT='54321'$})
+                                                                                      .with_content(%r{^CVMFS_KEYS_DIR='/etc/cvmfs/keys/example.org'$})
+                                                                                      .with_content(%r{^CVMFS_EXTERNAL_FALLBACK_PROXY='http://external-fallback.example.org:3128'$})
+                                                                                      .with_content(%r{^CVMFS_EXTERNAL_HTTP_PROXY='http://http-proxy.example.org:2138'$})
+                                                                                      .with_content(%r{^CVMFS_EXTERNAL_TIMEOUT='100'$})
+                                                                                      .with_content(%r{^CVMFS_EXTERNAL_TIMEOUT_DIRECT='450'$})
+                                                                                      .with_content(%r{^CVMFS_EXTERNAL_URL='http://external-url.example.org:80'$})
           }
 
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.uid_map').with_content(%r{^123 12$}) }
@@ -95,7 +95,7 @@ describe 'cvmfs::mount' do
         it {
           is_expected.to contain_mount('/cvmfs/files.example.org').with(
             options: 'defaults,_netdev,nodev',
-            device: 'files.example.org'
+            device: 'files.example.org',
           )
         }
 
@@ -123,14 +123,14 @@ describe 'cvmfs::mount' do
         it {
           is_expected.to contain_mount('/cvmfs/files.example.org').with(
             options: 'defaults,_netdev,nodev,x-systemd.requires-mounts-for=/cvmfs/cvmfs-config.example.org',
-            device: 'files.example.org'
+            device: 'files.example.org',
           )
         }
 
         it {
           is_expected.to contain_mount('/cvmfs/cvmfs-config.example.org').with(
             options: 'defaults,_netdev,nodev',
-            device: 'cvmfs-config.example.org'
+            device: 'cvmfs-config.example.org',
           )
         }
       end

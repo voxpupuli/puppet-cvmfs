@@ -73,7 +73,7 @@ describe 'cvmfs' do
             let(:params) do
               { cvmfs_quota_limit: 'auto',
                 cvmfs_http_proxy: :undef,
-                cvmfs_quota_ratio: 0.75 }
+                cvmfs_quota_ratio: 0.75, }
             end
 
             it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').with_content(%r{^CVMFS_QUOTA_LIMIT='7500'$}) }
@@ -95,27 +95,27 @@ describe 'cvmfs' do
             case facts[:os]['release']['major']
             when '8'
               it {
-                is_expected.to contain_yumrepo('cvmfs').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64').
-                  with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM')
+                is_expected.to contain_yumrepo('cvmfs')
+                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/8/x86_64')
+                  .with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM')
               }
 
               it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/EL/8/x86_64') }
               it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/EL/8/x86_64') }
             when '9'
               it {
-                is_expected.to contain_yumrepo('cvmfs').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64').
-                  with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM')
+                is_expected.to contain_yumrepo('cvmfs')
+                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/9/x86_64')
+                  .with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM')
               }
 
               it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/9/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/EL/9/x86_64') }
               it { is_expected.to contain_yumrepo('cvmfs-config').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/EL/9/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/EL/9/x86_64') }
             else
               it {
-                is_expected.to contain_yumrepo('cvmfs').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/10/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/10/x86_64').
-                  with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM-2048')
+                is_expected.to contain_yumrepo('cvmfs')
+                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/EL/10/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/EL/10/x86_64')
+                  .with_gpgkey('https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM-2048')
               }
 
               it { is_expected.to contain_yumrepo('cvmfs-testing').with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/EL/10/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/EL/10/x86_64') }
@@ -125,49 +125,49 @@ describe 'cvmfs' do
               is_expected.to contain_yumrepo('cvmfs').with(
                 'enabled' => true,
                 'gpgcheck' => true,
-                'priority' => 80
+                'priority' => 80,
               )
             end
 
             it do
               is_expected.to contain_yumrepo('cvmfs-testing').with(
                 'enabled' => false,
-                'gpgcheck' => true
+                'gpgcheck' => true,
               )
             end
 
             it do
               is_expected.to contain_yumrepo('cvmfs-future').with(
                 'enabled' => false,
-                'gpgcheck' => true
+                'gpgcheck' => true,
               )
             end
 
             it do
               is_expected.to contain_yumrepo('cvmfs-config').with(
                 'enabled' => false,
-                'gpgcheck' => true
+                'gpgcheck' => true,
               )
             end
           when 'Fedora'
             case facts[:os]['release']['major']
             when '42'
               it {
-                is_expected.to contain_yumrepo('cvmfs').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64')
-                is_expected.to contain_yumrepo('cvmfs-testing').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/42/x86_64')
-                is_expected.to contain_yumrepo('cvmfs-config').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/fedora/42/x86_64')
+                is_expected.to contain_yumrepo('cvmfs')
+                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64')
+                is_expected.to contain_yumrepo('cvmfs-testing')
+                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/42/x86_64')
+                is_expected.to contain_yumrepo('cvmfs-config')
+                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/fedora/42/x86_64')
               }
             else
               it {
-                is_expected.to contain_yumrepo('cvmfs').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/43/x86_64')
-                is_expected.to contain_yumrepo('cvmfs-testing').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/43/x86_64')
-                is_expected.to contain_yumrepo('cvmfs-config').
-                  with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/fedora/43/x86_64')
+                is_expected.to contain_yumrepo('cvmfs')
+                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/43/x86_64')
+                is_expected.to contain_yumrepo('cvmfs-testing')
+                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/43/x86_64')
+                is_expected.to contain_yumrepo('cvmfs-config')
+                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/fedora/43/x86_64')
               }
             end
           else
@@ -176,7 +176,7 @@ describe 'cvmfs' do
                 {
                   'allow_insecure' => false,
                   'allow_unsigned' => nil,
-                }
+                },
               )
             }
 
@@ -185,7 +185,7 @@ describe 'cvmfs' do
                 {
                   'allow_insecure' => false,
                   'allow_unsigned' => nil,
-                }
+                },
               )
             }
 
@@ -194,7 +194,7 @@ describe 'cvmfs' do
                 {
                   'allow_insecure' => false,
                   'allow_unsigned' => nil,
-                }
+                },
               )
             }
 
@@ -243,19 +243,19 @@ describe 'cvmfs' do
                   {
                     ensure: 'present',
                     location: 'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
-                  }
+                  },
                 )
                 is_expected.to contain_apt__source('cvmfs-testing').with(
                   {
                     ensure: 'absent',
                     location: 'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
-                  }
+                  },
                 )
                 is_expected.to contain_apt__source('cvmfs-future').with(
                   {
                     ensure: 'absent',
                     location: 'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
-                  }
+                  },
                 )
               }
             else
@@ -268,7 +268,7 @@ describe 'cvmfs' do
                       'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
                       'https://cvmrepo.web.cern.ch/cvmrepo/apt',
                     ],
-                  }
+                  },
                 )
                 is_expected.to contain_apt__source('cvmfs-testing').with(
                   {
@@ -278,7 +278,7 @@ describe 'cvmfs' do
                       'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
                       'https://cvmrepo.web.cern.ch/cvmrepo/apt',
                     ],
-                  }
+                  },
                 )
                 is_expected.to contain_apt__source('cvmfs-future').with(
                   {
@@ -288,7 +288,7 @@ describe 'cvmfs' do
                       'https://cvmrepo.s3.cern.ch/cvmrepo/apt',
                       'https://cvmrepo.web.cern.ch/cvmrepo/apt',
                     ],
-                  }
+                  },
                 )
               }
             end
@@ -298,7 +298,7 @@ describe 'cvmfs' do
           context 'with repo_future_enabled true' do
             let(:params) do
               { repo_future_enabled: true,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             case facts[:os]['family']
@@ -306,7 +306,7 @@ describe 'cvmfs' do
               it do
                 is_expected.to contain_yumrepo('cvmfs-future').with(
                   'enabled' => true,
-                  'gpgcheck' => true
+                  'gpgcheck' => true,
                 )
               end
             else
@@ -315,7 +315,7 @@ describe 'cvmfs' do
                   {
                     'ensure'  => 'present',
                     'enabled' => true,
-                  }
+                  },
                 )
               }
             end
@@ -324,7 +324,7 @@ describe 'cvmfs' do
           context 'with mount method setto autofs' do
             let(:params) do
               { mount_method: 'autofs',
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it { is_expected.to compile.with_all_deps }
@@ -337,7 +337,7 @@ describe 'cvmfs' do
           context 'with mount method setto mount' do
             let(:params) do
               { mount_method: 'mount',
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it { is_expected.to compile.with_all_deps }
@@ -349,7 +349,7 @@ describe 'cvmfs' do
           context 'with cvmfs_yum_config_enabled set to 1' do
             let(:params) do
               { cvmfs_yum_config_enabled: 1,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it { is_expected.to compile.and_raise_error(%r{'cvmfs_yum_config_enabled' is deprecated}) }
@@ -358,7 +358,7 @@ describe 'cvmfs' do
           context 'with repo_config_enabled set to 1' do
             let(:params) do
               { repo_config_enabled: true,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             case facts[:os]['family']
@@ -372,7 +372,7 @@ describe 'cvmfs' do
           context 'with repo_base set to a string http://example.org/base' do
             let(:params) do
               { repo_base: 'http://example.org/base',
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             case facts[:os]['family']
@@ -401,7 +401,7 @@ describe 'cvmfs' do
           context 'with repo_base set to array of size 1 [http://example.org/base]' do
             let(:params) do
               { repo_base: ['http://example.org/base'],
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             case facts[:os]['family']
@@ -418,7 +418,7 @@ describe 'cvmfs' do
           context 'with repo_base set to an array of size 2 [http://example.org/base,http://example.net/base]' do
             let(:params) do
               { repo_base: ['http://example.org/base', 'http://example.net/base'],
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             case facts[:os]['family']
@@ -440,7 +440,7 @@ describe 'cvmfs' do
                         'http://example.org/base',
                         'http://example.net/base',
                       ],
-                    }
+                    },
                   )
                 }
 
@@ -452,7 +452,7 @@ describe 'cvmfs' do
             let(:params) do
               { cvmfs_quota_limit: 'auto',
                 cvmfs_http_proxy: :undef,
-                cvmfs_quota_ratio: 0.5 }
+                cvmfs_quota_ratio: 0.5, }
             end
 
             it { is_expected.to contain_concat__fragment('cvmfs_default_local_header').with_content(%r{^CVMFS_QUOTA_LIMIT='5000000'$}) }
@@ -462,7 +462,7 @@ describe 'cvmfs' do
             let(:params) do
               { repo_gpgcheck: false,
                 repo_priority: 100,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             case facts[:os]['family']
@@ -482,7 +482,7 @@ describe 'cvmfs' do
           context 'with repo_gpgkey set to http://example.org/key.gpg' do
             let(:params) do
               { repo_gpgkey: 'http://example.org/key.gpg',
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             case facts[:os]['family']
@@ -495,7 +495,7 @@ describe 'cvmfs' do
               when %w[Debian 11], %w[Debian 12], ['Ubuntu', '22.04'], ['Ubuntu', '24.04']
                 it {
                   is_expected.to contain_apt__source('cvmfs').with_key(
-                    { 'ensure' => 'refreshed', 'id' => 'FD80468D49B3B24C341741FC8CE0A76C497EA957', 'source' => 'http://example.org/key.gpg' }
+                    { 'ensure' => 'refreshed', 'id' => 'FD80468D49B3B24C341741FC8CE0A76C497EA957', 'source' => 'http://example.org/key.gpg' },
                   )
                   is_expected.to contain_apt__source('cvmfs').without_keyring
                 }
@@ -511,7 +511,7 @@ describe 'cvmfs' do
           context 'with repo_manage set to true' do
             let(:params) do
               { repo_manage: true,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             case facts[:os]['family']
@@ -527,7 +527,7 @@ describe 'cvmfs' do
           context 'with repo_manage set to false' do
             let(:params) do
               { repo_manage: false,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it { is_expected.to compile.with_all_deps }
@@ -539,7 +539,7 @@ describe 'cvmfs' do
           context 'with manage_autofs_service true' do
             let(:params) do
               { manage_autofs_service: true,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it { is_expected.to compile.with_all_deps }
@@ -549,7 +549,7 @@ describe 'cvmfs' do
           context 'with manage_autofs_service false' do
             let(:params) do
               { manage_autofs_service: false,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it { is_expected.to compile.with_all_deps }
@@ -565,7 +565,7 @@ describe 'cvmfs' do
           context 'with cvmfs_fsck set to true' do
             let(:params) do
               { cvmfs_fsck: true,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
@@ -581,16 +581,16 @@ describe 'cvmfs' do
             end
 
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                without_content(%r{CVMFS_CACHE_SYMLINKS}).
-                without_content(%r{CVMFS_STREAMING_CACHE}).
-                without_content(%r{CVMFS_STATFS_CACHE_TIMEOUT}).
-                without_content(%r{CVMFS_WORLD_READABLE}).
-                without_content(%r{CVMFS_CPU_AFFINITY}).
-                without_content(%r{CVMFS_XATTR_PRIVILEGED_GIDS}).
-                without_content(%r{CVMFS_XATTR_PRIVILEGED_XATTRS}).
-                without_content(%r{CVMFS_SEND_INFO_HEADER}).
-                without_content(%r{CVMFS_CACHE_REFCOUNT})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .without_content(%r{CVMFS_CACHE_SYMLINKS})
+                .without_content(%r{CVMFS_STREAMING_CACHE})
+                .without_content(%r{CVMFS_STATFS_CACHE_TIMEOUT})
+                .without_content(%r{CVMFS_WORLD_READABLE})
+                .without_content(%r{CVMFS_CPU_AFFINITY})
+                .without_content(%r{CVMFS_XATTR_PRIVILEGED_GIDS})
+                .without_content(%r{CVMFS_XATTR_PRIVILEGED_XATTRS})
+                .without_content(%r{CVMFS_SEND_INFO_HEADER})
+                .without_content(%r{CVMFS_CACHE_REFCOUNT})
             end
           end
 
@@ -611,80 +611,80 @@ describe 'cvmfs' do
             end
 
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_CACHE_SYMLINKS='yes'$}).
-                with_content(%r{^CVMFS_STREAMING_CACHE='no'$}).
-                with_content(%r{^CVMFS_CACHE_REFCOUNT='no'$}).
-                with_content(%r{^CVMFS_STATFS_CACHE_TIMEOUT='10'$}).
-                with_content(%r{^CVMFS_WORLD_READABLE='yes'$}).
-                with_content(%r{^CVMFS_CPU_AFFINITY='0,1,2'$}).
-                with_content(%r{^CVMFS_XATTR_PRIVILEGED_GIDS='100,101,102'$}).
-                with_content(%r{^CVMFS_SEND_INFO_HEADER=yes$}).
-                with_content(%r{^CVMFS_XATTR_PROTECTED_XATTRS='user.foo,user.bar'$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_CACHE_SYMLINKS='yes'$})
+                .with_content(%r{^CVMFS_STREAMING_CACHE='no'$})
+                .with_content(%r{^CVMFS_CACHE_REFCOUNT='no'$})
+                .with_content(%r{^CVMFS_STATFS_CACHE_TIMEOUT='10'$})
+                .with_content(%r{^CVMFS_WORLD_READABLE='yes'$})
+                .with_content(%r{^CVMFS_CPU_AFFINITY='0,1,2'$})
+                .with_content(%r{^CVMFS_XATTR_PRIVILEGED_GIDS='100,101,102'$})
+                .with_content(%r{^CVMFS_SEND_INFO_HEADER=yes$})
+                .with_content(%r{^CVMFS_XATTR_PROTECTED_XATTRS='user.foo,user.bar'$})
             end
           end
 
           context 'with cvmfs_dns_min_ttl not set' do
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                without_content(%r{^CVMFS_DNS_MIN_TTL})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .without_content(%r{^CVMFS_DNS_MIN_TTL})
             end
           end
 
           context 'with cvmfs_dns_min_ttl set to 20' do
             let(:params) do
               { cvmfs_dns_min_ttl: 20,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_DNS_MIN_TTL='20'$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_DNS_MIN_TTL='20'$})
             end
           end
 
           context 'with cvmfs_dns_max_ttl not set' do
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                without_content(%r{^CVMFS_DNS_MAX_TTL})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .without_content(%r{^CVMFS_DNS_MAX_TTL})
             end
           end
 
           context 'with cvmfs_dns_max_ttl set to 200' do
             let(:params) do
               { cvmfs_dns_max_ttl: 200,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_DNS_MAX_TTL='200'$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_DNS_MAX_TTL='200'$})
             end
           end
 
           context 'with cvmfs_ipfamily_prefer not set' do
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                without_content(%r{^CVMFS_IPFAMILY_PREFER})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .without_content(%r{^CVMFS_IPFAMILY_PREFER})
             end
           end
 
           context 'with cvmfs_ipfamily_prefer set to 6' do
             let(:params) do
               { cvmfs_ipfamily_prefer: 6,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_IPFAMILY_PREFER=6$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_IPFAMILY_PREFER=6$})
             end
           end
 
           context 'with cvmfs_ipfamily_prefer set to 5' do
             let(:params) do
               { cvmfs_ipfamily_prefer: 5,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it { is_expected.not_to compile }
@@ -693,69 +693,69 @@ describe 'cvmfs' do
           context 'with cvmfs_instrument_fuse set true' do
             let(:params) do
               { cvmfs_instrument_fuse: true,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_INSTRUMENT_FUSE=true$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_INSTRUMENT_FUSE=true$})
             end
           end
 
           context 'with cvmfs_instrument_fuse set false' do
             let(:params) do
               { cvmfs_instrument_fuse: false,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
-              is_expected.not_to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_INSTRUMENT_FUSE.*$})
+              is_expected.not_to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_INSTRUMENT_FUSE.*$})
             end
           end
 
           context 'with cvmfs_mount_rw not set' do
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                without_content(%r{^CVMFS_MOUNT_RW})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .without_content(%r{^CVMFS_MOUNT_RW})
             end
           end
 
           context 'with cvmfs_mount_rw set to true' do
             let(:params) do
               { cvmfs_mount_rw: 'yes',
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_MOUNT_RW=yes$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_MOUNT_RW=yes$})
             end
           end
 
           context 'with cvmfs_memcache_size not set' do
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                without_content(%r{^CVMFS_MEMCACHE_SIZE})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .without_content(%r{^CVMFS_MEMCACHE_SIZE})
             end
           end
 
           context 'with cvmfs_memcache set to a value' do
             let(:params) do
               { cvmfs_memcache_size: 2000,
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_MEMCACHE_SIZE=2000$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_MEMCACHE_SIZE=2000$})
             end
           end
 
           context 'with cvmfs_claim_ownership not set' do
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                without_content(%r{^CVMFS_CLAIM_OWNERSHIP})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .without_content(%r{^CVMFS_CLAIM_OWNERSHIP})
               is_expected.not_to contain_file('/var/lib/cvmfs')
             end
           end
@@ -763,12 +763,12 @@ describe 'cvmfs' do
           context 'with cvmfs_claim_ownership set to a value' do
             let(:params) do
               { cvmfs_claim_ownership: 'yes',
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_CLAIM_OWNERSHIP='yes'$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_CLAIM_OWNERSHIP='yes'$})
               is_expected.to contain_file('/var/lib/cvmfs').with_owner('cvmfs').with_group('cvmfs')
             end
           end
@@ -776,26 +776,26 @@ describe 'cvmfs' do
           context 'with cvmfs_uid_map set to a value' do
             let(:params) do
               { cvmfs_uid_map: { 123 => 12 },
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
               is_expected.to contain_file('/etc/cvmfs/config.d/default.uid_map').with('content' => %r{^123 12$})
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_UID_MAP='/etc/cvmfs/config.d/default.uid_map'$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_UID_MAP='/etc/cvmfs/config.d/default.uid_map'$})
             end
           end
 
           context 'with cvmfs_gid_map set to a value' do
             let(:params) do
               { cvmfs_gid_map: { 137 => 42 },
-                cvmfs_http_proxy: :undef }
+                cvmfs_http_proxy: :undef, }
             end
 
             it do
               is_expected.to contain_file('/etc/cvmfs/config.d/default.gid_map').with('content' => %r{^137 42$})
-              is_expected.to contain_concat__fragment('cvmfs_default_local_header').
-                with_content(%r{^CVMFS_GID_MAP='/etc/cvmfs/config.d/default.gid_map'$})
+              is_expected.to contain_concat__fragment('cvmfs_default_local_header')
+                .with_content(%r{^CVMFS_GID_MAP='/etc/cvmfs/config.d/default.gid_map'$})
             end
           end
 
@@ -825,8 +825,8 @@ describe 'cvmfs' do
           context 'with cvmfs::hash set' do
             let(:params) do
               { cvmfs_hash: { 'one.example.org' => { 'cvmfs_server_url' => 'http://one.example.org/' },
-                              'two.example.org' => { 'cvmfs_env_variables' => { 'LOCAL_SITE' => 'jump' } } },
-                cvmfs_http_proxy: :undef }
+                              'two.example.org' => { 'cvmfs_env_variables' => { 'LOCAL_SITE' => 'jump' } }, },
+                cvmfs_http_proxy: :undef, }
             end
 
             it { is_expected.to contain_file('/etc/cvmfs/config.d/one.example.org.local').with_content(%r{^CVMFS_SERVER_URL='http://one.example.org/'$}) }
