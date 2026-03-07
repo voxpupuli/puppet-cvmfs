@@ -22,19 +22,19 @@ describe 'cvmfs::fsck' do
         it { is_expected.to contain_systemd__tmpfile('cvmfs-quarantaine.conf').with_ensure('absent') }
 
         it {
-          is_expected.to contain_systemd__timer('cvmfs-fsck.timer').
-            with_service_content(%r{^ExecStart=/usr/bin/cvmfs_fsck  /var/lib/cvmfs/shared$}).
-            with_service_content(%r{^ConditionPathExists=/var/lib/cvmfs/shared/txn$}).
-            with_service_content(%r{^User=cvmfs$}).
-            with_timer_content(%r{^OnUnitActiveSec=1week$}).
-            without_timer_content(%r{^OnBootSec$})
+          is_expected.to contain_systemd__timer('cvmfs-fsck.timer')
+            .with_service_content(%r{^ExecStart=/usr/bin/cvmfs_fsck  /var/lib/cvmfs/shared$})
+            .with_service_content(%r{^ConditionPathExists=/var/lib/cvmfs/shared/txn$})
+            .with_service_content(%r{^User=cvmfs$})
+            .with_timer_content(%r{^OnUnitActiveSec=1week$})
+            .without_timer_content(%r{^OnBootSec$})
         }
       end
 
       context 'with onreboot true' do
         let(:params) do
           {
-            onreboot: true
+            onreboot: true,
           }
         end
 
@@ -45,7 +45,7 @@ describe 'cvmfs::fsck' do
       context 'with onreboot false' do
         let(:params) do
           {
-            onreboot: false
+            onreboot: false,
           }
         end
 
@@ -56,7 +56,7 @@ describe 'cvmfs::fsck' do
         let(:params) do
           {
             options: '-p',
-            cvmfs_cache_base: '/foo'
+            cvmfs_cache_base: '/foo',
           }
         end
 
