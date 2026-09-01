@@ -150,26 +150,14 @@ describe 'cvmfs' do
               )
             end
           when 'Fedora'
-            case facts[:os]['release']['major']
-            when '42'
-              it {
-                is_expected.to contain_yumrepo('cvmfs')
-                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/42/x86_64')
-                is_expected.to contain_yumrepo('cvmfs-testing')
-                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/42/x86_64')
-                is_expected.to contain_yumrepo('cvmfs-config')
-                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/42/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/fedora/42/x86_64')
-              }
-            else
-              it {
-                is_expected.to contain_yumrepo('cvmfs')
-                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/43/x86_64')
-                is_expected.to contain_yumrepo('cvmfs-testing')
-                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/43/x86_64')
-                is_expected.to contain_yumrepo('cvmfs-config')
-                  .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/fedora/43/x86_64')
-              }
-            end
+            it {
+              is_expected.to contain_yumrepo('cvmfs')
+                .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs/fedora/43/x86_64')
+              is_expected.to contain_yumrepo('cvmfs-testing')
+                .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-testing/fedora/43/x86_64')
+              is_expected.to contain_yumrepo('cvmfs-config')
+                .with_baseurl('https://cvmrepo.s3.cern.ch/cvmrepo/yum/cvmfs-config/fedora/43/x86_64 https://cvmrepo.web.cern.ch/cvmrepo/yum/cvmfs-config/fedora/43/x86_64')
+            }
           else
             it {
               is_expected.to contain_apt__source('cvmfs').with(
