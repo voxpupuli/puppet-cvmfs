@@ -116,6 +116,7 @@
 # @param default_cvmfs_partsize
 # @param cvmfs_domain_hash Specify of a hash `cvmfs::domain` types.
 # @param cvmfs_send_info_header Include the cvmfs path of downloaded data in HTTP headers.
+# @param cvmfs_prefetch_filebundles Enable prefetching of published filebundles.
 # @param cvmfs_instrument_fuse  Instrument Fuse
 # @param cvmfs_repo_list Specify exactly the REPO_LIST in `defaults.local` overriding auto population.
 # @param cvmfs_alien_cache Use an alien cache
@@ -220,6 +221,7 @@ class cvmfs (
   Optional[Variant[Stdlib::Filesource,Stdlib::Httpurl]] $cvmfs_yum_gpgkey = undef,
   Optional[Variant[Enum['absent'], Array[String]]] $cvmfs_yum_includepkgs = undef,
   Optional[Enum['yes','no']] $cvmfs_send_info_header                      = undef,
+  Optional[Enum['yes','no']] $cvmfs_prefetch_filebundles                 = undef,
 
 ) {
   # Deprecations
