@@ -4,10 +4,3 @@ if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['full'] == '18.0
     ensure => present,
   }
 }
-# ss command needed for serverspec port is listening?
-if $facts['os']['name'] == 'Fedora' {
-  package{ 'iproute':
-    ensure => present,
-  }
-}
-

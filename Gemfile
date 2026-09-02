@@ -15,6 +15,7 @@ end
 
 group :system_tests do
   gem 'voxpupuli-acceptance', '~> 4.4',  :require => false
+  gem 'beaker', :git => 'https://github.com/traylenator/beaker.git', :branch => 'ss'
 end
 
 group :release do
