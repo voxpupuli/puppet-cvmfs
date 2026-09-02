@@ -3,19 +3,23 @@
 #
 class cvmfs::apt (
   Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl,1]] $repo_base          = $cvmfs::repo_base,
-  Stdlib::Httpurl $repo_gpgkey                                          = $cvmfs::repo_gpgkey,
+  Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl,1]] $repo_gpgkey        = $cvmfs::repo_gpgkey,
   Boolean $repo_testing_enabled                                         = $cvmfs::repo_testing_enabled,
   Boolean $repo_future_enabled                                          = $cvmfs::repo_future_enabled,
   Optional[Stdlib::Httpurl] $repo_proxy                                 = $cvmfs::repo_proxy,
   Boolean $repo_gpgcheck                                                = $cvmfs::repo_gpgcheck,
 ) {
+  if $repo_gpgkey =~ Array[Stdlib::Httpurl,2] {
+    fail('On Debian or Ubuntu only one repo_gpgkey URL is supported')
+  }
+
   if ($facts['os']['name'] == 'Debian' and versioncmp($facts['os']['release']['major'],'12') <= 0 ) or
   ($facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'],'24.04') <= 0 ) {
     $_source_format = 'list'
     $_key           = {
       ensure  => refreshed,
       id      => 'FD80468D49B3B24C341741FC8CE0A76C497EA957',
-      source  => $repo_gpgkey,
+      source  => Array($repo_gpgkey,true).join(''),  # array length one at most
     }
     $_keyring = undef
     # We already reject arrays of more than one element in init.pp
@@ -53,7 +57,7 @@ class cvmfs::apt (
     $_repo_future_enabled = $repo_future_enabled
 
     apt::keyring { 'cernvm.gpg':
-      source => $repo_gpgkey,
+      source => Array($repo_gpgkey,true).join(''), # Array length one at most
       before => [Apt::Source['cvmfs'],Apt::Source['cvmfs-testing'],Apt::Source['cvmfs-future']],
     }
   }

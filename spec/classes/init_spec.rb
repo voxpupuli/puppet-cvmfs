@@ -496,6 +496,51 @@ describe 'cvmfs' do
             end
           end
 
+          context 'with repo_gpgkey set to array of one url http://example.org/key.gpg' do
+            let(:params) do
+              { repo_gpgkey: ['http://example.org/key.gpg'],
+                cvmfs_http_proxy: :undef, }
+            end
+
+            case facts[:os]['family']
+            when 'RedHat'
+              it { is_expected.to contain_yumrepo('cvmfs').with_gpgkey('http://example.org/key.gpg') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_gpgkey('http://example.org/key.gpg') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_gpgkey('http://example.org/key.gpg') }
+            else
+              case [facts[:os]['name'], facts[:os]['release']['major']]
+              when %w[Debian 11], %w[Debian 12], ['Ubuntu', '22.04'], ['Ubuntu', '24.04']
+                it {
+                  is_expected.to contain_apt__source('cvmfs').with_key(
+                    { 'ensure' => 'refreshed', 'id' => 'FD80468D49B3B24C341741FC8CE0A76C497EA957', 'source' => 'http://example.org/key.gpg' },
+                  )
+                  is_expected.to contain_apt__source('cvmfs').without_keyring
+                }
+              else
+                it {
+                  is_expected.to contain_apt__source('cvmfs').with_keyring('/etc/apt/keyrings/cernvm.gpg')
+                  is_expected.to contain_apt__source('cvmfs').without_key
+                }
+              end
+            end
+          end
+
+          context 'with repo_gpgkey set as array multiple URLs' do
+            let(:params) do
+              { repo_gpgkey: ['http://example.org/key.gpg', 'http://example.com/other.gpg'],
+                cvmfs_http_proxy: :undef, }
+            end
+
+            case facts[:os]['family']
+            when 'RedHat'
+              it { is_expected.to contain_yumrepo('cvmfs').with_gpgkey('http://example.org/key.gpg http://example.com/other.gpg') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_gpgkey('http://example.org/key.gpg http://example.com/other.gpg') }
+              it { is_expected.to contain_yumrepo('cvmfs-config').with_gpgkey('http://example.org/key.gpg http://example.com/other.gpg') }
+            else
+              it { is_expected.to compile.and_raise_error(%r{only one repo_gpgkey URL is supported}) }
+            end
+          end
+
           context 'with repo_manage set to true' do
             let(:params) do
               { repo_manage: true,
