@@ -41,6 +41,7 @@ class cvmfs::config (
   Optional[Array[String[1],1]] $cvmfs_xattr_protected_xattrs          = $cvmfs::cvmfs_xattr_protected_xattrs,
   Optional[String[1]] $cvmfs_repositories                             = $cvmfs::cvmfs_repositories,
   Optional[Enum['yes','no']] $cvmfs_send_info_header                  = $cvmfs::cvmfs_send_info_header,
+  Optional[Enum['yes','no']] $cvmfs_prefetch_filebundles               = $cvmfs::cvmfs_prefetch_filebundles,
 ) inherits cvmfs {
   # If cvmfspartsize fact exists use it, otherwise use a sensible default.
   if $facts['cvmfspartsize'] {
@@ -147,6 +148,7 @@ class cvmfs::config (
         'cvmfs_xattr_privileged_gids'  => $cvmfs_xattr_privileged_gids,
         'cvmfs_xattr_protected_xattrs' => $cvmfs_xattr_protected_xattrs,
         'cvmfs_send_info_header'       => $cvmfs_send_info_header,
+        'cvmfs_prefetch_filebundles'   => $cvmfs_prefetch_filebundles,
       }
     ),
   }

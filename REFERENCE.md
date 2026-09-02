@@ -156,6 +156,7 @@ The following parameters are available in the `cvmfs` class:
 * [`default_cvmfs_partsize`](#-cvmfs--default_cvmfs_partsize)
 * [`cvmfs_domain_hash`](#-cvmfs--cvmfs_domain_hash)
 * [`cvmfs_send_info_header`](#-cvmfs--cvmfs_send_info_header)
+* [`cvmfs_prefetch_filebundles`](#-cvmfs--cvmfs_prefetch_filebundles)
 * [`cvmfs_instrument_fuse`](#-cvmfs--cvmfs_instrument_fuse)
 * [`cvmfs_repo_list`](#-cvmfs--cvmfs_repo_list)
 * [`cvmfs_alien_cache`](#-cvmfs--cvmfs_alien_cache)
@@ -544,6 +545,14 @@ Default value: `{}`
 Data type: `Optional[Enum['yes','no']]`
 
 Include the cvmfs path of downloaded data in HTTP headers.
+
+Default value: `undef`
+
+##### <a name="-cvmfs--cvmfs_prefetch_filebundles"></a>`cvmfs_prefetch_filebundles`
+
+Data type: `Optional[Enum['yes','no']]`
+
+Enable prefetching of published filebundles.
 
 Default value: `undef`
 

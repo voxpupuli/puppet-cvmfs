@@ -43,6 +43,7 @@
   Optional[Array[Integer[1],1]]                $cvmfs_xattr_privileged_gids = undef,
   Optional[Array[String[1],1]]                 $cvmfs_xattr_protected_xattrs = undef,
   Optional[Enum['yes','no']]                   $cvmfs_send_info_header = undef,
+  Optional[Enum['yes','no']]                   $cvmfs_prefetch_filebundles = undef,
 
 | -%>
 <% if $repo { -%>
@@ -158,6 +159,9 @@ CVMFS_INSTRUMENT_FUSE=<%= $cvmfs_instrument_fuse %>
 <% } -%>
 <% if $cvmfs_send_info_header { -%>
 CVMFS_SEND_INFO_HEADER=<%= $cvmfs_send_info_header %>
+<% } -%>
+<% if $cvmfs_prefetch_filebundles { -%>
+CVMFS_PREFETCH_FILEBUNDLES=<%= $cvmfs_prefetch_filebundles %>
 <% } -%>
 <%-
   [
