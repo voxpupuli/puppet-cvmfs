@@ -100,7 +100,7 @@
 # @param repo_testing_enabled Should the testing repository be enabled.
 # @param repo_future_enabled Should the future (pre-release) repository be enabled.
 # @param repo_gpgcheck  set to false to disable GPG checking
-# @param repo_gpgkey Set a custom GPG key for yum repos. Default in hiera data.
+# @param repo_gpgkey Set a custom GPG key(s) for yum, apt repos. Only RedHat family supports more than one gpg key. Default in hiera data.
 # @param repo_manage Set to false to disable yum or apt repositories management.
 # @param cvmfs_use_geoapi Enable geoapi to find suitable proxies.
 # @param cvmfs_repositories
@@ -150,7 +150,7 @@
 class cvmfs (
   Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl,1]] $repo_base,
   Stdlib::Httpurl $repo_base_alt,
-  Stdlib::Httpurl $repo_gpgkey,
+  Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl,1]] $repo_gpgkey,
   Variant[Undef,String] $cvmfs_http_proxy,
   Optional[Variant[Enum['absent'], Array[String[1]]]] $repo_includepkgs = undef,
   Enum['autofs','mount','none'] $mount_method                         = 'autofs',
