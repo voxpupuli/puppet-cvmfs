@@ -136,6 +136,7 @@ The following parameters are available in the `cvmfs` class:
 * [`cvmfs_syslog_level`](#-cvmfs--cvmfs_syslog_level)
 * [`cvmfs_tracefile`](#-cvmfs--cvmfs_tracefile)
 * [`cvmfs_debuglog`](#-cvmfs--cvmfs_debuglog)
+* [`use_config_reload`](#-cvmfs--use_config_reload)
 * [`cvmfs_max_ttl`](#-cvmfs--cvmfs_max_ttl)
 * [`cvmfs_version`](#-cvmfs--cvmfs_version)
 * [`repo_base`](#-cvmfs--repo_base)
@@ -389,6 +390,14 @@ Data type: `Optional[Stdlib::Absolutepath]`
 Create a debug log file at this location.
 
 Default value: `undef`
+
+##### <a name="-cvmfs--use_config_reload"></a>`use_config_reload`
+
+Data type: `Boolean`
+
+If true use `cvmfs_config reload` rather than `cvmfs-reload.service`
+
+Default value: `false`
 
 ##### <a name="-cvmfs--cvmfs_max_ttl"></a>`cvmfs_max_ttl`
 

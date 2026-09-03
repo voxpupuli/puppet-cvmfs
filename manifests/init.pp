@@ -88,6 +88,7 @@
 # @param cvmfs_syslog_level Level to syslog at.
 # @param cvmfs_tracefile Create a tracefile at this location.
 # @param cvmfs_debuglog Create a debug log file at this location.
+# @param use_config_reload If true use `cvmfs_config reload` rather than `cvmfs-reload.service`
 # @param cvmfs_max_ttl Max ttl.
 # @param cvmfs_version Version of cvmfs to install.
 # @param repo_base
@@ -156,6 +157,7 @@ class cvmfs (
   Enum['autofs','mount','none'] $mount_method                         = 'autofs',
   Optional[Stdlib::Fqdn] $config_repo                                 = undef,
   Boolean $manage_autofs_service                                      = true,
+  Boolean $use_config_reload                                          = false,
   Integer $default_cvmfs_partsize                                     = 10000,
   Variant[Enum['auto'],Integer] $cvmfs_quota_limit                    = 1000,
   Float   $cvmfs_quota_ratio                                          = 0.85,
