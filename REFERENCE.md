@@ -476,9 +476,9 @@ Default value: `true`
 
 ##### <a name="-cvmfs--repo_gpgkey"></a>`repo_gpgkey`
 
-Data type: `Stdlib::Httpurl`
+Data type: `Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl,1]]`
 
-Set a custom GPG key for yum repos. Default in hiera data.
+Set a custom GPG key(s) for yum, apt repos. Only RedHat family supports more than one gpg key. Default in hiera data.
 
 ##### <a name="-cvmfs--repo_manage"></a>`repo_manage`
 

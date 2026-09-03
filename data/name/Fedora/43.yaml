@@ -1,0 +1,4 @@
+---
+cvmfs::repo_gpgkey:
+  - https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM
+  - https://cvmrepo.s3.cern.ch/cvmrepo/yum/RPM-GPG-KEY-CernVM-2048

@@ -4,7 +4,7 @@
 class cvmfs::yum (
   Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl,1]] $repo_base          = $cvmfs::repo_base,
   Stdlib::Httpurl $repo_base_alt                                        = $cvmfs::repo_base_alt,
-  Stdlib::Httpurl $repo_gpgkey                                          = $cvmfs::repo_gpgkey,
+  Variant[Stdlib::Httpurl,Array[Stdlib::Httpurl]] $repo_gpgkey          = $cvmfs::repo_gpgkey,
   Integer $repo_priority                                                = $cvmfs::repo_priority,
   Boolean $repo_config_enabled                                          = $cvmfs::repo_config_enabled,
   Boolean $repo_testing_enabled                                         = $cvmfs::repo_testing_enabled,
@@ -22,7 +22,7 @@ class cvmfs::yum (
 
   Yumrepo {
     gpgcheck    => $repo_gpgcheck,
-    gpgkey      => $repo_gpgkey,
+    gpgkey      => Array($repo_gpgkey,true).join(' '),
     includepkgs => $_yum_includepkgs,
     priority    => $repo_priority,
     proxy       => $repo_proxy,
