@@ -248,7 +248,7 @@ class cvmfs (
     ($facts['os']['name'] == 'Debian' and versioncmp($facts['os']['release']['major'],'12') <= 0 ) or
     ($facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'],'24.04') <= 0 )
   ) and $repo_base =~ Array[Any,2] {
-    fail('With Debian 11, 12 or Ubuntu 22.04, 24.04 only a single url for the \"repo_base\" parameter is supported')
+    fail('With Debian 12 or Ubuntu 22.04, 24.04 only a single url for the \"repo_base\" parameter is supported')
   }
 
   if $repo_manage {
