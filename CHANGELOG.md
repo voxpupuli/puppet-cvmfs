@@ -4,6 +4,39 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v13.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v13.0.0) (2026-09-04)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v12.2.0...v13.0.0)
+
+**Breaking changes:**
+
+- Remove Debian 11 support [\#254](https://github.com/voxpupuli/puppet-cvmfs/pull/254) ([traylenator](https://github.com/traylenator))
+- Use `systemctl start cvmfs-reload.service` [\#253](https://github.com/voxpupuli/puppet-cvmfs/pull/253) ([traylenator](https://github.com/traylenator))
+- Drop EOL Fedora 42 [\#247](https://github.com/voxpupuli/puppet-cvmfs/pull/247) ([traylenator](https://github.com/traylenator))
+- Drop EOL Fedora 41 and Ubuntu 20.04 [\#239](https://github.com/voxpupuli/puppet-cvmfs/pull/239) ([traylenator](https://github.com/traylenator))
+- Support Debian 13 [\#221](https://github.com/voxpupuli/puppet-cvmfs/pull/221) ([traylenator](https://github.com/traylenator))
+
+**Implemented enhancements:**
+
+- Support Fedora 44 and Ubuntu 26.04 [\#249](https://github.com/voxpupuli/puppet-cvmfs/pull/249) ([traylenator](https://github.com/traylenator))
+- Support array of yum, apt gpg keys in `repo_gpgkey` [\#248](https://github.com/voxpupuli/puppet-cvmfs/pull/248) ([traylenator](https://github.com/traylenator))
+- Support CVMFS\_PREFETCH\_FILEBUNDLES=yes||no [\#246](https://github.com/voxpupuli/puppet-cvmfs/pull/246) ([djuarezg](https://github.com/djuarezg))
+- Add second apt repository for failover on Debian 13 [\#240](https://github.com/voxpupuli/puppet-cvmfs/pull/240) ([traylenator](https://github.com/traylenator))
+- Declare Fedora 43 support [\#237](https://github.com/voxpupuli/puppet-cvmfs/pull/237) ([traylenator](https://github.com/traylenator))
+
+**Fixed bugs:**
+
+- On Fedora 43 and 44 prometheus is running but the port listening check fails [\#250](https://github.com/voxpupuli/puppet-cvmfs/issues/250)
+- Control apt's Allow-Insecure and not Trusted [\#236](https://github.com/voxpupuli/puppet-cvmfs/pull/236) ([traylenator](https://github.com/traylenator))
+
+**Closed issues:**
+
+- Use the reload unit to reload. [\#242](https://github.com/voxpupuli/puppet-cvmfs/issues/242)
+
+**Merged pull requests:**
+
+- Drop dead Ubuntu 18.04 test setup [\#252](https://github.com/voxpupuli/puppet-cvmfs/pull/252) ([traylenator](https://github.com/traylenator))
+
 ## [v12.2.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v12.2.0) (2026-02-03)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v12.1.0...v12.2.0)
