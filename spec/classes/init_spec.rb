@@ -35,6 +35,24 @@ describe 'cvmfs' do
           is_expected.to contain_service('cvmfs-client-prometheus.socket').with_ensure(false).with_enable(false)
         }
 
+        it { is_expected.to contain_exec('Reloading cvmfs').with_command('/usr/bin/systemctl start cvmfs-reload.service') }
+
+        context 'with use_config_reload false' do
+          let(:params) do
+            super().merge(use_config_reload: false)
+          end
+
+          it { is_expected.to contain_exec('Reloading cvmfs').with_command('/usr/bin/systemctl start cvmfs-reload.service') }
+        end
+
+        context 'with use_config_reload true' do
+          let(:params) do
+            super().merge(use_config_reload: true)
+          end
+
+          it { is_expected.to contain_exec('Reloading cvmfs').with_command('/usr/bin/cvmfs_config reload') }
+        end
+
         case facts[:os]['family']
         when 'Debian'
           it { is_expected.to contain_class('cvmfs::apt') }
