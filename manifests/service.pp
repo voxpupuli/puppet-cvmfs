@@ -17,12 +17,13 @@ class cvmfs::service (
     refreshonly => true,
   }
   if $manage_autofs_service and $mount_method == 'autofs' {
-    ensure_resource('service','autofs',
-      { ensure     => true,
-        enable     => true,
-        hasrestart => true,
-      }
-    )
+    ensure_resource('service','autofs', {
+      ensure     => true,
+      enable     => true,
+      hasrestart => true,
+      restart    => '/usr/bin/systemctl reload autofs',
+    })
+    Exec['Reloading cvmfs'] ~> Service['autofs']
   }
 
   service { 'cvmfs-client-prometheus.socket':
