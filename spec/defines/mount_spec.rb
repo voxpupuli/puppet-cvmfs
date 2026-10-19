@@ -88,6 +88,26 @@ describe 'cvmfs::mount' do
         end
       end
 
+      context 'with cvmfs_repo_list set to false on the mount' do
+        let(:params) { { cvmfs_repo_list: false } }
+
+        it { is_expected.to compile.with_all_deps }
+        # A disabled repo_list prevents the per-repo default.local fragment.
+        it { is_expected.not_to contain_concat__fragment('cvmfs_default_local_files.example.org') }
+      end
+
+      context 'with mount_method set on the mount resource' do
+        let(:params) { { mount_method: 'autofs' } }
+
+        it { is_expected.to compile.and_raise_error(%r{Never set mount method on a cvmfs::mount}) }
+      end
+
+      context 'with mount_options set to a string' do
+        let(:params) { { mount_options: 'defaults,_netdev,nodev' } }
+
+        it { is_expected.to compile.and_raise_error(%r{Setting mount_options as a string is deprecated}) }
+      end
+
       context 'with mount_method mount set on main class' do
         let(:pre_condition) do
           'class{"cvmfs": cvmfs_http_proxy => undef,  mount_method => "mount"}'
