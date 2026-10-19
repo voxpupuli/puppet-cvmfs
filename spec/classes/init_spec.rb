@@ -105,6 +105,7 @@ describe 'cvmfs' do
 
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_service('autofs') }
+          it { is_expected.to contain_autofs__mount('cvmfs') }
 
           # cvmfs-config repository should be disable by default.
           #
@@ -348,10 +349,13 @@ describe 'cvmfs' do
             end
 
             it { is_expected.to compile.with_all_deps }
+            it { is_expected.to contain_class('autofs') }
             it { is_expected.to contain_service('autofs') }
+            it { is_expected.to contain_autofs__mount('cvmfs') }
+            it { is_expected.to contain_autofs__add_master_entry('/etc/auto.master.d') }
 
             it { is_expected.to contain_file('/etc/auto.master.d/cvmfs.autofs') }
-            it { is_expected.not_to contain_augeas('cvmfs_automaster') }
+            it { is_expected.to contain_file('/etc/auto.master.d/cvmfs.autofs').with_content(%r{^\s*/cvmfs\s+program:/etc/auto.cvmfs\s*$}) }
           end
 
           context 'with mount method setto mount' do
@@ -361,9 +365,10 @@ describe 'cvmfs' do
             end
 
             it { is_expected.to compile.with_all_deps }
+            it { is_expected.not_to contain_class('autofs') }
             it { is_expected.not_to contain_service('autofs') }
             it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.autofs') }
-            it { is_expected.not_to contain_augeas('cvmfs_automaster') }
+            it { is_expected.not_to contain_autofs__mount('cvmfs') }
           end
 
           context 'with cvmfs_yum_config_enabled set to 1' do
@@ -608,7 +613,9 @@ describe 'cvmfs' do
             end
 
             it { is_expected.to compile.with_all_deps }
+            it { is_expected.to contain_class('autofs') }
             it { is_expected.to contain_service('autofs') }
+            it { is_expected.to contain_autofs__mount('cvmfs') }
           end
 
           context 'with manage_autofs_service false' do
@@ -618,7 +625,10 @@ describe 'cvmfs' do
             end
 
             it { is_expected.to compile.with_all_deps }
+            it { is_expected.not_to contain_class('autofs') }
             it { is_expected.not_to contain_service('autofs') }
+            it { is_expected.not_to contain_file('/etc/auto.master.d/cvmfs.autofs') }
+            it { is_expected.not_to contain_autofs__mount('cvmfs') }
           end
 
           context 'with cvmfs_include_fsck not set' do

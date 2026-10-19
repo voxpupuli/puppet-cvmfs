@@ -20,6 +20,9 @@ describe 'cvmfs::domain cern.ch' do
     apply_manifest(pp, catch_changes: true)
     # The automounter can retrun before it is actually working.
     shell('sleep 10')
+    shell('cat /etc/auto.master')
+    shell('ls /etc/auto.master.d')
+    shell('cat /etc/auto.master.d/cvmfs.autofs')
     shell('ls /cvmfs/cms.cern.ch', acceptable_exit_codes: 0)
   end
 end
