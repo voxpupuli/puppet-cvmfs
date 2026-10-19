@@ -82,6 +82,9 @@ describe 'cvmfs::mount' do
 
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.uid_map').with_content(%r{^123 12$}) }
           it { is_expected.to contain_file('/etc/cvmfs/config.d/files.example.org.gid_map').with_content(%r{^137 42$}) }
+          it { is_expected.to contain_concat__fragment('cvmfs_default_local_files.example.org') }
+          it { is_expected.to contain_cvmfs__id_map('/etc/cvmfs/config.d/files.example.org.uid_map') }
+          it { is_expected.to contain_cvmfs__id_map('/etc/cvmfs/config.d/files.example.org.gid_map') }
         end
       end
 
@@ -91,6 +94,8 @@ describe 'cvmfs::mount' do
         end
 
         it { is_expected.to compile.with_all_deps }
+
+        it { is_expected.to contain_file('/cvmfs/files.example.org') }
 
         it {
           is_expected.to contain_mount('/cvmfs/files.example.org').with(
@@ -119,6 +124,10 @@ describe 'cvmfs::mount' do
         end
 
         it { is_expected.to compile.with_all_deps }
+
+        it { is_expected.to contain_file('/etc/cvmfs/config.d/cvmfs-config.example.org.local') }
+        it { is_expected.to contain_file('/cvmfs/cvmfs-config.example.org') }
+        it { is_expected.to contain_concat__fragment('cvmfs_default_local_cvmfs-config.example.org') }
 
         it {
           is_expected.to contain_mount('/cvmfs/files.example.org').with(
