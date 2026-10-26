@@ -8,12 +8,46 @@ CvmFS clients.
 For general details on CvmFS see
 http://cernvm.cern.ch/portal/filesystem
 
-This module obsoletes [CERNOps-cvmfs-7.3.0](https://forge.puppet.com/modules/CERNOps/cvmfs)
+For a record of breaking and notable changes, see [CHANGELOG.md](CHANGELOG.md).
 
-## Custom Facts
-The module include one customfact
+## Getting started
 
-* cvmfspartsize returns the size in megabytes of partition that contains the CVMFS_CACHE_BASE.
+The minimal configuration installs CVMFS and mounts a single repository:
+
+```puppet
+class{'cvmfs':
+  cvmfs_http_proxy  => 'http://ca-proxy.example.org:3128',
+  cvmfs_quota_limit => 100,
+}
+cvmfs::mount{'files.example.org':
+  cvmfs_server_url => 'http://web.example.org/cvmfs/files.example.org',
+}
+```
+
+The module supplies sensible defaults for `repo_base` and `repo_base_alt`
+(the apt/yum package repositories) via its internal Hiera data, which point at
+CERN's public mirrors. To install from your own mirror instead, override them
+(e.g. in common Hiera):
+
+```yaml
+# conf/hiera/common.yaml
+cvmfs::repo_base: 'https://your-mirror.example.org/cvmfs/yum'
+cvmfs::repo_base_alt: 'https://your-mirror-alt.example.org/cvmfs/yum'
+```
+
+See [REFERENCE.md](REFERENCE.md) for the full list of class parameters.
+
+## Autofs
+By default (`mount_method => 'autofs'`) all autofs management - the package,
+the service, and the master map (`/etc/auto.cvmfs`) - is delegated to the
+[puppet/autofs](https://forge.puppet.com/puppet/autofs)
+(https://github.com/voxpupuli/puppet-autofs) module, and the `/cvmfs` automount
+entry is declared as `autofs::mount`. See that module's README for the full list
+of options to manage the autofs package and service.
+
+The `cvmfs::autofs` class additionally accepts the `manage_autofs_service`
+parameter; when it is set to `false` neither the autofs service nor the `/cvmfs`
+automount entry is managed. This is only relevant when `mount_method` is `autofs`.
 
 ## Client Configuration
 To configure a cvmfs client to mount cvmfs repository with
@@ -22,9 +56,10 @@ the default autofs.
 ```puppet
 class{"cvmfs":
   cvmfs_http_proxy  => 'http://ca-proxy.example.org:3128',
-  cvmfs_quota_limit => 100
+  cvmfs_quota_limit => 100,
 }
-cvmfs::mount{'files.example.org:
+
+cvmfs::mount{'files.example.org':
   cvmfs_server_url  => 'http://web.example.org/cvmfs/files.example.org',
 }
 ```
@@ -37,18 +72,24 @@ class{"cvmfs":
   cvmfs_quota_limit => 100,
 }
 
-cvmfs::domain{'example.net'
+cvmfs::domain{'example.net':
   cvmfs_server_url   => 'http://web.example.org/cvmfs/@fqrn@'
 }
 ```
 
-To use puppet's mount type rather that autofs
-a typical configuration might be the following. This
-example configures a cvmfs domain for common settings, a configuration
-repository and finally a particular repository for
-mount. In this example the `cvmfs-config.example.org` has
-been marked as the per client configuration repository and will always
-be mounted first.
+### Mount Method
+The `cvmfs` class accepts a `mount_method` parameter which selects how
+repositories are mounted. The default, `autofs`, uses the
+[puppet/autofs](https://forge.puppet.com/puppet/autofs) module (see
+[Autofs](#autofs)). The `mount` option uses puppet's `mount` type, currently
+adding a line to `/etc/fstab`. The `none` option installs CVMFS but mounts
+nothing.
+
+To use puppet's mount type rather than autofs a typical configuration might be
+the following. This example configures a cvmfs domain for common settings, a
+configuration repository and finally a particular repository for mount. In this
+example the `cvmfs-config.example.org` has been marked as the per client
+configuration repository and will always be mounted first.
 
 ```puppet
 class{'cvmfs':
@@ -66,11 +107,31 @@ cvmfs::mount{'myrepo.example.org':
 }
 ```
 
-### Parameters to Cvmfs Class
-See [REFERENCE.md](REFERENCE.md)
+To install CVMFS without mounting anything:
 
+```puppet
+class{'cvmfs':
+  mount_method => 'none',
+}
+```
 
-## Cvmfs::Mount Type
+### Declaring mounts and domains via Hiera
+Rather than declaring each `cvmfs::mount` and `cvmfs::domain` resource in a
+manifest, the same mounts and domains can be declared entirely through Hiera
+using the `cvmfs_hash` and `cvmfs_domain_hash` parameters:
+
+```yaml
+# conf/hiera/common.yaml
+cvmfs::cvmfs_hash:
+  'files.example.org':
+    cvmfs_server_url: 'http://web.example.org/cvmfs/files.example.org'
+
+cvmfs::cvmfs_domain_hash:
+  'example.net':
+    cvmfs_server_url: 'http://web.example.org/cvmfs/@fqrn@'
+```
+
+### Cvmfs::Mount Type
 To mount individual repositories optionally with a particular
 configuration on each repository. e.g
 
@@ -86,10 +147,7 @@ cvmfs::mount{'cms.example.org':
 }
 ```
 
-###  Cvmfs::Mount Type Parameters
-See [REFERENCE.md](REFERENCE.md)
-
-## Cvmfs::Domain Type
+### Cvmfs::Domain Type
 A cvmfs domain file can be created with the cvmfs::domain type
 
 ```puppet
@@ -99,11 +157,22 @@ cvmfs::domain{'example.org':
 }
 ```
 
-###  Cvmfs::Domain Type Parameters
-See [REFERENCE.md](REFERENCE.md)
+### Prometheus Metrics Exporter
+The optional `enable_prometheus_exporter` parameter installs and starts a
+Prometheus exporter on port 9868.
+
+```puppet
+class{ 'cvmfs':
+  enable_prometheus_exporter => true,
+}
+class{ 'nftables::rules::node_exporter':
+  port => 9868,
+}
+```
 
 ## Managing cvmfs fsck
-The optional class 'cvmfs::fsck' can be included to enable a cron job to regualarly run fsck on cvmfs systems.
+The optional class 'cvmfs::fsck' can be included to enable a cron job to run
+regularly fsck on cvmfs systems.
 
 ```puppet
 class{'cvmfs':
@@ -113,18 +182,21 @@ class{'cvmfs':
 }
 ```
 
-In addition a cron will be created to purge quarentine corrupted files after 30 days.
+In addition a cron will be created to purge quarantine corrupted files after 30 days.
 
-### Fsck Options
-See [REFERENCE.md](REFERENCE.md) and the CVMFS documentation.
+## Custom Facts
+The module includes one custom fact
 
-## License
-Apache II License for all files except automaster.aug which is copied from
-the http://augeas.net project. The automaster.aug file is LGPL v2+.
+* `cvmfspartsize` returns the size in megabytes of partition that contains the CVMFS_CACHE_BASE.
 
-## Contact
-Steve Traylen <steve.traylen@cern.ch>
+## Support and authors
 
-## Support
-https://github.com/voxpupuli/puppet-cvmfs
+For issues, feature requests, and documentation, see the project's home pages:
 
+* GitHub: https://github.com/voxpupuli/puppet-cvmfs
+* Puppet Forge: https://forge.puppet.com/puppet/cvmfs
+
+Authors:
+
+* Vox Pupuli: <voxpupuli@groups.io>
+* Steve Traylen: <steve.traylen@cern.ch>
