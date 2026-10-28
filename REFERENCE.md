@@ -13,10 +13,11 @@
 #### Private Classes
 
 * `cvmfs::apt`: Configure cvmfs apt repositories
+* `cvmfs::autofs`: Manages the autofs integration for CVMFS.
 * `cvmfs::config`: Central configuration of CVMFS
 * `cvmfs::fsck`: enable check_fsck as a cron or systemd timer
 * `cvmfs::install`: Install cvmfs from a yum repository.
-* `cvmfs::service`: Manages the cvmfs services. Opionally this also manages the autofs services
+* `cvmfs::service`: Manages the cvmfs services.
 * `cvmfs::yum`: Configure cvmfs yum repositories
 
 ### Defined types
@@ -190,9 +191,13 @@ The following parameters are available in the `cvmfs` class:
 
 Data type: `Enum['autofs','mount','none']`
 
-The `autofs` option will configure cvmfs to be mounted with autofs. The `mount` option will
-use puppet's mount type, currently adding a line to /etc/fstab. The *none* option
-skips all mounting.  Note that migrating between for instance *autofs* and then *mount* is not supported.
+The `autofs` option will configure cvmfs to be mounted with autofs.  Autofs
+(package, service and master map) is delegated to the autofs module and the
+/cvmfs mount is declared as `autofs::mount`.
+The `mount` option will use puppet's mount type, currently adding a line to
+/etc/fstab.
+The *none* option skips all mounting.
+Note that migrating between *autofs* and then *mount* is not supported.
 
 Default value: `'autofs'`
 
@@ -211,7 +216,8 @@ Default value: `undef`
 
 Data type: `Boolean`
 
-should the autofs service be maintained.
+Whether autofs (package, service and master map) is managed, via the autofs module.
+When false, neither the autofs service nor the `/cvmfs` automount entry are managed. Only relevant when mount_method is autofs.
 
 Default value: `true`
 
@@ -1287,4 +1293,3 @@ Data type: `Variant[String[1],Array[String[1]]]`
 Mount options to use for fstab style mounting. mount_method==mount only
 
 Default value: `['defaults','_netdev','nodev']`
-
