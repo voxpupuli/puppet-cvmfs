@@ -1287,4 +1287,3 @@ Data type: `Variant[String[1],Array[String[1]]]`
 Mount options to use for fstab style mounting. mount_method==mount only
 
 Default value: `['defaults','_netdev','nodev']`
-
