@@ -16,6 +16,18 @@ describe 'cvmfs' do
         it { is_expected.to contain_class('cvmfs::install') }
         it { is_expected.to contain_class('cvmfs::config') }
         it { is_expected.to contain_class('cvmfs::service') }
+
+        # Central configuration/cache resources declared unconditionally.
+        context 'with config resource coverage' do
+          it { is_expected.to contain_concat('/etc/cvmfs/default.local') }
+          it { is_expected.to contain_file('/etc/cvmfs/config.d') }
+          it { is_expected.to contain_file('/etc/cvmfs/domain.d') }
+          it { is_expected.to contain_file('/etc/cvmfs/config.d/README.PUPPET') }
+          it { is_expected.to contain_file('/etc/cvmfs/domain.d/README.PUPPET') }
+          it { is_expected.to contain_file('/etc/cvmfs/cvmfsfacts.yaml') }
+          it { is_expected.to contain_file('/etc/fuse.conf') }
+        end
+
         it { is_expected.to contain_package('cvmfs').with_ensure('present') }
 
         it { is_expected.to contain_concat__fragment('cvmfs_default_local_header') }
@@ -523,6 +535,7 @@ describe 'cvmfs' do
                 it {
                   is_expected.to contain_apt__source('cvmfs').with_keyring('/etc/apt/keyrings/cernvm.gpg')
                   is_expected.to contain_apt__source('cvmfs').without_key
+                  is_expected.to contain_apt__keyring('cernvm.gpg')
                 }
               end
             end
@@ -552,6 +565,7 @@ describe 'cvmfs' do
                 it {
                   is_expected.to contain_apt__source('cvmfs').with_keyring('/etc/apt/keyrings/cernvm.gpg')
                   is_expected.to contain_apt__source('cvmfs').without_key
+                  is_expected.to contain_apt__keyring('cernvm.gpg')
                 }
               end
             end
@@ -619,6 +633,35 @@ describe 'cvmfs' do
 
             it { is_expected.to compile.with_all_deps }
             it { is_expected.not_to contain_service('autofs') }
+          end
+
+          context 'with cvmfs_repo_list set to false' do
+            let(:params) do
+              { cvmfs_repo_list: false,
+                cvmfs_http_proxy: :undef, }
+            end
+
+            # With repo list management disabled and cvmfs_repositories unset,
+            # default.local keeps no CVMFS_REPOSITORIES fragments.
+            it { is_expected.to compile.with_all_deps }
+            it { is_expected.not_to contain_concat__fragment('cvmfs_default_local_repo_start') }
+            it { is_expected.not_to contain_concat__fragment('cvmfs_default_local_repo_end') }
+          end
+
+          context 'with repo_includepkgs set' do
+            let(:params) do
+              { repo_includepkgs: ['example.org', 'example.net'],
+                cvmfs_http_proxy: :undef, }
+            end
+
+            case facts[:os]['family']
+            when 'RedHat'
+              it { is_expected.to contain_yumrepo('cvmfs').with_includepkgs('example.org example.net') }
+              it { is_expected.to contain_yumrepo('cvmfs-testing').with_includepkgs('example.org example.net') }
+            else
+              # apt repos do not accept includepkgs; the value is simply ignored.
+              it { is_expected.to compile.with_all_deps }
+            end
           end
 
           context 'with cvmfs_include_fsck not set' do
@@ -851,6 +894,7 @@ describe 'cvmfs' do
               is_expected.to contain_file('/etc/cvmfs/config.d/default.uid_map').with('content' => %r{^123 12$})
               is_expected.to contain_concat__fragment('cvmfs_default_local_header')
                 .with_content(%r{^CVMFS_UID_MAP='/etc/cvmfs/config.d/default.uid_map'$})
+              is_expected.to contain_cvmfs__id_map('/etc/cvmfs/config.d/default.uid_map')
             end
           end
 
@@ -864,6 +908,7 @@ describe 'cvmfs' do
               is_expected.to contain_file('/etc/cvmfs/config.d/default.gid_map').with('content' => %r{^137 42$})
               is_expected.to contain_concat__fragment('cvmfs_default_local_header')
                 .with_content(%r{^CVMFS_GID_MAP='/etc/cvmfs/config.d/default.gid_map'$})
+              is_expected.to contain_cvmfs__id_map('/etc/cvmfs/config.d/default.gid_map')
             end
           end
 
@@ -888,6 +933,8 @@ describe 'cvmfs' do
 
             it { is_expected.to  contain_cvmfs__domain('example.org').with_cvmfs_server_url('http://foobar.example.org') }
             it { is_expected.to  contain_cvmfs__domain('foobar.org').with_cvmfs_server_url('http://barfoo.example.net') }
+            it { is_expected.to contain_file('/etc/cvmfs/domain.d/example.org.local') }
+            it { is_expected.to contain_file('/etc/cvmfs/domain.d/foobar.org.local') }
           end
 
           context 'with cvmfs::hash set' do
@@ -899,8 +946,10 @@ describe 'cvmfs' do
 
             it { is_expected.to contain_file('/etc/cvmfs/config.d/one.example.org.local').with_content(%r{^CVMFS_SERVER_URL='http://one.example.org/'$}) }
             it { is_expected.to contain_file('/etc/cvmfs/config.d/two.example.org.local').with_content(%r{^export LOCAL_SITE=jump}) }
-            it { is_expected.to contain_concat_fragment('cvmfs_default_local_one.example.org').with_content('one.example.org,') }
-            it { is_expected.to contain_concat_fragment('cvmfs_default_local_two.example.org').with_content('two.example.org,') }
+            it { is_expected.to contain_concat__fragment('cvmfs_default_local_one.example.org').with_content('one.example.org,') }
+            it { is_expected.to contain_concat__fragment('cvmfs_default_local_two.example.org').with_content('two.example.org,') }
+            it { is_expected.to contain_cvmfs__mount('one.example.org') }
+            it { is_expected.to contain_cvmfs__mount('two.example.org') }
 
             context 'with cvmfs_reposiories set' do
               let(:params) do
