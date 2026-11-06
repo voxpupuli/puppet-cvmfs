@@ -3,7 +3,6 @@
 #
 class cvmfs::config (
   Enum['autofs','mount','none'] $mount_method                         = $cvmfs::mount_method,
-  Boolean $manage_autofs_service                                      = $cvmfs::manage_autofs_service,
   Variant[Undef, String] $cvmfs_http_proxy                            = $cvmfs::cvmfs_http_proxy,
   Variant[Enum['auto'],Integer] $cvmfs_quota_limit                    = $cvmfs::cvmfs_quota_limit,
   Float $cvmfs_quota_ratio                                            = $cvmfs::cvmfs_quota_ratio,
@@ -169,16 +168,6 @@ class cvmfs::config (
       target  => '/etc/cvmfs/default.local',
       order   => 5,
       content => 'CVMFS_REPOSITORIES=\'',
-    }
-  }
-
-  if $mount_method == 'autofs' {
-    file { '/etc/auto.master.d/cvmfs.autofs':
-      ensure  => file,
-      content => "# Puppet installed\n/cvmfs  program:/etc/auto.cvmfs\n",
-      owner   => root,
-      group   => root,
-      mode    => '0644',
     }
   }
 }
