@@ -54,15 +54,20 @@
 #  }
 #
 # @param mount_method
-#    The `autofs` option will configure cvmfs to be mounted with autofs. The `mount` option will
-#    use puppet's mount type, currently adding a line to /etc/fstab. The *none* option
-#    skips all mounting.  Note that migrating between for instance *autofs* and then *mount* is not supported.
+#    The `autofs` option will configure cvmfs to be mounted with autofs.  Autofs
+#    (package, service and master map) is delegated to the autofs module and the
+#    /cvmfs mount is declared as `autofs::mount`.
+#    The `mount` option will use puppet's mount type, currently adding a line to
+#    /etc/fstab.
+#    The *none* option skips all mounting.
+#    Note that migrating between *autofs* and then *mount* is not supported.
 # @param config_repo
 #    When using the `mount_method` as `mount` it may be nescessary to specify a CVMFS located configuration_repository.
 #    This is a repository containing extra cvmfs configuration required to be mounted before any other
 #    repositories. There is at most one config_repo client. In addition the config_repo must actually be mounted
 #    explicitly with a `cvmfs::mount{$config_repo:}`, this is **not** automatic.
-# @param manage_autofs_service should the autofs service be maintained.
+# @param manage_autofs_service Whether autofs (package, service and master map) is managed, via the autofs module.
+#   When false, neither the autofs service nor the `/cvmfs` automount entry are managed. Only relevant when mount_method is autofs.
 # @param cvmfs_quota_limit The cvmfs quota size in megabytes.
 # @param cvmfs_quota_ratio
 #   If set , e.g '0.8', then 0.8 of the partition size
@@ -273,8 +278,10 @@ class cvmfs (
 
   contain 'cvmfs::install'
   contain 'cvmfs::config'
+  contain 'cvmfs::autofs'
   contain 'cvmfs::service'
   Class['Cvmfs::Install'] -> Class['Cvmfs::Config'] ~> Class['Cvmfs::Service']
+  Class['Cvmfs::Config'] -> Class['Cvmfs::Autofs']
 
   if $cvmfs_fsck {
     include 'cvmfs::fsck'
