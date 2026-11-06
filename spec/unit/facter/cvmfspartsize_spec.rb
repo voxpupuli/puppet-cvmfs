@@ -8,6 +8,10 @@ describe 'cvmfspartsize' do
     allow(Facter::Core::Execution).to receive(:which).with('df').and_return('/usr/bin/df')
     allow(File).to receive(:exist?).with('/etc/cvmfs/cvmfsfacts.yaml').and_return(true)
     allow(File).to receive(:open).with('/etc/cvmfs/cvmfsfacts.yaml').and_return("---\ncvmfs_cache_base: /foo/bar\n")
+    # openfact loads the host's /etc/puppetlabs/facter/facter.conf when a fact is
+    # resolved. Suppress it so the unit test stays hermetic and independent of the
+    # host environment (a present facter.conf would collide with the File.open stub above).
+    allow(File).to receive(:readable?).with('/etc/puppetlabs/facter/facter.conf').and_return(false)
     allow(Facter::Core::Execution).to receive(:execute).with('/usr/bin/df -m -P /foo/bar').and_return(cvmfs_df_result)
   end
 
