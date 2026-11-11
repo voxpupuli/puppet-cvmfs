@@ -4,7 +4,26 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v13.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v13.0.0) (2026-09-04)
+## [v14.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v14.0.0) (2026-11-11)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v13.0.0...v14.0.0)
+
+**Breaking changes:**
+
+- Start using puppet-autofs for autofs [\#261](https://github.com/voxpupuli/puppet-cvmfs/pull/261) ([jcpunk](https://github.com/jcpunk))
+
+**Implemented enhancements:**
+
+- puppetlabs/concat: Allow 10.x [\#264](https://github.com/voxpupuli/puppet-cvmfs/pull/264) ([bastelfreak](https://github.com/bastelfreak))
+- puppetlabs/stdlib: Allow 10.x &  puppetlabs/apt: Allow 11.x [\#263](https://github.com/voxpupuli/puppet-cvmfs/pull/263) ([bastelfreak](https://github.com/bastelfreak))
+- Update requirements to allow OpenVox 9 [\#260](https://github.com/voxpupuli/puppet-cvmfs/pull/260) ([sebastianrakel](https://github.com/sebastianrakel))
+- Replace deprecated calls with Facter::Core::Execution [\#256](https://github.com/voxpupuli/puppet-cvmfs/pull/256) ([corporate-gadfly](https://github.com/corporate-gadfly))
+
+**Merged pull requests:**
+
+- Increase test coverage [\#262](https://github.com/voxpupuli/puppet-cvmfs/pull/262) ([jcpunk](https://github.com/jcpunk))
+
+## [v13.0.0](https://github.com/voxpupuli/puppet-cvmfs/tree/v13.0.0) (2026-09-06)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-cvmfs/compare/v12.2.0...v13.0.0)
 
